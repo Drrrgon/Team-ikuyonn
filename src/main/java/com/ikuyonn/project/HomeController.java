@@ -33,7 +33,27 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "index";
 	}
-	
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public void index() {
+	}	
+	@RequestMapping(value = "/components-blog-posts", method = RequestMethod.GET)
+	public void componentsblogposts() {
+	}	
+	@RequestMapping(value = "/add-new-post", method = RequestMethod.GET)
+	public void addnewpost() {
+	}
+	@RequestMapping(value = "/form-components", method = RequestMethod.GET)
+	public void formcomponents() {
+	}
+	@RequestMapping(value = "/tables", method = RequestMethod.GET)
+	public void tables() {
+	}
+	@RequestMapping(value = "/user-profile-lite", method = RequestMethod.GET)
+	public void userprofilelite() {
+	}
+	@RequestMapping(value = "/errors", method = RequestMethod.GET)
+	public void errors() {
+	}
 }
