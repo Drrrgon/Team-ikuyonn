@@ -5,15 +5,15 @@ public class Table {
 	private String message;
 	private String id;
 	private String roomnum;
-	private String date;
+	private String datetime;
 	public Table() {}
-	public Table(String seq, String message, String id, String roomnum, String date) {
+	public Table(String seq, String message, String id, String roomnum, String datetime) {
 		super();
 		this.seq = seq;
 		this.message = message;
 		this.id = id;
 		this.roomnum = roomnum;
-		this.date = date;
+		this.datetime = datetime;
 	}
 	public String getSeq() {
 		return seq;
@@ -39,15 +39,15 @@ public class Table {
 	public void setRoomnum(String roomnum) {
 		this.roomnum = roomnum;
 	}
-	public String getDate() {
-		return date;
+	public String getdatetime() {
+		return datetime;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setdatetime(String datetime) {
+		this.datetime = datetime;
 	}
 	@Override
 	public String toString() {
-		return id+" : "+message+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+"보낸 시각 : "+ date;
+		return id+" : "+message+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+"보낸 시각 : "+ datetime;
 	}
 
 	

@@ -6,7 +6,24 @@
 
 
 <mapper namespace="com.ikuyonn.project.socket.mapper.Mapper">
-
+	<select id="getRoomContent" parameterType="string" resultType="table">
+		select id, message, to_char(datetime, 'YY-MM-DD HH24MISS') datetime
+		from message
+		where roomNum = #{roomNum}
+	 	AND
+				 to_char(datetime, 'DD') = to_char(sysdate, 'DD')
+		order by seq desc
+		
+	</select>
+	
+	<insert id="insertContent" parameterType="table" >
+		INSERT INTO message
+			VALUES( message_seq.nextVal
+					, #{message}
+					, #{id}
+					, #{roomnum}
+					, sysdate)
+	</insert>
 <!--  for maria db -->
 	<!-- <select id="getRoomContent" parameterType="string" resultType="table">
 		select id, message, date_format(date, "%Y-%m-%d %H:%i:%S") date

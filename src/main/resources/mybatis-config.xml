@@ -8,8 +8,7 @@
 	</typeAliases>
 		
 	<mappers>
-		<mapper resource="socket/mapper/SocketMapper.xml"/>
-		
+		<mapper resource="socket/mapper/SocketMapper.xml"/>		
 	</mappers>
 	
 </configuration>

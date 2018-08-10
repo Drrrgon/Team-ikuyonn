@@ -1,4 +1,4 @@
-package com.ikuyonn.project.controller;
+package com.ikuyonn.project;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -55,8 +55,5 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/errors", method = RequestMethod.GET)
 	public void errors() {
-	}
-	@RequestMapping(value = "/chat", method = RequestMethod.GET)
-	public void chat() {
 	}
 }
