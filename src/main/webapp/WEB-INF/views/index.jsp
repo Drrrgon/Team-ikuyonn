@@ -1,9 +1,11 @@
-<!doctype html>
-<html class="no-js h-100" lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Shards Dashboard Lite - Free Bootstrap Admin Template – DesignRevision</title>
+    <title>Shards Dashboard Lite - Free Bootstrap Admin Template â DesignRevision</title>
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -50,7 +52,7 @@
             <!-- <iframe style="width: 91px; height: 21px;"src="https://yvoschaap.com/producthunt/counter.html#href=https%3A%2F%2Fwww.producthunt.com%2Fr%2Fp%2F112998&layout=wide" width="56" height="65" scrolling="no" frameborder="0" allowtransparency="true"></iframe> -->
           </div>
         </div>
-        <div id="social-share" data-url="https://designrevision.com/downloads/shards-dashboard-lite/" data-text="🔥 Check out Shards Dashboard Lite, a free and beautiful Bootstrap 4 admin dashboard template!" data-title="share"></div>
+        <div id="social-share" data-url="https://designrevision.com/downloads/shards-dashboard-lite/" data-text="ð¥ Check out Shards Dashboard Lite, a free and beautiful Bootstrap 4 admin dashboard template!" data-title="share"></div>
         <div class="loading-overlay">
           <div class="spinner"></div>
         </div>
@@ -132,6 +134,12 @@
                   <span>Errors</span>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link " href="insertNameCard">
+                  <i class="material-icons">error</i>
+                  <span>명함추가</span>
+                </a>
+              </li>
             </ul>
           </div>
         </aside>
@@ -166,7 +174,7 @@
                       </div>
                       <div class="notification__content">
                         <span class="notification__category">Analytics</span>
-                        <p>Your website’s active users count increased by
+                        <p>Your websiteâs active users count increased by
                           <span class="text-success text-semibold">28%</span> in the last week. Great job!</p>
                       </div>
                     </a>
@@ -178,7 +186,7 @@
                       </div>
                       <div class="notification__content">
                         <span class="notification__category">Sales</span>
-                        <p>Last week your store’s sales count decreased by
+                        <p>Last week your storeâs sales count decreased by
                           <span class="text-danger text-semibold">5.52%</span>. It could have been worse!</p>
                       </div>
                     </a>
@@ -319,7 +327,7 @@
                           <input type="text" class="input-sm form-control" name="end" placeholder="End Date" id="blog-overview-date-range-2">
                           <span class="input-group-append">
                             <span class="input-group-text">
-                              <i class="material-icons"></i>
+                              <i class="material-icons">î¤</i>
                             </span>
                           </span>
                         </div>
@@ -397,7 +405,7 @@
                         <div class="blog-comments__meta text-muted">
                           <a class="text-secondary" href="#">James Johnson</a> on
                           <a class="text-secondary" href="#">Hello World!</a>
-                          <span class="text-muted">– 3 days ago</span>
+                          <span class="text-muted">â 3 days ago</span>
                         </div>
                         <p class="m-0 my-1 mb-2 text-muted">Well, the way they make shows is, they make one show ...</p>
                         <div class="blog-comments__actions">
@@ -425,7 +433,7 @@
                         <div class="blog-comments__meta text-muted">
                           <a class="text-secondary" href="#">James Johnson</a> on
                           <a class="text-secondary" href="#">Hello World!</a>
-                          <span class="text-muted">– 4 days ago</span>
+                          <span class="text-muted">â 4 days ago</span>
                         </div>
                         <p class="m-0 my-1 mb-2 text-muted">After the avalanche, it took us a week to climb out. Now...</p>
                         <div class="blog-comments__actions">
@@ -453,7 +461,7 @@
                         <div class="blog-comments__meta text-muted">
                           <a class="text-secondary" href="#">James Johnson</a> on
                           <a class="text-secondary" href="#">Hello World!</a>
-                          <span class="text-muted">– 5 days ago</span>
+                          <span class="text-muted">â 5 days ago</span>
                         </div>
                         <p class="m-0 my-1 mb-2 text-muted">My money's in that office, right? If she start giving me...</p>
                         <div class="blog-comments__actions">
@@ -565,7 +573,7 @@
                 <a class="nav-link" href="#">Blog</a>
               </li>
             </ul>
-            <span class="copyright ml-auto my-auto mr-2">Copyright © 2018
+            <span class="copyright ml-auto my-auto mr-2">Copyright Â© 2018
               <a href="https://designrevision.com" rel="nofollow">DesignRevision</a>
             </span>
           </footer>

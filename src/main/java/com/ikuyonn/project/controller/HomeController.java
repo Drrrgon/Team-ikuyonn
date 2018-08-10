@@ -56,4 +56,7 @@ public class HomeController {
 	@RequestMapping(value = "/errors", method = RequestMethod.GET)
 	public void errors() {
 	}
+	@RequestMapping(value = "/insertNameCard", method = RequestMethod.GET)
+	public void insertNameCard() {
+	}
 }
