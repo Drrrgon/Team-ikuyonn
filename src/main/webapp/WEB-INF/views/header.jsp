@@ -149,6 +149,12 @@
 							<i class="material-icons">error</i> 
 							<span>메일쓰기</span>
 						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="mailBox"> 
+							<i class="material-icons">error</i> 
+							<span>메일함</span>
+						</a>
 					</li>					
 				</ul>
 			</div>
