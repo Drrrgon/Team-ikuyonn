@@ -143,6 +143,12 @@
 							<i class="material-icons">error</i> 
 							<span>명함등록</span>
 						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="writeMail"> 
+							<i class="material-icons">error</i> 
+							<span>메일쓰기</span>
+						</a>
 					</li>					
 				</ul>
 			</div>
