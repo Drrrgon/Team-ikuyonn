@@ -22,8 +22,8 @@
             <!-- Page Header -->
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <span class="text-uppercase page-subtitle">Blog Posts</span>
-                <h3 class="page-title">Add New Post</h3>
+                <span class="text-uppercase page-subtitle">example</span>
+                <h3 class="page-title">채팅 룸</h3>
               </div>
             </div>
             <!-- End Page Header -->
@@ -33,8 +33,9 @@
                 <div class="card card-small mb-3">
                   <div class="card-body">
                     <form class="add-new-post">
-                      <input class="form-control form-control-lg mb-3" id="message" type="text" placeholder="Your Post Title">
-                      <div id="editor-container" class="add-new-post__editor mb-1"></div>
+                      <input class="form-control form-control-lg mb-3" id="message" type="text" placeholder="content">
+                      <!-- <div id="editor-container" class="add-new-post__editor mb-1"></div> -->
+                      <div style="height:650px; overflow:scroll;" id="sendMessage" ></div>
                     </form>
                   </div>
                 </div>
@@ -48,8 +49,8 @@
                   </div>
                   <div class='card-body p-0'>
                     <ul class="list-group list-group-flush">
-                      <!-- <li class="list-group-item p-3">
-                        <span class="d-flex mb-2">
+                     <li class="list-group-item p-3">
+                        <!-- <span class="d-flex mb-2">
                           <i class="material-icons mr-1">flag</i>
                           <strong class="mr-1">Status:</strong> Draft
                           <a class="ml-auto" href="#">Edit</a>
@@ -69,11 +70,12 @@
                           <i class="material-icons mr-1">score</i>
                           <strong class="mr-1">Readability:</strong>
                           <strong class="text-warning">Ok</strong>
-                        </span>
-                      </li> -->
+                        </span> -->
+                        날짜 <input type="date" id="date">
+                      </li> 
                       <li class="list-group-item d-flex px-3">
-                        <!-- <button class="btn btn-sm btn-outline-accent">
-                          <i class="material-icons">save</i> Save Draft</button> -->
+                          <button class="btn btn-sm btn-outline-accent" id="searchByDate">
+                          <i class="material-icons">save</i>검색</button>
                         <button class="btn btn-sm btn-accent ml-auto" id="sendBtn">
                           <i class="material-icons">file_copy</i> 보내기</button>
                       </li>
@@ -84,33 +86,33 @@
                 <!-- Post Overview -->
                 <div class='card card-small mb-3'>
                   <div class="card-header border-bottom">
-                    <h6 class="m-0">Categories</h6>
+                    <h6 class="m-0">채팅 그룹</h6>
                   </div>
                   <div class='card-body p-0'>
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item px-3 pb-2">
                         <div class="custom-control custom-checkbox mb-1">
-                          <input type="checkbox" class="custom-control-input" id="category1" checked>
-                          <label class="custom-control-label" for="category1">Uncategorized</label>
+                          <input type="radio" class="custom-control-input" id="category1" name="chatRoom" value="1" checked>
+                          <label class="custom-control-label" for="category1">1</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-1">
-                          <input type="checkbox" class="custom-control-input" id="category2" checked>
-                          <label class="custom-control-label" for="category2">Design</label>
+                          <input type="radio" class="custom-control-input" name="chatRoom" value="2" id="category2">
+                          <label class="custom-control-label" for="category2">2</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-1">
-                          <input type="checkbox" class="custom-control-input" id="category3">
-                          <label class="custom-control-label" for="category3">Development</label>
+                          <input type="radio" class="custom-control-input" name="chatRoom" value="3" id="category3">
+                          <label class="custom-control-label" for="category3">3</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-1">
-                          <input type="checkbox" class="custom-control-input" id="category4">
-                          <label class="custom-control-label" for="category4">Writing</label>
+                          <input type="radio" class="custom-control-input" name="chatRoom" value="4" id="category4">
+                          <label class="custom-control-label" for="category4">4</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-1">
-                          <input type="checkbox" class="custom-control-input" id="category5">
-                          <label class="custom-control-label" for="category5">Books</label>
+                          <input type="radio" class="custom-control-input" name="chatRoom" value="5" id="category5">
+                          <label class="custom-control-label" for="category5">5</label>
                         </div>
                       </li>
-                      <li class="list-group-item d-flex px-3">
+                      <!-- <li class="list-group-item d-flex px-3">
                         <div class="input-group">
                           <input type="text" class="form-control" placeholder="New category" aria-label="Add new category" aria-describedby="basic-addon2">
                           <div class="input-group-append">
@@ -119,7 +121,7 @@
                             </button>
                           </div>
                         </div>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                 </div>
@@ -128,106 +130,138 @@
             </div>
           </div>
          
-    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script> 
- <!-- <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script> -->
- <!-- <script src="./resources/js/sockjs.js"></script>  -->
-<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+ <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="./resources/scripts/socket.js"></script> -->
 <script>
+//console.log("<c:url value='/echo'/>");
+var sock =  new SockJS("<c:url value='/echo'/>"); 
+/* var sock =  new SockJS("https://app.pstorm.net/chat2/echo"); */
+sock.onmessage = onMessage;
+sock.onclose = onClose;
 
-	console.log("<c:url value='/echo'/>");
-	 var sock =  new SockJS("<c:url value='/echo'/>"); 
-	/* var sock =  new SockJS("https://app.pstorm.net/chat2/echo"); */
-	sock.onmessage = onMessage;
-	sock.onclose = onClose;
-	
-	$(function(){
-		$("#sendBtn").click(function(){
-			console.log('send message...');
-			sendMessage();
-		});
-		
-		$('input').keyup(function(e) {
-		    if (e.keyCode == 13){
-		    	console.log('send message...');
-				sendMessage();
-		    }  
-		});
-		
-		refresh();
-		
-		$('.nav-item').children().eq(2).addClass('active');
+$(function(){
+	$("#sendBtn").click(function(){			
+		sendMessage();
 	});
 	
-	function sendMessage(){//websocket으로 메세지 전송
-		var userId = "${sessionScope.userId}";
-		var message = $("#message").val();
-		var dataForm = { "id":userId , "message": message };
-		
-		$.ajax({
-			url: "insert",
-			type: "post",
-			data: dataForm ,
-			success: function(a){
-				/* sock.send($("#message").val()); */
-				sock.send(a);
-				$('#message').val("");
-			},
-			error: function(){
-				console.log('insert error');
-			}
-		});
-		
-		
-	}
+  $("#searchByDate").click(function(){			
+		searchByDate();
+	});
+
+	$('#message').keyup(function(e) {
+	    if (e.keyCode == 13){
+	    	console.log('send message...');
+			sendMessage();
+	    }  
+	});
 	
-	function onMessage(evt){//evt 파라메터는 웹소켓이 보내준 데이터
-		var data = evt.data;
-		var sessionid = null;
-		var message = null;
-		
-		var strArray =data.split('|');
-		
-		
-		/* var currentuser_session =$('#sessionuserid').val(); */
-		var currentuser_session = "${sessionScope.userId}";
-		
-		
-		sessionid = strArray[0];//메세지 보낸사람 세션저장
-		message = strArray[1];//현재 메세지 저장
-		
-		var strArray2 = message.split(',');
-		$("#editor-container").text("");
-		for (var i = 0; i < strArray2.length; i++) {
-			var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
-			printHTML += "value='"+strArray2[i]+"'/>";
-			$("#editor-container").append(printHTML);	
-				
+	refresh();
+	
+	$('.nav-item').children().eq(0).addClass('active');
+
+$('input[name="chatRoom"]').change(function(){
+ refresh();
+});
+});
+
+function searchByDate(){
+  var date = $('#date').val();
+  if(date.length == 0){
+    return false;
+  }
+  var roomNo = $("input:radio[name=chatRoom]:checked").val();
+  var sendData = {"roomnum":roomNo , "date":date};
+  $.ajax({
+    url: "searchbydate"
+    , type: "post"
+    , data: sendData
+    , success: function(list){
+      $("#sendMessage").text("");
+			for (var i = 0; i < list.length; i++) {
+				var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
+				printHTML += "value='"+list[i]+"'/>";
+				$("#sendMessage").append(printHTML);			
+			}
+    }
+  });
+}
+
+function sendMessage(){//websocket으로 메세지 전송
+	var userId = "${sessionScope.userId}";
+	var message = $("#message").val();
+if(message.length == 0){
+ return false;
+}
+var roomNo = $("input:radio[name=chatRoom]:checked").val();
+
+	var dataForm = { "id":userId , "message": message, "roomnum":roomNo };		
+	$.ajax({
+		url: "insert",
+		type: "post",
+		data: dataForm ,
+		success: function(a){
+			/* sock.send($("#message").val()); */
+			sock.send(a);
+			$('#message').val("");
+		},
+		error: function(){
+			console.log('insert error');
 		}
-		
+	});
+	
+	
+}
+
+function onMessage(evt){//evt 파라메터는 웹소켓이 보내준 데이터
+	var data = evt.data;
+	var sessionid = null;
+	var message = null;
+	
+	var strArray =data.split('|');
+	
+	
+	/* var currentuser_session =$('#sessionuserid').val(); */
+	var currentuser_session = "${sessionScope.userId}";
+	
+	
+	sessionid = strArray[0];//메세지 보낸사람 세션저장
+	message = strArray[1];//현재 메세지 저장
+	
+	var strArray2 = message.split(',');
+	$("#sendMessage").text("");
+	for (var i = 0; i < strArray2.length; i++) {
+		var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
+		printHTML += "value='"+strArray2[i]+"'/>";
+		$("#sendMessage").append(printHTML);	
+			
 	}
 	
-	function onClose(evt){
-		/* $('#data').append("채팅 연결이 끊어졌어요 다시 접속 해 주세요 ㅜㅜ"); */
-	}
-	
-	function refresh(){
-		$.ajax({
-			url:"refresh",
-			type:'post',
-			success: function(list){
-				$("#editor-container").text("");
-				for (var i = 0; i < list.length; i++) {
-					var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
-					printHTML += "value='"+list[i]+"'/>";
-					$("#editor-container").append(printHTML);			
-				}
-			},
-			error: function(){
-				console.log('refresh error');
+}
+
+function onClose(evt){
+	/* $('#data').append("채팅 연결이 끊어졌어요 다시 접속 해 주세요 ㅜㅜ"); */
+}
+
+function refresh(){
+var roomNo = $("input:radio[name=chatRoom]:checked").val();
+	$.ajax({
+		url:"refresh",
+		type:'post',
+ data: {"roomnum":roomNo},
+		success: function(list){
+			$("#sendMessage").text("");
+			for (var i = 0; i < list.length; i++) {
+				var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
+				printHTML += "value='"+list[i]+"'/>";
+				$("#sendMessage").append(printHTML);			
 			}
-		});
-	}
+		},
+		error: function(){
+			console.log('refresh error');
+		}
+	});
+}	
 </script>
 <jsp:include page="footer.jsp" flush="true"></jsp:include>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

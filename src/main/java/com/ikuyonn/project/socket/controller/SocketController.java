@@ -1,6 +1,7 @@
 package com.ikuyonn.project.socket.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,11 +30,11 @@ public class SocketController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Table table) {
-		table.setRoomnum(1+"");
+		table.setRoomnum(table.getRoomnum());
 		table.setId("a");
 		System.out.println(table);
 		int result = repo.insertContent(table);
-		ArrayList<Table> list = repo.getRoomContent(1+"");
+		ArrayList<Table> list = repo.getRoomContent(table.getRoomnum());
 		ArrayList<String> messageList = new ArrayList<>();
 		for(Table a : list) {
 			messageList.add(a.toString());
@@ -42,8 +43,21 @@ public class SocketController {
 	}
 	
 	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model) {
-		ArrayList<Table> list = repo.getRoomContent(1+"");
+	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String roomnum) {
+		ArrayList<Table> list = repo.getRoomContent(roomnum);
+		ArrayList<String> messageList = new ArrayList<>();
+		for(Table a : list) {
+			messageList.add(a.toString());
+		}
+		return messageList;
+	}
+	
+	@RequestMapping(value = "/searchbydate", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String> searchbydate(HttpSession session, Model model, String roomnum, String date) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("roomnum", roomnum);
+		map.put("date", date);
+		ArrayList<Table> list = repo.searchByDate(map);
 		ArrayList<String> messageList = new ArrayList<>();
 		for(Table a : list) {
 			messageList.add(a.toString());

@@ -1,6 +1,7 @@
 package com.ikuyonn.project.socket.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,18 @@ public class Repo {
 			e.printStackTrace();
 		}		
 		return re;
+	}
+
+	public ArrayList<Table> searchByDate(HashMap<String, Object> map) {
+		ArrayList<Table> list = null;
+		Mapper tempMap = null;
+		try {
+			tempMap = session.getMapper(Mapper.class);
+			list = tempMap.searchByDate(map);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return list;
 	}
 	
 	
