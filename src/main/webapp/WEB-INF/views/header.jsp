@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <body class="h-100">
-	<div class="color-switcher animated">
+	<!-- <div class="color-switcher animated">
 		<h5>Accent Color</h5>
 		<ul class="accent-colors">
 			<li class="accent-primary active" data-color="primary"><i
@@ -38,7 +38,7 @@
 						href="https://github.com/DesignRevision/shards-dashboard"
 						data-icon="octicon-star" data-show-count="true"
 						aria-label="Star DesignRevision/shards-dashboard on GitHub">Star</a>
-					<!-- <iframe style="width: 91px; height: 21px;"src="https://yvoschaap.com/producthunt/counter.html#href=https%3A%2F%2Fwww.producthunt.com%2Fr%2Fp%2F112998&layout=wide" width="56" height="65" scrolling="no" frameborder="0" allowtransparency="true"></iframe> -->
+					<iframe style="width: 91px; height: 21px;"src="https://yvoschaap.com/producthunt/counter.html#href=https%3A%2F%2Fwww.producthunt.com%2Fr%2Fp%2F112998&layout=wide" width="56" height="65" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
 				</div>
 			</div>
 			<div id="social-share"
@@ -55,7 +55,7 @@
 	</div>
 	<div class="color-switcher-toggle animated pulse infinite">
 		<i class="material-icons">settings</i>
-	</div>
+	</div> -->
 	<div class="container-fluid">
 		<div class="row">
 			<!-- Main Sidebar -->
@@ -70,7 +70,7 @@
 							style="max-width: 25px;"
 							src="./resources/images/shards-dashboards-logo.svg"
 							alt="Shards Dashboard"> <span
-							class="d-none d-md-inline ml-1">Shards Dashboard</span>
+							class="d-none d-md-inline ml-1">Ikuyonn Project</span>
 					</div>
 				</a> <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none"> <i
 					class="material-icons">&#xE5C4;</i>
@@ -90,13 +90,13 @@
 			</form>
 			<div class="nav-wrapper">
 				<ul id="navbar" class="nav flex-column">
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<a class="nav-link" href="index">
 							<i class="material-icons">edit</i> 
 							<span>Blog Dashboard</span>
 						</a>
-					</li>
-					<li class="nav-item">
+					</li> -->
+					<!-- <li class="nav-item">
 						<a class="nav-link" href="components-blog-posts"> 
 							<i class="material-icons">vertical_split</i>
 							<span>Blog Posts</span>
@@ -125,11 +125,17 @@
 							<i class="material-icons">person</i>
 							<span>User Profile</span>
 						</a>
-					</li>
-					<li class="nav-item">
+					</li> -->
+					<!-- <li class="nav-item">
 						<a class="nav-link " href="errors"> 
 							<i class="material-icons">error</i> 
 							<span>Errors</span>
+						</a>
+					</li> -->
+					<li class="nav-item">
+						<a class="nav-link " href="chat"> 
+							<i class="material-icons">error</i> 
+							<span>Chat</span>
 						</a>
 					</li>
 					<li class="nav-item">

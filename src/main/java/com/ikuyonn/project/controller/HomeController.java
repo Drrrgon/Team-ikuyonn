@@ -33,7 +33,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "index";
+		return "insertNameCard";
 	}
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public void index() {

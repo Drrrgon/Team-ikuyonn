@@ -14,7 +14,7 @@
 </main>
 </div>
 </div>
-<div class="promo-popup animated">
+<!-- <div class="promo-popup animated">
 	<a href="http://bit.ly/shards-dashboard-pro"
 		class="pp-cta extra-action"> <img
 		src="https://dgc2qnsehk7ta.cloudfront.net/uploads/sd-blog-promo-2.jpg">
@@ -31,4 +31,4 @@
 		<a class="pp-cta extra-action"
 			href="http://bit.ly/shards-dashboard-pro">Download</a>
 	</div>
-</div>
+</div> -->
