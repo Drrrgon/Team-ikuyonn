@@ -6,31 +6,31 @@
 
 
 <mapper namespace="com.ikuyonn.project.socket.mapper.Mapper">
-	<select id="getRoomContent" parameterType="string" resultType="table">
-		select id, message, to_char(datetime, 'YY-MM-DD HH24:MI:SS') datetime
+	<select id="getProjectContent" parameterType="string" resultType="table">
+		select userid, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		from message
-		where roomNum = #{roomNum}
+		where projectName = #{projectName}
 	 	AND
-				 to_char(datetime, 'DD') = to_char(sysdate, 'DD')
-		order by seq desc
+				 to_char(messageDate, 'DD') = to_char(messageDate, 'DD')
+		order by messageSeq desc
 		
 	</select>
 	
 	<insert id="insertContent" parameterType="table" >
 		INSERT INTO message
 			VALUES( message_seq.nextVal
+					, #{userID}
 					, #{message}
-					, #{id}
-					, #{roomnum}
-					, sysdate)
+					, sysdate
+					, #{projectName})
 	</insert>
 	<select id="searchByDate" parameterType="map" resultType="table">
-		SELECT id, message, to_char(datetime, 'YY-MM-DD HH24:MI:SS') datetime
+		SELECT userid, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		FROM message
-		WHERE roomNum = #{roomnum}
+		WHERE projectName = #{projectName}
 	 	AND
-				 to_char(datetime, 'YYYY-MM-DD') = #{date}
-		order by seq desc 	
+				 to_char(messageDate, 'YYYY-MM-DD') = #{date}
+		order by messageSeq desc 	
 	</select>
 <!--  for maria db -->
 	<!-- <select id="getRoomContent" parameterType="string" resultType="table">

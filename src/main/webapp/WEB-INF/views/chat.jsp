@@ -141,6 +141,13 @@ sock.onmessage = onMessage;
 sock.onclose = onClose;
 
 $(function(){
+	$('#message').keyup(function(e) {
+	    if (e.keyCode == 13){
+	    	console.log('send message...');
+			sendMessage();
+	    }  
+	});
+	
 	$("#sendBtn").click(function(){			
 		sendMessage();
 	});
@@ -149,12 +156,7 @@ $(function(){
 		searchByDate();
 	});
 
-	$('#message').keyup(function(e) {
-	    if (e.keyCode == 13){
-	    	console.log('send message...');
-			sendMessage();
-	    }  
-	});
+	
 	
 	refresh();
 	
@@ -170,8 +172,8 @@ function searchByDate(){
   if(date.length == 0){
     return false;
   }
-  var roomNo = $("input:radio[name=chatRoom]:checked").val();
-  var sendData = {"roomnum":roomNo , "date":date};
+  var projectName = $("input:radio[name=chatRoom]:checked").val();
+  var sendData = {"projectName":projectName , "date":date};
   $.ajax({
     url: "searchbydate"
     , type: "post"
@@ -193,9 +195,9 @@ function sendMessage(){//websocket으로 메세지 전송
 if(message.length == 0){
  return false;
 }
-var roomNo = $("input:radio[name=chatRoom]:checked").val();
+var projectName = $("input:radio[name=chatRoom]:checked").val();
 
-	var dataForm = { "id":userId , "message": message, "roomnum":roomNo };		
+	var dataForm = { "userID":userId , "message": message, "projectName":projectName };		
 	$.ajax({
 		url: "insert",
 		type: "post",
@@ -244,11 +246,11 @@ function onClose(evt){
 }
 
 function refresh(){
-var roomNo = $("input:radio[name=chatRoom]:checked").val();
+var projectName = $("input:radio[name=chatRoom]:checked").val();
 	$.ajax({
 		url:"refresh",
 		type:'post',
- data: {"roomnum":roomNo},
+ data: {"projectName":projectName},
 		success: function(list){
 			$("#sendMessage").text("");
 			for (var i = 0; i < list.length; i++) {

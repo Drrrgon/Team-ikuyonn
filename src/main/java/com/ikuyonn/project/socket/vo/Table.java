@@ -1,25 +1,25 @@
 package com.ikuyonn.project.socket.vo;
 
 public class Table {
-	private String seq;
+	private String messageSeq;
 	private String message;
-	private String id;
-	private String roomnum;
-	private String datetime;
+	private String userID;
+	private String projectName;
+	private String messageDate;
 	public Table() {}
-	public Table(String seq, String message, String id, String roomnum, String datetime) {
+	public Table(String messageSeq, String message, String userID, String projectName, String messageDate) {
 		super();
-		this.seq = seq;
+		this.messageSeq = messageSeq;
 		this.message = message;
-		this.id = id;
-		this.roomnum = roomnum;
-		this.datetime = datetime;
+		this.userID = userID;
+		this.projectName = projectName;
+		this.messageDate = messageDate;
 	}
-	public String getSeq() {
-		return seq;
+	public String getmessageSeq() {
+		return messageSeq;
 	}
-	public void setSeq(String seq) {
-		this.seq = seq;
+	public void setmessageSeq(String messageSeq) {
+		this.messageSeq = messageSeq;
 	}
 	public String getMessage() {
 		return message;
@@ -27,27 +27,27 @@ public class Table {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getId() {
-		return id;
+	public String getUserID() {
+		return userID;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String userID) {
+		this.userID = userID;
 	}
-	public String getRoomnum() {
-		return roomnum;
+	public String getprojectName() {
+		return projectName;
 	}
-	public void setRoomnum(String roomnum) {
-		this.roomnum = roomnum;
+	public void setprojectName(String projectName) {
+		this.projectName = projectName;
 	}
-	public String getdatetime() {
-		return datetime;
+	public String getmessageDate() {
+		return messageDate;
 	}
-	public void setdatetime(String datetime) {
-		this.datetime = datetime;
+	public void setmessageDate(String messageDate) {
+		this.messageDate = messageDate;
 	}
 	@Override
 	public String toString() {
-		return id+" : "+message+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+"보낸 시각 : "+ datetime;
+		return userID+" : "+message+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+"보낸 시각 : "+ messageDate;
 	}
 
 	
