@@ -35,7 +35,7 @@ public class SocketController {
 		System.out.println(table);
 		int result = repo.insertContent(table);
 		ArrayList<Table> list = repo.getRoomContent(table.getRoomnum());
-		ArrayList<String> messageList = new ArrayList<>();
+		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
 			messageList.add(a.toString());
 		}
@@ -45,7 +45,7 @@ public class SocketController {
 	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String roomnum) {
 		ArrayList<Table> list = repo.getRoomContent(roomnum);
-		ArrayList<String> messageList = new ArrayList<>();
+		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
 			messageList.add(a.toString());
 		}
@@ -54,11 +54,11 @@ public class SocketController {
 	
 	@RequestMapping(value = "/searchbydate", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> searchbydate(HttpSession session, Model model, String roomnum, String date) {
-		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("roomnum", roomnum);
 		map.put("date", date);
 		ArrayList<Table> list = repo.searchByDate(map);
-		ArrayList<String> messageList = new ArrayList<>();
+		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
 			messageList.add(a.toString());
 		}
