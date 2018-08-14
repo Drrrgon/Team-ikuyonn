@@ -1,33 +1,69 @@
 package com.ikuyonn.project.socket.vo;
 
 public class User {
-	public String userName;
-	public String password;
-	public User(String userName, String password) {
-		super();
-		this.userName = userName;
-		this.password = password;
-	}
+	private String userID;
+	private String userPW;
+	private String userName;
+	private String userBirth;
+	private String userPhone;
+	
 	public User() {
 		super();
 	}
+	
+	public User(String userID, String userPW, String userName, String userBirth, String userPhone) {
+		super();
+		this.userID = userID;
+		this.userPW = userPW;
+		this.userName = userName;
+		this.userBirth = userBirth;
+		this.userPhone = userPhone;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public String getUserPW() {
+		return userPW;
+	}
+
+	public void setUserPW(String userPW) {
+		this.userPW = userPW;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getPassword() {
-		return password;
+
+	public String getUserBirth() {
+		return userBirth;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+
+	public void setUserBirth(String userBirth) {
+		this.userBirth = userBirth;
 	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", password=" + password + "]";
+		return "User [userID=" + userID + ", userPW=" + userPW + ", userName=" + userName + ", userBirth=" + userBirth
+				+ ", userPhone=" + userPhone + "]";
 	}
-	
-	
 	
 }
