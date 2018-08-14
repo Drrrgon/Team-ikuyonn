@@ -15,10 +15,10 @@ public class Table {
 		this.projectName = projectName;
 		this.messageDate = messageDate;
 	}
-	public String getmessageSeq() {
+	public String getMessageSeq() {
 		return messageSeq;
 	}
-	public void setmessageSeq(String messageSeq) {
+	public void setMessageSeq(String messageSeq) {
 		this.messageSeq = messageSeq;
 	}
 	public String getMessage() {
@@ -30,19 +30,19 @@ public class Table {
 	public String getUserID() {
 		return userID;
 	}
-	public void setId(String userID) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public String getprojectName() {
+	public String getProjectName() {
 		return projectName;
 	}
-	public void setprojectName(String projectName) {
+	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public String getmessageDate() {
+	public String getMessageDate() {
 		return messageDate;
 	}
-	public void setmessageDate(String messageDate) {
+	public void setMessageDate(String messageDate) {
 		this.messageDate = messageDate;
 	}
 	@Override

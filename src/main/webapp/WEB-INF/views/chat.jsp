@@ -190,7 +190,8 @@ function searchByDate(){
 }
 
 function sendMessage(){//websocket으로 메세지 전송
-	var userId = "${sessionScope.userId}";
+	var userId = "${sessionScope.ur.userName}";
+	console.log(userId);
 	var message = $("#message").val();
 if(message.length == 0){
  return false;
@@ -202,6 +203,7 @@ var projectName = $("input:radio[name=chatRoom]:checked").val();
 		url: "insert",
 		type: "post",
 		data: dataForm ,
+		dataType: 'json',
 		success: function(a){
 			/* sock.send($("#message").val()); */
 			sock.send(a);
