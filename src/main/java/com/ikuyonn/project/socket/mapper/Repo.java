@@ -14,12 +14,12 @@ import com.ikuyonn.project.socket.vo.Table;
 public class Repo {
 	@Autowired SqlSession session;
 
-	public ArrayList<Table> getRoomContent(String roomNo) {
+	public ArrayList<Table> getProjectContent(String projectName) {
 		ArrayList<Table> list = null;
 		Mapper map = null;
 		try {
 			map = session.getMapper(Mapper.class);
-			list = map.getRoomContent(roomNo);
+			list = map.getProjectContent(projectName);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

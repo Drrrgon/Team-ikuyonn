@@ -7,7 +7,7 @@ import com.ikuyonn.project.socket.vo.Table;
 
 public interface Mapper {
 
-	public ArrayList<Table> getRoomContent(String roomNo);
+	public ArrayList<Table> getProjectContent(String roomNo);
 
 	public int insertContent(Table table);
 
