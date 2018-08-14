@@ -5,10 +5,14 @@
 	
 	<typeAliases>
 		<typeAlias type="com.ikuyonn.project.socket.vo.Table" alias="table"/>
+		<typeAlias type="com.ikuyonn.project.socket.vo.User" alias="User"/>
+		<typeAlias type="com.ikuyonn.project.mail.vo.email" alias="Email"/>
+		<typeAlias type="com.ikuyonn.project.mail.vo.inbox" alias="inbox"/>
 	</typeAliases>
 		
 	<mappers>
 		<mapper resource="socket/mapper/SocketMapper.xml"/>		
+		<mapper resource="mail/mapper/MailMapper.xml"/>	
 	</mappers>
 	
 </configuration>

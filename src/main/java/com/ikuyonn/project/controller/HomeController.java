@@ -62,4 +62,10 @@ public class HomeController {
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public void chat() {
 	}
+	@RequestMapping(value = "/writeMail", method = RequestMethod.GET)
+	public void writeMail() {
+	}
+	@RequestMapping(value = "/mailBox", method = RequestMethod.GET)
+	public void mailBox() {
+	}
 }

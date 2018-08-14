@@ -7,7 +7,7 @@
 
 <mapper namespace="com.ikuyonn.project.socket.mapper.Mapper">
 	<select id="getRoomContent" parameterType="string" resultType="table">
-		select id, message, to_char(datetime, 'YY-MM-DD HH24MISS') datetime
+		select id, message, to_char(datetime, 'YY-MM-DD HH24:MI:SS') datetime
 		from message
 		where roomNum = #{roomNum}
 	 	AND
@@ -24,6 +24,14 @@
 					, #{roomnum}
 					, sysdate)
 	</insert>
+	<select id="searchByDate" parameterType="map" resultType="table">
+		SELECT id, message, to_char(datetime, 'YY-MM-DD HH24:MI:SS') datetime
+		FROM message
+		WHERE roomNum = #{roomnum}
+	 	AND
+				 to_char(datetime, 'YYYY-MM-DD') = #{date}
+		order by seq desc 	
+	</select>
 <!--  for maria db -->
 	<!-- <select id="getRoomContent" parameterType="string" resultType="table">
 		select id, message, date_format(date, "%Y-%m-%d %H:%i:%S") date
