@@ -18,6 +18,9 @@ CREATE TABLE message (
     , messageDate date 
     , projectName varchar2(100)
 );
+
+
+
 CREATE sequence message_seq start with 1 increment by 1;
 
 

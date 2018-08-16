@@ -1,0 +1,6 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+/* 네비게이션 로고 */
+body{
+	font-family: "Noto Sans KR", sans-serif !important;	
+	font-weight: 500 !important;
+}
