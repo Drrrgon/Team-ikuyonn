@@ -30,11 +30,10 @@ public class SocketController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Table table) {
-		table.setprojectName(table.getprojectName());
-		table.setId("a");
-		System.out.println(table);
+		System.out.println(table.getProjectName());
+		System.out.println(table.getUserID());
 		int result = repo.insertContent(table);
-		ArrayList<Table> list = repo.getProjectContent(table.getprojectName());
+		ArrayList<Table> list = repo.getProjectContent(table.getProjectName());
 		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
 			messageList.add(a.toString());

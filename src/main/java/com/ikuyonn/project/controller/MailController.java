@@ -15,6 +15,7 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
@@ -75,27 +76,27 @@ SqlSession session;
 	}
 	@RequestMapping(value = "/logMain", method = RequestMethod.GET)
 	public String logMain(HttpSession sess) {
-		User user = (User)sess.getAttribute("user");
+		User user = (User)sess.getAttribute("ur");
 		loadMail(user);
 		return "mailMain";
 	}
 	@RequestMapping(value = "/reload", method = RequestMethod.GET)
 	public String reload(HttpSession sess) {
-		User user = (User)sess.getAttribute("user");
+		User user = (User)sess.getAttribute("ur");
 		loadMail(user);
 		return "inbox";
 	}
 	public void loadMail(User user) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		mapper.clearInbox();
-		ArrayList<email> email = addressList(user.getUserName());
+		ArrayList<email> email = addressList(user.getUserID());
 		for(email e:email) {
-			getMail(e.getId(),e.getPassword(),e.getHost(),user,e);
+			getMail(e.getEmailId(),e.getEmailPassword(),e.getHost(),user,e);
 		}
 	}
-	public ArrayList<email> addressList(String userName){
+	public ArrayList<email> addressList(String userID){
 		MailMapper mapper = session.getMapper(MailMapper.class);
-		ArrayList<email> email = mapper.mailList(userName);
+		ArrayList<email> email = mapper.mailList(userID);
 		return email;
 	}
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
@@ -140,9 +141,9 @@ SqlSession session;
 		return "";
 	}
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
-	public @ResponseBody User check(String userName) {
+	public @ResponseBody User check(String userID) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
-		User result = mapper.checkid(userName);
+		User result = mapper.checkid(userID);
 		return result;
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -157,7 +158,7 @@ SqlSession session;
 		
 		return result;
 	}
-	@RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
 	public String sendEmail(HttpServletRequest request) {
 
 		String subject = request.getParameter("subject") == null ? "" : request.getParameter("subject");
@@ -197,12 +198,54 @@ SqlSession session;
 				e.printStackTrace();
 			}
 		}
+		System.out.println(1);
+		return "writeMail";
+	}*/
+	@RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
+	public String sendmail(HttpServletRequest request){
+		MailMapper mapper = session.getMapper(MailMapper.class);
+		email email = new email();
+	    email.setEmailAddress(request.getParameter("from") == null ? "" : request.getParameter("from"));
+	    email = mapper.getAddress(email.getEmailAddress());
+	    final String username = email.getEmailId();
+		final String password = email.getEmailPassword();
+		String to = request.getParameter("to") == null ? "" : request.getParameter("to");
+		String subject = request.getParameter("subject") == null ? "" : request.getParameter("subject");
+        Properties props = new Properties(); 
+        /*props.put("mail.smtp.user",username); 
+        props.put("mail.smtp.password", password);*/
+        props.put("mail.smtp.host", email.getSmtp()); 
+        props.put("mail.smtp.port", "587"); 
+        props.put("mail.debug", "true"); 
+        props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.EnableSSL.enable","true");
+        /*props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");   
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");   
+        props.setProperty("mail.smtp.port", "465");   
+        props.setProperty("mail.smtp.socketFactory.port", "465"); */
+        Session session = Session.getInstance(props,new javax.mail.Authenticator() { 
+        protected PasswordAuthentication getPasswordAuthentication() { 
+        return new PasswordAuthentication(username, password); 
+        }});
+        try{
+            Message message = new MimeMessage(session); 
+            message.setFrom(new InternetAddress(email.getEmailAddress()));// 
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to)); 
+            message.setSubject(subject);
+            message.setText(request.getParameter("content") == null ? "" : request.getParameter("content"));//내용 
+ //message.setContent("내용","text/html; charset=utf-8");//글내용을 html타입 charset설정
+            Transport.send(message); 
+            
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "writeMail";
+    }    
 
-		return "mailMain";
-	}
 	@RequestMapping(value = "/mailList", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<email> mailList(String userName) {
-		ArrayList<email> email = addressList(userName);
+	public @ResponseBody ArrayList<email> mailList(String userID) {
+		ArrayList<email> email = addressList(userID);
 		return email;
 	}
 	@RequestMapping(value = "/getmail", method = RequestMethod.POST)
@@ -212,9 +255,9 @@ SqlSession session;
 		return temp;
 	}
 	
-	public void getMail(String id,String password,String host,User user,email email){
+	public void getMail(String emailID,String emailPassword,String host,User user,email email){
 		MailMapper mapper = session.getMapper(MailMapper.class);
-		IMAPAgent mailagent = new IMAPAgent(host,id,password);
+		IMAPAgent mailagent = new IMAPAgent(host,emailID,emailPassword);
 		ArrayList<inbox> inbox = null;
 		Message[] msg=null;
 		try {	
@@ -242,7 +285,7 @@ SqlSession session;
 				    MimeBodyPart mbp = (MimeBodyPart)mmp.getBodyPart(i);
 				    if(mbp.getFileName()!=null) {
 				    	content+="<div>-첨부파일-<br/><a href ='' onclick=\"down('"+m.getMessageNumber()
-				    	+"','"+email.getAddress()+"')\">"
+				    	+"','"+email.getEmailAddress()+"')\">"
 				    			+MimeUtility.decodeText(mbp.getFileName())+"</a></div><div>다운로드 기능은 제공하지 않습니다.(클릭하면 에러남)</div>";
 				    }
 				    if(check==0) {
@@ -258,9 +301,9 @@ SqlSession session;
 				if(address.split("<").length>1) {
 				address = address.split("<")[0]+" "+address.split("<")[1].split(">")[0];
 				}
-				temp.setsentaddress(address);
-				temp.setUserName(email.getUserName());
-				temp.setAddress(email.getAddress());
+				temp.setSentaddress(address);
+				temp.setUserID(email.getUserID());
+				temp.setEmailAddress(email.getEmailAddress());
 				mapper.addInbox(temp);
 			}
 			mailagent.close();
@@ -271,19 +314,19 @@ SqlSession session;
 		}
 	}
 	@RequestMapping(value = "/downfile", method = RequestMethod.GET)
-	public @ResponseBody String downfile(int msgNum,String userName,String address) {
-		ArrayList<email> e = addressList(userName);
+	public @ResponseBody String downfile(int msgNum,String userID,String emailAddress) {
+		ArrayList<email> e = addressList(userID);
 		String host = "";
-		String id = "";
-		String password="";
+		String emailID = "";
+		String emailPassword="";
 		for(email email : e) {
-			if(email.getAddress()==address) {
+			if(email.getEmailAddress()==emailAddress) {
 				host = email.getHost();
-				id = email.getId();
-				password = email.getPassword();
+				emailID = email.getEmailId();
+				emailAddress = email.getEmailPassword();
 			}
 		}
-		IMAPAgent mailagent = new IMAPAgent(host,id,password);
+		IMAPAgent mailagent = new IMAPAgent(host,emailID,emailAddress);
 		try {
 			mailagent.open();
 			Message m = mailagent.getMessage(msgNum);

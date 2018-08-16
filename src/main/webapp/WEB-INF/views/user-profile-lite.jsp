@@ -188,7 +188,7 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <img class="user-avatar rounded-circle mr-2" src="./resources/images/avatars/0.jpg" alt="User Avatar">
-                    <span class="d-none d-md-inline-block">Sierra Brooks</span>
+                    <span class="d-none d-md-inline-block">${sessionScope.ur.userName}</span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-small">
                     <a class="dropdown-item" href="user-profile-lite.html">
@@ -233,7 +233,7 @@
                   <div class="card-header border-bottom text-center">
                     <div class="mb-3 mx-auto">
                       <img class="rounded-circle" src="./resources/images/avatars/0.jpg" alt="User Avatar" width="110"> </div>
-                    <h4 class="mb-0">Sierra Brooks</h4>
+                    <h4 class="mb-0">${sessionScope.ur.userName}</h4>
                     <span class="text-muted d-block mb-2">Project Manager</span>
                     <button type="button" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
                       <i class="material-icons mr-1">person_add</i>Follow</button>

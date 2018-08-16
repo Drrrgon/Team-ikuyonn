@@ -22,35 +22,32 @@
 <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
 	href="./resources/styles/shards-dashboards.1.0.0.min.css">
 <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
+<link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	crossorigin="anonymous"></script>
+
 <script>
 	function refresh() {
-		var userid = $("#userid").val();
+		var userID = $("#userID").val();
 		var temp;
 		$.ajax({
 			url : "mailList",
 			type : "post",
 			data : {
-				"userid" : userid
+				"userID" : userID
 			},
 			success : function(data) {
+				alert($("#userID").val());
 				var ext = "";
 				var temp = "";
 				if (data.length != 0 && data != null) {
 					for ( var index in data) {
-						if (index == 0) {
-							setlist(data[index].address);
-							ext += "<li class=\"active\">";
-						} else {
-							ext += "<li class=\"\">";
-						}
-						ext += "<a href=\"#\" onclick=\"setlist(\'"
-								+ data[index].address
-								+ "')\" data-toggle=\"tab\">"
-								+ data[index].address + "</a></li>";
+						
+						ext += "<button class = 'btn btn-sm btn-outline-accent' onclick=\"setlist(event,\'"
+								+ data[index].emailAddress + "')\">"
+								+ data[index].emailAddress + "</button>";
 					}
 					$('#pills').html(ext);
 				}
@@ -61,24 +58,27 @@
 			}
 		});
 	}
-	function setlist(address) {
-		var userid = $("#userid").val();
+	function setlist(evt,address) {
+		 var tablinks = document.getElementsByClassName("btn btn-sm btn-outline-accent");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		    }
+		    evt.currentTarget.className += " active";
 		$
 				.ajax({
 					url : "getInbox",
 					type : "post",
 					data : {
-						"userid" : userid,
-						"address" : address
+						"emailAddress" : address
 					},
 					success : function(data) {
 						var ext = "";
-						ext += "<table class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\">";
+						ext += "<table class=\"display\"String id=\"example\"String style=\"width: 100%;\"String>";
 						ext += "<thead><tr><th>번호</th><th>보낸사람</th><th>제목</th><th>받은 날짜</th></tr></thead><tbody>";
 
 						if (data.length != 0 && data != null) {
 							for ( var index in data) {
-								ext += "<tr class=\"gradeA\">";
+								ext += "<tr>";
 								ext += "<td>" + data[index].msgNum + "</td>";
 								ext += "<td>" + data[index].sentaddress
 										+ "</td>";
@@ -93,10 +93,10 @@
 								ext += "</tr>";
 							}
 							ext += "</tbody></table>";
-							$('#mailList').html(ext);
-							$('#dataTables-example').dataTable();
-							$("#content").html("");
 						}
+						$('#mailList').html(ext);
+						$('#example').DataTable();
+						$("#content").html("");
 					},
 					error : function() {
 						alert("통신실패");
@@ -104,7 +104,7 @@
 				});
 	}
 	function getContent(msgNum, address) {
-		var userid = $("#userid").val();
+		var userID = $("#userID").val();
 		var sentaddress = "";
 		var sentdate = "";
 		var title = "";
@@ -113,8 +113,8 @@
 			url : "getmail",
 			type : "post",
 			data : {
-				"userid" : userid,
-				"address" : address,
+				"userID" : userID,
+				"emailAddress" : address,
 				"msgNum" : msgNum
 			},
 			success : function(data) {
@@ -139,8 +139,8 @@
 			url : "downfile",
 			type : "post",
 			data : {
-				"userid" : userid,
-				"address" : address,
+				"userID" : userID,
+				"emailAddress" : address,
 				"msgNum" : msgNum
 			},
 			success : function(data) {
@@ -160,58 +160,34 @@
 		$("#reload").on('click', function() {
 			location.href = "reload";
 		});
+		setlist("123");
 	})
 </script>
 </head>
 <body>
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
-	<div class="main-content-container container-fluid px-4">
-		<input type="hidden" value="${sessionScope.user.userName}"
-			id="userName" />
-		<div id="page-wrapper">
-			<div id="page-inner">
-				<div class="row">
-					<div class="col-md-12">
-						<h2>메일 확인</h2>
-					</div>
-				</div>
-				<!-- /. ROW  -->
-				<hr />
-
-				<div class="row">
-					<div class="col-md-12">
-						<!-- Advanced Tables -->
-						<div class="panel panel-default">
-							<div class="panel-heading">Advanced Tables</div>
-							<div class="panel-body">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<button type="button" id="reload">새로고침</button>
-										<button type="button" id="list">목록보기</button>
-									</div>
-									<div class="panel-body">
-										<ul class="nav nav-pills" id="pills">
-										</ul>
-
-										<div class="tab-content">
-											<div class="tab-pane fade active in">
-												<br />
-												<div id="content"></div>
-												<div class="table-responsive" id="mailList"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+	<input type="hidden" value="${sessionScope.ur.userID}" id="userID" />
+	<div class="row">
+		<div class="col-md-12">
+			<h2>메일 확인</h2>
 		</div>
 	</div>
+	<!-- /. ROW  -->
+	<hr />
+	<div class="panel-heading">
+		<button type="button" class ="btn btn-sm btn-outline-accent" id="reload">새로고침</button>
+		<button type="button" class ="btn btn-sm btn-outline-accent" id="list">목록보기</button>
+		
+	</div>
+<br/>
+	<div class = "tab" id="pills">
+	</div>
+
+	<br/>
+	<div id="content"></div>
+	<div id="mailList"></div>
+
 	<jsp:include page="footer.jsp" flush="true"></jsp:include>
-	 <script src="./resources/dataTables/jquery.dataTables.js" id = "1"></script>
-    <script src="./resources/dataTables/dataTables.bootstrap.js" id = "2"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -228,5 +204,8 @@
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
 	<script src="./resources/scripts/shards-dashboards.1.0.0.min.js"></script>
 	<script src="./resources/scripts/app/app-blog-overview.1.0.0.js"></script>
+	<!-- <script src="./resources/mail/jquery-3.3.1.js"></script> -->
+	<script src="./resources/mail/jquery.dataTables.min.js"></script>
+
 </body>
 </html>

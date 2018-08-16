@@ -37,10 +37,8 @@ public class UserController {
 	public String loginUser(HttpSession hs, User u){
 		UserMapper um = session.getMapper(UserMapper.class);
 		User ur = um.loginUser(u);
-		
 		hs.setAttribute("ur", ur);
-		
-		return "index";
+		return "insertNameCard";
 	}
 
 	@RequestMapping(value = "/joinUser", method = RequestMethod.POST)
