@@ -6,6 +6,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <style>
+    	.user-space{
+    		width: 100px;
+    		height: 100px;
+    	}
+    </style>
     <title>Chat</title>
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,9 +27,17 @@
           <div class="main-content-container container-fluid px-4">
             <!-- Page Header -->
             <div class="page-header row no-gutters py-4">
-              <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <span class="text-uppercase page-subtitle">example</span>
-                <h3 class="page-title">채팅 룸</h3>
+            	
+              <div class="col-26 col-xs-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">example</span><br/>
+                <h3 class="page-title">채팅 룸</h3><br/>
+                <DIV id="user"></DIV>
+                 
+                	<!-- <div class="user-space">
+                		<img class="user-avatar rounded-circle mr-2" src="./resources/images/avatars/0.jpg" alt="User Avatar" width="50px" height="50px"> 
+						        <span class="d-none d-md-inline-block">${sessionScope.ur.userName}</span>
+                	</div> -->
+                	
               </div>
             </div>
             <!-- End Page Header -->
@@ -130,12 +144,13 @@
             </div>
           </div>
          
- <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- <script src="./resources/scripts/socket.js"></script> -->
 <script>
 //console.log("<c:url value='/echo'/>");
-var sock =  new SockJS("<c:url value='/echo'/>"); 
+/* var sock =  new SockJS("<c:url value='/echo'/>");  */
+var sock =  new SockJS('/echo'); 
 /* var sock =  new SockJS("https://app.pstorm.net/chat2/echo"); */
 sock.onmessage = onMessage;
 sock.onclose = onClose;
@@ -152,18 +167,17 @@ $(function(){
 		sendMessage();
 	});
 	
-  $("#searchByDate").click(function(){			
+  	$("#searchByDate").click(function(){			
 		searchByDate();
 	});
-
-	
 	
 	refresh();
-	
+	getUserByProjectName();
 	$('.nav-item').children().eq(0).addClass('active');
 
 $('input[name="chatRoom"]').change(function(){
  refresh();
+ getUserByProjectName();
 });
 });
 
@@ -190,22 +204,23 @@ function searchByDate(){
 }
 
 function sendMessage(){//websocket으로 메세지 전송
-	var userId = "${sessionScope.ur.userName}";
-	console.log(userId);
+	var userName = "${sessionScope.ur.userName}";
 	var message = $("#message").val();
-if(message.length == 0){
- return false;
-}
+  if(userName == null){
+    return false;
+  }
+  if(message.length == 0){
+    return false;
+  }
 var projectName = $("input:radio[name=chatRoom]:checked").val();
 
-	var dataForm = { "userID":userId , "message": message, "projectName":projectName };		
+	var dataForm = { "userName":userName , "message": message, "projectName":projectName };		
 	$.ajax({
 		url: "insert",
 		type: "post",
 		data: dataForm ,
 		dataType: 'json',
 		success: function(a){
-			/* sock.send($("#message").val()); */
 			sock.send(a);
 			$('#message').val("");
 		},
@@ -252,7 +267,7 @@ var projectName = $("input:radio[name=chatRoom]:checked").val();
 	$.ajax({
 		url:"refresh",
 		type:'post',
- data: {"projectName":projectName},
+    data: {"projectName":projectName},
 		success: function(list){
 			$("#sendMessage").text("");
 			for (var i = 0; i < list.length; i++) {
@@ -264,8 +279,37 @@ var projectName = $("input:radio[name=chatRoom]:checked").val();
 		error: function(){
 			console.log('refresh error');
 		}
-	});
+	});	
 }	
+function getUserByProjectName(){
+	var projectName = $("input:radio[name=chatRoom]:checked").val();
+
+  $.ajax({
+    url: "getUserByProjectName"
+    , type: "post"
+    , data: {"projectName":projectName}
+    , success: function(list){
+      $('#user').text("");
+      for (let index = 0; index < list.length; index++) {
+       
+        var userText = "";
+        userText += "<span class='user-space'>";
+        userText += "<img class='user-avatar rounded-circle mr-2'";
+        userText += "src='./resources/images/avatars/0.jpg'";
+        userText += "alt='User Avatar' width='30px' height='30px'>";
+        userText += "<span class='d-none d-md-inline-block'>";
+        userText += list[index].userName;
+        userText += "</span>";
+        userText += "</span>&nbsp;";      
+        $('#user').append(userText);  
+      }
+                      	
+    }
+    , error: function(){
+
+    }
+  });
+}
 </script>
 <jsp:include page="footer.jsp" flush="true"></jsp:include>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

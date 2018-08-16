@@ -3,15 +3,15 @@ package com.ikuyonn.project.socket.vo;
 public class Table {
 	private String messageSeq;
 	private String message;
-	private String userID;
+	private String userName;
 	private String projectName;
 	private String messageDate;
 	public Table() {}
-	public Table(String messageSeq, String message, String userID, String projectName, String messageDate) {
+	public Table(String messageSeq, String message, String userName, String projectName, String messageDate) {
 		super();
 		this.messageSeq = messageSeq;
 		this.message = message;
-		this.userID = userID;
+		this.userName = userName;
 		this.projectName = projectName;
 		this.messageDate = messageDate;
 	}
@@ -27,11 +27,11 @@ public class Table {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getUserID() {
-		return userID;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getProjectName() {
 		return projectName;
@@ -44,11 +44,16 @@ public class Table {
 	}
 	public void setMessageDate(String messageDate) {
 		this.messageDate = messageDate;
+	}	
+	public String sendMessage() {
+		return userName+" : "+message+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+"보낸 시각 : "+ messageDate;
 	}
 	@Override
 	public String toString() {
-		return userID+" : "+message+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+"보낸 시각 : "+ messageDate;
+		return "Table [messageSeq=" + messageSeq + ", message=" + message + ", userName=" + userName + ", projectName="
+				+ projectName + ", messageDate=" + messageDate + "]";
 	}
+	
 
 	
 	

@@ -13,4 +13,6 @@ public interface Mapper {
 
 	public ArrayList<Table> searchByDate(HashMap<String, Object> map);
 
+	public ArrayList<Table> getUserByProjectName(String projectName);
+
 }

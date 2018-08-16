@@ -7,7 +7,7 @@
 
 <mapper namespace="com.ikuyonn.project.socket.mapper.Mapper">
 	<select id="getProjectContent" parameterType="string" resultType="table">
-		select userid, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
+		select userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		from message
 		where projectName = #{projectName}
 	 	AND
@@ -19,18 +19,37 @@
 	<insert id="insertContent" parameterType="table" >
 		INSERT INTO message
 			VALUES( message_seq.nextVal
-					, #{userID}
+					, #{userName}
 					, #{message}
 					, sysdate
 					, #{projectName})
 	</insert>
 	<select id="searchByDate" parameterType="map" resultType="table">
-		SELECT userid, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
+		SELECT userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		FROM message
 		WHERE projectName = #{projectName}
 	 	AND
 				 to_char(messageDate, 'YYYY-MM-DD') = #{date}
 		order by messageSeq desc 	
+	</select>
+	<select id="getUserByProjectName" parameterType="string" resultType="table">
+		SELECT 
+			u.userID userID
+			, u.userName
+			, u.userPW
+			, u.userBirth
+			, u.USERPHONE
+			, p.projectName 
+		FROM
+			usertable u 
+			, project p 
+			, joinproject jp
+		WHERE
+			u.userID = jp.userID 
+		AND 
+			p.projectSeq = jp.projectSeq
+		AND
+			#{value} = p.projectName
 	</select>
 <!--  for maria db -->
 	<!-- <select id="getRoomContent" parameterType="string" resultType="table">

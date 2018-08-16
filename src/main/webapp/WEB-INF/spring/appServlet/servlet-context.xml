@@ -25,12 +25,11 @@
 	
 	<context:component-scan base-package="com.ikuyonn.project" />
 	
-	 <websocket:handlers>
+	<!--  <websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo"/>
-		<websocket:sockjs/>
-	</websocket:handlers>
-	
-	<beans:bean id="echoHandler" class="com.ikuyonn.project.socket.EchoHandler"/> 
+		<websocket:sockjs/> 		
+	</websocket:handlers>	
+	<beans:bean id="echoHandler" class="com.ikuyonn.project.socket.EchoHandler"/>  -->
 	
 	
 </beans:beans>

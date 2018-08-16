@@ -30,13 +30,11 @@ public class SocketController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Table table) {
-		System.out.println(table.getProjectName());
-		System.out.println(table.getUserID());
 		int result = repo.insertContent(table);
 		ArrayList<Table> list = repo.getProjectContent(table.getProjectName());
 		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
-			messageList.add(a.toString());
+			messageList.add(a.sendMessage());
 		}
 		return messageList;
 	}
@@ -46,7 +44,7 @@ public class SocketController {
 		ArrayList<Table> list = repo.getProjectContent(projectName);
 		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
-			messageList.add(a.toString());
+			messageList.add(a.sendMessage());
 		}
 		return messageList;
 	}
@@ -59,8 +57,14 @@ public class SocketController {
 		ArrayList<Table> list = repo.searchByDate(map);
 		ArrayList<String> messageList = new ArrayList<String>();
 		for(Table a : list) {
-			messageList.add(a.toString());
+			messageList.add(a.sendMessage());
 		}
 		return messageList;
+	}
+	@RequestMapping(value = "/getUserByProjectName", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<Table> getUserByProjectName(HttpSession session, Model model, String projectName) {
+		ArrayList<Table> list = repo.getUserByProjectName(projectName);
+		System.out.println(list);
+		return list;
 	}
 }

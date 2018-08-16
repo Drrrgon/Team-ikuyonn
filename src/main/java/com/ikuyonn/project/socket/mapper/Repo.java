@@ -50,6 +50,18 @@ public class Repo {
 		}		
 		return list;
 	}
+
+	public ArrayList<Table> getUserByProjectName(String projectName) {
+		ArrayList<Table> list = null;
+		Mapper map = null;
+		try {
+			map = session.getMapper(Mapper.class);
+			list = map.getUserByProjectName(projectName);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return list;
+	}
 	
 	
 }

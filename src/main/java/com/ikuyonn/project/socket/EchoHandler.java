@@ -3,6 +3,8 @@ package com.ikuyonn.project.socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
 		sessionList.add(session);
-		
 		logger.info("{} 연결됨", session.getId());
 	}
 	
@@ -29,10 +30,8 @@ public class EchoHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		logger.info("{} 로부터 {}받음", session.getId(), message.getPayload());
 		
-		for(WebSocketSession sess : sessionList) {
-			
-				sess.sendMessage(new TextMessage(session.getId()+ "|"+message.getPayload()));
-						
+		for(WebSocketSession sess : sessionList) {			
+				sess.sendMessage(new TextMessage(session.getId()+ "|"+message.getPayload()));						
 		}
 	}
 	
