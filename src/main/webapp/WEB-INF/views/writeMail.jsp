@@ -29,20 +29,20 @@
 <script type="text/javascript">
 	$(function() {
 		$('.nav-item').children().eq(2).addClass('active');
-		var userid = $("#userid").val();
+		var userID = $("#userID").val();
 		$.ajax({
 			url : "mailList",
 			type : "post",
 			data : {
-				"userid" : userid
+				"userID" : userID
 			},
 			success : function(data) {
 				var from = document.getElementById("from");
 
 				for ( var index in data) {
 					var option = document.createElement("option");
-					option.text = data[index].address;
-					from.add(option)
+					option.text = data[index].emailAddress;
+					from.add(option);
 				}
 			},
 			error : function() {
@@ -63,6 +63,7 @@
 </script>
 </head>
 <body>
+<input type="hidden" value="${sessionScope.ur.userID}" id="userID" name="userID" />
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
@@ -77,8 +78,6 @@
 					<div class="col-md-12">
 						<div class="panel-body">
 							<form role="form" action="sendEmail" method="post">
-								<input type="hidden" value="${sessionScope.user.userid}"
-									id="userid" name="userid" />
 								<div class="form-group">
 									<label>보내는 사람 : </label> <select class="form-control"
 										name="from" id="from">

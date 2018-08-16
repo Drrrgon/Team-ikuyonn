@@ -1,45 +1,47 @@
 package com.ikuyonn.project.mail.vo;
 
 public class email {
-private String userName;
-private String address;
-private String id;
-private String password;
+private String userID;
+private String emailAddress;
+private String emailId;
+private String emailPassword;
 private String host;
-public email(String userName, String address, String id, String password, String host) {
+private String smtp;
+public email(String userID, String emailAddress, String emailId, String emailPassword, String host, String smtp) {
 	super();
-	this.userName = userName;
-	this.address = address;
-	this.id = id;
-	this.password = password;
+	this.userID = userID;
+	this.emailAddress = emailAddress;
+	this.emailId = emailId;
+	this.emailPassword = emailPassword;
 	this.host = host;
+	this.smtp = smtp;
 }
 public email() {
 	super();
 }
-public String getUserName() {
-	return userName;
+public String getUserID() {
+	return userID;
 }
-public void setUserName(String userName) {
-	this.userName = userName;
+public void setUserID(String userID) {
+	this.userID = userID;
 }
-public String getAddress() {
-	return address;
+public String getEmailAddress() {
+	return emailAddress;
 }
-public void setAddress(String address) {
-	this.address = address;
+public void setEmailAddress(String emailAddress) {
+	this.emailAddress = emailAddress;
 }
-public String getId() {
-	return id;
+public String getEmailId() {
+	return emailId;
 }
-public void setId(String id) {
-	this.id = id;
+public void setEmailId(String emailId) {
+	this.emailId = emailId;
 }
-public String getPassword() {
-	return password;
+public String getEmailPassword() {
+	return emailPassword;
 }
-public void setPassword(String password) {
-	this.password = password;
+public void setEmailPassword(String emailPassword) {
+	this.emailPassword = emailPassword;
 }
 public String getHost() {
 	return host;
@@ -47,10 +49,17 @@ public String getHost() {
 public void setHost(String host) {
 	this.host = host;
 }
+public String getSmtp() {
+	return smtp;
+}
+public void setSmtp(String smtp) {
+	this.smtp = smtp;
+}
 @Override
 public String toString() {
-	return "email [userName=" + userName + ", address=" + address + ", id=" + id + ", password=" + password + ", host="
-			+ host + "]";
+	return "email [userID=" + userID + ", emailAddress=" + emailAddress + ", emailId=" + emailId + ", emailPassword="
+			+ emailPassword + ", host=" + host + ", smtp=" + smtp + "]";
 }
+
 
 }

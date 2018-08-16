@@ -14,11 +14,13 @@ public interface MailMapper {
 
 	public int signin(User user);
 	
-	public User checkid(String userid);
+	public User checkid(String userID);
 	
 	public User login(User user);
 	
-	public ArrayList<email> mailList(String userName);
+	public email getAddress(String emailAddress);
+	
+	public ArrayList<email> mailList(String userID);
 	
 	public void addAddress(email email);
 	
