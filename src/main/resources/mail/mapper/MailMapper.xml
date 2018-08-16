@@ -4,39 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ikuyonn.project.mail.mapper.MailMapper">
-<insert id = "signin" parameterType = "User">
-insert into usertable(userName,password)
-values(#{userName},#{password})
-</insert>
-
-<select id = "checkid" parameterType = "String" resultType = "User">
-select * from usertable where userName = #{userName}
-</select>
-
-<select id = "login" parameterType = "User" resultType = "User">
-select * from usertable where userName = #{userName} and password = #{password}
-</select>
 
 <select id = "mailList" parameterType = "String" resultType = "Email">
-select * from email where userName =#{userName}
+select * from email where userID =#{userID}
+</select>
+
+<select id = "getAddress" parameterType = "String" resultType = "Email">
+select * from email where emailAddress =#{emailAddress}
 </select>
 
 <insert id="addAddress" parameterType = "Email">
-insert into email(userName,address,id,password,host)
-values(#{userName},#{address},#{id},#{password},#{host})
+insert into email(userID,emailAddress,emailId,emailPassword,host,smtp)
+values(#{userID},#{emailAddress},#{emailId},#{emailPassword},#{host},#{smtp})
 </insert>
 
 <select id = "checkEmail" parameterType = "Email" resultType = "int">
-select count(*) from email where address=#{address}
+select count(*) from email where emailAddress=#{emailAddress}
 </select>
 
 <delete id = "delAddress" parameterType = "Email">
-delete email where userName = #{userName} and address=#{address}
+delete email where userID = #{userID} and emailAddress=#{emailAddress}
 </delete>
 
 <insert id="addInbox" parameterType = "Inbox">
-insert into inbox(userName,address,msgNum,title,content,sentdate,sentaddress)
-values(#{userName},#{address},#{msgNum},#{title},#{content},#{sentdate},#{sentaddress})
+insert into inbox(emailAddress,msgNum,title,content,sentdate,sentaddress)
+values(#{emailAddress},#{msgNum},#{title},#{content},#{sentdate},#{sentaddress})
 </insert>
 
 <delete id = "clearInbox" >
@@ -44,10 +36,10 @@ delete inbox
 </delete>
 
 <select id = "getInbox"  parameterType ="Inbox" resultType = "Inbox">
-select * from inbox where userName = #{userName} and address = #{address} order by sentdate
+select * from inbox where emailAddress = #{emailAddress} order by sentdate
 </select>
 
 <select id = "getmail" parameterType = "Inbox" resultType = "Inbox">
-select * from inbox where userName = #{userName} and address = #{address} and msgNum = #{msgNum}
+select * from inbox where emailAddress = #{emailAddress} and msgNum = #{msgNum}
 </select>
 </mapper>

@@ -38,7 +38,6 @@ public class UserController {
 		UserMapper um = session.getMapper(UserMapper.class);
 		User ur = um.loginUser(u);
 		hs.setAttribute("ur", ur);
-		
 		return "insertNameCard";
 	}
 

@@ -2,18 +2,18 @@ package com.ikuyonn.project.mail.vo;
 
 public class inbox {
 
-	private String userName;
-	private String address;
+	private String userID;
+	private String emailAddress;
 	private int msgNum;
 	private String title;
 	private String content;
 	private String sentdate;
 	private String sentaddress;
-	public inbox(String userName, String address, int msgNum, String title, String content, String sentdate,
+	public inbox(String userID, String emailAddress, int msgNum, String title, String content, String sentdate,
 			String sentaddress) {
 		super();
-		this.userName = userName;
-		this.address = address;
+		this.userID = userID;
+		this.emailAddress = emailAddress;
 		this.msgNum = msgNum;
 		this.title = title;
 		this.content = content;
@@ -23,17 +23,17 @@ public class inbox {
 	public inbox() {
 		super();
 	}
-	public String getUserName() {
-		return userName;
+	public String getUserID() {
+		return userID;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
-	public String getAddress() {
-		return address;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	public int getMsgNum() {
 		return msgNum;
@@ -59,16 +59,17 @@ public class inbox {
 	public void setSentdate(String sentdate) {
 		this.sentdate = sentdate;
 	}
-	public String getsentaddress() {
+	public String getSentaddress() {
 		return sentaddress;
 	}
-	public void setsentaddress(String sentaddress) {
+	public void setSentaddress(String sentaddress) {
 		this.sentaddress = sentaddress;
 	}
 	@Override
 	public String toString() {
-		return "inbox [userName=" + userName + ", address=" + address + ", msgNum=" + msgNum + ", title=" + title
+		return "inbox [userID=" + userID + ", emailAddress=" + emailAddress + ", msgNum=" + msgNum + ", title=" + title
 				+ ", content=" + content + ", sentdate=" + sentdate + ", sentaddress=" + sentaddress + "]";
 	}
+	
 	
 }
