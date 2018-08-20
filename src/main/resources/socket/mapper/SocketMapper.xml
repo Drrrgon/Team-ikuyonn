@@ -6,8 +6,8 @@
 
 
 <mapper namespace="com.ikuyonn.project.socket.mapper.Mapper">
-	<select id="getProjectContent" parameterType="string" resultType="table">
-		select userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
+	<select id="getProjectContent" parameterType="string" resultType="message">
+		select userID, userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		from message
 		where projectName = #{projectName}
 	 	AND
@@ -16,15 +16,16 @@
 		
 	</select>
 	
-	<insert id="insertContent" parameterType="table" >
+	<insert id="insertContent" parameterType="message" >
 		INSERT INTO message
 			VALUES( message_seq.nextVal
+					, #{userID}
 					, #{userName}
 					, #{message}
 					, sysdate
 					, #{projectName})
 	</insert>
-	<select id="searchByDate" parameterType="map" resultType="table">
+	<select id="searchByDate" parameterType="map" resultType="message">
 		SELECT userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		FROM message
 		WHERE projectName = #{projectName}
@@ -32,7 +33,7 @@
 				 to_char(messageDate, 'YYYY-MM-DD') = #{date}
 		order by messageSeq desc 	
 	</select>
-	<select id="getUserByProjectName" parameterType="string" resultType="table">
+	<select id="getUserByProjectName" parameterType="string" resultType="message">
 		SELECT 
 			u.userID userID
 			, u.userName

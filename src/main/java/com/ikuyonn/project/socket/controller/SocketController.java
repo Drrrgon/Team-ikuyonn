@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.socket.mapper.Repo;
-import com.ikuyonn.project.socket.vo.Table;
+import com.ikuyonn.project.socket.vo.Message;
 
 /**
  * Handles requests for the application home page.
@@ -29,11 +29,12 @@ public class SocketController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Table table) {
+	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Message table) {
+		System.out.println(table);
 		int result = repo.insertContent(table);
-		ArrayList<Table> list = repo.getProjectContent(table.getProjectName());
+		ArrayList<Message> list = repo.getProjectContent(table.getProjectName());
 		ArrayList<String> messageList = new ArrayList<String>();
-		for(Table a : list) {
+		for(Message a : list) {
 			messageList.add(a.sendMessage());
 		}
 		return messageList;
@@ -41,9 +42,10 @@ public class SocketController {
 	
 	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String projectName) {
-		ArrayList<Table> list = repo.getProjectContent(projectName);
+		ArrayList<Message> list = repo.getProjectContent(projectName);
 		ArrayList<String> messageList = new ArrayList<String>();
-		for(Table a : list) {
+		String message = "";
+		for(Message a : list) {
 			messageList.add(a.sendMessage());
 		}
 		return messageList;
@@ -54,17 +56,22 @@ public class SocketController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("projectName", projectName);
 		map.put("date", date);
-		ArrayList<Table> list = repo.searchByDate(map);
+		ArrayList<Message> list = repo.searchByDate(map);
 		ArrayList<String> messageList = new ArrayList<String>();
-		for(Table a : list) {
+		for(Message a : list) {
 			messageList.add(a.sendMessage());
 		}
 		return messageList;
 	}
 	@RequestMapping(value = "/getUserByProjectName", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Table> getUserByProjectName(HttpSession session, Model model, String projectName) {
-		ArrayList<Table> list = repo.getUserByProjectName(projectName);
-		System.out.println(list);
+	public @ResponseBody ArrayList<Message> getUserByProjectName(HttpSession session, Model model, String projectName) {
+		ArrayList<Message> list = repo.getUserByProjectName(projectName);
 		return list;
+	}
+	@RequestMapping(value = "/setSocket", method = RequestMethod.POST)
+	public @ResponseBody String setSocket(HttpSession session, Model model, String socketID) {
+		//set sessionID
+		session.setAttribute("socketID", socketID);
+		return socketID;
 	}
 }

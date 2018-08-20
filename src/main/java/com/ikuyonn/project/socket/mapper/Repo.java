@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ikuyonn.project.socket.mapper.Mapper;
-import com.ikuyonn.project.socket.vo.Table;
+import com.ikuyonn.project.socket.vo.Message;
 
 @Repository
 public class Repo {
 	@Autowired SqlSession session;
 
-	public ArrayList<Table> getProjectContent(String projectName) {
-		ArrayList<Table> list = null;
+	public ArrayList<Message> getProjectContent(String projectName) {
+		ArrayList<Message> list = null;
 		Mapper map = null;
 		try {
 			map = session.getMapper(Mapper.class);
@@ -27,7 +27,7 @@ public class Repo {
 		return list;
 	}
 
-	public int insertContent(Table table) {
+	public int insertContent(Message table) {
 		Mapper map = null;
 		int re = 0;
 		try {
@@ -39,8 +39,8 @@ public class Repo {
 		return re;
 	}
 
-	public ArrayList<Table> searchByDate(HashMap<String, Object> map) {
-		ArrayList<Table> list = null;
+	public ArrayList<Message> searchByDate(HashMap<String, Object> map) {
+		ArrayList<Message> list = null;
 		Mapper tempMap = null;
 		try {
 			tempMap = session.getMapper(Mapper.class);
@@ -51,8 +51,8 @@ public class Repo {
 		return list;
 	}
 
-	public ArrayList<Table> getUserByProjectName(String projectName) {
-		ArrayList<Table> list = null;
+	public ArrayList<Message> getUserByProjectName(String projectName) {
+		ArrayList<Message> list = null;
 		Mapper map = null;
 		try {
 			map = session.getMapper(Mapper.class);
