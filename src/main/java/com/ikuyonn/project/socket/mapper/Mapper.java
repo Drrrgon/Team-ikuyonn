@@ -3,16 +3,16 @@ package com.ikuyonn.project.socket.mapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.ikuyonn.project.socket.vo.Table;
+import com.ikuyonn.project.socket.vo.Message;
 
 public interface Mapper {
 
-	public ArrayList<Table> getProjectContent(String roomNo);
+	public ArrayList<Message> getProjectContent(String roomNo);
 
-	public int insertContent(Table table);
+	public int insertContent(Message table);
 
-	public ArrayList<Table> searchByDate(HashMap<String, Object> map);
+	public ArrayList<Message> searchByDate(HashMap<String, Object> map);
 
-	public ArrayList<Table> getUserByProjectName(String projectName);
+	public ArrayList<Message> getUserByProjectName(String projectName);
 
 }

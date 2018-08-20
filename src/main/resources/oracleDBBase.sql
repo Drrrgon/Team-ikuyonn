@@ -13,6 +13,7 @@ DROP sequence message_seq;
 
 CREATE TABLE message (
     messageSeq number PRIMARY KEY
+    , userID varchar2(40)
     , userName varchar2(100)
     , message varchar2(2000)
     , messageDate date 

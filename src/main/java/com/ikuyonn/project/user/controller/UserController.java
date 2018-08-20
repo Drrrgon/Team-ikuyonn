@@ -36,8 +36,11 @@ public class UserController {
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
 	public String loginUser(HttpSession hs, User u){
 		UserMapper um = session.getMapper(UserMapper.class);
+//		User ur = um.loginUser(u);
+//		hs.setAttribute("ur", ur);
 		User ur = um.loginUser(u);
-		hs.setAttribute("ur", ur);
+		hs.setAttribute("userID", ur.getUserID());
+		hs.setAttribute("userName", ur.getUserName());
 		return "insertNameCard";
 	}
 

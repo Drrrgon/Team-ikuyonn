@@ -60,7 +60,8 @@ public class HomeController {
 	public void insertNameCard() {
 	}
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
-	public void chat() {
+	public String chat() {
+		return "/chat/chat";
 	}
 	@RequestMapping(value = "/writeMail", method = RequestMethod.GET)
 	public void writeMail() {

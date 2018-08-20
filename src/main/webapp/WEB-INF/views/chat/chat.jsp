@@ -11,6 +11,9 @@
     		width: 100px;
     		height: 100px;
     	}
+      .message{
+        width : 500px;
+      }
     </style>
     <title>Chat</title>
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
@@ -22,7 +25,7 @@
     <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css"> </head>
-	<jsp:include page="header.jsp" flush="true"></jsp:include>
+	<jsp:include page="../header.jsp" flush="true"></jsp:include>
           <!-- / .main-navbar -->
           <div class="main-content-container container-fluid px-4">
             <!-- Page Header -->
@@ -47,9 +50,34 @@
                 <div class="card card-small mb-3">
                   <div class="card-body">
                     <form class="add-new-post">
-                      <input class="form-control form-control-lg mb-3" id="message" type="text" placeholder="content">
-                      <!-- <div id="editor-container" class="add-new-post__editor mb-1"></div> -->
-                      <div style="height:650px; overflow:scroll;" id="sendMessage" ></div>
+                    
+                    	<!-- 채팅창 -->
+                      <div class="col-12" style="margin-top: 20px; margin-bottom: 15px;">
+						<div class="col-12" style="float: left">
+						<textarea class="form-control" 
+							style="border: 1px solid #01D1FE; height: 65px; float: left; width: 80%"
+							placeholder="Enter ..." id = "message">
+						</textarea>
+						<span
+							style="float: right; width: 18%; height: 65px; text-align: center; background-color: #01D1FE; border-radius: 5px;">
+						<a
+							style="margin-top: 30px; text-align: center; color: white; font-weight: bold;" id = "sendBtn"><br>전송</a>
+						</span>
+						</div>
+						</div>
+                     <!--  <input class="form-control form-control-lg mb-3" id="message2" type="text" placeholder="content">
+                      <div id="editor-container" class="add-new-post__editor mb-1"></div>
+                      <div style="height:650px; overflow:scroll;" id="sendMessage2" ></div> -->
+                      <!-- 채팅 내용 -->
+						<div class="col-12">
+							<div class="col-11"
+							style="margin: 0 auto; border: 1px solid #01D1FE; height: 400px; border-radius: 10px; overflow:scroll" id = "chatArea">
+
+							<div id="sendMessage" style = "margin-top : 10px; margin-left:10px;"></div>
+							</div>
+							</div>
+							
+                      
                     </form>
                   </div>
                 </div>
@@ -144,18 +172,18 @@
             </div>
           </div>
          
-<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script> 
+<script src="./resources/js/sockjs.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- <script src="./resources/scripts/socket.js"></script> -->
 <script>
 //console.log("<c:url value='/echo'/>");
-/* var sock =  new SockJS("<c:url value='/echo'/>");  */
-var sock =  new SockJS('/echo'); 
+var sock =  new SockJS("<c:url value='/echo'/>");
+/* var sock =  new SockJS('/echo');  */
 /* var sock =  new SockJS("https://app.pstorm.net/chat2/echo"); */
 sock.onmessage = onMessage;
 sock.onclose = onClose;
 
-$(function(){
+$(function(){	
 	$('#message').keyup(function(e) {
 	    if (e.keyCode == 13){
 	    	console.log('send message...');
@@ -204,8 +232,9 @@ function searchByDate(){
 }
 
 function sendMessage(){//websocket으로 메세지 전송
-	var userName = "${sessionScope.ur.userName}";
+	var userName = "${sessionScope.userName}";
 	var message = $("#message").val();
+	var userID = "${sessionScope.userID}";
   if(userName == null){
     return false;
   }
@@ -214,14 +243,14 @@ function sendMessage(){//websocket으로 메세지 전송
   }
 var projectName = $("input:radio[name=chatRoom]:checked").val();
 
-	var dataForm = { "userName":userName , "message": message, "projectName":projectName };		
+	var dataForm = { "userID": userID , "userName":userName , "message": message, "projectName":projectName };		
 	$.ajax({
 		url: "insert",
 		type: "post",
 		data: dataForm ,
 		dataType: 'json',
-		success: function(a){
-			sock.send(a);
+		success: function(messageList){
+			sock.send(messageList);
 			$('#message').val("");
 		},
 		error: function(){
@@ -236,25 +265,59 @@ function onMessage(evt){//evt 파라메터는 웹소켓이 보내준 데이터
 	var data = evt.data;
 	var sessionid = null;
 	var message = null;
-	
-	var strArray =data.split('|');
-	
-	
-	/* var currentuser_session =$('#sessionuserid').val(); */
-	var currentuser_session = "${sessionScope.userId}";
-	
-	
-	sessionid = strArray[0];//메세지 보낸사람 세션저장
-	message = strArray[1];//현재 메세지 저장
-	
-	var strArray2 = message.split(',');
-	$("#sendMessage").text("");
-	for (var i = 0; i < strArray2.length; i++) {
-		var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
-		printHTML += "value='"+strArray2[i]+"'/>";
-		$("#sendMessage").append(printHTML);	
-			
+	var strArray =data.split(':|');
+	if(strArray[0] == "#connect"){
+		$.ajax({
+			url: "setSocket"
+			, type: 'post'
+			, data: {"socketID":strArray[1]}
+			, success: function(socketID){
+				console.log(socketID);
+			}
+		});
 	}
+	else{
+    refresh();
+    // var userID =  "${sessionScope.userID}";
+		// var tempArray = data.split(':%^&');    
+    // //0 room is socketID
+    // //1 room is userID
+    // // var messageArray = tempArray[index].split(':#$');
+    // console.log(tempArray);
+    // var messageArray = tempArray[1].split('#%9745332');
+    // console.log(messageArray);     
+   
+    // $("#sendMessage").text("");
+    // for (let index = 0; index < messageArray.length; index++) {
+    //     var messages = messageArray[index].split(':#$');    
+    //     var printHTML ="";
+    //     if(messages[0] == userID){
+    //       printHTML += "<input type='text' class='message' readonly='readonly'";
+    //       printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+messages[3]+"'/>";
+	  //     	$("#sendMessage").append(printHTML);
+    //     }
+    //     else{
+    //       printHTML += "<input type='text' class='form-control input-sm' readonly='readonly'";
+    //       printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+messages[3]+"'/>";
+	  //     	$("#sendMessage").append(printHTML);
+    //     }
+      
+    // }    
+	}
+	
+	
+	/* var currentuser_session = "${sessionScope.userId}"; */
+	
+	
+
+	
+	// var strArray2 = message.split(',');
+	
+	// for (var i = 0; i < strArray2.length; i++) {
+	// 	var printHTML = "<input type='text' class='message' readonly='readonly'";
+	// 	printHTML += "value='"+strArray2[i]+"'/>";
+	// 	$("#sendMessage").append(printHTML);				
+	// }
 	
 }
 
@@ -267,14 +330,47 @@ var projectName = $("input:radio[name=chatRoom]:checked").val();
 	$.ajax({
 		url:"refresh",
 		type:'post',
-    data: {"projectName":projectName},
-		success: function(list){
-			$("#sendMessage").text("");
-			for (var i = 0; i < list.length; i++) {
-				var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
-				printHTML += "value='"+list[i]+"'/>";
-				$("#sendMessage").append(printHTML);			
-			}
+   	data: {"projectName":projectName}    
+		, success: function(list){      
+      var userID =  "${sessionScope.userID}";
+      // console.log(messageData);
+      
+		  // var messageArray = messageData.split(':%^&');    
+    //0 room is socketID
+    //1 room is userID
+    // var messageArray = tempArray[index].split(':#$');
+    // console.log(messageArray);
+    // var messageArray = tempArray[1].split('#%9745332');
+    // console.log(messageArray);
+    $("#sendMessage").text("");
+    for (let index = 0; index < list.length; index++) {
+      var messages = list[index].split(':#$');
+      console.log(messages);
+      
+        var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));
+        console.log(cutDate);
+        var printHTML ="";
+        if(messages[0] == userID){
+          printHTML += "<input type='text' class='message' readonly='readonly'";
+          printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
+	      	$("#sendMessage").append(printHTML);
+        }
+        else{
+          printHTML += "<input type='text' class='form-control input-sm' readonly='readonly'";
+          printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
+	      	$("#sendMessage").append(printHTML);
+        }
+      
+    }  
+
+
+
+			// $("#sendMessage").text("");
+			// for (var i = 0; i < list.length; i++) {
+			// 	var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
+			// 	printHTML += "value='"+list[i]+"'/>";
+			// 	$("#sendMessage").append(printHTML);			
+			// }
 		},
 		error: function(){
 			console.log('refresh error');
@@ -311,7 +407,7 @@ function getUserByProjectName(){
   });
 }
 </script>
-<jsp:include page="footer.jsp" flush="true"></jsp:include>
+<jsp:include page="../footer.jsp" flush="true"></jsp:include>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
