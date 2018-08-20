@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -14,152 +14,193 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="./resources/styles/shards-dashboards.1.0.0.min.css">
 <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/styles/custom.css">
+<link rel="stylesheet" href="./resources/styles/slick.css">
+<link rel="stylesheet" href="./resources/styles/slick-theme.css">
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="./resources/scripts/dropzone.js"></script>
+<script src="./resources/scripts/slick.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+		//메뉴 포커스
 		$('.nav-item').children().eq(1).addClass('active');
-		 
-		//사진업로드
-		$('#fileUplodeSubmit').on('click',function(){
- 			if( $("#fileUplode").val() != "" ){
-				var ext = $('#fileUplode').val().split('.').pop().toLowerCase();
-				if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-					alert('이미지파일만 업로드 할수 있습니다.');
-					return false;
-				};
-			};
-				
-			var formData = new FormData();
-			formData.append("fileUplode", $("input[name=fileUplode]")[0].files[0]);
-				
-			$.ajax({
-				url : "fileUplodeAction",
-				type : "post",
-				data : formData,
-				processData: false, 
-				contentType: false,
-				success : output,
-				error : function() {
-					alert("통신실패");
-				}
-			}); 
-		});  
 		
+
+		 	$('.slider-for').slick({
+			  slidesToShow: 1,
+			  slidesToScroll: 1,
+			  arrows: false,
+			  fade: true,
+			  asNavFor: '.slider-nav'
+			});
+			$('.slider-nav').slick({
+			  slidesToShow: 4,
+			  slidesToScroll: 1,
+			  asNavFor: '.slider-for',
+			  dots: true,
+			  centerMode: true,
+			  focusOnSelect: true
+			});
+
+		//사진업로드
+		$('#fileUplodeSubmit')
+				.on(
+						'click',
+						function() {
+							if ($("#fileUplode").val() != "") {
+								var ext = $('#fileUplode').val().split('.')
+										.pop().toLowerCase();
+								if ($.inArray(ext, [ 'gif', 'png', 'jpg',
+										'jpeg' ]) == -1) {
+									alert('이미지파일만 업로드 할수 있습니다.');
+									return false;
+								}
+								;
+							} else {
+								alert('파일을 올려주세요');
+								return false;
+							}
+							;
+
+							var formData = new FormData();
+							formData.append("fileUplode",
+									$("input[name=fileUplode]")[0].files[0]);
+
+							$.ajax({
+								url : "fileUplodeAction",
+								type : "post",
+								data : formData,
+								processData : false,
+								contentType : false,
+								success : output,
+								beforeSend : function() {
+									console.log('로딩중...');
+								},
+								complete : function() {
+									console.log('완료');
+								},
+								error : function() {
+									console.log('통신실패');
+								}
+							});
+						});
+
 		//읽어온 자료 input에 분류
 		function output(data) {
 			var testdata = '\nf 02-4541-5481\nt 02-4541-5481\nPlatSys\nwww.platsys.net\n박지현대리\n경기도 용인시 수지구 신수로 767(동천동, 분당·수지U-TOWER) B동 1340호\nMobile 010-3806-8944\nE-mail asdfwsafe@naver.com';
 
-			var mobileTest1 = /01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;	
-			var mobileTest2 = /[m|p]?.*01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;	
-			
+			var mobileTest1 = /01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
+			var mobileTest2 = /[m|p]?.*01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
+
 			var faxTest1 = /f.*(\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}).*/gi;
-			
+
 			var tellTest1 = /\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}.*/gi;
 			var tellTest2 = /t?.*\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}.*/gi;
-			
-			var emailTest1 = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
-			var emailTest2 = /e.*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
-			
+
+			var emailTest1 = /[0-9a-zA-Z]([-_./\s/g]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
+			var emailTest2 = /e.*[0-9a-zA-Z]([-_./\s/g]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_./\s/g]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
+
 			var addressTest1 = /[가-힣]*[도|시].*[구|군].*[면|동].*/gi;
-			
+
 			var webSiteTest1 = /www.*[asia|info|name|mobi|com|net|org|biz|tel|xxx|kr|co|so|me|eu|cc|or|pe|ne|re|tv|jp|tw]/i;
-			
+
 			var positionTest1 = /[선임|주임|대리|과장|차장|부장|이사|상무|전무|부사장|사장|부회장|회장].*/gi;
-			
+
 			var userNameTest1 = /[가-힣]{2,4}/i;
-			
+
 			//휴대전화
 			var phoneNumber = mobileTest1.exec(data);
-			data = data.replace(mobileTest2, "");
-			
+			data = data.replace(mobileTest2, '');
+			$('#phoneCategory').val('ncMobile');
+			$('#phoneNumber').val(phoneNumber);
+
 			console.log('phone : ' + phoneNumber);
 			console.log('data1 : ' + data);
-			
+
 			//팩스번호
 			var faxNumberList = faxTest1.exec(data);
-			var faxNumber = ''; 
-			if(faxNumberList != null){
+			var faxNumber = '';
+			if (faxNumberList != null) {
 				faxNumber = faxNumberList[1];
 				data = data.replace(faxTest1, "");
-			};
-			
+			}
+			;
+
 			console.log('faxNumber : ' + faxNumber);
 			console.log('data2 : ' + data);
-			
+
 			//전화번호
 			var tellNumber = tellTest1.exec(data);
 			data = data.replace(tellTest2, "");
-			
+
 			console.log('tellNumber : ' + tellNumber);
 			console.log('data3 : ' + data);
-			
+
 			//이메일
 			var emailNumberList = emailTest1.exec(data);
 			var emailNumber = '';
-			if(emailNumberList != null){
+			if (emailNumberList != null) {
 				emailNumber = emailNumberList[0];
 				data = data.replace(emailTest2, "");
-			};
-			
+			}
+			;
+			$('#ncEmail').val(emailNumber);
 			console.log('emailNumber : ' + emailNumber);
 			console.log('data4 : ' + data);
-			
+
 			//주소
-			var addressNumber = addressTest1.exec(data);
+			var address = addressTest1.exec(data);
 			data = data.replace(addressTest1, "");
-			
-			console.log('addressNumber : ' + addressNumber);
+			$('#ncAddress').val(address);
+			console.log('addressNumber : ' + address);
 			console.log('data4 : ' + data);
-			
+
 			//홈페이지
-			var webSiteNumber = webSiteTest1.exec(data);
+			var website = webSiteTest1.exec(data);
 			data = data.replace(webSiteTest1, "");
-			
-			console.log('addressNumber : ' + webSiteNumber);
+			$('#ncWebsite').val(website);
+			console.log('addressNumber : ' + website);
 			console.log('data5 : ' + data);
-			
+
 			//직책
-			var positionNumber = positionTest1.exec(data);
+			var title = positionTest1.exec(data);
 			data = data.replace(positionTest1, "");
-			
-			console.log('positionNumber : ' + positionNumber);
+			$('#ncTitle').val(title);
+			console.log('positionNumber : ' + title);
 			console.log('data6 : ' + data);
-			
+
 			userNameTest1
-			
+
 			//이름
-			var userName = userNameTest1.exec(data);
+			var name = userNameTest1.exec(data);
 			data = data.replace(userNameTest1, "");
-			
-			console.log('userName : ' + userName);
+			$('#ncName').val(name);
+			console.log('userName : ' + name);
 			console.log('data7 : ' + data);
-			
+
 			//회사명
-			var companyName = /[0-9a-z가-힣].*/gi.exec(data);
+			var company = /[0-9a-z가-힣].*/gi.exec(data);
 			data = data.replace(/[0-9a-z가-힣].*/gi, "");
-			
-			console.log('companyName : ' + companyName);
+			$('#ncCompany').val(company);
+			console.log('companyName : ' + company);
 			console.log('data8 : ' + data);
-		};
+		}
+		;
 	});
 </script>
 </head>
 <jsp:include page="header.jsp" flush="true"></jsp:include>
+
 <div class="main-content-container container-fluid px-4">
 	<div class="page-header row no-gutters py-4">
 		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
 			
-			<h3 class="page-title">명함만들기</h3>
+			<h3 class="page-title">명함등록</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-4">
 			<div class="card card-small mb-4">
-				<div class="card-header border-bottom">
-					<h6 class="m-0">사진등록</h6> 
-				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item p-3">
 						<div class="row">
@@ -167,7 +208,9 @@
 								<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
 									<div>
 										<input type="file" name="fileUplode" id="fileUplode"> 
-										<input class="mb-2 btn btn-outline-primary mr-2" type="button" id="fileUplodeSubmit" value="택스트추출">				
+									</div>
+									<div>
+										<input class="mb-2 btn btn-outline-primary mr-2" type="button" id="fileUplodeSubmit" value="택스트추출">
 									</div>
 								</form>
 							</div>
@@ -177,13 +220,24 @@
 			</div>
 		</div>
 		<div class="col-lg-8">
-			<div class="card card-small mb-4">
-			asdfasdf
+			<!-- contentEditable="true" -->
+			<div class="card card-small mb-4" >
+				<div class="slider slider-for">
+					<div>111</div>
+					<div>222</div>
+					<div>333</div>
+					<div>444</div>
+					<div>555</div>
+				</div>
+				<div class="slider slider-nav">
+					<div>111</div>
+					<div>222</div>
+					<div>333</div>
+					<div>444</div>
+					<div>555</div>
+				</div>
 			</div>
 			<div class="card card-small mb-4">
-				<div class="card-header border-bottom">
-					<strong class="text-muted d-block mb-2">명함정보</strong>
-				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item p-3">
 						<div class="row">
@@ -193,7 +247,7 @@
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-4">
-										<select class="form-control" name="phoneCategory">
+										<select class="form-control" id="phoneCategory" name="phoneCategory">
 											<option value="ncMobile">휴대전화</option>
 											<option value="ncPhone">직장전화</option>
 											<option value="ncFax">직장전화</option>
@@ -222,6 +276,10 @@
 								</div>
 								<div class="form-group">
 									<input class="form-control" type="text" id="ncAddress" name="ncAddress" placeholder="주소">
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-accent">등록</button>
+									
 								</div>
 							</div>
 						</div>
