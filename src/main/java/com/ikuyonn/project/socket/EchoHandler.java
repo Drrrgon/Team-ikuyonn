@@ -2,10 +2,9 @@ package com.ikuyonn.project.socket;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,31 +18,31 @@ import com.ikuyonn.project.controller.HomeController;
 public class EchoHandler extends TextWebSocketHandler {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
-	private Map<String, Map<String, WebSocketSession>> usersMap = new ConcurrentHashMap<String,Map<String, WebSocketSession>>();
+	
 	private List<WebSocketSession> connectedUsers = new ArrayList<WebSocketSession>();
-	private List<Map<String, WebSocketSession>> userList = new ArrayList<Map<String, WebSocketSession>>();
+	private ArrayList<String> connectedUsersID = new ArrayList<String>();
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {	
 		//HttpSession 세션 값 가져오기
 		Map<String, Object> map;
 		map = session.getAttributes();
-		String userName = (String) map.get("userName");
 		String userID = (String) map.get("userID");
 		//연결 설정 알림
-		session.sendMessage(new TextMessage("#connect:|"+session.getId()));
-		
-		logger.info(session.getId() + " 연결 됨!!");
-		users.put(userName, session);
-		usersMap.put(userID, users);
+				
+		logger.info(session.getId() + " 연결 됨!!");		
 		connectedUsers.add(session);
+		connectedUsersID.add(userID);
+		for(WebSocketSession sess : connectedUsers) {			
+			sess.sendMessage(new TextMessage("#connect:|"+connectedUsersID));						
+		}
+//		session.sendMessage(new TextMessage("#connect:|"+connectedUsersID));
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 //		logger.info("{} 로부터 {}받음", session.getId(), message.getPayload());
 		
-		System.out.println(message.getPayload());
 		//전체 메시지를 받아옴		
 		for(WebSocketSession sess : connectedUsers) {			
 				sess.sendMessage(new TextMessage(session.getId()+":%^&"+message.getPayload()));						
@@ -56,13 +55,14 @@ public class EchoHandler extends TextWebSocketHandler {
 		//HttpSession 세션 값 가져오기
 		Map<String, Object> map;
 		map = session.getAttributes();
-		String userName = (String) map.get("userName");
 		String userID = (String) map.get("userID");
-		
-		logger.info(session.getId() + " 연결 종료됨");
 		connectedUsers.remove(session);
-		users.remove(userName);
-		usersMap.remove(userID);		
+		connectedUsersID.remove(userID);
+		for(WebSocketSession sess : connectedUsers) {			
+			sess.sendMessage(new TextMessage("#disconnect:|"+connectedUsersID));						
+		}
+		logger.info(session.getId() + " 연결 종료됨");
+		
 	}
 	
 	@Override
