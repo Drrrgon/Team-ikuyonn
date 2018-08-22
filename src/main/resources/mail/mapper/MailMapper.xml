@@ -36,7 +36,7 @@ delete inbox
 </delete>
 
 <select id = "getInbox"  parameterType ="Inbox" resultType = "Inbox">
-select * from inbox where emailAddress = #{emailAddress} order by sentdate
+select * from inbox where emailAddress = #{emailAddress} order by to_number(msgnum) desc
 </select>
 
 <select id = "getmail" parameterType = "Inbox" resultType = "Inbox">

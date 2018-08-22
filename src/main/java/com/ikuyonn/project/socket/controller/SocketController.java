@@ -2,6 +2,7 @@ package com.ikuyonn.project.socket.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.socket.mapper.Repo;
@@ -30,7 +32,6 @@ public class SocketController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Message table) {
-		System.out.println(table);
 		int result = repo.insertContent(table);
 		ArrayList<Message> list = repo.getProjectContent(table.getProjectName());
 		ArrayList<String> messageList = new ArrayList<String>();
@@ -44,7 +45,6 @@ public class SocketController {
 	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String projectName) {
 		ArrayList<Message> list = repo.getProjectContent(projectName);
 		ArrayList<String> messageList = new ArrayList<String>();
-		String message = "";
 		for(Message a : list) {
 			messageList.add(a.sendMessage());
 		}
@@ -64,14 +64,35 @@ public class SocketController {
 		return messageList;
 	}
 	@RequestMapping(value = "/getUserByProjectName", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Message> getUserByProjectName(HttpSession session, Model model, String projectName) {
+	public @ResponseBody ArrayList<ArrayList<String>> getUserByProjectName(HttpSession session, Model model, String projectName) {
+		//get users
 		ArrayList<Message> list = repo.getUserByProjectName(projectName);
-		return list;
+		//get userID
+		ArrayList<String> temp2 = new ArrayList<>();
+		for(Message a : list) {
+			temp2.add(a.getUserID());
+		}
+		//get online users
+		ArrayList<String> temp =(ArrayList<String>) session.getAttribute("socketIDList");
+		ArrayList<ArrayList<String>> abc = new ArrayList<>();
+		abc.add(temp2);
+		abc.add(temp);
+		
+		return abc;
 	}
 	@RequestMapping(value = "/setSocket", method = RequestMethod.POST)
-	public @ResponseBody String setSocket(HttpSession session, Model model, String socketID) {
-		//set sessionID
-		session.setAttribute("socketID", socketID);
-		return socketID;
+	public @ResponseBody ArrayList<String> setSocket(HttpSession session, Model model, 
+			@RequestParam(value="socketID") ArrayList<String> socketID) {	
+		session.removeAttribute("socketIDList");
+		HashSet<String> tempSet = new HashSet();
+		ArrayList<String> tempList = new ArrayList();
+		for(String a : socketID) {
+			tempSet.add(a);
+		}
+		for(String a : tempSet) {
+			tempList.add(a);
+		}
+		session.setAttribute("socketIDList", tempList);
+		return tempList;
 	}
 }

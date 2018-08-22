@@ -185,28 +185,27 @@ sock.onclose = onClose;
 
 $(function(){	
 	$('#message').keyup(function(e) {
-	    if (e.keyCode == 13){
-	    	console.log('send message...');
+    if (e.keyCode == 13){
+	    console.log('send message...');
 			sendMessage();
-	    }  
+	  }  
 	});
 	
 	$("#sendBtn").click(function(){			
 		sendMessage();
 	});
 	
-  	$("#searchByDate").click(function(){			
-		searchByDate();
+  $("#searchByDate").click(function(){			
+	  searchByDate();
 	});
-	
-	refresh();
 	getUserByProjectName();
+	refresh();
 	$('.nav-item').children().eq(0).addClass('active');
 
-$('input[name="chatRoom"]').change(function(){
- refresh();
- getUserByProjectName();
-});
+  $('input[name="chatRoom"]').change(function(){
+   refresh();
+   getUserByProjectName();
+  });
 });
 
 function searchByDate(){
@@ -220,14 +219,28 @@ function searchByDate(){
     url: "searchbydate"
     , type: "post"
     , data: sendData
-    , success: function(list){
+    , success: function(list){      
+      var userID =  "${sessionScope.userID}";
       $("#sendMessage").text("");
-			for (var i = 0; i < list.length; i++) {
-				var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
-				printHTML += "value='"+list[i]+"'/>";
-				$("#sendMessage").append(printHTML);			
-			}
+      for (let index = 0; index < list.length; index++) {
+        var messages = list[index].split(':#$');      
+        var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));        
+        var printHTML ="";
+        if(messages[0] == userID){
+          printHTML += "<input type='text' class='message' readonly='readonly'";
+          printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
+          $("#sendMessage").append(printHTML);
+        }     
+        else{	
+            printHTML += "<input type='text' class='form-control input-sm' readonly='readonly'";
+            printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
+            $("#sendMessage").append(printHTML);
+        }          
+      }
     }
+    , error: function(){
+      console.log('refresh error');
+    } 
   });
 }
 
@@ -241,9 +254,8 @@ function sendMessage(){//websocket으로 메세지 전송
   if(message.length == 0){
     return false;
   }
-var projectName = $("input:radio[name=chatRoom]:checked").val();
-
-	var dataForm = { "userID": userID , "userName":userName , "message": message, "projectName":projectName };		
+  var projectName = $("input:radio[name=chatRoom]:checked").val();
+  var dataForm = { "userID": userID , "userName":userName , "message": message, "projectName":projectName };		
 	$.ajax({
 		url: "insert",
 		type: "post",
@@ -256,69 +268,53 @@ var projectName = $("input:radio[name=chatRoom]:checked").val();
 		error: function(){
 			console.log('insert error');
 		}
-	});
-	
-	
+	});	
 }
 
 function onMessage(evt){//evt 파라메터는 웹소켓이 보내준 데이터
-	var data = evt.data;
-	var sessionid = null;
-	var message = null;
-	var strArray =data.split(':|');
-	if(strArray[0] == "#connect"){
-		$.ajax({
-			url: "setSocket"
-			, type: 'post'
-			, data: {"socketID":strArray[1]}
-			, success: function(socketID){
-				console.log(socketID);
-			}
-		});
+	var data = evt.data;  	 
+	var strArray = data.split(':|');
+	var checkConnection = strArray[0].substr(0,12);
+	if(checkConnection == "#connect" || checkConnection == "#disconnect"){
+		var abc = strArray[1].substr(1,strArray[1].length-2);
+		var sendData = abc.split(', ');
+		if(strArray[0] == "#connect"){
+			$.ajax({
+        url: 'setSocket',
+        type: 'post',
+        traditional: true,
+        data: {
+          'socketID':sendData
+        },
+        success: function(socketID){
+          getUserByProjectName();
+        },
+        error:function(request,status,error){
+          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+      });
+    }
+    else if(strArray[0] == "#disconnect"){
+      $.ajax({
+        url: 'setSocket',
+        type: 'post',
+        traditional: true,
+        data: {
+          'socketID':sendData
+        },
+        success: function(socketID){
+          getUserByProjectName();
+        },
+        error:function(request,status,error){
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+      }); 
+    }
 	}
-	else{
+  else{
     refresh();
-    // var userID =  "${sessionScope.userID}";
-		// var tempArray = data.split(':%^&');    
-    // //0 room is socketID
-    // //1 room is userID
-    // // var messageArray = tempArray[index].split(':#$');
-    // console.log(tempArray);
-    // var messageArray = tempArray[1].split('#%9745332');
-    // console.log(messageArray);     
-   
-    // $("#sendMessage").text("");
-    // for (let index = 0; index < messageArray.length; index++) {
-    //     var messages = messageArray[index].split(':#$');    
-    //     var printHTML ="";
-    //     if(messages[0] == userID){
-    //       printHTML += "<input type='text' class='message' readonly='readonly'";
-    //       printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+messages[3]+"'/>";
-	  //     	$("#sendMessage").append(printHTML);
-    //     }
-    //     else{
-    //       printHTML += "<input type='text' class='form-control input-sm' readonly='readonly'";
-    //       printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+messages[3]+"'/>";
-	  //     	$("#sendMessage").append(printHTML);
-    //     }
-      
-    // }    
-	}
-	
-	
-	/* var currentuser_session = "${sessionScope.userId}"; */
-	
-	
-
-	
-	// var strArray2 = message.split(',');
-	
-	// for (var i = 0; i < strArray2.length; i++) {
-	// 	var printHTML = "<input type='text' class='message' readonly='readonly'";
-	// 	printHTML += "value='"+strArray2[i]+"'/>";
-	// 	$("#sendMessage").append(printHTML);				
-	// }
-	
+    getUserByProjectName();      
+  }
 }
 
 function onClose(evt){
@@ -327,79 +323,65 @@ function onClose(evt){
 
 function refresh(){
 var projectName = $("input:radio[name=chatRoom]:checked").val();
-	$.ajax({
-		url:"refresh",
-		type:'post',
-   	data: {"projectName":projectName}    
-		, success: function(list){      
+  $.ajax({
+    url:"refresh"
+    , type:'post'
+    , data: {"projectName":projectName}    
+    , success: function(list){      
       var userID =  "${sessionScope.userID}";
-      // console.log(messageData);
-      
-		  // var messageArray = messageData.split(':%^&');    
-    //0 room is socketID
-    //1 room is userID
-    // var messageArray = tempArray[index].split(':#$');
-    // console.log(messageArray);
-    // var messageArray = tempArray[1].split('#%9745332');
-    // console.log(messageArray);
-    $("#sendMessage").text("");
-    for (let index = 0; index < list.length; index++) {
-      var messages = list[index].split(':#$');
-      console.log(messages);
-      
-        var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));
-        console.log(cutDate);
+      $("#sendMessage").text("");
+      for (let index = 0; index < list.length; index++) {
+        var messages = list[index].split(':#$');      
+        var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));        
         var printHTML ="";
         if(messages[0] == userID){
           printHTML += "<input type='text' class='message' readonly='readonly'";
           printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
-	      	$("#sendMessage").append(printHTML);
-        }
-        else{
-          printHTML += "<input type='text' class='form-control input-sm' readonly='readonly'";
-          printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
-	      	$("#sendMessage").append(printHTML);
-        }
-      
-    }  
-
-
-
-			// $("#sendMessage").text("");
-			// for (var i = 0; i < list.length; i++) {
-			// 	var printHTML = "<input type='text' class='form-control input-sm' readonly='readonly'";
-			// 	printHTML += "value='"+list[i]+"'/>";
-			// 	$("#sendMessage").append(printHTML);			
-			// }
-		},
-		error: function(){
-			console.log('refresh error');
-		}
-	});	
+          $("#sendMessage").append(printHTML);
+        }     
+        else{	
+            printHTML += "<input type='text' class='form-control input-sm' readonly='readonly'";
+            printHTML += "value='"+messages[1]+" 님의 메세지 :"+messages[2]+"보낸 시각"+cutDate+"'/>";
+            $("#sendMessage").append(printHTML);
+        }          
+      }
+    }
+    , error: function(){
+      console.log('refresh error');
+    } 
+  });	
 }	
+
 function getUserByProjectName(){
 	var projectName = $("input:radio[name=chatRoom]:checked").val();
-
   $.ajax({
     url: "getUserByProjectName"
     , type: "post"
     , data: {"projectName":projectName}
     , success: function(list){
+      var totalUsers = list[0];
+      var onlineUsers = list[1];
+      var checkReduplicated = [];
+      for (let i = 0; i < onlineUsers.length; i++) {
+        for (let j = 0; j < totalUsers.length; j++) {
+          if(onlineUsers[i] == totalUsers[j]){
+            checkReduplicated.push(onlineUsers[i]);
+          }
+        }
+      }
       $('#user').text("");
-      for (let index = 0; index < list.length; index++) {
-       
+      for (let k = 0; k < checkReduplicated.length; k++) {
         var userText = "";
         userText += "<span class='user-space'>";
         userText += "<img class='user-avatar rounded-circle mr-2'";
         userText += "src='./resources/images/avatars/0.jpg'";
         userText += "alt='User Avatar' width='30px' height='30px'>";
         userText += "<span class='d-none d-md-inline-block'>";
-        userText += list[index].userName;
+        userText += checkReduplicated[k];
         userText += "</span>";
         userText += "</span>&nbsp;";      
-        $('#user').append(userText);  
-      }
-                      	
+        $('#user').append(userText);
+      }                       	
     }
     , error: function(){
 

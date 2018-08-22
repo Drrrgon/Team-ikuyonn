@@ -39,7 +39,6 @@
 				"userID" : userID
 			},
 			success : function(data) {
-				alert($("#userID").val());
 				var ext = "";
 				var temp = "";
 				if (data.length != 0 && data != null) {
@@ -77,7 +76,7 @@
 						ext += "<thead><tr><th>번호</th><th>보낸사람</th><th>제목</th><th>받은 날짜</th></tr></thead><tbody>";
 
 						if (data.length != 0 && data != null) {
-							for ( var index in data) {
+							for (var index in data) {
 								ext += "<tr>";
 								ext += "<td>" + data[index].msgNum + "</td>";
 								ext += "<td>" + data[index].sentaddress
@@ -95,7 +94,9 @@
 							ext += "</tbody></table>";
 						}
 						$('#mailList').html(ext);
-						$('#example').DataTable();
+						$('#example').DataTable({
+					        "order": [[ 0, "desc" ]]
+					    });
 						$("#content").html("");
 					},
 					error : function() {
@@ -124,7 +125,7 @@
 						+ "</td></tr><tr><th>보낸 날짜 : &nbsp</th><td>"
 						+ data.sentdate + "</td></tr>";
 				ext += "<tr><th>제목 : &nbsp</th><td>" + data.title
-						+ "</td></table><br/>"
+						+ "</td></table><br/><br/>"
 				$("#content").html(ext);
 				$("#content").append(data.content);
 				$("#content").append("</br></br></br>");
@@ -135,6 +136,7 @@
 		});
 	}
 	function down(msgNum, address) {
+		var userID = $("#userID");
 		$.ajax({
 			url : "downfile",
 			type : "post",
@@ -160,16 +162,16 @@
 		$("#reload").on('click', function() {
 			location.href = "reload";
 		});
-		setlist("123");
 	})
 </script>
 </head>
 <body>
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
-	<input type="hidden" value="${sessionScope.ur.userID}" id="userID" />
+	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
 		<div class="col-md-12">
-			<h2>메일 확인</h2>
+		<br/>
+			<h3>메일 확인</h3>
 		</div>
 	</div>
 	<!-- /. ROW  -->
@@ -196,14 +198,10 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
-	<script src="./resources/scripts/shards-dashboards.1.0.0.min.js"></script>
-	<script src="./resources/scripts/app/app-blog-overview.1.0.0.js"></script>
 	<!-- <script src="./resources/mail/jquery-3.3.1.js"></script> -->
 	<script src="./resources/mail/jquery.dataTables.min.js"></script>
 

@@ -11,7 +11,7 @@
 		from message
 		where projectName = #{projectName}
 	 	AND
-				 to_char(messageDate, 'DD') = to_char(messageDate, 'DD')
+				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD')
 		order by messageSeq desc
 		
 	</select>
@@ -25,14 +25,16 @@
 					, sysdate
 					, #{projectName})
 	</insert>
+	
 	<select id="searchByDate" parameterType="map" resultType="message">
-		SELECT userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
+		SELECT userID, userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		FROM message
 		WHERE projectName = #{projectName}
 	 	AND
 				 to_char(messageDate, 'YYYY-MM-DD') = #{date}
 		order by messageSeq desc 	
 	</select>
+	
 	<select id="getUserByProjectName" parameterType="string" resultType="message">
 		SELECT 
 			u.userID userID

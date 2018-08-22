@@ -22,11 +22,28 @@
 <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
 	href="./resources/styles/shards-dashboards.1.0.0.min.css">
 <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'>
+<link rel="stylesheet" href="./resources/mail/style.css">
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
+function naming(){
+ 		var aa = $("#to");
+ 		var temp = "";
+ 		for(var i= 0;i<aa.length+1;i++){
+ 			if(!(typeof aa.children().eq(i).html()=="undefined")){
+ 			temp+=aa.children().eq(i).html();
+ 			temp+=" ";
+ 			}
+ 		}
+ 		$("#to2").val(temp);
+ 		alert($("#file").val());
+ 		$("#filename").val($("#file").val());
+		return true;
+}
 	$(function() {
 		$('.nav-item').children().eq(2).addClass('active');
 		var userID = $("#userID").val();
@@ -38,7 +55,6 @@
 			},
 			success : function(data) {
 				var from = document.getElementById("from");
-
 				for ( var index in data) {
 					var option = document.createElement("option");
 					option.text = data[index].emailAddress;
@@ -59,11 +75,15 @@
 				to.value = "";
 			}
 		});
+		
+		$("#reset").on('click',function(){
+			$("#to").html("");
+		});
 	});
 </script>
 </head>
 <body>
-<input type="hidden" value="${sessionScope.ur.userID}" id="userID" name="userID" />
+<input type="hidden" value="${sessionScope.userID}" id="userID" name="userID" />
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
@@ -77,36 +97,37 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel-body">
-							<form role="form" action="sendEmail" method="post">
+							<form role="form" action="sendEmail" method="post" id = "sendEmail" onsubmit="naming()">
 								<div class="form-group">
 									<label>보내는 사람 : </label> <select class="form-control"
 										name="from" id="from">
-										<!--     <option>abc@abc.om</option>
-                                                <option>Two Vale</option>
-                                                <option>Three Vale</option>
-                                                <option>Four Vale</option> -->
+										
 									</select>
 								</div>
 								<div class="form-group">
 									<label>받는 사람 : </label> <a><주소록></a> <label> <input
 										type="checkbox" value="" id="me" />내게 쓰기
-									</label> <input class="form-control" placeholder="E-mail 주소를 입력하세요."
-										name="to" id="to" />
+									</label> <!-- <input class="form-control" placeholder="E-mail 주소를 입력하세요."
+										name="to" id="to" /> -->
+										<div class="tags-input" id="to"></div>
+										<input type ="hidden" id = "to2" name="to"value=""/>
+										<!-- <input type ="hidden" id = "tar" name="tar"value="text"/> -->
 								</div>
 								<div class="form-group">
 									<label>첨부파일</label> <input type="file" id="file" name="file" />
+									<input type ="hidden" id = "filename" name="filename"value=""/>
 									<h7>※첨부파일기능은 지원하지 않습니다.</h7>
 								</div>
 								<div class="form-group">
-									<label>제목 : </label> <input class="form-control" name="subject" />
+									<label>제목 : </label> <input class="form-control" name="subject" id="subject"/>
 								</div>
 								<div class="form-group">
 									<label>내용</label>
 									<textarea class="form-control" rows="10" name="content"></textarea>
 								</div>
-								<button type="submit" class="btn btn-default" width="300px"
+								<button type="submit" class="btn btn-default" width="500px"
 									id="submit">전송</button>
-								<button type="reset" class="btn btn-primary">다시쓰기</button>
+								<button type="reset" class="btn btn-primary" id = "reset">다시쓰기</button>
 							</form>
 						</div>
 					</div>
@@ -123,13 +144,11 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
-	<script src="./resources/scripts/shards-dashboards.1.0.0.min.js"></script>
-	<script src="./resources/scripts/app/app-blog-overview.1.0.0.js"></script>
+	
+	<script src="./resources/mail/index.js"></script>
 </body>
 </html>
