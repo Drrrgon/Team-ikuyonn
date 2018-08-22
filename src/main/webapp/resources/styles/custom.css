@@ -16,9 +16,125 @@ time, mark, audio, video {
 	font-family: "Noto Sans KR", sans-serif;	
 	font-weight: 500;
 }
+
+.card-small{
+/* 	box-shadow:none; */
+}
+
 #fileBox{
 	height: 115px;
     margin-bottom: 20px;
     border: 2px dashed #9b9b9b;
     border-radius: 3px;
+}
+.center{
+	margin:0 auto;
+}
+
+#imgIcon{
+	display:none;
+	margin: 50px auto;
+    width: 360px;
+}
+
+#imgIcon > img{
+	width: 100%;
+}
+
+#ajaxLoading{
+	position: absolute;
+    left: 46%;
+    top: 50%;
+}
+
+#ajaxLoading > img{
+	width: 50px;
+}
+
+/* 파일업로드 */
+#uploadBox{
+	position: relative;
+	margin: 50px 0;
+	border: 2px dashed #b6b6b6;
+    border-radius: 16px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+	text-align: center;
+	height: 380px;
+	transition: 0.3s;
+}
+
+#uploadBox:hover{
+	border: 2px dashed #5f9fe5;
+	background: #5f9fe51f;
+}
+
+#uploadBox > span{
+	font-size: 0.95rem;
+	margin:55px 0;
+	display: block;
+}
+
+#uploadBox > #image{
+	height: 100%;
+    display: none;
+    margin: 0 auto;
+}
+
+#fileUplode{
+	cursor: pointer;
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#formBox{
+	margin:15px 0;
+}
+
+
+/* owl-carousel */
+.owl-prev span, .owl-next span {
+	color: #FFF;
+}
+
+.owl-prev span:hover, 
+.owl-next span:hover {
+	color: #8199A3;
+}
+
+.owl-prev, .owl-next {
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+
+.owl-prev {
+	left: 7px;
+}
+
+.owl-next {
+	right: 7px;
+}
+
+.owl-list{
+	background:#000;
+}
+
+.owl-list > img{
+	opacity: 0.6;
+	transition: 0.3s;
+}
+
+.imgActive > img{
+	opacity: 1;
+}
+
+/* removing blue outline from buttons */
+button:focus, button:active {
+   outline: none;
 }
