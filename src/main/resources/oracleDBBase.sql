@@ -44,7 +44,7 @@ CREATE TABLE email(
 ALTER TABLE email ADD CONSTRAINT fk_email_userID FOREIGN KEY (userID) REFERENCES usertable(userID);
 
 CREATE TABLE inbox(
-    msgNum varchar2(20) PRIMARY KEY
+    msgNum varchar2(20)
     , emailAddress varchar2(100)
     , title varchar2(300) NOT NULL
     , content clob NOT NULL

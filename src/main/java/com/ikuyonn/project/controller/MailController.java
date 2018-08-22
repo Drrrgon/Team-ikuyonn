@@ -79,24 +79,24 @@ public class MailController {
 
 	@RequestMapping(value = "/logMain", method = RequestMethod.GET)
 	public String logMain(HttpSession sess) {
-		User user = (User) sess.getAttribute("ur");
-		loadMail(user);
+		String userID =(String)sess.getAttribute("userID");
+		loadMail(userID);
 		return "mailMain";
 	}
 
 	@RequestMapping(value = "/reload", method = RequestMethod.GET)
 	public String reload(HttpSession sess) {
-		User user = (User) sess.getAttribute("ur");
-		loadMail(user);
+		String userID =(String)sess.getAttribute("userID");
+		loadMail(userID);
 		return "mailBox";
 	}
 
-	public void loadMail(User user) {
+	public void loadMail(String userID) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		mapper.clearInbox();
-		ArrayList<email> email = addressList(user.getUserID());
+		ArrayList<email> email = addressList(userID);
 		for (email e : email) {
-			getMail(e.getEmailId(), e.getEmailPassword(), e.getHost(), user, e);
+			getMail(e.getEmailId(), e.getEmailPassword(), e.getHost(), e);
 		}
 	}
 
@@ -266,7 +266,7 @@ public class MailController {
 		return temp;
 	}
 
-	public void getMail(String emailID, String emailPassword, String host, User user, email email) {
+	public void getMail(String emailID, String emailPassword, String host, email email) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		IMAPAgent mailagent = new IMAPAgent(host, emailID, emailPassword);
 		ArrayList<inbox> inbox = null;
@@ -281,16 +281,19 @@ public class MailController {
 				String fileName = "" + System.currentTimeMillis();
 				inbox temp = new inbox();
 				temp.setMsgNum(m.getMessageNumber());
-				temp.setTitle(MimeUtility.decodeText(m.getSubject()));
+				System.out.println(MimeUtility.decodeText(m.getSubject()));
+				if(MimeUtility.decodeText(m.getSubject()).equals(null)||MimeUtility.decodeText(m.getSubject()).equals("")) {
+					temp.setTitle("(제목 없음)");
+				}else {
+					temp.setTitle(MimeUtility.decodeText(m.getSubject()));
+				}
+				
 				if (m.isMimeType("multipart/*")) {
 					MimeMultipart mmp = (MimeMultipart) m.getContent();
-					/*int check = 0;
-					for (int i = 0; i < mmp.getCount(); i++) {
-						MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
-						if (mbp.getFileName() != null) {
-							check = 1;
-						}
-					}*/
+					content+=saveParts(mmp);
+					if(content.equals("")) {
+						content+=saveText(mmp);
+					}
 					for (int i = 0; i < mmp.getCount(); i++) {
 						MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
 							if (mbp.getFileName() != null) {
@@ -299,10 +302,10 @@ public class MailController {
 										+ "</a></div><div>다운로드 기능은 제공하지 않습니다.(클릭하면 에러남)</div>";
 							}
 					}
-					content+=saveParts(mmp);
+					
 					temp.setContent(content);
 				} else {
-					temp.setContent(m.getContent().toString());
+					temp.setContent(m.getContent().toString()== null ? "(제목 없음)" : m.getContent().toString());
 				}
 				temp.setSentdate(m.getSentDate().toString());
 				String address = MimeUtility.decodeText(m.getFrom()[0].toString());
@@ -333,7 +336,27 @@ public class MailController {
 					MimeMultipart multi = (MimeMultipart) mbp.getContent();
 					saveParts(multi);
 				}else if(mbp.isMimeType("text/html")){
-					content +=mbp.getContent();
+					content += (String) mbp.getContent();
+				}
+			}
+		} catch (MessagingException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return content;
+	}
+	public String saveText(MimeMultipart mmp) {
+		int check = 0;
+		String content = "";
+		
+		try {
+			for (int i = 0; i < mmp.getCount(); i++) {
+				MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
+				if (mbp.getContent() instanceof Multipart) {
+					MimeMultipart multi = (MimeMultipart) mbp.getContent();
+					saveParts(multi);
+				}else if(mbp.isMimeType("text/plain")){
+					content += mbp.getContent();
 				}
 			}
 		} catch (MessagingException | IOException e) {

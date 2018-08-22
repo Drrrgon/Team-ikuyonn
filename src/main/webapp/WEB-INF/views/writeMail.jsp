@@ -38,7 +38,6 @@ function naming(){
  			temp+=aa.children().eq(i).html();
  			temp+=" ";
  			}
- 			alert(temp);
  		}
  		$("#to2").val(temp);
  		alert($("#file").val());
@@ -46,7 +45,6 @@ function naming(){
 		return true;
 }
 	$(function() {
-		
 		$('.nav-item').children().eq(2).addClass('active');
 		var userID = $("#userID").val();
 		$.ajax({
@@ -57,7 +55,6 @@ function naming(){
 			},
 			success : function(data) {
 				var from = document.getElementById("from");
-
 				for ( var index in data) {
 					var option = document.createElement("option");
 					option.text = data[index].emailAddress;
@@ -86,7 +83,7 @@ function naming(){
 </script>
 </head>
 <body>
-<input type="hidden" value="${sessionScope.ur.userID}" id="userID" name="userID" />
+<input type="hidden" value="${sessionScope.userID}" id="userID" name="userID" />
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
