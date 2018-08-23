@@ -85,7 +85,7 @@
 					},
 					complete : function() {
 						$('#row1').css('display','none');
-						$('#row2').css('display','block');
+						$('#row2').css('display','');
 						console.log('완료');
 					},
 					error : function() {
@@ -229,19 +229,37 @@
 		</div>
 	</div>
 	<div class="row" id="row2">
-		<div class="col-lg-12">
+		<div class="col-lg-7">
 			<div class="card card-small mb-4">
-				<div class="card-header border-bottom">
+				<div class="carousel-wrap">
 					<div class="owl-carousel carousel-main">
-						<div class="owl-list imgActive"><img src="http://via.placeholder.com/350x200/FECA57/FFF.jpg?text=1"></div>
-						<div class="owl-list"><img src="http://via.placeholder.com/350x200/FECA57/FFF.jpg?text=2"></div>
-						<div class="owl-list"><img src="http://via.placeholder.com/350x200/FECA57/FFF.jpg?text=3"></div>
-						<div class="owl-list"><img src="http://via.placeholder.com/350x200/FECA57/FFF.jpg?text=4"></div>
-						<div class="owl-list"><img src="http://via.placeholder.com/350x200/FECA57/FFF.jpg?text=5"></div>
-						<div class="owl-list"><img src="http://via.placeholder.com/350x200/FECA57/FFF.jpg?text=6"></div>
+						<div class="owl-list imgActive">
+							<img src="./resources/images/nameCard/namecard01.jpg">
+						</div>
+						<div class="owl-list">
+							<img src="./resources/images/nameCard/namecard01.jpg">
+						</div>
+						<div class="owl-list">
+							<img src="./resources/images/nameCard/namecard01.jpg">
+						</div>
+						<div class="owl-list">
+							<img src="./resources/images/nameCard/namecard01.jpg">
+						</div>
+						<div class="owl-list">
+							<img src="./resources/images/nameCard/namecard01.jpg">
+						</div>
+						<div class="owl-list">
+							<img src="./resources/images/nameCard/namecard01.jpg">
+						</div>
 					</div>
 				</div>
-				<div class="center col-md-8">
+			</div>
+			<div class="nameCardView">
+			</div>
+		</div>
+		<div class="col-lg-5">
+			<div class="card card-small mb-4">
+				<div class="col-md-12">
 					<div id="formBox">
 						<div class="form-group">
 							<input class="form-control" type="text" id="ncName" name="ncName" placeholder="이름">
