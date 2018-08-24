@@ -136,12 +136,11 @@
 		});
 	}
 	function down(msgNum, address) {
-		var userID = $("#userID");
+		
 		$.ajax({
 			url : "downfile",
 			type : "post",
 			data : {
-				"userID" : userID,
 				"emailAddress" : address,
 				"msgNum" : msgNum
 			},

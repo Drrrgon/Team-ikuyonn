@@ -44,6 +44,12 @@ function naming(){
  		$("#filename").val($("#file").val());
 		return true;
 }
+function tag(){
+	var event = document.createEvent("Events");
+	event.initEvent('keydown', true, true);
+	event.keyCode = 32;
+	document.getElementById('to').dispatchEvent(event);
+}
 	$(function() {
 		$('.nav-item').children().eq(2).addClass('active');
 		var userID = $("#userID").val();
@@ -67,18 +73,18 @@ function naming(){
 		});
 
 		$("#me").change(function() {
-			var to = document.getElementById("to");
-			var from = document.getElementById("from");
-			if (this.checked) {
-				to.value = from.value;
-			} else {
-				to.value = "";
+			if($("input:checkbox[id='me']").is(":checked"))
+			{
+			var mail = "<span contenteditable=\"false\">";
+			mail += $("#from").val()+"</span>&#\8203\;";
+			$('#to').html(mail);
 			}
 		});
 		
 		$("#reset").on('click',function(){
 			$("#to").html("");
 		});
+		
 	});
 </script>
 </head>
@@ -97,7 +103,7 @@ function naming(){
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel-body">
-							<form role="form" action="sendEmail" method="post" id = "sendEmail" onsubmit="naming()">
+							<form role="form" action="sendEmail" method="post" id = "sendEmail" onsubmit="naming()" enctype="multipart/form-data">
 								<div class="form-group">
 									<label>보내는 사람 : </label> <select class="form-control"
 										name="from" id="from">
@@ -109,14 +115,13 @@ function naming(){
 										type="checkbox" value="" id="me" />내게 쓰기
 									</label> <!-- <input class="form-control" placeholder="E-mail 주소를 입력하세요."
 										name="to" id="to" /> -->
-										<div class="tags-input" id="to"></div>
+										<div class="tags-input" id="to" onblur="tag()"></div>
 										<input type ="hidden" id = "to2" name="to"value=""/>
 										<!-- <input type ="hidden" id = "tar" name="tar"value="text"/> -->
 								</div>
 								<div class="form-group">
 									<label>첨부파일</label> <input type="file" id="file" name="file" />
-									<input type ="hidden" id = "filename" name="filename"value=""/>
-									<h7>※첨부파일기능은 지원하지 않습니다.</h7>
+								
 								</div>
 								<div class="form-group">
 									<label>제목 : </label> <input class="form-control" name="subject" id="subject"/>
