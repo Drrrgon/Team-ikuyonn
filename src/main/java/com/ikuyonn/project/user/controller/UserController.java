@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,8 +21,7 @@ public class UserController {
 	SqlSession session;
 	
 	@RequestMapping(value = "/joinPage", method = RequestMethod.GET)
-	public String joinPage(HttpSession hs) {
-		hs.invalidate();
+	public String joinPage() {
 		
 		return "join";
 	}
@@ -36,11 +36,9 @@ public class UserController {
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
 	public String loginUser(HttpSession hs, User u){
 		UserMapper um = session.getMapper(UserMapper.class);
-//		User ur = um.loginUser(u);
-//		hs.setAttribute("ur", ur);
 		User ur = um.loginUser(u);
-		hs.setAttribute("userID", ur.getUserID());
-		hs.setAttribute("userName", ur.getUserName());
+		hs.setAttribute("ur", ur);
+		
 		return "insertNameCard";
 	}
 
@@ -52,22 +50,14 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-/*	@RequestMapping(value = "/upM", method = RequestMethod.GET)
-	public String upM(Model model, User u) {
-		UserMapper um = session.getMapper(UserMapper.class);
-		User em = um.selectUser(u);
-		model.addAttribute("up", em);
-
-		return "information";
-	}
-	
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	public @ResponseBody String updateUser(User u) {
+	public String updateUser(HttpSession hs, User u) {
 		UserMapper um = session.getMapper(UserMapper.class);
 		um.updateUser(u);
+		hs.invalidate();	
 		
-		return "success";
-	}*/
+		return "redirect:/";
+	}
 	
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
 	public String deleteUser(User u) {

@@ -210,6 +210,7 @@
 	<div class="row" id="row1">
 		<div class="col-lg-12">
 			<div class="card card-small mb-4">
+
 				<div class="center col-md-8">
 					<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
 						<div id="uploadBox">
@@ -221,6 +222,24 @@
 							<img src="">
 							<div id="ajaxLoading">
 								<img src="./resources/images/loading.gif">
+
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item p-3">
+						<div class="row">
+							<div class="col">
+								<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
+									<div>
+										<input type="file" name="fileUplode" id="fileUplode"> 
+
+									</div>
+									<div>
+										<input class="mb-2 btn btn-outline-primary mr-2" type="button" id="fileUplodeSubmit" value="택스트추출">
+
+										<input type="button" id="fileUplodeSubmit" value="택스트추출">				
+
+									</div>
+								</form>
+
 							</div>
 						</div>
 					</form>
