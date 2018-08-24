@@ -24,18 +24,32 @@ public class EventsController {
 	
 	@RequestMapping(value = "/insertEvents", method = RequestMethod.POST)
 	public @ResponseBody int insertEvents(Events e) {
+		System.out.println("1"+e.toString());
 		EventsMapper em = session.getMapper(EventsMapper.class);
 		int result = em.insertEvents(e);
 		
 		return result;
 	}
 	
-	@RequestMapping(value = "/privateList", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Events> privateList() {
+	@RequestMapping(value = "/privateEvents", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<Events> privateEvents() {
 		EventsMapper em = session.getMapper(EventsMapper.class);
 		ArrayList<Events> ae = em.privateEvents();
-
+		System.out.println("2"+ae.toString());
 		return ae;
 	}
 	
+	@RequestMapping(value = "/updateEvents", method = RequestMethod.POST)
+	public @ResponseBody void updateEvents(Events e) {
+		EventsMapper em = session.getMapper(EventsMapper.class);
+		ArrayList<Events> ae = em.privateEvents();
+
+	}
+	
+	@RequestMapping(value = "/deleteEvents", method = RequestMethod.POST)
+	public @ResponseBody void deleteEvents(Events e) {
+		EventsMapper em = session.getMapper(EventsMapper.class);
+		ArrayList<Events> ae = em.privateEvents();
+
+	}
 }

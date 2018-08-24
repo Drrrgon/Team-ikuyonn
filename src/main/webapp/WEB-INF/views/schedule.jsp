@@ -92,7 +92,7 @@
 					events : function(start, end, timezone, callback){							
 						$.ajax({
 							type : 'post',
-							url : 'privateList',
+							url : 'privateEvents',
 							success : function(data) {								
 								var events = [];
 								$(data).each(function(index, item) {
@@ -194,7 +194,6 @@
 		$('#insertEvent').on('click',function(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);		    	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	
 				$.ajax({
 					type : 'post',
 					url : 'insertEvents',
@@ -204,6 +203,9 @@
 						'description' : $('#description1').val(),
 						'startDate' : $('#startDate1').val(),
 						'endDate' : $('#endDate2').val()
+					},
+					error : function() {
+						alert("송신실패");
 					}
 				});
 			});
@@ -324,7 +326,7 @@ body {
 <div class="modal-content">
 	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close">&times;</span></h4>
     <form id="eventsDetail">
-		<input type="hidden" id="userID" value="${sessionScope.ur.userID}" />
+		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary1" name="summary1"/><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
 		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
@@ -349,7 +351,7 @@ body {
 <div class="modal-content">
 	<h4 class="modal-title">일정을 입력해주세요<span id="close3" class="close">&times;</span></h4>
     <form id="eventsDetail">
-		<input type="hidden" id="userID" value="${sessionScope.ur.userID}" />
+		<input type="hidden" id="userID3" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary3" name="summary3"/><br />
 		<label>내용</label><input type="text" id="description3" name="description3"/><br />
 		<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>

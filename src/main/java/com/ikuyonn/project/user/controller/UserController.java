@@ -37,8 +37,9 @@ public class UserController {
 	public String loginUser(HttpSession hs, User u){
 		UserMapper um = session.getMapper(UserMapper.class);
 		User ur = um.loginUser(u);
-		hs.setAttribute("ur", ur);
-		
+		// hs.setAttribute("ur", ur);
+		hs.setAttribute("userID", ur.getUserID());
+		hs.setAttribute("userName", ur.getUserName());
 		return "insertNameCard";
 	}
 
