@@ -52,6 +52,7 @@ var TagsInput = function(element) {
     updateCursor();
   };
   
+
   Object.defineProperties(this, {
     element: {
       get: function() {

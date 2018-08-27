@@ -13,14 +13,9 @@
 		select * from userTable where userID = #{userID} and userPW = #{userPW}	
 	</select>
 	
-		<select id="selectUser" parameterType="String" resultType="User">
-		select * from userTable where userID = #{userID}
-	</select>
-	
-<!-- 	<update id="updateUser" parameterType="User">
-		update userTable set password = #{password}, private_number = #{private_number}, 
-		phone_number = #{phone_number}, email = #{email} where id = #{id}
-	</update> -->
+ 	<update id="updateUser" parameterType="User">
+		update userTable set userPW = #{userPW}, userBirth = #{userBirth}, userPhone = #{userPhone} where userID = #{userID}
+	</update>
 	
 	<delete id="deleteUser" parameterType="User">
 		delete userTable where userID = #{userID}

@@ -50,7 +50,7 @@ public class HomeController {
 	@RequestMapping(value = "/tables", method = RequestMethod.GET)
 	public void tables() {
 	}
-	@RequestMapping(value = "/user-profile-lite", method = RequestMethod.GET)
+	@RequestMapping(value = "/userprofilelite", method = RequestMethod.GET)
 	public void userprofilelite() {
 	}
 	@RequestMapping(value = "/errors", method = RequestMethod.GET)
@@ -68,5 +68,8 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/mailBox", method = RequestMethod.GET)
 	public void mailBox() {
+	}
+	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
+	public void schedule() {
 	}
 }
