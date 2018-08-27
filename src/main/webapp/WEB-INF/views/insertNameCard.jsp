@@ -39,8 +39,13 @@
 		
 		//썸네일 클릭효과
 		$('.owl-list').on('click',function(){
+			var imgNumber = $(this).children('img').attr('src');
+			var imgPt = /se.*[0-9]/gi;
+			var imgNumber = imgPt.exec(imgNumber);
 			$('.owl-list').removeClass('imgActive');
 			$(this).addClass('imgActive');
+			$('.leftNameCard').css('background','url(./resources/images/nameCard/namecard_'+imgNumber+'.jpg)');
+			$('.leftNameCard').css('background-size','cover');
 		});
 		
 		$('#row2').css('display','none');
@@ -64,8 +69,6 @@
 						return false;
 					};
 				};
-				
-				
 				
 				var formData = new FormData();
 				formData.append("fileUplode", $("input[name=fileUplode]")[0].files[0]);
@@ -95,10 +98,9 @@
 		    };
 		};
 		
-		
-		
 		//읽어온 자료 input에 분류
 		function output(data) {
+			
 			var testdata = '\nf 02-4541-5481\nt 02-4541-5481\nPlatSys\nwww.platsys.net\n박지현대리\n경기도 용인시 수지구 신수로 767(동천동, 분당·수지U-TOWER) B동 1340호\nMobile 010-3806-8944\nE-mail asdfwsafe@naver.com';
 
 			var mobileTest1 = /01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
@@ -124,7 +126,15 @@
 			var phoneNumber = mobileTest1.exec(data);
 			data = data.replace(mobileTest2, '');
 			$('#ncMobile').val(phoneNumber);
-
+			$('#mobile').text('M ' + phoneNumber);
+			
+			$('#ncMobile').keyup(function(){
+				$("#mobile").text('M ' + $(this).val());
+				if($("#ncMobile").val().length < 1){
+					$("#mobile").text('');
+				};
+			});
+			
 			console.log('phone : ' + phoneNumber);
 			console.log('data1 : ' + data);
 
@@ -134,17 +144,35 @@
 			if (faxNumberList != null) {
 				faxNumber = faxNumberList[1];
 				data = data.replace(faxTest1, "");
+				$('#ncFax').val(faxNumber);
+				$('#fax').html('F ' + faxNumber);
 			};
-			$('#ncFax').val(faxNumber);
+			
+			$('#ncFax').keyup(function(){
+				$("#fax").text('F ' + $(this).val());
+				if($("#ncFax").val().length < 1){
+					$("#fax").text('');
+				}
+			});
 			
 			console.log('faxNumber : ' + faxNumber);
 			console.log('data2 : ' + data);
 
 			//전화번호
 			var tellNumber = tellTest1.exec(data);
-			data = data.replace(tellTest2, "");
-			$('#ncPhone').val(tellNumber);
-
+			data = data.replace(tellTest2, '');
+			if(tellNumber != null){
+				$('#ncPhone').val(tellNumber);
+				$('#phone').text('P ' + tellNumber);
+			};
+			
+			$('#ncPhone').keyup(function(){
+				$("#phone").text('P ' + $(this).val());
+				if($("#ncPhone").val().length < 1){
+					$("#phone").text('');
+				}
+			});
+			
 			console.log('tellNumber : ' + tellNumber);
 			console.log('data3 : ' + data);
 
@@ -154,9 +182,17 @@
 			if (emailNumberList != null) {
 				emailNumber = emailNumberList[0];
 				data = data.replace(emailTest2, "");
-			}
-			;
-			$('#ncEmail').val(emailNumber);
+				$('#ncEmail').val(emailNumber);
+				$('#email').html('E ' + emailNumber);
+			};
+			
+			$('#ncEmail').keyup(function(){
+				$("#email").text('E ' + $(this).val());
+				if($("#ncEmail").val().length < 1){
+					$("#email").text('');
+				}
+			});
+			
 			console.log('emailNumber : ' + emailNumber);
 			console.log('data4 : ' + data);
 
@@ -164,6 +200,12 @@
 			var address = addressTest1.exec(data);
 			data = data.replace(addressTest1, "");
 			$('#ncAddress').val(address);
+			$('#address').html(address);
+			
+			$('#ncAddress').keyup(function(){
+				$("#address").text( $(this).val());
+			});
+			
 			console.log('addressNumber : ' + address);
 			console.log('data4 : ' + data);
 
@@ -171,6 +213,12 @@
 			var website = webSiteTest1.exec(data);
 			data = data.replace(webSiteTest1, "");
 			$('#ncWebsite').val(website);
+			$('#website').html(website);
+			
+			$('#ncWebsite').keyup(function(){
+				$("#website").text( $(this).val());
+			});
+			
 			console.log('addressNumber : ' + website);
 			console.log('data5 : ' + data);
 
@@ -178,15 +226,25 @@
 			var title = positionTest1.exec(data);
 			data = data.replace(positionTest1, "");
 			$('#ncTitle').val(title);
+			$('#title').html(title);
+			
+			$('#ncTitle').keyup(function(){
+				$("#title").text( $(this).val());
+			});
+			
 			console.log('positionNumber : ' + title);
 			console.log('data6 : ' + data);
-
-			userNameTest1
 
 			//이름
 			var name = userNameTest1.exec(data);
 			data = data.replace(userNameTest1, "");
 			$('#ncName').val(name);
+			$('#name').html(name);
+			
+			$('#ncName').keyup(function(){
+				$("#name").text( $(this).val());
+			});
+			
 			console.log('userName : ' + name);
 			console.log('data7 : ' + data);
 
@@ -194,6 +252,12 @@
 			var company = /[0-9a-z가-힣].*/gi.exec(data);
 			data = data.replace(/[0-9a-z가-힣].*/gi, "");
 			$('#ncCompany').val(company);
+			$('#company').html(company);
+			
+			$('#ncCompany').keyup(function(){
+				$("#company").text( $(this).val());
+			});
+			
 			console.log('companyName : ' + company);
 			console.log('data8 : ' + data);
 		};
@@ -234,27 +298,62 @@
 				<div class="carousel-wrap">
 					<div class="owl-carousel carousel-main">
 						<div class="owl-list imgActive">
-							<img src="./resources/images/nameCard/namecard01.jpg">
+							<img src="./resources/images/nameCard/sem1.jpg">
 						</div>
 						<div class="owl-list">
-							<img src="./resources/images/nameCard/namecard01.jpg">
+							<img src="./resources/images/nameCard/sem2.jpg">
 						</div>
 						<div class="owl-list">
-							<img src="./resources/images/nameCard/namecard01.jpg">
+							<img src="./resources/images/nameCard/sem3.jpg">
 						</div>
 						<div class="owl-list">
-							<img src="./resources/images/nameCard/namecard01.jpg">
+							<img src="./resources/images/nameCard/sem4.jpg">
 						</div>
 						<div class="owl-list">
-							<img src="./resources/images/nameCard/namecard01.jpg">
+							<img src="./resources/images/nameCard/sem5.jpg">
 						</div>
 						<div class="owl-list">
-							<img src="./resources/images/nameCard/namecard01.jpg">
+							<img src="./resources/images/nameCard/sem1.jpg">
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="nameCardView">
+				<div class="leftNameCard" style="background:url(./resources/images/nameCard/namecard_sem1.jpg); background-size: cover;"></div>
+				<div class="rightNameCard">
+					<div class="r-wrap">
+						<div id="r-t-wrap">
+							<div>
+								<span id="company"></span>
+							</div>
+							<div>
+								<span id="website"></span>
+							</div>
+						</div>
+						<div id="r-b-wrap">
+							<div>
+								<span id="name"></span>
+								<span id="department"></span>
+								<span id="title"></span>
+							</div>
+							<div>
+								<span id="address"></span>
+							</div>
+							<div>
+								<span id="email"></span>
+							</div>
+							<div>
+								<span id="mobile"></span>
+							</div>
+							<div>
+								<span id="phone"></span>
+							</div>
+							<div>
+								<span id="fax"></span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-5">
