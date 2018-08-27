@@ -1,4 +1,4 @@
-CREATE user ikuyonn identified by pro;
+﻿CREATE user ikuyonn identified by pro;
 
 grant connect, dba, resource to ikuyonn;
 
@@ -105,3 +105,6 @@ CREATE TABLE projectEvent(
 );
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq);
+create sequence eventseq;
+alter table events drop column startTime;
+alter table events drop column endTime;

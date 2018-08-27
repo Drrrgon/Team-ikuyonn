@@ -8,12 +8,14 @@
 		<typeAlias type="com.ikuyonn.project.socket.vo.User" alias="User"/>
 		<typeAlias type="com.ikuyonn.project.mail.vo.email" alias="Email"/>
 		<typeAlias type="com.ikuyonn.project.mail.vo.inbox" alias="inbox"/>
+		<typeAlias type="com.ikuyonn.project.events.vo.Events" alias="Events"/>
 	</typeAliases>
 		
 	<mappers>
 		<mapper resource="socket/mapper/SocketMapper.xml"/>		
 		<mapper resource="mail/mapper/MailMapper.xml"/>
-		<mapper resource="user/mapper/UserMapper.xml"/>	
+		<mapper resource="user/mapper/UserMapper.xml"/>
+		<mapper resource="events/mapper/EventsMapper.xml"/>	
 	</mappers>
 	
 </configuration>

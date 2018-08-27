@@ -136,11 +136,11 @@
 		});
 	}
 	function down(msgNum, address) {
+		
 		$.ajax({
 			url : "downfile",
 			type : "post",
 			data : {
-				"userID" : userID,
 				"emailAddress" : address,
 				"msgNum" : msgNum
 			},
@@ -161,13 +161,12 @@
 		$("#reload").on('click', function() {
 			location.href = "reload";
 		});
-		setlist("123");
 	})
 </script>
 </head>
 <body>
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
-	<input type="hidden" value="${sessionScope.ur.userID}" id="userID" />
+	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
 		<div class="col-md-12">
 		<br/>

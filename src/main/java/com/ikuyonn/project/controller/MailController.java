@@ -4,13 +4,16 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -40,6 +43,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.email;
@@ -79,30 +83,30 @@ public class MailController {
 
 	@RequestMapping(value = "/logMain", method = RequestMethod.GET)
 	public String logMain(HttpSession sess) {
-		User user = (User) sess.getAttribute("ur");
-		loadMail(user);
+		String userID =(String)sess.getAttribute("userID");
+		loadMail(userID);
 		return "mailMain";
 	}
 
 	@RequestMapping(value = "/reload", method = RequestMethod.GET)
 	public String reload(HttpSession sess) {
-		User user = (User) sess.getAttribute("ur");
-		loadMail(user);
+		String userID =(String)sess.getAttribute("userID");
+		loadMail(userID);
 		return "mailBox";
 	}
 
-	public void loadMail(User user) {
+	public void loadMail(String userID) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		mapper.clearInbox();
-		ArrayList<email> email = addressList(user.getUserID());
+		ArrayList<email> email = addressList(userID);
 		for (email e : email) {
-			getMail(e.getEmailId(), e.getEmailPassword(), e.getHost(), user, e);
+			getMail(e.getEmailId(), e.getEmailPassword(), e.getHost(), e);
 		}
 	}
 
-	public ArrayList<email> addressList(String userID) {
+	public ArrayList<email> addressList(String emailAddress) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
-		ArrayList<email> email = mapper.mailList(userID);
+		ArrayList<email> email = mapper.mailList(emailAddress);
 		return email;
 	}
 
@@ -175,7 +179,7 @@ public class MailController {
 	}
 
 	@RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
-	public String sendmail(HttpServletRequest request) {
+	public String sendmail(HttpServletRequest request,MultipartFile file) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		email email = new email();
 		email.setEmailAddress(request.getParameter("from") == null ? "" : request.getParameter("from"));
@@ -183,14 +187,25 @@ public class MailController {
 		final String username = email.getEmailId();
 		final String password = email.getEmailPassword();
 		final String content = request.getParameter("content") == null ? "" : request.getParameter("content");
-
+		UUID uuid = UUID.randomUUID();
+		String saveFileName = uuid+"_"+file.getOriginalFilename();
+		File file2 = new File("c:\\\\upload_temp\\\\",saveFileName);
+		if(!file2.exists()) {
+			   file2.mkdirs();
+			}
+		try {
+			file.transferTo(file2);
+			/*FileOutputStream fos = new FileOutputStream(file2); 
+		    fos.write(file.getBytes());
+		    fos.close(); */
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
 		String[] to = request.getParameter("to").split(" ");
-		for (int i = 0; i < to.length; i++) {
-			System.out.println(to[i]);
-		}
 		String subject = request.getParameter("subject") == null ? "" : request.getParameter("subject");
-		String filename = request.getParameter("filename") == null ? "" : request.getParameter("filename");
-		System.out.println(filename);
+		String filename = (file == null) ? "" : file.getOriginalFilename();
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.user", username);
 		props.put("mail.smtp.password", password);
@@ -230,26 +245,30 @@ public class MailController {
 			 * if(tar.equals("html")) { mbp.setContent(content.replaceAll(" "," "),
 			 * "text/html;charset=utf-8"); }else {
 			 */
-			mbp.setText(content.replaceAll(" ", " "), "KSC5601");
+			mbp.setText(content.replaceAll(" ", " "), "UTF-8");
 			/* } */
 			filename = fileSize(filename);
 			MimeBodyPart mbp2 = new MimeBodyPart();
-			FileDataSource fds = new FileDataSource(filename);
+			DataSource fds = new FileDataSource(file2.getAbsolutePath());
 			mbp2.setDataHandler(new DataHandler(fds));
-			mbp2.setFileName(MimeUtility.encodeText(fds.getName(), "KSC5601", "B"));
+			
+			mbp2.setFileName(MimeUtility.encodeText(file.getOriginalFilename(), "UTF-8", "B"));
+			
 			Multipart mp = new MimeMultipart();
 			mp.addBodyPart(mbp);
 			if (!filename.equals("")) {
 				mp.addBodyPart(mbp2);
 			}
-			message.setContent(mp);// 내용
+			
+			message.setContent(mp);
+			// 내용
 			// message.setContent("내용","text/html; charset=utf-8");//글내용을 html타입 charset설정
 			/* message.setText(content); */
 			Transport.send(message);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		file2.delete();
 		return "writeMail";
 	}
 
@@ -266,7 +285,7 @@ public class MailController {
 		return temp;
 	}
 
-	public void getMail(String emailID, String emailPassword, String host, User user, email email) {
+	public void getMail(String emailID, String emailPassword, String host, email email) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		IMAPAgent mailagent = new IMAPAgent(host, emailID, emailPassword);
 		ArrayList<inbox> inbox = null;
@@ -281,28 +300,36 @@ public class MailController {
 				String fileName = "" + System.currentTimeMillis();
 				inbox temp = new inbox();
 				temp.setMsgNum(m.getMessageNumber());
-				temp.setTitle(MimeUtility.decodeText(m.getSubject()));
+				System.out.println(MimeUtility.decodeText(m.getSubject()));
+				if(MimeUtility.decodeText(m.getSubject()).equals(null)||MimeUtility.decodeText(m.getSubject()).equals("")) {
+					temp.setTitle("(제목 없음)");
+				}else {
+					temp.setTitle(MimeUtility.decodeText(m.getSubject()));
+				}
+				
 				if (m.isMimeType("multipart/*")) {
 					MimeMultipart mmp = (MimeMultipart) m.getContent();
-					/*int check = 0;
-					for (int i = 0; i < mmp.getCount(); i++) {
-						MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
-						if (mbp.getFileName() != null) {
-							check = 1;
-						}
-					}*/
+					content+=saveParts(mmp);
+					if(content.equals("")) {
+						content+=saveText(mmp);
+					}
+					String content2 = "";
 					for (int i = 0; i < mmp.getCount(); i++) {
 						MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
 							if (mbp.getFileName() != null) {
-								content += "<div>-첨부파일-<br/><a href ='' onclick=\"down('" + m.getMessageNumber() + "','"
+								content2 += "<div>-첨부파일-<br/><a href =\"#\" onclick=\"down('" + m.getMessageNumber() + "','"
 										+ email.getEmailAddress() + "')\">" + MimeUtility.decodeText(mbp.getFileName())
-										+ "</a></div><div>다운로드 기능은 제공하지 않습니다.(클릭하면 에러남)</div>";
+										+ "</a><div>(다운로드 파일은 C:\\\\download\\\\에 저장됩니다.)</div></div>";
 							}
 					}
-					content+=saveParts(mmp);
-					temp.setContent(content);
+					content2+=content;
+					temp.setContent(content2);
 				} else {
-					temp.setContent(m.getContent().toString());
+					if(m.getContent().toString().equals(null)||m.getContent().toString().equals("")) {
+						temp.setContent("(내용 없음)");
+					}else {
+						temp.setContent(m.getContent().toString());
+					}
 				}
 				temp.setSentdate(m.getSentDate().toString());
 				String address = MimeUtility.decodeText(m.getFrom()[0].toString());
@@ -332,8 +359,29 @@ public class MailController {
 				if (mbp.getContent() instanceof Multipart) {
 					MimeMultipart multi = (MimeMultipart) mbp.getContent();
 					saveParts(multi);
-				}else if(mbp.isMimeType("text/html")){
-					content +=mbp.getContent();
+				}else if(mbp.isMimeType("text/html")&&mbp.getDataHandler().getName()==null){
+					content += mbp.getContent().toString();
+				}
+			}
+		} catch (MessagingException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return content;
+	}
+	public String saveText(MimeMultipart mmp) {
+		int check = 0;
+		String content = "";
+		
+		try {
+			for (int i = 0; i < mmp.getCount(); i++) {
+				MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
+				if (mbp.getContent() instanceof Multipart) {
+					MimeMultipart multi = (MimeMultipart) mbp.getContent();
+					saveParts(multi);
+				}else if(mbp.isMimeType("text/plain")&&mbp.getDataHandler().getName()==null){
+					System.out.println(mbp.getDataHandler().getName());
+					content += mbp.getContent();
 				}
 			}
 		} catch (MessagingException | IOException e) {
@@ -343,30 +391,40 @@ public class MailController {
 		return content;
 	}
 	
-	@RequestMapping(value = "/downfile", method = RequestMethod.GET)
-	public @ResponseBody String downfile(int msgNum, String userID, String emailAddress) {
-		ArrayList<email> e = addressList(userID);
-		String host = "";
-		String emailID = "";
-		String emailPassword = "";
-		for (email email : e) {
-			if (email.getEmailAddress() == emailAddress) {
-				host = email.getHost();
-				emailID = email.getEmailId();
-				emailAddress = email.getEmailPassword();
-			}
-		}
-		IMAPAgent mailagent = new IMAPAgent(host, emailID, emailAddress);
+	@RequestMapping(value = "/downfile", method = RequestMethod.POST)
+	public @ResponseBody String downfile(int msgNum, String emailAddress) {
+		MailMapper mapper = session.getMapper(MailMapper.class);
+		email e = mapper.getAddress(emailAddress);
+		String host = e.getHost();
+		String emailID = e.getEmailId();
+		String emailPassword = e.getEmailPassword();
+		IMAPAgent mailagent = new IMAPAgent(host, emailID, emailPassword);
+
 		try {
 			mailagent.open();
+			Folder folder = mailagent.getFolder("inbox");
 			Message m = mailagent.getMessage(msgNum);
 			MimeMultipart mmp = (MimeMultipart) m.getContent();
 			for (int i = 0; i < mmp.getCount(); i++) {
 				MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
-				String path = "c:/download/";
-				File file = new File(path);
+				
 				if (mbp.getFileName() != null) {
-					mbp.saveFile(file);
+					String path = "c:\\\\download\\\\";
+					File file = new File(path);
+					if(!file.exists()) {
+						file.mkdirs();
+						}
+					BufferedOutputStream out = null; 
+					BufferedInputStream in = null;
+					out = new BufferedOutputStream(new FileOutputStream(new File(path,MimeUtility.decodeText(mbp.getFileName())))); 
+					in = new BufferedInputStream(mbp.getInputStream()); 
+					int k; 
+					while ((k = in.read()) != -1) 
+					{ out.write(k); }
+					out.flush();
+					out.close();
+					in.close();
+					
 				}
 			}
 		} catch (Exception e1) {

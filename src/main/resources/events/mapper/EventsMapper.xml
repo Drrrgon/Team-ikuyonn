@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ikuyonn.project.events.mapper.EventsMapper">
+	<insert id="insertEvents" parameterType="Events">
+		insert into events(eventSeq, userID, summary, description, startDate, endDate) 
+		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate})
+	</insert>
+
+<!-- 	<select id="roomEvents" parameterType="Events" resultType="Events">
+		select * from events where room_seq = #{room_seq}
+	</select> -->
+	
+	<select id="privateEvents" resultType="Events">
+		select * from events
+	</select>
+	
+ 	<update id="updateEvents" parameterType="Events">
+		update events set summary = #{summary}, startDate = #{startDate}, endDate = #{endDate} where userID = #{userID}
+	</update>
+	
+	<delete id="deleteEvents" parameterType="Events">
+		delete events where summary = #{summary}
+	</delete>
+</mapper>

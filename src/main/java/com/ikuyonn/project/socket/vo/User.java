@@ -1,17 +1,19 @@
 package com.ikuyonn.project.socket.vo;
 
+import java.util.Date;
+
 public class User {
 	private String userID;
 	private String userPW;
 	private String userName;
-	private String userBirth;
+	private Date userBirth;
 	private String userPhone;
 	
 	public User() {
 		super();
 	}
 	
-	public User(String userID, String userPW, String userName, String userBirth, String userPhone) {
+	public User(String userID, String userPW, String userName, Date userBirth, String userPhone) {
 		super();
 		this.userID = userID;
 		this.userPW = userPW;
@@ -44,11 +46,11 @@ public class User {
 		this.userName = userName;
 	}
 
-	public String getUserBirth() {
+	public Date getUserBirth() {
 		return userBirth;
 	}
 
-	public void setUserBirth(String userBirth) {
+	public void setUserBirth(Date userBirth) {
 		this.userBirth = userBirth;
 	}
 

@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="./resources/css/chat.css">
 <link rel="stylesheet" href="./resources/css/chat2.css">
 <body class="h-100">
-	<!-- <div class="color-switcher animated">
+	<div class="color-switcher animated">
 		<h5>Accent Color</h5>
 		<ul class="accent-colors">
 			<li class="accent-primary active" data-color="primary"><i
@@ -96,7 +96,7 @@
 	</div>
 	<div class="color-switcher-toggle animated pulse infinite">
 		<i class="material-icons">settings</i>
-	</div> -->
+	</div> 
 	<div class="container-fluid">
 		<div class="row">
 			<!-- Main Sidebar -->
@@ -196,7 +196,19 @@
 							<i class="material-icons">error</i> 
 							<span>메일함</span>
 						</a>
-					</li>					
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="schedule"> 
+							<i class="material-icons">error</i> 
+							<span>일정표</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="userprofilelite"> 
+							<i class="material-icons">error</i> 
+							<span>회원정보</span>
+						</a>
+					</li>						
 				</ul>
 			</div>
 			</aside>
