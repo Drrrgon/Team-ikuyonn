@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css"> </head>
-	<jsp:include page="../header.jsp" flush="true"></jsp:include>
+	<%-- <jsp:include page="../header.jsp" flush="true"></jsp:include> --%>
+	<%@ include file="../header.jsp" %>
           <!-- / .main-navbar -->
           <div class="main-content-container container-fluid px-4">
             <!-- Page Header -->
@@ -176,9 +177,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- <script src="./resources/scripts/socket.js"></script> -->
 <script>
-//console.log("<c:url value='/echo'/>");
-var sock =  new SockJS("<c:url value='/echo'/>");
-/* var sock =  new SockJS('/echo');  */
+console.log("<c:url value='/echo'/>");
+ var sock =  new SockJS("<c:url value='/echo'/>"); 
+// var sock =  new SockJS('/echo');  
 /* var sock =  new SockJS("https://app.pstorm.net/chat2/echo"); */
 sock.onmessage = onMessage;
 sock.onclose = onClose;
@@ -389,7 +390,8 @@ function getUserByProjectName(){
   });
 }
 </script>
-<jsp:include page="../footer.jsp" flush="true"></jsp:include>
+<%@ include file="../footer.jsp" %>
+<%-- <jsp:include page="../footer.jsp" flush="true"></jsp:include> --%>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -399,6 +401,6 @@ function getUserByProjectName(){
     <script src="./resources/scripts/extras.1.0.0.min.js"></script>
     <script src="./resources/scripts/shards-dashboards.1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
-    <script src="./resources/scripts/app/app-blog-new-post.1.0.0.js"></script>
+    <!-- <script src="./resources/scripts/app/app-blog-new-post.1.0.0.js"></script> -->
   </body>
 </html>

@@ -12,10 +12,21 @@
 		where projectName = #{projectName}
 	 	AND
 				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD')
-		order by messageSeq desc
+		order by messageSeq
 		
 	</select>
 	
+	<select id="getLastOneProjectContent" parameterType="string" resultType="message">
+		select userID, userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
+		from message
+		where projectName = #{projectName}
+	 	AND
+				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD')
+		AND
+		rownum = 1
+		order by messageSeq desc
+		
+	</select>
 	<insert id="insertContent" parameterType="message" >
 		INSERT INTO message
 			VALUES( message_seq.nextVal
@@ -32,7 +43,7 @@
 		WHERE projectName = #{projectName}
 	 	AND
 				 to_char(messageDate, 'YYYY-MM-DD') = #{date}
-		order by messageSeq desc 	
+		order by messageSeq 	
 	</select>
 	
 	<select id="getUserByProjectName" parameterType="string" resultType="message">
@@ -53,6 +64,16 @@
 			p.projectSeq = jp.projectSeq
 		AND
 			#{value} = p.projectName
+	</select>
+	
+	
+	
+	<select id="searchUserProjectName" parameterType="string" resultType="string">
+		SELECT DISTINCT p.projectname 
+			FROM joinproject jp , usertable u , project p
+		WHERE #{VALUE} = jp.userid
+			AND
+		p.PROJECTSEQ = jp.PROJECTSEQ
 	</select>
 <!--  for maria db -->
 	<!-- <select id="getRoomContent" parameterType="string" resultType="table">
