@@ -2,6 +2,46 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	$(function(){
+		var userName = '${sessionScope.userName}';
+		$('#chat_head').text(userName);
+		getUserProjectName();
+	});
+	
+	function getUserProjectName(){
+		var userID = "${sessionScope.userID}"
+		$.ajax({
+			url : 'searchUserProjectName',
+			type : 'post',
+			data : {
+				'userID' : userID
+			},
+			success : function(proList){
+				// <input type="radio" class="custom-control-input" id="category1" name="chatRoom" value="1" checked>
+				// $('#selectProject').text('');
+				console.log(proList);                          
+                var printHtml ="";
+				for(var i = 0 ; i< proList.length ; i++){
+					printHtml ="";					
+					printHtml += '<label class="custom-control-label">';
+					printHtml += proList[i];
+					printHtml += '</label>&nbsp;';                          
+					printHtml += '<button class="btn btn-sm btn-outline-accent" data-pjName="'+proList[i]+'">';
+					printHtml += '<i class="material-icons">save</i>입장</button>';
+					printHtml += '</div>';
+					printHtml += '</li>';
+					printHtml += '<br/>';
+					$('#selectProject').append(printHtml);
+				}
+				$("button.btn").click(init);
+			}
+			
+		});
+	}
+</script>
+<link rel="stylesheet" href="./resources/css/chat2.css">
 <body class="h-100">
 	<div class="color-switcher animated">
 		<h5>Accent Color</h5>
@@ -133,12 +173,6 @@
 						</a>
 					</li> -->
 					<li class="nav-item">
-						<a class="nav-link " href="chat"> 
-							<i class="material-icons">error</i> 
-							<span>Chat</span>
-						</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link " href="insertNameCard"> 
 							<i class="material-icons">error</i> 
 							<span>명함등록</span>
@@ -174,6 +208,128 @@
 			<!-- End Main Sidebar -->
 			<main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
 			<div class="main-navbar sticky-top bg-white">
+			
+				
+
+			 	
+				<div onclick="history.back();" class="page_cover"></div>
+				<div id="onlineList">					
+				  <div onclick="history.back();" class="close"></div>				  
+				</div>  
+				
+				
+<!-- 				<head>
+  <meta charset="UTF-8">
+  <title>Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body> -->
+	
+  <div class="fabs">
+  <div class="chat">
+    <div class="chat_header">
+      <div class="chat_option">
+      <div class="header_img">
+         <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/> 
+        </div>
+			<span id="chat_head">Jane Doe</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>		
+			<span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
+			<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-mail-send"></i></span>
+			<span class="onlineBtn"><i class="back zmdi zmdi-mail-send"></i></span>
+      </div>
+	</div>
+	
+     <div id ="selectProject" class="chat_body chat_login">
+			  		  
+         <!-- <a id="chat_fourth_screen" class="fab"><i class="zmdi zmdi-arrow-right"></i></a>  -->
+    </div>
+    <!-- <div id="chat_converse" class="chat_conversion chat_converse">
+            <a id="chat_second_screen" class="fab"><i class="zmdi zmdi-arrow-right"></i></a>
+      <span class="chat_msg_item chat_msg_item_admin">
+            <div class="chat_avatar">
+               <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/>
+            </div>Hey there! Any question?</span>
+      <span class="chat_msg_item chat_msg_item_user">
+            Hello!</span>
+            <span class="status">20m ago</span>
+      <span class="chat_msg_item chat_msg_item_admin">
+            <div class="chat_avatar">
+               <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/>
+            </div>Hey! Would you like to talk sales, support, or anyone?</span>
+      <span class="chat_msg_item chat_msg_item_user">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span>
+             <span class="status2">Just now. Not seen yet</span>
+    </div>
+    <div id="chat_body" class="chat_body">
+        <div class="chat_category">
+          <a id="chat_third_screen" class="fab"><i class="zmdi zmdi-arrow-right"></i></a>
+        <p>What would you like to talk about?</p>
+        <ul>
+          <li>Tech</li>
+          <li class="active">Sales</li>
+          <li >Pricing</li>
+          <li>other</li>
+        </ul>
+        </div>
+
+    </div> 
+    <div id="chat_form" class="chat_converse chat_form">
+    <a id="chat_fourth_screen" class="fab"><i class="zmdi zmdi-arrow-right"></i></a>
+      <span class="chat_msg_item chat_msg_item_admin">
+            <div class="chat_avatar">
+               <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/>
+            </div>Hey there! Any question?</span>
+      <span class="chat_msg_item chat_msg_item_user">
+            Hello!</span>
+            <span class="status">20m ago</span>
+      <span class="chat_msg_item chat_msg_item_admin">
+            <div class="chat_avatar">
+               <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/>
+            </div>Agent typically replies in a few hours. Don't miss their reply.
+            <div>
+              <br>
+              <form class="get-notified">
+                  <label for="chat_log_email">Get notified by email</label>
+                  <input id="chat_log_email" placeholder="Enter your email"/>
+                  <i class="zmdi zmdi-chevron-right"></i>
+              </form>
+            </div></span>
+
+        <span class="chat_msg_item chat_msg_item_admin">
+            <div class="chat_avatar">
+               <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/>
+            </div>Send message to agent.
+            <div>
+              <form class="message_form">
+                  <input placeholder="Your email"/>
+                  <input placeholder="Technical issue"/>
+                  <textarea rows="4" placeholder="Your message"></textarea>
+                  <button>Send</button> 
+              </form>
+
+        </div></span>   
+	</div> -->
+	
+      <div id="chat_fullscreen" class="chat_conversion chat_converse">
+      
+      
+    </div>
+    <div class="fab_field">
+      <a id="fab_camera" class="fab"><i class="zmdi zmdi-camera"></i></a>
+      <a id="fab_send" class="fab"><i class="zmdi zmdi-mail-send"></i></a>
+      <textarea id="chatSend" name="chat_message" placeholder="Send a message" class="chat_field chat_message"></textarea>
+    </div>
+  </div>
+    <a id="prime" class="fab"><i class="prime zmdi zmdi-comment-outline"></i></a>
+</div>
+ <!--  <script src='http://code.jquery.com/jquery-1.11.3.min.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body> -->
+			
 				<!-- Main Navbar -->
 				<nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
 					<form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">

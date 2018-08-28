@@ -15,4 +15,8 @@ public interface Mapper {
 
 	public ArrayList<Message> getUserByProjectName(String projectName);
 
+	public ArrayList<String> searchUserProjectName(String userID);
+
+	public Message getLastOneProjectContent(String projectName);
+
 }

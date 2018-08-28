@@ -30,15 +30,12 @@ public class SocketController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<String> insert(HttpSession session, Model model, Message table) {
+	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	public @ResponseBody String insert(HttpSession session, Model model, Message table) {
 		int result = repo.insertContent(table);
-		ArrayList<Message> list = repo.getProjectContent(table.getProjectName());
-		ArrayList<String> messageList = new ArrayList<String>();
-		for(Message a : list) {
-			messageList.add(a.sendMessage());
-		}
-		return messageList;
+		Message msg = repo.getLastOneProjectContent(table.getProjectName());
+		String message = msg.sendMessage();
+		return message;
 	}
 	
 	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
@@ -80,6 +77,13 @@ public class SocketController {
 		
 		return abc;
 	}
+	
+	@RequestMapping(value = "/searchUserProjectName", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String> searchUserProjectName(HttpSession session, String userID) {
+		ArrayList<String> list = repo.searchUserProjectName(userID);
+		return list;
+	}
+	
 	@RequestMapping(value = "/setSocket", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> setSocket(HttpSession session, Model model, 
 			@RequestParam(value="socketID") ArrayList<String> socketID) {	
