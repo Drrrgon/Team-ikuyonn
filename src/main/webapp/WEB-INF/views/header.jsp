@@ -41,7 +41,6 @@
 		});
 	}
 </script>
-<link rel="stylesheet" href="./resources/css/chat.css">
 <link rel="stylesheet" href="./resources/css/chat2.css">
 <body class="h-100">
 	<div class="color-switcher animated">
@@ -174,12 +173,6 @@
 						</a>
 					</li> -->
 					<li class="nav-item">
-						<a class="nav-link " href="chat"> 
-							<i class="material-icons">error</i> 
-							<span>Chat</span>
-						</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link " href="insertNameCard"> 
 							<i class="material-icons">error</i> 
 							<span>명함등록</span>
@@ -216,14 +209,13 @@
 			<main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
 			<div class="main-navbar sticky-top bg-white">
 			
+				
 
-			<!-- 	<div class="chatBtn">
-				</div>
+			 	
 				<div onclick="history.back();" class="page_cover"></div>
-				<div id="chatMenu">					
-				  <div onclick="history.back();" class="close"></div>
-				  
-				</div> -->
+				<div id="onlineList">					
+				  <div onclick="history.back();" class="close"></div>				  
+				</div>  
 				
 				
 <!-- 				<head>
@@ -242,10 +234,10 @@
       <div class="header_img">
          <img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/> 
         </div>
-		<span id="chat_head">Jane Doe</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>		
-       	<span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
-		<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-mail-send"></i></span>
-
+			<span id="chat_head">Jane Doe</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>		
+			<span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
+			<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-mail-send"></i></span>
+			<span class="onlineBtn"><i class="back zmdi zmdi-mail-send"></i></span>
       </div>
 	</div>
 	

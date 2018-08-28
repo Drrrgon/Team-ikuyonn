@@ -68,6 +68,7 @@ function toggleFab() {
       $('.chat_fullscreen_loader').css('display', 'none');
       $('#chat_fullscreen').css('display', 'none');
       $('#chat_backspace').css('display', 'none');
+      $('.onlineBtn').css('display', 'none');
   });
 
 function hideChat(hide) {
@@ -111,3 +112,14 @@ function hideChat(hide) {
             break;
     }
 }
+
+$(".onlineBtn").click(function() {
+  $("#onlineList,.page_cover,html").addClass("open");
+  window.location.hash = "#open";
+});
+
+window.onhashchange = function() {
+  if (location.hash != "#open") {
+    $("#onlineList,.page_cover,html").removeClass("open");
+  }
+};

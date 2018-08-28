@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<script src="./resources/js/chat2.js"></script>
-	<script src="./resources/js/chat.js"></script>
 	<script src="./resources/js/sockjs.min.js"></script>
 	<script>
 	var projectName ="";
 	var currentProject ="";
+	var checkReduplicated = [];
 	var sock = new SockJS('/project/echo');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
@@ -21,7 +21,9 @@
 		$('.chat_fullscreen_loader').css('display', 'block');
 		$('#chat_fullscreen').css('display', 'block');
 		$('.chat_backspace').css('display', 'block');
+		$('.onlineBtn').css('display', 'block');
 		refresh();
+		getUserByProjectName();
 	}
 	
 	function getCurrentProject(){
@@ -133,7 +135,7 @@
 	          'socketID':sendData
 	        },
 	        success: function(socketID){
-	          // getUserByProjectName();
+	          getUserByProjectName();
 	        },
 	        error:function(request,status,error){
 	          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -149,7 +151,7 @@
 	          'socketID':sendData
 	        },
 	        success: function(socketID){
-	          // getUserByProjectName();
+	          getUserByProjectName();
 	        },
 	        error:function(request,status,error){
 	            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -161,10 +163,17 @@
 	    // refresh();
 			// getUserByProjectName();
 			var messages = data.split(':#$');      
-	        var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));        
-	        var printHTML ="";
-	        var userID =  "${sessionScope.userID}";
-	        if(messages[0] == userID){
+			var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));        
+			var printHTML ="";
+			var userID =  "${sessionScope.userID}";
+			var check = 0;
+			for (let i = 0; i < checkReduplicated.length; i++) {
+				if(checkReduplicated[i] == messages[0]){
+					check++;
+				}				
+			}
+			if(check > 0 ){
+				if(messages[0] == userID){
 						printHTML += "<span class='chat_msg_item chat_msg_item_user'>";
 						printHTML += messages[1]+"<br/>";          
 						printHTML += messages[2];
@@ -190,7 +199,8 @@
 	            $("#chat_fullscreen").append(printHTML);
 	        }          
 				}
-				$("#chat_fullscreen").scrollTop($("#chat_fullscreen")[0].scrollHeight);      
+				$("#chat_fullscreen").scrollTop($("#chat_fullscreen")[0].scrollHeight);  
+			}	            
 	  }
 	
 
@@ -256,7 +266,7 @@
 	    , success: function(list){
 	      var totalUsers = list[0];
 	      var onlineUsers = list[1];
-	      var checkReduplicated = [];
+	      checkReduplicated = [];
 	      for (let i = 0; i < onlineUsers.length; i++) {
 	        for (let j = 0; j < totalUsers.length; j++) {
 	          if(onlineUsers[i] == totalUsers[j]){
@@ -264,9 +274,12 @@
 	          }
 	        }
 	      }
-	      $('#user').text("");
+				$('#onlineList').text("");
+				var userText = "";
+				userText += '<div><h2 id="connectedUser"><p class="bg-primary">현재 접속중인 유저</p></h2></div><br/><br/>';
+				$('#onlineList').append(userText);
 	      for (let k = 0; k < checkReduplicated.length; k++) {
-	        var userText = "";
+	        userText = "";
 	        userText += "<span class='user-space'>";
 	        userText += "<img class='user-avatar rounded-circle mr-2'";
 	        userText += "src='./resources/images/avatars/0.jpg'";
@@ -274,8 +287,8 @@
 	        userText += "<span class='d-none d-md-inline-block'>";
 	        userText += checkReduplicated[k];
 	        userText += "</span>";
-	        userText += "</span>&nbsp;";      
-	        $('#user').append(userText);
+	        userText += "</span><br/><br/>";      
+	        $('#onlineList').append(userText);
 				}
 	    }
 	    , error: function(){
