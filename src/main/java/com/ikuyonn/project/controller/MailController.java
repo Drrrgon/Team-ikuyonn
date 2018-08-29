@@ -60,16 +60,6 @@ public class MailController {
 	SqlSession session;
 	private static final Logger logger = LoggerFactory.getLogger(MailController.class);
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	/*
-	 * @RequestMapping(value = "/", method = RequestMethod.GET) public String home()
-	 * {
-	 * 
-	 * return "login"; }
-	 */
-
 	@RequestMapping(value = "/sign", method = RequestMethod.GET)
 	public String sign() {
 

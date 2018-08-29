@@ -8,6 +8,7 @@
 		<typeAlias type="com.ikuyonn.project.socket.vo.User" alias="User"/>
 		<typeAlias type="com.ikuyonn.project.mail.vo.email" alias="Email"/>
 		<typeAlias type="com.ikuyonn.project.mail.vo.inbox" alias="inbox"/>
+		<typeAlias type="com.ikuyonn.project.mail.vo.Project" alias="Project"/>
 		<typeAlias type="com.ikuyonn.project.events.vo.Events" alias="Events"/>
 	</typeAliases>
 		

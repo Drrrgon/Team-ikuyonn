@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ikuyonn.project.mail.vo.Project;
 import com.ikuyonn.project.mail.vo.email;
 import com.ikuyonn.project.mail.vo.inbox;
 import com.ikuyonn.project.socket.vo.User;
@@ -35,5 +36,6 @@ public interface MailMapper {
 	public ArrayList<inbox> getInbox(inbox inbox);
 	
 	public inbox getmail(inbox inbox);
-
+	
+	public ArrayList<Project> getProject(String userID);
 }

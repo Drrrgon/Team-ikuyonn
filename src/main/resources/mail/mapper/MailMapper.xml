@@ -42,4 +42,9 @@ select * from inbox where emailAddress = #{emailAddress} order by to_number(msgn
 <select id = "getmail" parameterType = "Inbox" resultType = "Inbox">
 select * from inbox where emailAddress = #{emailAddress} and msgNum = #{msgNum}
 </select>
+
+<select id = "getProject" parameterType = "String" resultType ="Project">
+select p.projectSeq projectSeq,p.projectName projectName,p.memberNum memberNum,p.due due from userTable u,project p,joinProject j where u.userID=j.userID and j.projectSeq=p.projectSeq 
+and u.userID=#{userID}
+</select>
 </mapper>

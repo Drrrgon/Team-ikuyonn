@@ -49,7 +49,7 @@
 						center : 'title',
 						right : 'timelineDay,agendaWeek,month,listWeek'
 					},
-					defaultView : 'timelineDay',
+					defaultView : 'month',
 					resourceLabelText : 'Rooms',
 					resources : [ {
 						id : 'a',

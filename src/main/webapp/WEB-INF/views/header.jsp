@@ -167,6 +167,12 @@
 							<i class="material-icons">error</i> 
 							<span>회원정보</span>
 						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="cloud"> 
+							<i class="material-icons">error</i> 
+							<span>프로젝트</span>
+						</a>
 					</li>						
 				</ul>
 			</div>

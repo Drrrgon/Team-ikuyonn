@@ -72,4 +72,7 @@ public class HomeController {
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
 	public void schedule() {
 	}
+	@RequestMapping(value = "/cloud", method = RequestMethod.GET)
+	public void cloud() {
+	}
 }
