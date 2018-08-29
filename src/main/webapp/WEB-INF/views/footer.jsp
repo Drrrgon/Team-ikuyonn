@@ -10,7 +10,7 @@
 	var sock = new SockJS('/project/echo');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
-	console.log("<c:url value='/echo'/>");
+	// console.log("<c:url value='/echo'/>");
 
 	function init(){
 		currentProject = $(this).attr("data-pjName");		
@@ -39,7 +39,6 @@
 
 		$('#chatSend').keyup(function(e) {
 	    if (e.keyCode == 13){
-		    console.log('send message...');
 				sendMessage();
 		  }  
 		});
@@ -101,7 +100,6 @@
 	  if(message.length == 0){
 	    return false;
 	  }
-	  console.log(currentProject);
 	  var dataForm = { "userID": userID , "userName":userName , "message": message, "projectName":currentProject };		
 		$.ajax({
 			url: "insert",
@@ -119,7 +117,6 @@
 
 	function onMessage(evt){//evt 파라메터는 웹소켓이 보내준 데이터
 		var data = evt.data;
-		console.log(data);  	 
 		var strArray = data.split(':|');
 		var checkConnection = strArray[0].substr(0,12);
 		if(checkConnection == "#connect" || checkConnection == "#disconnect"){

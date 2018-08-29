@@ -82,13 +82,13 @@
 					</li> -->
 					<li class="nav-item">
 						<a class="nav-link " href="insertNameCard"> 
-							<i class="material-icons">error</i> 
+							<i class="material-icons">tab</i> 
 							<span>명함등록</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link " href="writeMail"> 
-							<i class="material-icons">error</i> 
+							<i class="material-icons">mail</i> 
 							<span>메일쓰기</span>
 						</a>
 					</li>
@@ -100,7 +100,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link " href="schedule"> 
-							<i class="material-icons">error</i> 
+							<i class="material-icons">today</i> 
 							<span>일정표</span>
 						</a>
 					</li>
@@ -112,7 +112,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link " href="projectFileCloud"> 
-							<i class="material-icons">person</i>
+							<i class="material-icons">share</i>
 							<span>Project Cloud</span>
 						</a>
 					</li>						
