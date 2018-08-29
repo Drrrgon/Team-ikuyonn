@@ -1,6 +1,8 @@
 package com.ikuyonn.project.nameCard.vo;
 
 public class NameCard {
+	private String userID;
+	private String ncCheck;
 	private String ncName;
 	private String ncMobile;
 	private String ncPhone;
@@ -17,10 +19,12 @@ public class NameCard {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public NameCard(String ncName, String ncMobile, String ncPhone, String ncFax, String ncEmail, String ncCompany,
-			String ncDepartment, String ncTitle, String ncWebsite, String ncAddress, String nameCardUrl,
-			String ncGroup) {
+	public NameCard(String userID, String ncCheck, String ncName, String ncMobile, String ncPhone, String ncFax,
+			String ncEmail, String ncCompany, String ncDepartment, String ncTitle, String ncWebsite, String ncAddress,
+			String nameCardUrl, String ncGroup) {
 		super();
+		this.userID = userID;
+		this.ncCheck = ncCheck;
 		this.ncName = ncName;
 		this.ncMobile = ncMobile;
 		this.ncPhone = ncPhone;
@@ -33,6 +37,18 @@ public class NameCard {
 		this.ncAddress = ncAddress;
 		this.nameCardUrl = nameCardUrl;
 		this.ncGroup = ncGroup;
+	}
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	public String getNcCheck() {
+		return ncCheck;
+	}
+	public void setNcCheck(String ncCheck) {
+		this.ncCheck = ncCheck;
 	}
 	public String getNcName() {
 		return ncName;
@@ -108,9 +124,9 @@ public class NameCard {
 	}
 	@Override
 	public String toString() {
-		return "NameCard [ncName=" + ncName + ", ncMobile=" + ncMobile + ", ncPhone=" + ncPhone + ", ncFax=" + ncFax
-				+ ", ncEmail=" + ncEmail + ", ncCompany=" + ncCompany + ", ncDepartment=" + ncDepartment + ", ncTitle="
-				+ ncTitle + ", ncWebsite=" + ncWebsite + ", ncAddress=" + ncAddress + ", nameCardUrl=" + nameCardUrl
-				+ ", ncGroup=" + ncGroup + "]";
+		return "NameCard [userID=" + userID + ", ncCheck=" + ncCheck + ", ncName=" + ncName + ", ncMobile=" + ncMobile
+				+ ", ncPhone=" + ncPhone + ", ncFax=" + ncFax + ", ncEmail=" + ncEmail + ", ncCompany=" + ncCompany
+				+ ", ncDepartment=" + ncDepartment + ", ncTitle=" + ncTitle + ", ncWebsite=" + ncWebsite
+				+ ", ncAddress=" + ncAddress + ", nameCardUrl=" + nameCardUrl + ", ncGroup=" + ncGroup + "]";
 	}
 }

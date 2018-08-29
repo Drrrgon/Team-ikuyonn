@@ -2,14 +2,14 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	
+
 	<typeAliases>
 		<typeAlias type="com.ikuyonn.project.socket.vo.Message" alias="message"/>
 		<typeAlias type="com.ikuyonn.project.socket.vo.User" alias="User"/>
 		<typeAlias type="com.ikuyonn.project.mail.vo.email" alias="Email"/>
 		<typeAlias type="com.ikuyonn.project.mail.vo.inbox" alias="inbox"/>
-		<typeAlias type="com.ikuyonn.project.mail.vo.Project" alias="Project"/>
 		<typeAlias type="com.ikuyonn.project.events.vo.Events" alias="Events"/>
+		<typeAlias type="com.ikuyonn.project.nameCard.vo.NameCard" alias="NameCard"/>
 	</typeAliases>
 		
 	<mappers>
@@ -17,6 +17,6 @@
 		<mapper resource="mail/mapper/MailMapper.xml"/>
 		<mapper resource="user/mapper/UserMapper.xml"/>
 		<mapper resource="events/mapper/EventsMapper.xml"/>	
+		<mapper resource="nameCard/mapper/NameCardMapper.xml"/>	
 	</mappers>
-	
 </configuration>

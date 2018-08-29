@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +26,12 @@ import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
+import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.nameCard.vo.NameCard;
 
 @Controller
 public class NameCardController {
+	
 	@Autowired
 	SqlSession session;
 	
@@ -38,16 +42,19 @@ public class NameCardController {
 	public @ResponseBody String fileUplodeAction(Model model, MultipartFile fileUplode) {
 		//파일업로드
 		String result = fileService(fileUplode);
-		
+
 		return result;
 	}
 	
 	//명함등록요청
 	@RequestMapping(value = "/nameCardUplodeAction", method = RequestMethod.POST)
-	public @ResponseBody String example(NameCard nameCard) {
+	public @ResponseBody int nameCardUplodeAction(NameCard nameCard,HttpSession httpSession) {
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		nameCard.setUserID((String)httpSession.getAttribute("userID"));
+		System.out.println(nameCard);
+		int result = mapper.insertNameCard(nameCard);
 		
-		
-		return "ok";
+		return result;
 	}
 	
 	
