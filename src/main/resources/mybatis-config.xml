@@ -10,6 +10,7 @@
 		<typeAlias type="com.ikuyonn.project.mail.vo.inbox" alias="inbox"/>
 		<typeAlias type="com.ikuyonn.project.events.vo.Events" alias="Events"/>
 		<typeAlias type="com.ikuyonn.project.nameCard.vo.NameCard" alias="NameCard"/>
+		<typeAlias type="com.ikuyonn.project.mail.vo.Project" alias="Project"/>
 	</typeAliases>
 		
 	<mappers>
