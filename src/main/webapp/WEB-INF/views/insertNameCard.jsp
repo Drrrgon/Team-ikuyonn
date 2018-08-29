@@ -25,7 +25,7 @@
 <script type="text/javascript">
 	$(function() {
 		//메뉴 포커스
-		$('.nav-item').children().eq(1).addClass('active');
+		setLeftSideIcon();
 		
 		//썸네일리스트
 		$('.carousel-main').owlCarousel({
@@ -261,6 +261,16 @@
 			console.log('companyName : ' + company);
 			console.log('data8 : ' + data);
 		};
+
+		function setLeftSideIcon(){
+			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(0).children().eq(0).addClass('active');
+		}
 	});
 </script>
 </head>

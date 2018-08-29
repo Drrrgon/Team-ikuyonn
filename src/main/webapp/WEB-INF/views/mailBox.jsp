@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -22,7 +22,7 @@
 <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
 	href="./resources/styles/shards-dashboards.1.0.0.min.css">
 <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
+<link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css"> 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -152,8 +152,17 @@
 			}
 		});
 	}
+	function setLeftSideIcon(){
+			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).addClass('active');
+	}
 	$(function() {
-		$('.nav-item').children().eq(3).addClass('active');
+		setLeftSideIcon();
 		refresh();
 		$("#list").on('click', function() {
 			$("#content").html("");

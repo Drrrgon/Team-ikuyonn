@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html class="no-js h-100" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -22,9 +22,25 @@
 <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
 	href="./resources/styles/shards-dashboards.1.0.0.min.css">
 <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
+<link rel="stylesheet" href="./resources/styles/custom.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
+<script>
+	$(function (){
+		setLeftSideIcon();
+	});
+	function setLeftSideIcon(){
+			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).addClass('active');
+	}
+</script>
 </head>
 <body>
 <jsp:include page="header.jsp" flush="true"></jsp:include>
@@ -137,35 +153,18 @@
 					<button class="btn btn-accent">회원탈퇴</button></a>
 				<a href="logoutUser">
 					<button class="btn btn-accent">로그아웃</button></a>
-	<div class="promo-popup animated">
-		<a href="http://bit.ly/shards-dashboard-pro"
-			class="pp-cta extra-action"> <img
-			src="https://dgc2qnsehk7ta.cloudfront.net/uploads/sd-blog-promo-2.jpg">
-		</a>
-		<div class="pp-intro-bar">
-			Need More Templates? <span class="close"> <i
-				class="material-icons">close</i>
-			</span> <span class="up"> <i class="material-icons">keyboard_arrow_up</i>
-			</span>
-		</div>
-		<div class="pp-inner-content">
-			<h2>Shards Dashboard Pro</h2>
-			<p>A premium & modern Bootstrap 4 admin dashboard template pack.</p>
-			<a class="pp-cta extra-action"
-				href="http://bit.ly/shards-dashboard-pro">Download</a>
-		</div>
-	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 		crossorigin="anonymous"></script>
-	<script
+	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
-	<script
+		crossorigin="anonymous"></script> -->
+	<!-- <script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
+		crossorigin="anonymous"></script> -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>

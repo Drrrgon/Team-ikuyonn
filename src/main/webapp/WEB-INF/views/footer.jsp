@@ -22,7 +22,7 @@
 		$('#chat_fullscreen').css('display', 'block');
 		$('.chat_backspace').css('display', 'block');
 		$('.onlineBtn').css('display', 'block');
-		refresh();
+		refreshMessage();
 		getUserByProjectName();
 	}
 	
@@ -30,8 +30,11 @@
 	}
 
 	$(function(){
+		var userName = '${sessionScope.userName}';
+		$('#chat_head').text(userName);
+		getUserProjectName();
+
 		$('#fab_send').bind("enterKey",function(e){
-			 //do stuff here 
 		});
 
 		$('#chatSend').keyup(function(e) {
@@ -49,9 +52,6 @@
 		  searchByDate();
 		});
 
-		// getUserByProjectName();
-
-		// refresh();
 		$('.nav-item').children().eq(0).addClass('active');
 
 	});
@@ -61,7 +61,6 @@
 	  if(date.length == 0){
 	    return false;
 	  }
-	  // var projectName = $("input:radio[name=chatRoom]:checked").val();
 	  var sendData = {"projectName":projectName , "date":date};
 	  $.ajax({
 	    url: "searchbydate"
@@ -160,8 +159,6 @@
 	    }
 		}
 	  else{
-	    // refresh();
-			// getUserByProjectName();
 			var messages = data.split(':#$');      
 			var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));        
 			var printHTML ="";
@@ -205,11 +202,9 @@
 	
 
 	function onClose(evt){
-		/* $('#data').append("채팅 연결이 끊어졌어요 다시 접속 해 주세요 ㅜㅜ"); */
 	}
 
-	function refresh(){
-	// var projectName = $("input:radio[name=chatRoom]:checked").val();
+	function refreshMessage(){
 	  $.ajax({
 	    url:"refresh"
 	    , type:'post'
@@ -258,7 +253,6 @@
 	}	
 
 	function getUserByProjectName(){
-		// var projectName = $("input:radio[name=chatRoom]:checked").val();
 	  $.ajax({
 	    url: "getUserByProjectName"
 	    , type: "post"
@@ -276,7 +270,7 @@
 	      }
 				$('#onlineList').text("");
 				var userText = "";
-				userText += '<div><h2 id="connectedUser"><p class="bg-primary">현재 접속중인 유저</p></h2></div><br/><br/>';
+				userText += '<div><h2 id="connectedUserList"><p class="bg-primary">현재 접속중인 유저</p></h2></div><br/><br/>';
 				$('#onlineList').append(userText);
 	      for (let k = 0; k < checkReduplicated.length; k++) {
 	        userText = "";
@@ -296,9 +290,35 @@
 	    }
 	  });
 	}
+	
+	function getUserProjectName(){
+		var userID = "${sessionScope.userID}"
+		$.ajax({
+			url : 'searchUserProjectName',
+			type : 'post',
+			data : {
+				'userID' : userID
+			},
+			success : function(proList){
+                var printHtml ="";
+				for(var i = 0 ; i< proList.length ; i++){
+					printHtml ="";					
+					printHtml += '<label class="custom-control-label">';
+					printHtml += proList[i];
+					printHtml += '</label>&nbsp;';                          
+					printHtml += '<button class="btn btn-sm btn-outline-accent" data-pjName="'+proList[i]+'">';
+					printHtml += '<i class="material-icons">save</i>입장</button>';
+					printHtml += '</div>';
+					printHtml += '</li>';
+					printHtml += '<br/>';
+					$('#selectProject').append(printHtml);
+				}
+				$("button.btn").click(init);
+			}
+			
+		});
+	}
 	</script>
-	 <!-- <script src="./resources/js/chatFunction.js"></script> -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
@@ -314,23 +334,6 @@
 </main>
 </div>
 </div>
-<!-- <div class="promo-popup animated">
-	<a href="http://bit.ly/shards-dashboard-pro"
-		class="pp-cta extra-action"> <img
-		src="https://dgc2qnsehk7ta.cloudfront.net/uploads/sd-blog-promo-2.jpg">
-	</a>
-	<div class="pp-intro-bar">
-		Need More Templates? <span class="close"> <i
-			class="material-icons">close</i>
-		</span> <span class="up"> <i class="material-icons">keyboard_arrow_up</i>
-		</span>
-	</div>
-	<div class="pp-inner-content">
-		<h2>Shards Dashboard Pro</h2>
-		<p>A premium & modern Bootstrap 4 admin dashboard template pack.</p>
-		<a class="pp-cta extra-action"
-			href="http://bit.ly/shards-dashboard-pro">Download</a>
-	</div>
-</div> -->
+
 </body>
 </html>
