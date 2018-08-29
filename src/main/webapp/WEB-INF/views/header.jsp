@@ -115,6 +115,12 @@
 							<i class="material-icons">share</i>
 							<span>Project Cloud</span>
 						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="cloud"> 
+							<i class="material-icons">error</i> 
+							<span>프로젝트</span>
+						</a>
 					</li>						
 				</ul>
 			</div>

@@ -103,8 +103,17 @@ CREATE TABLE projectEvent(
     projectSeq number
     , eventSeq number
 );
+
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq);
 create sequence eventseq;
 alter table events drop column startTime;
 alter table events drop column endTime;
+
+CREATE TABLE cloudFile(
+    fileName varchar2(100) PRIMARY KEY
+    ,filePath varchar2(300) NOT NULL
+    ,fileType varchar2(40) NOT NULL
+    ,projectSeq number 
+);
+ALTER TABLE cloudFile add CONSTRAINT fk_file_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);

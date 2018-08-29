@@ -76,4 +76,7 @@ public class HomeController {
 	public void projectFileCloud() {
 	}
 	
+	@RequestMapping(value = "/cloud", method = RequestMethod.GET)
+	public void cloud() {
+	}
 }
