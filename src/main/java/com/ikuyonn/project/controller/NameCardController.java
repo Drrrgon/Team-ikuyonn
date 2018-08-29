@@ -24,6 +24,7 @@ import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
+import com.ikuyonn.project.nameCard.vo.NameCard;
 
 @Controller
 public class NameCardController {
@@ -39,6 +40,14 @@ public class NameCardController {
 		String result = fileService(fileUplode);
 		
 		return result;
+	}
+	
+	//명함등록요청
+	@RequestMapping(value = "/nameCardUplodeAction", method = RequestMethod.POST)
+	public @ResponseBody String example(NameCard nameCard) {
+		
+		
+		return "ok";
 	}
 	
 	

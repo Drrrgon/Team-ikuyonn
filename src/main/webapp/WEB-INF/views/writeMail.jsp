@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -51,7 +51,9 @@ function tag(){
 	document.getElementById('to').dispatchEvent(event);
 }
 	$(function() {
-		$('.nav-item').children().eq(2).addClass('active');
+		// 아이콘 설정
+		setLeftSideIcon();
+
 		var userID = $("#userID").val();
 		$.ajax({
 			url : "mailList",
@@ -85,12 +87,22 @@ function tag(){
 			$("#to").html("");
 		});
 		
+		function setLeftSideIcon(){
+			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).addClass('active');
+		}
 	});
 </script>
 </head>
+<jsp:include page="header.jsp" flush="true"></jsp:include>
 <body>
 <input type="hidden" value="${sessionScope.userID}" id="userID" name="userID" />
-	<jsp:include page="header.jsp" flush="true"></jsp:include>
+	
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
 			<div id="page-inner">
@@ -141,6 +153,7 @@ function tag(){
 		</div>
 	</div>
 	<jsp:include page="footer.jsp" flush="true"></jsp:include>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

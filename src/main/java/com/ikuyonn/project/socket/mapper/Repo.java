@@ -26,7 +26,20 @@ public class Repo {
 		
 		return list;
 	}
-
+	
+	public Message getLastOneProjectContent(String projectName) {
+		Message msg = null;
+		Mapper map = null;
+		try {
+			map = session.getMapper(Mapper.class);
+			msg = map.getLastOneProjectContent(projectName);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return msg;
+	}
+	
 	public int insertContent(Message table) {
 		Mapper map = null;
 		int re = 0;
@@ -62,6 +75,20 @@ public class Repo {
 		}		
 		return list;
 	}
+
+	public ArrayList<String> searchUserProjectName(String userID) {
+		ArrayList<String> list = null;
+		Mapper map = null;
+		try {
+			map = session.getMapper(Mapper.class);
+			list = map.searchUserProjectName(userID);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return list;
+	}
+
+	
 	
 	
 }

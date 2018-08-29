@@ -143,10 +143,56 @@ button:focus, button:active {
    outline: none;
 }
 
+/* 명함미리보기 */
 .nameCardView{
 	width: 100%;
     background: #fff;
     height: 380px;
     border-radius: 0.4rem;  
 	box-shadow: 3px 3px 15px rgba(90,97,105,.11);
+}
+
+.leftNameCard{
+	float: left;
+    background: #000;
+    width: 35%;
+    height: 100%;
+    background-size: cover;
+    border-top-left-radius: 0.4rem;
+    border-bottom-left-radius: 0.4rem;
+}
+
+.rightNameCard{
+	position: relative;
+	float: right;
+    height: 100%;
+    width: 65%;
+    background: #ffffff;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+}
+
+.r-wrap{
+	position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+}
+
+#r-t-wrap{
+	text-align:right;	
+}
+
+#company{
+	font-size: 20pt;
+}
+
+#name{
+	font-size: 20pt;
+}
+
+#r-b-wrap{
+	position: absolute;
+    bottom: 30px;
+	width: 400px;
 }

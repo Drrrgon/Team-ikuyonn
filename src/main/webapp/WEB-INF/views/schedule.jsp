@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -32,8 +32,17 @@
 	startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);		    	
 	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
 } */
-
+function setLeftSideIcon(){
+			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).addClass('active');
+	}
 	$(function() {
+		setLeftSideIcon();
 				
 		initThemeChooser({	
 			

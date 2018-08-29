@@ -2,62 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
+<link rel="stylesheet" href="./resources/css/chat2.css">
 <body class="h-100">
-	<div class="color-switcher animated">
-		<h5>Accent Color</h5>
-		<ul class="accent-colors">
-			<li class="accent-primary active" data-color="primary"><i
-				class="material-icons">check</i></li>
-			<li class="accent-secondary" data-color="secondary"><i
-				class="material-icons">check</i></li>
-			<li class="accent-success" data-color="success"><i
-				class="material-icons">check</i></li>
-			<li class="accent-info" data-color="info"><i
-				class="material-icons">check</i></li>
-			<li class="accent-warning" data-color="warning"><i
-				class="material-icons">check</i></li>
-			<li class="accent-danger" data-color="danger"><i
-				class="material-icons">check</i></li>
-		</ul>
-		<div class="actions mb-4">
-			<a
-				class="mb-2 btn btn-sm btn-primary w-100 d-table mx-auto extra-action"
-				href="https://designrevision.com/downloads/shards-dashboard-lite/">
-				<i class="material-icons">cloud</i> Download
-			</a> <a
-				class="mb-2 btn btn-sm btn-white w-100 d-table mx-auto extra-action"
-				href="https://designrevision.com/docs/shards-dashboard-lite"> <i
-				class="material-icons">book</i> Documentation
-			</a>
-		</div>
-		<div class="social-wrapper">
-			<div class="social-actions">
-				<h5 class="my-2">Help us Grow</h5>
-				<div class="inner-wrapper">
-					<a class="github-button"
-						href="https://github.com/DesignRevision/shards-dashboard"
-						data-icon="octicon-star" data-show-count="true"
-						aria-label="Star DesignRevision/shards-dashboard on GitHub">Star</a>
-					<iframe style="width: 91px; height: 21px;"src="https://yvoschaap.com/producthunt/counter.html#href=https%3A%2F%2Fwww.producthunt.com%2Fr%2Fp%2F112998&layout=wide" width="56" height="65" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
-				</div>
-			</div>
-			<div id="social-share"
-				data-url="https://designrevision.com/downloads/shards-dashboard-lite/"
-				data-text="ð¥ Check out Shards Dashboard Lite, a free and beautiful Bootstrap 4 admin dashboard template!"
-				data-title="share"></div>
-			<div class="loading-overlay">
-				<div class="spinner"></div>
-			</div>
-		</div>
-		<div class="close">
-			<i class="material-icons">close</i>
-		</div>
-	</div>
-	<div class="color-switcher-toggle animated pulse infinite">
-		<i class="material-icons">settings</i>
-	</div> 
-	<div class="container-fluid">
-		<div class="row">
 			<!-- Main Sidebar -->
 			<aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
 			<div class="main-navbar">
@@ -88,6 +34,8 @@
 						placeholder="Search for something..." aria-label="Search">
 				</div>
 			</form>
+
+			<!-- 왼쪽 사이드 바 -->
 			<div class="nav-wrapper">
 				<ul id="navbar" class="nav flex-column">
 					<!-- <li class="nav-item">
@@ -133,12 +81,6 @@
 						</a>
 					</li> -->
 					<li class="nav-item">
-						<a class="nav-link " href="chat"> 
-							<i class="material-icons">error</i> 
-							<span>Chat</span>
-						</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link " href="insertNameCard"> 
 							<i class="material-icons">error</i> 
 							<span>명함등록</span>
@@ -169,6 +111,12 @@
 						</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link " href="projectFileCloud"> 
+							<i class="material-icons">person</i>
+							<span>Project Cloud</span>
+						</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link " href="cloud"> 
 							<i class="material-icons">error</i> 
 							<span>프로젝트</span>
@@ -180,6 +128,40 @@
 			<!-- End Main Sidebar -->
 			<main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
 			<div class="main-navbar sticky-top bg-white">
+				<div onclick="history.back();" class="page_cover"></div>
+					<div id="onlineList">					
+				 		<div onclick="history.back();" class="close"></div>				  
+					</div>  
+				<div class="fabs">
+					<div class="chat">
+						<div class="chat_header">
+							<div class="chat_option">
+								<div class="header_img">
+									<img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/> 
+								</div>
+								<!-- 채팅 인적사항 -->
+								<span id="chat_head">Jane Doe</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>		
+								<span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
+								<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-mail-send"></i></span>
+								<span class="onlineBtn"><i class="back zmdi zmdi-mail-send"></i></span>
+							</div>
+						</div>
+
+						<!-- chat area -->
+						<div id ="selectProject" class="chat_body chat_login">
+						</div>
+	
+      					<div id="chat_fullscreen" class="chat_conversion chat_converse">
+						</div>
+							<!-- 채팅방 최하단 -->
+							<div class="fab_field">
+								<a id="fab_camera" class="fab"><i class="zmdi zmdi-camera"></i></a>
+								<a id="fab_send" class="fab"><i class="zmdi zmdi-mail-send"></i></a>
+								<textarea id="chatSend" name="chat_message" placeholder="Send a message" class="chat_field chat_message"></textarea>
+							</div>
+					</div>
+							<a id="prime" class="fab"><i class="prime zmdi zmdi-comment-outline"></i></a>
+				</div>
 				<!-- Main Navbar -->
 				<nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
 					<form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
@@ -235,6 +217,8 @@
 								</a>
 							</div>
 						</li>
+
+						<!-- 드롭다운메뉴 로그아웃 회원정보 수정 등 -->
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> 
 								<img class="user-avatar rounded-circle mr-2" src="./resources/images/avatars/0.jpg" alt="User Avatar"> 
