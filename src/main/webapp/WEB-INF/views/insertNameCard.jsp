@@ -98,6 +98,55 @@
 		    };
 		};
 		
+		//명함등록
+		$('#nameCardSubmit').on('click',function(){
+			var ncName = $('#ncName').val();
+			var ncMobile = $('#ncMobile').val();
+			var ncPhone = $('#ncPhone').val();
+			var ncFax = $('#ncFax').val();
+			var ncEmail = $('#ncEmail').val();
+			var ncCompany = $('#ncCompany').val();
+			var ncDepartment = $('#ncDepartment').val();
+			var ncTitle = $('#ncTitle').val();
+			var ncWebsite = $('#ncWebsite').val();
+			var ncAddress = $('#ncAddress').val();
+			var imgPt = /re.*jpg/g;
+			var backgroundUrl = imgPt.exec($('.leftNameCard').css('background'));		
+			var nameCardUrl = './'+backgroundUrl;
+			
+			//체크체크
+			if(ncName == ''){
+				
+			}
+			
+			$.ajax({
+				url : "nameCardUplodeAction",
+				type : "post",
+				data : {
+					'ncName' : ncName,
+					'ncMobile' : ncMobile,
+					'ncPhone' : ncPhone,
+					'ncFax' : ncFax,
+					'ncEmail' : ncEmail,
+					'ncCompany' : ncCompany,
+					'ncDepartment' : ncDepartment,
+					'ncTitle' : ncTitle,
+					'ncWebsite' : ncWebsite,
+					'ncAddress' : ncAddress,
+					'nameCardUrl' : nameCardUrl
+				},
+				success : function(data){
+					
+				}
+			});
+			
+			
+			
+			
+			
+			
+		});
+		
 		//읽어온 자료 input에 분류
 		function output(data) {
 			
@@ -284,7 +333,6 @@
 	<div class="row" id="row1">
 		<div class="col-lg-12">
 			<div class="card card-small mb-4">
-
 				<div class="center col-md-8">
 					<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
 						<div id="uploadBox">
@@ -296,24 +344,6 @@
 							<img src="">
 							<div id="ajaxLoading">
 								<img src="./resources/images/loading.gif">
-
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item p-3">
-						<div class="row">
-							<div class="col">
-								<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
-									<div>
-										<input type="file" name="fileUplode" id="fileUplode"> 
-
-									</div>
-									<div>
-										<input class="mb-2 btn btn-outline-primary mr-2" type="button" id="fileUplodeSubmit" value="택스트추출">
-
-										<input type="button" id="fileUplodeSubmit" value="택스트추출">				
-
-									</div>
-								</form>
-
 							</div>
 						</div>
 					</form>
@@ -422,7 +452,8 @@
 							<input class="form-control" type="text" id="ncAddress" name="ncAddress" placeholder="주소">
 						</div>
 						<div class="form-group">
-							<button type="button" class="btn btn-accent">등록</button>
+							<button type="button" id="nameCardSubmit" class="btn btn-accent">등록</button>
+							<button type="button" class="btn btn-accent cancel">취소</button>
 						</div>
 					</div>
 				</div>	
@@ -431,6 +462,5 @@
 	</div>
 </div>
 <jsp:include page="footer.jsp" flush="true"></jsp:include>
-
 </body>
 </html>
