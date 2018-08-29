@@ -303,14 +303,14 @@
 					printHtml += '<label class="custom-control-label">';
 					printHtml += proList[i];
 					printHtml += '</label>&nbsp;';                          
-					printHtml += '<button class="btn btn-sm btn-outline-accent" data-pjName="'+proList[i]+'">';
+					printHtml += '<button class="chatBtn btn-sm btn-outline-accent" data-pjName="'+proList[i]+'">';
 					printHtml += '<i class="material-icons">save</i>입장</button>';
 					printHtml += '</div>';
 					printHtml += '</li>';
 					printHtml += '<br/>';
 					$('#selectProject').append(printHtml);
 				}
-				$("button.btn").click(init);
+				$("button.chatBtn").click(init);
 			}
 			
 		});
