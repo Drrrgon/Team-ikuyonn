@@ -144,10 +144,18 @@ button:focus, button:active {
 }
 
 /* 명함미리보기 */
-.nameCardView{
+.nameCardView{ 
 	width: 100%;
     background: #fff;
     height: 380px;
+    border-radius: 0.4rem;  
+	box-shadow: 3px 3px 15px rgba(90,97,105,.11);
+}
+
+.nameCardView2{
+	width: 100%;
+    background: #fff;
+    height: 150px;
     border-radius: 0.4rem;  
 	box-shadow: 3px 3px 15px rgba(90,97,105,.11);
 }
