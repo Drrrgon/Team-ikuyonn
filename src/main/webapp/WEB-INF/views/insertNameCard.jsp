@@ -25,7 +25,7 @@
 <script type="text/javascript">
 	$(function() {
 		//메뉴 포커스
-		$('.nav-item').children().eq(1).addClass('active');
+		setLeftSideIcon();
 		
 		//썸네일리스트
 		$('.carousel-main').owlCarousel({
@@ -100,7 +100,6 @@
 		
 		//명함등록
 		$('#nameCardSubmit').on('click',function(){
-			var ncCheck = '1';
 			var ncName = $('#ncName').val();
 			var ncMobile = $('#ncMobile').val();
 			var ncPhone = $('#ncPhone').val();
@@ -124,7 +123,6 @@
 				url : "nameCardUplodeAction",
 				type : "post",
 				data : {
-					'ncCheck' : ncCheck,
 					'ncName' : ncName,
 					'ncMobile' : ncMobile,
 					'ncPhone' : ncPhone,
@@ -138,12 +136,15 @@
 					'nameCardUrl' : nameCardUrl
 				},
 				success : function(data){
-					console.log(data);
-				},
-				error : function() {
-					console.log('통신실패');
+					
 				}
-			});	
+			});
+			
+			
+			
+			
+			
+			
 		});
 		
 		//읽어온 자료 input에 분류
@@ -309,6 +310,16 @@
 			console.log('companyName : ' + company);
 			console.log('data8 : ' + data);
 		};
+
+		function setLeftSideIcon(){
+			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+			$('#navbar').children().eq(0).children().eq(0).addClass('active');
+		}
 	});
 </script>
 </head>
