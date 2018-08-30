@@ -22,72 +22,47 @@
 <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
 	href="./resources/styles/shards-dashboards.1.0.0.min.css">
 <link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./resources/styles/custom.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
 
-<script>
-function getProject(){
-	var userID=$("#userID").val();
-	$.ajax({
-		url : "getProject",
-		type : "post",
-		data : {
-			"userID" : userID
-		},
-		success : function(data) {
-			alert(data);
-			var temp = "";
-			for(var i in data){
-			temp += "<tr><td>"+i+"</td>";
-			temp += "<td>"+data[i].projectName+"</td>";
-			temp += "<td>"+data[i].due+"</td>";
-			temp += "<td>"+data[i].memberNum+"</td>";
-			temp += "<td><button onclick='function("+data[i].projectSeq+")'>열기</button></td></tr>";
-          }
-			$("#tbody").append(temp);
-		},
-		error : function() {
-			alert("통신실패");
-		}
-	});
-}
-	$(function() {
-		$('.nav-item').children().eq(6).addClass('active');
-		getProject();
-	});
-</script>
 </head>
 <body>
 	<jsp:include page="header.jsp" flush="true"></jsp:include>
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
-	 <div class="row">
-              <div class="col">
-                <div class="card card-small mb-4">
-                  <div class="card-header border-bottom">
-                    <h6 class="m-0">참여중인 프로젝트</h6>
-                  </div>
-                  <div class="card-body p-0 pb-3 text-center">
-                    <table class="table mb-0">
-                      <thead class="bg-light">
-                        <tr>
-                          <th scope="col" class="border-0">#</th>
-                          <th scope="col" class="border-0">프로젝트 명</th>
-                          <th scope="col" class="border-0">기간</th>
-                          <th scope="col" class="border-0">참여인원</th>
-                          <th scope="col" class="border-0">클라우드</th>
-                        </tr>
-                      </thead>
-                      <tbody id="tbody">
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
+	<div class="row">
+		<div class="col">
+			<div class="card card-small mb-4">
+				<div class="card-header border-bottom">
+					<h6 class="m-0">참여중인 프로젝트</h6>
+				</div>
+				<div class="card-body p-0 pb-3 text-center">
+					<table class="table mb-0">
+						<thead class="bg-light">
+							<tr>
+								<th scope="col" class="border-0">#</th>
+								<th scope="col" class="border-0">프로젝트 명</th>
+								<th scope="col" class="border-0">기간</th>
+								<th scope="col" class="border-0">참여인원</th>
+								<th scope="col" class="border-0">클라우드</th>
+							</tr>
+						</thead>
+						<tbody id="tbody">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 	<jsp:include page="footer.jsp" flush="true"></jsp:include>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -101,5 +76,52 @@ function getProject(){
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
+	<script>
+	function setLeftSideIcon() {
+		$('#navbar').children().eq(0).children().eq(0).attr('class',
+				'nav-link ');
+		$('#navbar').children().eq(1).children().eq(0).attr('class',
+				'nav-link ');
+		$('#navbar').children().eq(2).children().eq(0).attr('class',
+				'nav-link ');
+		$('#navbar').children().eq(3).children().eq(0).attr('class',
+				'nav-link ');
+		$('#navbar').children().eq(4).children().eq(0).attr('class',
+				'nav-link ');
+		$('#navbar').children().eq(5).children().eq(0).attr('class',
+				'nav-link ');
+		$('#navbar').children().eq(6).children().eq(0).addClass('active');
+	}
+	function getProject() {
+		var userID = $("#userID").val();
+		$.ajax({
+			url : "getProject",
+			type : "post",
+			data : {
+				"userID" : userID
+			},
+			success : function(data) {
+				alert(data);
+				var temp = "";
+				for ( var i in data) {
+					temp += "<tr><td>" + i + "</td>";
+					temp += "<td>" + data[i].projectName + "</td>";
+					temp += "<td>" + data[i].due + "</td>";
+					temp += "<td>" + data[i].memberNum + "</td>";
+					temp += "<td><button onclick='function("
+							+ data[i].projectSeq + ")'>열기</button></td></tr>";
+				}
+				$("#tbody").append(temp);
+			},
+			error : function() {
+				alert("통신실패");
+			}
+		});
+	}
+	$(function() {
+		setLeftSideIcon();
+		getProject();
+	});
+</script>
 </body>
 </html>
