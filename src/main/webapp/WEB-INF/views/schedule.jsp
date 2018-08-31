@@ -414,6 +414,11 @@ function setLeftSideIcon(){
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);		    	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+		    	if(startDate1.value < endDate2.value){
+		    		alert('날짜 입력이 잘못되었습니다!');
+		    		return false;
+		    	}
+		    	
 		    	var eventData = {
 		    			'userID' : $('#userID1').val(),
 						'summary' : $('#summary1').val(),
