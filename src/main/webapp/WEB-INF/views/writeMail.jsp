@@ -120,7 +120,6 @@
 			}
 		}
 		$("#to2").val(temp);
-		alert($("#file").val());
 		$("#filename").val($("#file").val());
 		return true;
 	}

@@ -56,6 +56,8 @@ ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress
 CREATE TABLE project (
     projectSeq number PRIMARY KEY
     , projectName varchar2(200)
+    ,due varchar2(100) default '------'
+    ,memberNum number
 );
 
 CREATE TABLE events (

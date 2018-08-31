@@ -4,9 +4,9 @@ public class Project {
 
 	private int projectSeq;
 	private String projectName;
-	private String memberNum;
+	private int memberNum;
 	private String due;
-	public Project(int projectSeq, String projectName, String memberNum, String due) {
+	public Project(int projectSeq, String projectName, int memberNum, String due) {
 		super();
 		this.projectSeq = projectSeq;
 		this.projectName = projectName;
@@ -28,10 +28,10 @@ public class Project {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public String getMemberNum() {
+	public int getMemberNum() {
 		return memberNum;
 	}
-	public void setMemberNum(String memberNum) {
+	public void setMemberNum(int memberNum) {
 		this.memberNum = memberNum;
 	}
 	public String getDue() {
