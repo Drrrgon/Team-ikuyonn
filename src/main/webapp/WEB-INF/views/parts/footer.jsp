@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<script src="./resources/js/chat2.js"></script>
+		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<!DOCTYPE html>		
+	
+	<script async defer src="./resources/js/buttons.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
+	<script src="./resources/js/chat.js"></script>
 	<script src="./resources/js/sockjs.min.js"></script>
+
+	<!-- chat function -->
 	<script>
 	var projectName ="";
 	var currentProject ="";
@@ -348,6 +354,7 @@
 		
 	}
 	</script>
+	
 	<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
@@ -360,9 +367,4 @@
 			href="https://designrevision.com" rel="nofollow">DesignRevision</a>
 		</span>
 	</footer>
-</main>
-</div>
-</div>
 
-</body>
-</html>

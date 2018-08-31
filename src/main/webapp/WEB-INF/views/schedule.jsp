@@ -4,24 +4,184 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>일정표</title>
-<meta name="description"
-	content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="./resources/styles/shards-dashboards.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+<!-- meta -->
+<%@ include file="parts/meta.jsp" %> 
+<title>메이시</title>
+<!-- header -->
+<%@ include file="parts/header.jsp" %>
+<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-size: 14px;
+		}
+		
+		#top, #calendar.fc-unthemed {
+			font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+		}
+		
+		#top {
+			background: #eee;
+			border-bottom: 1px solid #ddd;
+			padding: 0 10px;
+			line-height: 40px;
+			font-size: 12px;
+			color: #000;
+		}
+		
+		#top .selector {
+			display: inline-block;
+			margin-right: 10px;
+		}
+		
+		#top select {
+			font: inherit; /* mock what Boostrap does, don't compete  */
+		}
+		
+		.left {
+			float: left
+		}
+		
+		.right {
+			float: right
+		}
+		
+		.clear {
+			clear: both
+		}
+		
+		#calendar {
+			max-width: 900px;
+			margin: 40px auto;
+			padding: 0 10px;
+		}
+		
+		.modal {
+			display: none; /* Hidden by default */
+			position: fixed; /* Stay in place */
+			z-index: 5; /* Sit on top */
+			left: 0;
+			top: 0;
+			width: 100%; /* Full width */
+			height: 100%; /* Full height */
+			overflow: auto; /* Enable scroll if needed */
+			background-color: rgb(0,0,0); /* Fallback color */
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+		
+		/* Modal Content/Box */
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto; /* 15% from the top and centered */
+			padding: 20px;
+			border: 1px solid #888;
+			width: 50%; /* Could be more or less, depending on screen size */
+		}
+		
+		/* The Close Button */
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 21px;
+			font-weight: bold;
+		}
+		
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		</style>
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
+<!-- load first js 
+	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+<%@ include file="parts/loadFirst-js.jsp" %>
+</head>
+<body class="h-100">
+	<!-- sidebar -->
+	<%@ include file="parts/sidebar.jsp" %>
+
+<div class="main-content-container container-fluid px-4">
+	<div class="page-header row no-gutters py-4">
+		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+			<h3 class="page-title">일정표</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="card card-small mb-4">
+				<div class="card-header border-bottom">
+					<h6 class="m-0"></h6>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item p-3">
+						<div class="row">
+							<div class="col">
+								<div id='calendar'></div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+<div id="insertModal" class="modal">
+<div class="modal-content">
+	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close">&times;</span></h4>
+    <form id="eventsDetail">
+		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
+		<label>제목</label><input type="text" id="summary1" name="summary1"/><br />
+		<label>내용</label><input type="text" id="description1" name="description1"/><br />
+		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
+		<input type="text" name="year1" size="5" maxlength="4" id="year1" />년 
+		<input type="text" name="month1" size="3" maxlength="2" id="month1" >월	
+        <input type="text" name="day1" size="3" maxlength="2" id="day1" >일
+        <input type="text" name="hour1" size="3" maxlength="2" id="hour1" >시
+        <input type="text" name="minute1" size="3" maxlength="2" id="minute1" >분<br />           
+		<label>마감</label><input type="hidden" id="endDate2" name="endDate2"/>
+		<input type="text" name="year2" size="5" maxlength="4" id="year2" />년 
+		<input type="text" name="month2" size="3" maxlength="2" id="month2" >월	
+        <input type="text" name="day2" size="3" maxlength="2" id="day2" >일
+        <input type="text" name="hour2" size="3" maxlength="2" id="hour2" >시
+        <input type="text" name="minute2" size="3" maxlength="2" id="minute2" >분
+	</form>
+	<button type="button" id="insertEvent">일정 입력</button>
+	<button type="button" id="cancelButton1">취소</button>
+</div>
+</div>
+
+<div id="eventModal" class="modal">
+<div class="modal-content">
+	<h4 class="modal-title">일정을 입력해주세요<span id="close3" class="close">&times;</span></h4>
+    <form id="eventsDetail">
+		<input type="hidden" id="userID3" value="${sessionScope.userID}" />
+		<label>제목</label><input type="text" id="summary3" name="summary3"/><br />
+		<label>내용</label><input type="text" id="description3" name="description3"/><br />
+		<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
+		<input type="text" name="year3" size="5" maxlength="4" id="year3" />년 
+		<input type="text" name="month3" size="3" maxlength="2" id="month3" >월	
+        <input type="text" name="day3" size="3" maxlength="2" id="day3" >일
+        <input type="text" name="hour3" size="3" maxlength="2" id="hour3" >시
+        <input type="text" name="minute3" size="3" maxlength="2" id="minute3" >분<br />           
+		<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>
+		<input type="text" name="year4" size="5" maxlength="4" id="year4" />년 
+		<input type="text" name="month4" size="3" maxlength="2" id="month4" >월	
+        <input type="text" name="day4" size="3" maxlength="2" id="day4" >일
+        <input type="text" name="hour4" size="3" maxlength="2" id="hour4" >시
+        <input type="text" name="minute4" size="3" maxlength="2" id="minute4" >분
+	</form>
+	<button type="button" id="updateEvent">수정</button>
+	<button type="button" id="deleteEvent">삭제</button>
+	<button type="button" id="cancelButton3">취소</button>
+</div>
+</div>
+  
+</div>
+
 <script src='./resources/scripts/moment.min.js'></script>
 <script src='./resources/scripts/jquery.min.js'></script>
 <script src='./resources/scripts/fullcalendar.min.js'></script>
@@ -220,169 +380,7 @@ function setLeftSideIcon(){
 			});
 		});
 </script>
-<style>
-body {
-	margin: 0;
-	padding: 0;
-	font-size: 14px;
-}
-
-#top, #calendar.fc-unthemed {
-	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-}
-
-#top {
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	padding: 0 10px;
-	line-height: 40px;
-	font-size: 12px;
-	color: #000;
-}
-
-#top .selector {
-	display: inline-block;
-	margin-right: 10px;
-}
-
-#top select {
-	font: inherit; /* mock what Boostrap does, don't compete  */
-}
-
-.left {
-	float: left
-}
-
-.right {
-	float: right
-}
-
-.clear {
-	clear: both
-}
-
-#calendar {
-	max-width: 900px;
-	margin: 40px auto;
-	padding: 0 10px;
-}
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 5; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 21px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
-</head>
-<jsp:include page="header.jsp" flush="true"></jsp:include>
-<div class="main-content-container container-fluid px-4">
-	<div class="page-header row no-gutters py-4">
-		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-			<h3 class="page-title">일정표</h3>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-8">
-			<div class="card card-small mb-4">
-				<div class="card-header border-bottom">
-					<h6 class="m-0"></h6>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item p-3">
-						<div class="row">
-							<div class="col">
-								<div id='calendar'></div>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	
-<div id="insertModal" class="modal">
-<div class="modal-content">
-	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close">&times;</span></h4>
-    <form id="eventsDetail">
-		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
-		<label>제목</label><input type="text" id="summary1" name="summary1"/><br />
-		<label>내용</label><input type="text" id="description1" name="description1"/><br />
-		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
-		<input type="text" name="year1" size="5" maxlength="4" id="year1" />년 
-		<input type="text" name="month1" size="3" maxlength="2" id="month1" >월	
-        <input type="text" name="day1" size="3" maxlength="2" id="day1" >일
-        <input type="text" name="hour1" size="3" maxlength="2" id="hour1" >시
-        <input type="text" name="minute1" size="3" maxlength="2" id="minute1" >분<br />           
-		<label>마감</label><input type="hidden" id="endDate2" name="endDate2"/>
-		<input type="text" name="year2" size="5" maxlength="4" id="year2" />년 
-		<input type="text" name="month2" size="3" maxlength="2" id="month2" >월	
-        <input type="text" name="day2" size="3" maxlength="2" id="day2" >일
-        <input type="text" name="hour2" size="3" maxlength="2" id="hour2" >시
-        <input type="text" name="minute2" size="3" maxlength="2" id="minute2" >분
-	</form>
-	<button type="button" id="insertEvent">일정 입력</button>
-	<button type="button" id="cancelButton1">취소</button>
-</div>
-</div>
-
-<div id="eventModal" class="modal">
-<div class="modal-content">
-	<h4 class="modal-title">일정을 입력해주세요<span id="close3" class="close">&times;</span></h4>
-    <form id="eventsDetail">
-		<input type="hidden" id="userID3" value="${sessionScope.userID}" />
-		<label>제목</label><input type="text" id="summary3" name="summary3"/><br />
-		<label>내용</label><input type="text" id="description3" name="description3"/><br />
-		<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
-		<input type="text" name="year3" size="5" maxlength="4" id="year3" />년 
-		<input type="text" name="month3" size="3" maxlength="2" id="month3" >월	
-        <input type="text" name="day3" size="3" maxlength="2" id="day3" >일
-        <input type="text" name="hour3" size="3" maxlength="2" id="hour3" >시
-        <input type="text" name="minute3" size="3" maxlength="2" id="minute3" >분<br />           
-		<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>
-		<input type="text" name="year4" size="5" maxlength="4" id="year4" />년 
-		<input type="text" name="month4" size="3" maxlength="2" id="month4" >월	
-        <input type="text" name="day4" size="3" maxlength="2" id="day4" >일
-        <input type="text" name="hour4" size="3" maxlength="2" id="hour4" >시
-        <input type="text" name="minute4" size="3" maxlength="2" id="minute4" >분
-	</form>
-	<button type="button" id="updateEvent">수정</button>
-	<button type="button" id="deleteEvent">삭제</button>
-	<button type="button" id="cancelButton3">취소</button>
-</div>
-</div>
-  
-</div>
-<jsp:include page="footer.jsp" flush="true"></jsp:include>
+<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+<%@ include file="parts/footer.jsp" %>
 </body>
 </html>

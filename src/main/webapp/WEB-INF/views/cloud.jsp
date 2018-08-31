@@ -1,8 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
+<head>
+<!-- meta -->
+<%@ include file="parts/meta.jsp" %> 
+<title>메이시</title>
+<!-- header -->
+<%@ include file="parts/header.jsp" %>
+<link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
+<!-- load first js 
+	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+<%@ include file="parts/loadFirst-js.jsp" %>
+</head>
+<!-- <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -32,11 +44,11 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
+	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script> -->
 
-</head>
-<body>
-	<jsp:include page="header.jsp" flush="true"></jsp:include>
+<body class="h-100">
+		<!-- sidebar -->
+		<%@ include file="parts/sidebar.jsp" %>
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
 		<div class="col">
@@ -63,14 +75,9 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="footer.jsp" flush="true"></jsp:include>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
 	<script
@@ -123,5 +130,7 @@
 		getProject();
 	});
 </script>
+<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+<%@ include file="parts/footer.jsp" %>
 </body>
 </html>
