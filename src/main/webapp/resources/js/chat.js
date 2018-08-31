@@ -4,7 +4,6 @@ $('#prime').click(function() {
   toggleFab();
 });
 
-
 //Toggle chat and links
 function toggleFab() {
   $('.prime').toggleClass('zmdi-comment-outline');

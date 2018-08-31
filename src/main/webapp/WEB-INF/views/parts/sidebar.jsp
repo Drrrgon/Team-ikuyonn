@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<link rel="stylesheet" href="./resources/css/chat2.css">
-<body class="h-100">
 			<!-- Main Sidebar -->
 			<aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
 			<div class="main-navbar">
@@ -38,48 +36,6 @@
 			<!-- 왼쪽 사이드 바 -->
 			<div class="nav-wrapper">
 				<ul id="navbar" class="nav flex-column">
-					<!-- <li class="nav-item">
-						<a class="nav-link" href="index">
-							<i class="material-icons">edit</i> 
-							<span>Blog Dashboard</span>
-						</a>
-					</li> -->
-					<!-- <li class="nav-item">
-						<a class="nav-link" href="components-blog-posts"> 
-							<i class="material-icons">vertical_split</i>
-							<span>Blog Posts</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="add-new-post">
-							<i class="material-icons">note_add</i> 
-							<span>Add New Post</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="form-components"> 
-							<i class="material-icons">view_module</i>
-							<span>Forms &amp; Components</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="tables"> 
-							<i class="material-icons">table_chart</i> 
-							<span>Tables</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="user-profile-lite"> 
-							<i class="material-icons">person</i>
-							<span>User Profile</span>
-						</a>
-					</li> -->
-					<!-- <li class="nav-item">
-						<a class="nav-link " href="errors"> 
-							<i class="material-icons">error</i> 
-							<span>Errors</span>
-						</a>
-					</li> -->
 					<li class="nav-item">
 						<a class="nav-link " href="insertNameCard"> 
 							<i class="material-icons">tab</i> 
@@ -87,7 +43,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link " href="writeMail"> 
+						<a class="nav-link " href="writeMail">
 							<i class="material-icons">mail</i> 
 							<span>메일쓰기</span>
 						</a>
@@ -121,6 +77,12 @@
 							<i class="material-icons">error</i> 
 							<span>프로젝트</span>
 						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="nameCardList"> 
+							<i class="material-icons">tab</i> 
+							<span>명함함</span>
+						</a>
 					</li>						
 				</ul>
 			</div>
@@ -128,6 +90,7 @@
 			<!-- End Main Sidebar -->
 			<main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
 			<div class="main-navbar sticky-top bg-white">
+				<!-- 온라인 접속 유저 -->
 				<div onclick="history.back();" class="page_cover"></div>
 					<div id="onlineList">					
 				 		<div onclick="history.back();" class="close"></div>				  
@@ -140,10 +103,10 @@
 									<img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/> 
 								</div>
 								<!-- 채팅 인적사항 -->
-								<span id="chat_head">Jane Doe</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>		
+								<span id="chat_head">이름</span> <br> <span class="agent">아이디</span> <span class="online">(Online)</span>		
 								<span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
-								<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-mail-send"></i></span>
-								<span class="onlineBtn"><i class="back zmdi zmdi-mail-send"></i></span>
+								<span class="onlineBtn"><i class="back zmdi zmdi-accounts-alt"></i></span>
+								<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-arrow-left-bottom"></i></span>
 							</div>
 						</div>
 
@@ -239,7 +202,7 @@
 								</a> -->
 								<div class="dropdown-divider">
 								</div>
-								<a class="dropdown-item text-danger" href="#"> 
+								<a class="dropdown-item text-danger" href="logoutUser"> 
 									<i lass="material-icons text-danger">&#xE879;</i> 
 									Logout
 								</a>

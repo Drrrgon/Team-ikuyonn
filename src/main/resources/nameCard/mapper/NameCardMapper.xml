@@ -38,4 +38,33 @@
 			#{nameCardUrl, jdbcType=VARCHAR}
 		)
 	</insert>
+	<select id="getTotal" parameterType="String" resultType="int">
+		select COUNT(NCSEQ) from NAMECARD
+		<if test="_parameter != null">
+			WHERE
+				NCSEQ LIKE '%' || #{searchText} || '%'
+		</if>
+	</select>
+	<select id="selectNameCardList" parameterType="String" resultType="NameCard">
+		SELECT
+			USERID
+			NCCHECK,
+			NCNAME,
+			NCEMAIL,
+			NCMOBILE,
+			NCPHONE,
+			NCFAX,
+			NCCOMPANY,
+			NCDEPARTMENT,
+			NCTITLE,
+			NCWEBSITE,
+			NCADDRESS,
+			NAMECARDURL
+		FROM NAMECARD
+		<if test="_parameter != null">
+		WHERE
+			NCSEQ LIKE '%' || #{searchText} || '%'
+		</if>
+		ORDER BY NCSEQ DESC
+	</select>
 </mapper>

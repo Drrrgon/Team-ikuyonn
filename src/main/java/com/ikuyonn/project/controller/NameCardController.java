@@ -4,17 +4,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +32,7 @@ import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
 import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.nameCard.vo.NameCard;
+import com.ikuyonn.project.pagenavi.PageNavigator;
 
 @Controller
 public class NameCardController {
@@ -35,6 +40,8 @@ public class NameCardController {
 	@Autowired
 	SqlSession session;
 	
+	final int COUNTPERPAGE = 5;
+	final int PAGEPERGROUP = 5;
 	private static final String UPLOADPATH = "c:\\\\testFileinfo\\\\";
 	
 	//파일택스트변환 요청
@@ -57,8 +64,22 @@ public class NameCardController {
 		return result;
 	}
 	
-	
-	
+	//명함리스트 출력
+	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
+			@RequestParam(value="searchText", defaultValue="") String searchText) {
+		System.out.println(page+"  "+searchText);
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		int total = mapper.getTotal(searchText);
+		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
+		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
+		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, searchText);
+		Map<String, Object> result = new HashMap<>();
+		result.put("nameCardList", nameCardList);
+		result.put("pageNavigator", pageNavigator);
+		result.put("searchText", searchText);
+		return result;
+	}
 	/************************ 파일업로드 / 사진텍스트 인식 ************************/
 	
 	//파일업로드

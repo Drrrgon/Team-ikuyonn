@@ -15,11 +15,15 @@
 		select * from events
 	</select>
 	
+	<select id="oneEvents" resultType="Events">
+		select * from events where eventSeq = #{eventSeq}
+	</select>
+	
  	<update id="updateEvents" parameterType="Events">
-		update events set summary = #{summary}, startDate = #{startDate}, endDate = #{endDate} where userID = #{userID}
+		update events set summary = #{summary}, startDate = #{startDate}, endDate = #{endDate} where eventSeq = #{eventSeq}
 	</update>
 	
 	<delete id="deleteEvents" parameterType="Events">
-		delete events where summary = #{summary}
+		delete events where eventSeq = #{eventSeq}
 	</delete>
 </mapper>

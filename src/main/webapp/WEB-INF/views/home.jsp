@@ -1,19 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>
- 	function loginCheck(obj){
-		if(obj.loginID.value == ''){
+ 	function loginCheck(){
+		var loginID = $('#loginID').val();
+		var loginPW = $('#loginPW').val();
+		if(loginID == ''){
 			alert('아이디를 입력해주세요!');
 			return false;
-		} else if(obj.loginPW.value == ''){
+		} else if(loginPW == ''){
 			alert('비밀번호를 입력해주세요!');
 			return false;
 		}
-		return true;
-	}
+		// 아이디 비밀번호 유효성 검사
+		$.ajax({
+			url : 'loginUserCheck',
+			type : 'post',
+			data : {
+				'userID' : loginID, 'userPW' : loginPW
+			},
+			success : function(flag){
+				if (flag == 0){
+					alert('아이디가 존재하지 않거나 비밀번호가 맞지 않습니다.');
+				}
+				else{
+					$('#loginForm').submit();
+				}
+			}
+		});
+	return true;
+}
+
+$(function(){
+	$('#loginID').on('keyup', function() {
+		var loginID = $('#loginID').val();
+		
+		var outi = '<span id="idCheck">길이는 4~7 사이입니다</span>';
+			
+		if(loginID.length<4 || loginID.length>7){
+			$('#userID').html(outi);
+		}else{
+			$('#userID').html('');
+		}
+	});
+	
+	$('#loginPW').on('keyup', function() {
+		var loginPW = $('#loginPW').val();
+		
+		var outp = '<span id="pwCheck">길이는 4~10 사이입니다</span>';
+			
+		if(loginPW.length<4 || loginPW.length>10){
+			$('#userPW').html(outp);
+		}else{
+			$('#userPW').html('');
+		}
+	});
+});
 
 function joinConfirm(obj){
     //아이디 입력여부 검사
@@ -83,10 +129,7 @@ function joinConfirm(obj){
         obj.userName.focus();
         return false;
     }
-    
-    obj.userBirth.value = new Date(obj.year.value, obj.month.value-1, obj.day.value);
-    
-    return true;
+	obj.userBirth.value = new Date(obj.year.value, obj.month.value-1, obj.day.value);	
 }
 </script>
 
@@ -251,21 +294,23 @@ a{color:inherit;text-decoration:none}
 		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">회원가입</label>
 		<div class="login-form">
 			<div class="sign-in-htm">
-			<form action="loginUser" method="post" name="login">
+			<form id="loginForm" action="loginUser" method="post" name="login">
 				<div class="group">
 					<label for="user" class="label">아이디</label>
 					<input type="text" class="input" id="loginID" name="userID"/>
+					<div id="userID"></div>
 				</div>
 				<div class="group">
 					<label for="pass" class="label">비밀번호</label>
 					<input type="password" class="input" data-type="password" id="loginPW" name="userPW"/>
+					<div id="userPW"></div>
 				</div>
 				<div class="group">
 					<input id="check" type="checkbox" class="check" checked>
 					<label for="check"><span class="icon"></span> Keep me Signed in</label>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" id="loginButton" name="loginButton" value="로그인" onclick="return loginCheck(login)"/>
+					<button type="button" class="button" id="loginButton" name="loginButton" onclick="loginCheck()">로그인</button>
 				</div>
 			</form>
 				<div class="hr"></div>
@@ -305,6 +350,7 @@ a{color:inherit;text-decoration:none}
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">12</option>
+                    <c:set var="month" value="${month}"/>
                 </select> 월
                 <select name="day" id="day">
                     <option value="01">1</option>
@@ -335,11 +381,13 @@ a{color:inherit;text-decoration:none}
                     <option value="26">26</option>
                     <option value="27">27</option>
                     <option value="28">28</option>
+                    <c:if test="${month!='2'}">
                     <option value="29">29</option>
                     <option value="30">30</option>
-                    
+                    <c:if test="${month!=4 || month!=6 || month!=9 || month!=11}">
                     <option value="31">31</option>
-                   
+                    </c:if>
+                    </c:if>
                 </select> 일
 				</div>
 				<div class="group">

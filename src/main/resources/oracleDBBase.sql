@@ -9,7 +9,13 @@ DROP TABLE inbox purge;
 DROP TABLE nameCard purge;
 DROP TABLE project purge;
 DROP TABLE event purge;
+drop table projectEvent purge;
+drop table events purge;
+drop table cloudFile purge;
+
 DROP sequence message_seq;
+DROP sequence project_seq;
+DROP sequence eventseq;
 
 CREATE TABLE message (
     messageSeq number PRIMARY KEY
@@ -31,6 +37,8 @@ CREATE TABLE usertable(
     , userName varchar2(40) NOT NULL
     , userBirth date
     , userPhone varchar2(24) NOT NULL
+    , originalFilePath varchar2(300)
+    , FilePath varchar2(300)
 );
 
 CREATE TABLE email(
@@ -66,10 +74,9 @@ CREATE TABLE events (
     , summary varchar2(100) NOT NULL
     , description varchar2(500) NOT NULL
     , startDate date NOT NULL
-    , startTime varchar2(50) NOT NULL
-    , endDate date NOT NULL
     , endTime varchar2(50) NOT NULL
 );
+create sequence eventseq;
 
 ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES usertable(userID);
 
@@ -108,9 +115,6 @@ CREATE TABLE projectEvent(
 
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq);
-create sequence eventseq;
-alter table events drop column startTime;
-alter table events drop column endTime;
 
 CREATE TABLE cloudFile(
     fileName varchar2(100) PRIMARY KEY
