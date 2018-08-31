@@ -30,6 +30,7 @@
 	}
 
 	$(function(){
+		
 		var userName = '${sessionScope.userName}';
 		$('#chat_head').text(userName);
 		getUserProjectName();
@@ -298,22 +299,53 @@
 			},
 			success : function(proList){
                 var printHtml ="";
-				for(var i = 0 ; i< proList.length ; i++){
-					printHtml ="";					
-					printHtml += '<label class="custom-control-label">';
-					printHtml += proList[i];
-					printHtml += '</label>&nbsp;';                          
-					printHtml += '<button class="chatBtn btn-sm btn-outline-accent" data-pjName="'+proList[i]+'">';
-					printHtml += '<i class="material-icons">save</i>입장</button>';
-					printHtml += '</div>';
-					printHtml += '</li>';
-					printHtml += '<br/>';
-					$('#selectProject').append(printHtml);
-				}
-				$("button.chatBtn").click(init);
+								if(proList.length == 0){
+									printHtml += '<table>';				
+									printHtml += '<tr><td>Project Name</td>';
+									printHtml += '<td colspan="2">참여중인 프로젝트가 없습니다.</td>';
+									printHtml += '</tr>';				
+									printHtml += '</table>';
+									$('#selectProject').append(printHtml);		
+								}
+								else{
+									for(var i = 0 ; i< proList.length ; i++){
+										if( i == 0){
+											printHtml += '<table>';
+											printHtml += '<tr><td class="chatProjectNameHeader">Project Name</td>';
+											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
+											printHtml += '<td>';
+											printHtml += '<button class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
+											printHtml += '</td>';
+											printHtml += '</tr>';
+											$('#selectProject').append(printHtml);
+										}
+										else{
+											printHtml = "";
+											printHtml += '<tr><td class="chatProjectNameHeader"></td>';
+											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
+											printHtml += '<td>';
+											printHtml += '<button class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
+											printHtml += '</td>';
+											printHtml += '</tr>';
+											$('#selectProject').append(printHtml);
+
+											if( i == proList.length-1 ){
+												printHtml = "";
+												printHtml += '</table>';
+												$('#selectProject').append(printHtml);
+											}
+										}
+									}
+									printHtml = "";
+									$('#selectProject').append(printHtml);
+									$("button.chatBtn").click(init);
+								}				
 			}
-			
 		});
+
+		
 	}
 	</script>
 	<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
