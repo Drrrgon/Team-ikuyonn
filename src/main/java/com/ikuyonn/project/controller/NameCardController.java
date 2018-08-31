@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -30,10 +32,7 @@ import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
 import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.nameCard.vo.NameCard;
-
-import dao.BoardMapper;
-import dao.PageNavigator;
-import vo.Board;
+import com.ikuyonn.project.pagenavi.PageNavigator;
 
 @Controller
 public class NameCardController {
@@ -41,9 +40,8 @@ public class NameCardController {
 	@Autowired
 	SqlSession session;
 	
-	final int COUNTPERPAGE = 10;
+	final int COUNTPERPAGE = 5;
 	final int PAGEPERGROUP = 5;
-	
 	private static final String UPLOADPATH = "c:\\\\testFileinfo\\\\";
 	
 	//파일택스트변환 요청
@@ -66,25 +64,22 @@ public class NameCardController {
 		return result;
 	}
 	
-	
-	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.POST)
-	public @ResponseBody String selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
+	//명함리스트 출력
+	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam(value="searchText", defaultValue="") String searchText) {
-		
-		NameCardMapper nameCardMapper = session.getMapper(NameCardMapper.class);
-		
-		int total = nameCardMapper.getTotal(searchText);
-		System.out.println(total);
+		System.out.println(page+"  "+searchText);
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		int total = mapper.getTotal(searchText);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
-
 		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
-		
-		ArrayList<Board> boardList = boardMapper.selectAllBoard(rowBounds, searchText);
-		model.addAttribute("boardList",boardList);
-		model.addAttribute("pageNavigator",pageNavigator);
-		model.addAttribute("searchText",searchText);
-		return "boardList";
-	}	
+		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, searchText);
+		Map<String, Object> result = new HashMap<>();
+		result.put("nameCardList", nameCardList);
+		result.put("pageNavigator", pageNavigator);
+		result.put("searchText", searchText);
+		return result;
+	}
 	/************************ 파일업로드 / 사진텍스트 인식 ************************/
 	
 	//파일업로드
