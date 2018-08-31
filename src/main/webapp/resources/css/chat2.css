@@ -411,7 +411,7 @@ html.open {
     position: absolute;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
-        z-index: 14;
+        z-index: 16;
   }
 
 .fab_field a {
@@ -451,7 +451,7 @@ html.open {
 .chat_converse {
   position: relative;
   background: #fff;
-  margin: 6px 0 0px 0;
+  margin: 0px 0 0px 0;
   height: 300px;
   min-height: 0;
   font-size: 12px;
@@ -462,12 +462,9 @@ html.open {
   padding-bottom: 100px;
 }
 .chat_converse2{
-  /* height: 100%;
-  max-height: 800px */
-
   position: relative;
   background: #fff;
-  margin: 6px 0 0px 0;
+  margin: 0px 0 0px 0;
   height: 100%;
   max-height: 800px;
   min-height: 0;
@@ -866,4 +863,16 @@ strong.chat_time {
 
 #connectedUserList{
   color: white;
+}
+td.chatProjectName{
+  width: 230px;
+}
+.chatProjectButton{
+  cursor: pointer;
+}
+.chatBtn{
+  opacity: 0.7;
+}
+.chatProjectNameHeader{
+  width: 130px;
 }

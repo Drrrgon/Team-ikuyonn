@@ -140,10 +140,10 @@
 									<img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/> 
 								</div>
 								<!-- 채팅 인적사항 -->
-								<span id="chat_head">Jane Doe</span> <br> <span class="agent">Agent</span> <span class="online">(Online)</span>		
+								<span id="chat_head">이름</span> <br> <span class="agent">아이디</span> <span class="online">(Online)</span>		
 								<span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
-								<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-mail-send"></i></span>
-								<span class="onlineBtn"><i class="back zmdi zmdi-mail-send"></i></span>
+								<span class="onlineBtn"><i class="back zmdi zmdi-accounts-alt"></i></span>
+								<span id="chat_backspace" class="chat_backspace"><i class="back zmdi zmdi-arrow-left-bottom"></i></span>
 							</div>
 						</div>
 

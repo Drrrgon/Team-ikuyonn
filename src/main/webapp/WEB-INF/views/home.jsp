@@ -1,18 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>
- 	function loginCheck(obj){
-		if(obj.loginID.value == ''){
+ 	function loginCheck(){
+		var loginID = $('#loginID').val();
+		var loginPW = $('#loginPW').val();
+		if(loginID == ''){
 			alert('아이디를 입력해주세요!');
 			return false;
-		} else if(obj.loginPW.value == ''){
+		} else if(loginPW == ''){
 			alert('비밀번호를 입력해주세요!');
 			return false;
 		}
-		return true;
+		// 아이디 비밀번호 유효성 검사
+		$.ajax({
+			url : 'loginUserCheck',
+			type : 'post',
+			data : {
+				'userID' : loginID, 'userPW' : loginPW
+			},
+			success : function(flag){
+				if (flag == 0){
+					alert('아이디가 존재하지 않거나 비밀번호가 맞지 않습니다.');
+				}
+				else{
+					$('#loginForm').submit();
+				}
+			}
+		});
 	}
 
 function joinConfirm(obj){
@@ -83,10 +102,7 @@ function joinConfirm(obj){
         obj.userName.focus();
         return false;
     }
-    
-    obj.userBirth.value = new Date(obj.year.value, obj.month.value-1, obj.day.value);
-    
-    return true;
+	obj.userBirth.value = new Date(obj.year.value, obj.month.value-1, obj.day.value);	
 }
 </script>
 
@@ -251,7 +267,7 @@ a{color:inherit;text-decoration:none}
 		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">회원가입</label>
 		<div class="login-form">
 			<div class="sign-in-htm">
-			<form action="loginUser" method="post" name="login">
+			<form id="loginForm" action="loginUser" method="post" name="login">
 				<div class="group">
 					<label for="user" class="label">아이디</label>
 					<input type="text" class="input" id="loginID" name="userID"/>
@@ -265,7 +281,7 @@ a{color:inherit;text-decoration:none}
 					<label for="check"><span class="icon"></span> Keep me Signed in</label>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" id="loginButton" name="loginButton" value="로그인" onclick="return loginCheck(login)"/>
+					<button type="button" class="button" id="loginButton" name="loginButton" onclick="loginCheck()">로그인</button>
 				</div>
 			</form>
 				<div class="hr"></div>

@@ -42,6 +42,17 @@ public class UserController {
 		hs.setAttribute("userName", ur.getUserName());
 		return "insertNameCard";
 	}
+	
+	@RequestMapping(value = "/loginUserCheck", method = RequestMethod.POST)
+	public @ResponseBody String loginUserCheck(User u){
+		System.out.println(u);
+		UserMapper um = session.getMapper(UserMapper.class);
+		User ur = um.loginUser(u);
+		if(ur != null) {
+			return 1+"";
+		}
+		return 0+"";
+	}
 
 	@RequestMapping(value = "/joinUser", method = RequestMethod.POST)
 	public String joinUser(User u) {
