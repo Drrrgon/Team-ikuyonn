@@ -3,47 +3,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>Shards Dashboard Lite - Free Bootstrap Admin Template â
-	DesignRevision</title>
-<meta name="description"
-	content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
-	href="./resources/styles/shards-dashboards.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/styles/custom.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
-<script>
-	$(function (){
-		setLeftSideIcon();
-	});
-	function setLeftSideIcon(){
-			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(4).children().eq(0).addClass('active');
-	}
-</script>
+<!-- meta -->
+<%@ include file="parts/meta.jsp" %> 
+<title>메이시</title>
+<!-- header -->
+<%@ include file="parts/header.jsp" %>
+<link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
+<!-- load first js 
+	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+<%@ include file="parts/loadFirst-js.jsp" %>
 </head>
-<body>
-<jsp:include page="header.jsp" flush="true"></jsp:include>
+<body class="h-100">
+	<!-- sidebar -->
+	<%@ include file="parts/sidebar.jsp" %>
+		<div></div>
 				<!-- Default Light Table -->
 				<div class="row">
 					<div class="col-lg-4">
@@ -54,7 +27,7 @@
 										src="./resources/images/avatars/0.jpg" alt="User Avatar"
 										width="110">
 								</div>
-								<h4 class="mb-0">${sessionScope.ur.userName}</h4>
+								<h4 class="mb-0">${sessionScope.userID}</h4>
 								<span class="text-muted d-block mb-2">Project Manager</span>
 								<button type="button"
 									class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
@@ -94,10 +67,10 @@
 											<form action="updateUser" method="post">
 												<div class="form-row">
 													<div class="form-group col-md-6">
-													<input type="hidden" name="userID" id="userID" value="${sessionScope.ur.userID}">
+													<input type="hidden" name="userID" id="userID" value="${sessionScope.userID}">
 														<label for="feFirstName">이름</label> <input type="text"
 															class="form-control" name="userName" id="userName"
-															value="${sessionScope.ur.userName}" readonly="readonly">
+															value="${sessionScope.userID}" readonly="readonly">
 													</div>
 													<!--    <div class="form-group col-md-6">
                                 <label for="feLastName">Last Name</label>
@@ -154,9 +127,6 @@
 				<a href="logoutUser">
 					<button class="btn btn-accent">로그아웃</button></a>
 	
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -170,8 +140,21 @@
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
-	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
-	<script src="./resources/scripts/shards-dashboards.1.0.0.min.js"></script>
-	<jsp:include page="footer.jsp" flush="true"></jsp:include>
+	<script>
+			$(function (){
+				setLeftSideIcon();
+			});
+			function setLeftSideIcon(){
+					$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
+					$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
+					$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
+					$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
+					$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
+					$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
+					$('#navbar').children().eq(4).children().eq(0).addClass('active');
+			}
+		</script>
+		<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+<%@ include file="parts/footer.jsp" %>
 </body>
 </html>

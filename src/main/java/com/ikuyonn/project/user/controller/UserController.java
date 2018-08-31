@@ -45,7 +45,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/loginUserCheck", method = RequestMethod.POST)
 	public @ResponseBody String loginUserCheck(User u){
-		System.out.println(u);
 		UserMapper um = session.getMapper(UserMapper.class);
 		User ur = um.loginUser(u);
 		if(ur != null) {
