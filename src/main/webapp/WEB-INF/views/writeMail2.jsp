@@ -9,7 +9,7 @@
 <title>메이시</title>
 <!-- header -->
 <%@ include file="parts/header.jsp" %>
-<link rel="stylesheet" href="./resources/mail/style.css">
+<!-- <link rel="stylesheet" href="./resources/mail/style.css"> -->
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="parts/loadFirst-js.jsp" %>
@@ -17,33 +17,30 @@
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="parts/sidebar.jsp" %>
-	<input type="hidden" value="${sessionScope.userID}" id="userID"
-		name="userID" />
-
+	<input type="hidden" value="${sessionScope.userID}" id="userID"	name="userID" />
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
 			<div id="page-inner">
 				<div class="col-md-12">
-					<br />
+					<br/>
 					<h3>메일 쓰기</h3>
 				</div>
 				<!-- /. ROW  -->
-				<hr />
+				<hr/>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel-body">
 							<form role="form" action="sendEmail" method="post" id="sendEmail"
 								onsubmit="naming()" enctype="multipart/form-data">
 								<div class="form-group">
-									<a>보내는 사람 : </a> <select class="form-control" name="from"
-										id="from">
-
-									</select>
+									<a>보내는 사람 : </a> 
+									<select class="form-control" name="from" id="from"></select>
 								</div>
 								<div class="form-group">
-									<a>받는 사람 :</a> <a><주소록></a>
+									<a>받는 사람 :</a>
+									<a><주소록></a>
 									<div class="custom-control custom-checkbox mb-1">
-										<input type="checkbox" class="custom-control-input"
+									<input type="checkbox" class="custom-control-input"
 											id="formsCheckboxChecked"> <label
 											class="custom-control-label" for="formsCheckboxChecked">내게
 											쓰기</label>
@@ -74,7 +71,6 @@
 			</div>
 		</div>
 	</div>
-
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -95,7 +91,6 @@
 			}
 		}
 		$("#to2").val(temp);
-		alert($("#file").val());
 		$("#filename").val($("#file").val());
 		return true;
 	}

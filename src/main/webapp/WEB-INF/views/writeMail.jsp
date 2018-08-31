@@ -9,6 +9,7 @@
 <title>메이시</title>
 <!-- header -->
 <%@ include file="parts/header.jsp" %>
+<link rel="stylesheet" href="./resources/mail/style.css">
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="parts/loadFirst-js.jsp" %>

@@ -10,6 +10,10 @@
 <!-- header -->
 <%@ include file="parts/header.jsp" %>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
+<style>                                         
+	#file {width:0; height:0; opacity:0; position:relative;}
+	#cloudBody{display:none;}                    
+</style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="parts/loadFirst-js.jsp" %>
@@ -49,14 +53,7 @@
 <body class="h-100">
 		<!-- sidebar -->
 		<%@ include file="parts/sidebar.jsp" %>
-	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
-<style>                                         
-	#file {width:0; height:0; opacity:0; position:relative;}
-	#cloudBody{display:none;}                    
-</style>
-</head>
-<body>
-	<jsp:include page="header.jsp" flush="true"></jsp:include>
+
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
 		<div class="col">
