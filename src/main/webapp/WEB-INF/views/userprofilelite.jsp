@@ -54,7 +54,7 @@
 										src="./resources/images/avatars/0.jpg" alt="User Avatar"
 										width="110">
 								</div>
-								<h4 class="mb-0">${sessionScope.ur.userName}</h4>
+								<h4 class="mb-0">${sessionScope.userID}</h4>
 								<span class="text-muted d-block mb-2">Project Manager</span>
 								<button type="button"
 									class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
@@ -94,10 +94,10 @@
 											<form action="updateUser" method="post">
 												<div class="form-row">
 													<div class="form-group col-md-6">
-													<input type="hidden" name="userID" id="userID" value="${sessionScope.ur.userID}">
+													<input type="hidden" name="userID" id="userID" value="${sessionScope.userID}">
 														<label for="feFirstName">이름</label> <input type="text"
 															class="form-control" name="userName" id="userName"
-															value="${sessionScope.ur.userName}" readonly="readonly">
+															value="${sessionScope.userID}" readonly="readonly">
 													</div>
 													<!--    <div class="form-group col-md-6">
                                 <label for="feLastName">Last Name</label>

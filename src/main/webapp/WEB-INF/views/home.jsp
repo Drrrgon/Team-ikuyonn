@@ -33,6 +33,34 @@
 			}
 		});
 	}
+	return true;
+}
+
+$(function(){
+	$('#loginID').on('keyup', function() {
+		var loginID = $('#loginID').val();
+		
+		var outi = '<span id="idCheck">길이는 4~7 사이입니다</span>';
+			
+		if(loginID.length<4 || loginID.length>7){
+			$('#userID').html(outi);
+		}else{
+			$('#userID').html('');
+		}
+	});
+	
+	$('#loginPW').on('keyup', function() {
+		var loginPW = $('#loginPW').val();
+		
+		var outp = '<span id="pwCheck">길이는 4~10 사이입니다</span>';
+			
+		if(loginPW.length<4 || loginPW.length>10){
+			$('#userPW').html(outp);
+		}else{
+			$('#userPW').html('');
+		}
+	});
+});
 
 function joinConfirm(obj){
     //아이디 입력여부 검사
@@ -271,10 +299,12 @@ a{color:inherit;text-decoration:none}
 				<div class="group">
 					<label for="user" class="label">아이디</label>
 					<input type="text" class="input" id="loginID" name="userID"/>
+					<div id="userID"></div>
 				</div>
 				<div class="group">
 					<label for="pass" class="label">비밀번호</label>
 					<input type="password" class="input" data-type="password" id="loginPW" name="userPW"/>
+					<div id="userPW"></div>
 				</div>
 				<div class="group">
 					<input id="check" type="checkbox" class="check" checked>
@@ -321,6 +351,7 @@ a{color:inherit;text-decoration:none}
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">12</option>
+                    <c:set var="month" value="${month}"/>
                 </select> 월
                 <select name="day" id="day">
                     <option value="01">1</option>
@@ -351,11 +382,13 @@ a{color:inherit;text-decoration:none}
                     <option value="26">26</option>
                     <option value="27">27</option>
                     <option value="28">28</option>
+                    <c:if test="${month!='2'}">
                     <option value="29">29</option>
                     <option value="30">30</option>
-                    
+                    <c:if test="${month!=4 || month!=6 || month!=9 || month!=11}">
                     <option value="31">31</option>
-                   
+                    </c:if>
+                    </c:if>
                 </select> 일
 				</div>
 				<div class="group">

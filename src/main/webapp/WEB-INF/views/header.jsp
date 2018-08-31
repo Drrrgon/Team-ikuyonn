@@ -105,12 +105,6 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link " href="userprofilelite"> 
-							<i class="material-icons">error</i> 
-							<span>회원정보</span>
-						</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link " href="projectFileCloud"> 
 							<i class="material-icons">share</i>
 							<span>Project Cloud</span>
@@ -225,28 +219,20 @@
 						</li>
 
 						<!-- 드롭다운메뉴 로그아웃 회원정보 수정 등 -->
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> 
+						<li class="nav-item dropdown show">
+							<a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true"> 
 								<img class="user-avatar rounded-circle mr-2" src="./resources/images/avatars/0.jpg" alt="User Avatar"> 
 								<span class="d-none d-md-inline-block">${sessionScope.userName}</span>
 							</a>
-							<div class="dropdown-menu dropdown-menu-small">
-								<!-- <a class="dropdown-item" href="user-profile-lite"> 
-									<i class="material-icons">&#xE7FD;</i> 
-									Profile
-								</a> 
-								<a class="dropdown-item" href="components-blog-posts"> 
-									<i class="material-icons">vertical_split</i> 
-									Blog Posts
-								</a> 
-								<a class="dropdown-item" href="add-new-post"> 
-									<i class="material-icons">note_add</i>
-									 Add New Post
-								</a> -->
+							<div class="dropdown-menu dropdown-menu-small show"  style="display: block;">
 								<div class="dropdown-divider">
 								</div>
-								<a class="dropdown-item text-danger" href="#"> 
-									<i lass="material-icons text-danger">&#xE879;</i> 
+								<a class="dropdown-item text-danger" href="userprofilelite"> 
+									<i class="material-icons text-danger">&#xE879;</i> 
+									회원정보
+								</a>
+								<a class="dropdown-item text-danger" href="logoutUser"> 
+									<i class="material-icons text-danger">&#xE879;</i> 
 									Logout
 								</a>
 							</div>
