@@ -49,6 +49,14 @@
 <body class="h-100">
 		<!-- sidebar -->
 		<%@ include file="parts/sidebar.jsp" %>
+	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
+<style>                                         
+	#file {width:0; height:0; opacity:0; position:relative;}
+	#cloudBody{display:none;}                    
+</style>
+</head>
+<body>
+	<jsp:include page="header.jsp" flush="true"></jsp:include>
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
 		<div class="col">
@@ -71,9 +79,51 @@
 
 						</tbody>
 					</table>
+
+				</div>
+
+			</div>
+			<div class="card card-small mb-4">
+				<div class="card-header border-bottom">
+					<h6 class="m-0">클라우드</h6>
+					<div align="right">
+					<form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
+					<input type='file' id='file' name='file'/>
+					</form>
+						<button type="button" class="btn btn-white"
+							id="upload">파일 등록</button>
+						<button type="button" class="btn btn-white"
+							id="delete">삭&nbsg;제</button>
+					</div>
+				</div>
+				<div class="card-body p-0 pb-3 text-center" id="cloudBody">
+					<div>프로젝트명</div>
+					<table class="table mb-0">
+						<tr>
+							<td><img src="./resources/images/aaa.png" height="42"
+								width="42" id="1"><br />
+							<a>aaa.pdf</a></td>
+							<td><img src="./resources/images/aaa.png" height="42"
+								width="42" id="1"><br />
+							<a>aaa.pdf</a></td>
+							<td><img src="./resources/images/aaa.png" height="42"
+								width="42" id="1"><br />
+							<a>aaa.pdf</a></td>
+							<td><img src="./resources/images/aaa.png" height="42"
+								width="42" id="1"><br />
+							<a>aaa.pdf</a></td>
+							<td><img src="./resources/images/aaa.png" height="42"
+								width="42" id="1"><br />
+							<a>aaa.pdf</a></td>
+							<td><img src="./resources/images/aaa.png" height="42"
+								width="42" id="1"><br />
+							<a>aaa.pdf</a></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
+
 	</div>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -84,45 +134,76 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
 	<script>
-	function setLeftSideIcon() {
-		$('#navbar').children().eq(0).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(1).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(2).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(3).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(4).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(5).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(6).children().eq(0).addClass('active');
-	}
-	function getProject() {
-		var userID = $("#userID").val();
-		$.ajax({
-			url : "getProject",
-			type : "post",
-			data : {
-				"userID" : userID
-			},
-			success : function(data) {
-				alert(data);
-				var temp = "";
-				for ( var i in data) {
-					temp += "<tr><td>" + i + "</td>";
-					temp += "<td>" + data[i].projectName + "</td>";
-					temp += "<td>" + data[i].due + "</td>";
-					temp += "<td>" + data[i].memberNum + "</td>";
-					temp += "<td><button onclick='function("
-							+ data[i].projectSeq + ")'>열기</button></td></tr>";
+		function setLeftSideIcon() {
+			$('#navbar').children().eq(0).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(6).children().eq(0).addClass('active');
+		}
+		function getProject() {
+			var userID = $("#userID").val();
+			$.ajax({
+				url : "getProject",
+				type : "post",
+				data : {
+					"userID" : userID
+				},
+				success : function(data) {
+					var temp = "";
+					for ( var i in data) {
+						temp += "<tr><td>" + i + "</td>";
+						temp += "<td>" + data[i].projectName + "</td>";
+						temp += "<td>" + data[i].due + "</td>";
+						temp += "<td>" + data[i].memberNum + "</td>";
+						temp += "<td><button onclick='fileList("
+								+ data[i].projectSeq
+								+ ")'>열기</button></td></tr>";
+					}
+					$("#tbody").append(temp);
+				},
+				error : function() {
+					alert("통신실패");
 				}
-				$("#tbody").append(temp);
-			},
-			error : function() {
-				alert("통신실패");
-			}
+			});
+		}
+		function fileList(projectSeq){
+			var temp = document.getElementById("cloudBody");
+			temp.style.display="block";
+		}
+		$(function() {
+			setLeftSideIcon();
+			getProject();
+			var projectSeq= "";
+			$("#upload").click(function(e){
+				e.preventDefault();             
+				$("#file").click();
+			});
+			$("#file").change(function(){
+				var formData = new FormData();
+				formData.append("file", $("#file")[0].files[0]);
+				$.ajax({
+					url : "addFile",
+					processData: false,
+                    contentType: false,
+                    data: formData,
+                    type: 'POST',
+                    success: function(result){
+                        alert("업로드 성공!!");
+                    },
+					error : function() {
+						alert("통신실패");
+					}
+				});
+			});
 		});
 	}
 	$(function() {
