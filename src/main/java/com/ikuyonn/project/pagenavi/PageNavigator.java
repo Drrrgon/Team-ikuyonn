@@ -1,4 +1,4 @@
-package com.ikuyonn.project.nameCard.pageNavi;
+package com.ikuyonn.project.pagenavi;
 
 /**
  * 게시판 페이징 처리 클래스
