@@ -202,7 +202,7 @@
 				});
 			});
 		});
-	}
+	
 	$(function() {
 		setLeftSideIcon();
 		getProject();
