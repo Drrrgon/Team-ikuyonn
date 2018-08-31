@@ -3,106 +3,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- meta -->
-<%@ include file="parts/meta.jsp" %> 
-<title>메이시</title>
-<!-- header -->
-<%@ include file="parts/header.jsp" %>
-<style>
-		body {
-			margin: 0;
-			padding: 0;
-			font-size: 14px;
-		}
-		
-		#top, #calendar.fc-unthemed {
-			font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-		}
-		
-		#top {
-			background: #eee;
-			border-bottom: 1px solid #ddd;
-			padding: 0 10px;
-			line-height: 40px;
-			font-size: 12px;
-			color: #000;
-		}
-		
-		#top .selector {
-			display: inline-block;
-			margin-right: 10px;
-		}
-		
-		#top select {
-			font: inherit; /* mock what Boostrap does, don't compete  */
-		}
-		
-		.left {
-			float: left
-		}
-		
-		.right {
-			float: right
-		}
-		
-		.clear {
-			clear: both
-		}
-		
-		#calendar {
-			max-width: 900px;
-			margin: 40px auto;
-			padding: 0 10px;
-		}
-		
-		.modal {
-			display: none; /* Hidden by default */
-			position: fixed; /* Stay in place */
-			z-index: 5; /* Sit on top */
-			left: 0;
-			top: 0;
-			width: 100%; /* Full width */
-			height: 100%; /* Full height */
-			overflow: auto; /* Enable scroll if needed */
-			background-color: rgb(0,0,0); /* Fallback color */
-			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-		}
-		
-		/* Modal Content/Box */
-		.modal-content {
-			background-color: #fefefe;
-			margin: 15% auto; /* 15% from the top and centered */
-			padding: 20px;
-			border: 1px solid #888;
-			width: 50%; /* Could be more or less, depending on screen size */
-		}
-		
-		/* The Close Button */
-		.close {
-			color: #aaa;
-			float: right;
-			font-size: 21px;
-			font-weight: bold;
-		}
-		
-		.close:hover,
-		.close:focus {
-			color: black;
-			text-decoration: none;
-			cursor: pointer;
-		}
-		</style>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>일정표</title>
+<meta name="description"
+	content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="./resources/styles/shards-dashboards.1.0.0.min.css">
+<link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
-<!-- load first js 
-	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp" %>
-</head>
-<body class="h-100">
-	<!-- sidebar -->
-	<%@ include file="parts/sidebar.jsp" %>
+<script src='./resources/scripts/jquery.min.js'></script>
+<script src='./resources/scripts/moment.min.js'></script>
+<script src='./resources/scripts/fullcalendar.min.js'></script>
+<script src='./resources/scripts/scheduler.min.js'></script>
+<script src='./resources/scripts/theme-chooser.js'></script>
+<link rel="stylesheet" href="./resources/styles/custom.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script>
 
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+}
+
+#top, #calendar.fc-unthemed {
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#top {
+	background: #eee;
+	border-bottom: 1px solid #ddd;
+	padding: 0 10px;
+	line-height: 40px;
+	font-size: 12px;
+	color: #000;
+}
+
+#top .selector {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+#top select {
+	font: inherit; /* mock what Boostrap does, don't compete  */
+}
+
+.left {
+	float: left
+}
+
+.right {
+	float: right
+}
+
+.clear {
+	clear: both
+}
+
+#calendar {
+	max-width: 900px;
+	margin: 40px auto;
+	padding: 0 10px;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 5; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+</head>
 <div class="main-content-container container-fluid px-4">
 	<div class="page-header row no-gutters py-4">
 		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -469,7 +482,5 @@ function setLeftSideIcon(){
 				});
 			}
 </script>
-<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/footer.jsp" %>
 </body>
 </html>

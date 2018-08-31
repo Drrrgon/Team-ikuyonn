@@ -350,7 +350,6 @@ a{color:inherit;text-decoration:none}
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">12</option>
-                    <c:set var="month" value="${month}"/>
                 </select> 월
                 <select name="day" id="day">
                     <option value="01">1</option>
