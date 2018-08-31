@@ -63,7 +63,6 @@ var TagsInput = function(element) {
         element = v instanceof Node ? v : document.createElement('div');
         if(!element.className.match(/\btags-input\b/)) element.className += ' tags-input';
         if(element.getAttribute('contenteditable') != 'true') element.setAttribute('contenteditable', 'true');
-        
         element.removeEventListener('keydown', keydown);
         element.addEventListener('keydown', keydown);
         element.removeEventListener('focus', focus);

@@ -9,12 +9,14 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,11 +31,18 @@ import com.google.protobuf.ByteString;
 import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.nameCard.vo.NameCard;
 
+import dao.BoardMapper;
+import dao.PageNavigator;
+import vo.Board;
+
 @Controller
 public class NameCardController {
 	
 	@Autowired
 	SqlSession session;
+	
+	final int COUNTPERPAGE = 10;
+	final int PAGEPERGROUP = 5;
 	
 	private static final String UPLOADPATH = "c:\\\\testFileinfo\\\\";
 	
@@ -58,7 +67,24 @@ public class NameCardController {
 	}
 	
 	
-	
+	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.POST)
+	public @ResponseBody String selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
+			@RequestParam(value="searchText", defaultValue="") String searchText) {
+		
+		NameCardMapper nameCardMapper = session.getMapper(NameCardMapper.class);
+		
+		int total = nameCardMapper.getTotal(searchText);
+		System.out.println(total);
+		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
+
+		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
+		
+		ArrayList<Board> boardList = boardMapper.selectAllBoard(rowBounds, searchText);
+		model.addAttribute("boardList",boardList);
+		model.addAttribute("pageNavigator",pageNavigator);
+		model.addAttribute("searchText",searchText);
+		return "boardList";
+	}	
 	/************************ 파일업로드 / 사진텍스트 인식 ************************/
 	
 	//파일업로드
