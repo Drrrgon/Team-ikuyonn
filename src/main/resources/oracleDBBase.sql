@@ -74,7 +74,7 @@ CREATE TABLE events (
     , summary varchar2(100) NOT NULL
     , description varchar2(500) NOT NULL
     , startDate date NOT NULL
-    , endTime varchar2(50) NOT NULL
+    , endDate date NOT NULL
 );
 create sequence eventseq;
 
