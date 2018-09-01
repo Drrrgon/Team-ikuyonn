@@ -6,15 +6,26 @@
 <mapper namespace="com.ikuyonn.project.user.mapper.UserMapper">
 	<insert id="insertUser" parameterType="User">
 		insert into userTable(userID, userPW, userName, userBirth, userPhone) 
-		values(#{userID}, #{userPW}, #{userName}, #{userBirth}, #{userPhone})
+		values(#{userID}, #{userPW}, #{userName}, #{userBirth}, #{userPhone})		
 	</insert>
 	
 	<select id="loginUser" parameterType="User" resultType="User">
-		select * from userTable where userID = #{userID} and userPW = #{userPW}	
+		select * from userTable where userID = #{userID}
+		<if test="userPW != null">
+			and userPW = #{userPW}
+		</if>	
 	</select>
 	
+	<update id="deleteUserProfile" parameterType="User">
+		update userTable set originalFileName = null where userID = #{userID}
+	</update>
+	
  	<update id="updateUser" parameterType="User">
-		update userTable set userPW = #{userPW}, userBirth = #{userBirth}, userPhone = #{userPhone} where userID = #{userID}
+		update userTable 
+		<if test="originalFileName == null">
+			set userPW = #{userPW}, userBirth = #{userBirth}, userPhone = #{userPhone} where userID = #{userID}
+		</if>
+			set originalFileName = #{originalFileName} where userID = #{userID}
 	</update>
 	
 	<delete id="deleteUser" parameterType="User">

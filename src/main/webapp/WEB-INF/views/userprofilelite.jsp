@@ -23,15 +23,27 @@
 						<div class="card card-small mb-4 pt-3">
 							<div class="card-header border-bottom text-center">
 								<div class="mb-3 mx-auto">
-									<img class="rounded-circle"
-										src="./resources/images/avatars/0.jpg" alt="User Avatar"
+									<img id ="userProfileScreen"class="rounded-circle"
+										src=${sessionScope.userProfilePath} alt="User Avatar"
 										width="110">
 								</div>
 								<h4 class="mb-0">${sessionScope.userID}</h4>
 								<span class="text-muted d-block mb-2">Project Manager</span>
+								<form action="ProfilefileUplodeAction" method="post" enctype="multipart/form-data" >
+									<div id="uploadPicture">
+										<img id="image" alt="" src="">
+										<input type="file" name="fileUplode" id="fileUplode" accept="img/*" multiple> 
+									</div>
+									<div id="imgIcon">
+										<img src="">
+										<div id="ajaxLoading">
+											<img src="./resources/images/loading.gif">
+										</div>
+									</div>
+								</form>
 								<button type="button"
 									class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
-									<i class="material-icons mr-1">person_add</i>Follow
+									<i class="zmdi zmdi-camera"></i>Upload Picture
 								</button>
 							</div>
 							<ul class="list-group list-group-flush">
@@ -124,8 +136,8 @@
 				</div>
 				<a href="deleteUser?userID=${sessionScope.ur.userID}">
 					<button class="btn btn-accent">회원탈퇴</button></a>
-				<a href="logoutUser">
-					<button class="btn btn-accent">로그아웃</button></a>
+				<!-- <a href="logoutUser">
+					<button class="btn btn-accent">로그아웃</button></a> -->
 	
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -143,7 +155,66 @@
 	<script>
 			$(function (){
 				setLeftSideIcon();
+
+				$('#row2').css('display','none');
+		
+		//드래그앤드롭 파일업로드
+		var file = document.querySelector('#fileUplode');
+		
+		file.onchange = function() {
+		    var fileList = file.files ;
+		    
+		    // 읽기
+		    var reader = new FileReader();
+		    reader.readAsDataURL(fileList [0]);
+		    
+
+		    //로드 한 후
+		    reader.onload = function(e) {
+		    	if ($("#fileUplode").val() != "") {
+					var ext = $('#fileUplode').val().split('.').pop().toLowerCase();
+					if ($.inArray(ext, [ 'gif', 'png', 'jpg','jpeg' ]) == -1) {
+						alert('이미지파일만 업로드 할수 있습니다.');
+						return false;
+					};
+				};
+				
+				var formData = new FormData();
+				formData.append("fileUplode", $("input[name=fileUplode]")[0].files[0]);
+		
+				$.ajax({
+					url : "ProfilefileUplodeAction",
+					type : "post",
+					data : formData,
+					processData : false,
+					contentType : false,
+					success : function(path){
+						var tempPath = "<c:url value='"+path+"'/>";
+						$('#userProfileScreen').attr('src',tempPath);
+						$('#userProfileDropDown').attr('src',tempPath);
+						$('#userProfileTopbar').attr('src',tempPath);						
+					}	,
+					// beforeSend : function() {
+					// 	// $('#uploadBox').css('display','none');
+					// 	// $('#imgIcon').css('display','block');
+					// 	// $('#userProfileScreen').attr('src',e.target.result);
+					// 	// console.log('로딩중...');
+					// },
+					// complete : function(path) {
+					// 	$('#userProfileScreen').attr('src',path);
+					// 	// $('#row1').css('display','none');
+					// 	// $('#row2').css('display','');
+					// 	// console.log('완료');
+					// },
+					error : function() {
+						console.log('통신실패');
+					}
+				});
+		    };
+		};
 			});
+
+
 			function setLeftSideIcon(){
 					$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
 					$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');
