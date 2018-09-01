@@ -12,4 +12,6 @@ public interface UserMapper {
 	public int updateUser(User u);
 	
 	public void deleteUser(User u);
+
+	public int deleteUserProfile(User ur);
 }

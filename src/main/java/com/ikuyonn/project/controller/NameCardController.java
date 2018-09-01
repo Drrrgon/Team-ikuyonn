@@ -91,8 +91,8 @@ public class NameCardController {
 		File saveFile = new File(UPLOADPATH,saveFileName);
 		try {
 			uploadFile.transferTo(saveFile);
-			String resurt = vision(saveFileName);
-			return resurt;
+			String result = vision(saveFileName);
+			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "";

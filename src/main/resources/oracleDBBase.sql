@@ -2,6 +2,7 @@
 
 grant connect, dba, resource to ikuyonn;
 
+DROP TABLE JOINPROJECT PURGE;
 DROP TABLE message purge;
 DROP TABLE usertable purge;
 DROP TABLE email purge;
@@ -37,8 +38,7 @@ CREATE TABLE usertable(
     , userName varchar2(40) NOT NULL
     , userBirth date
     , userPhone varchar2(24) NOT NULL
-    , originalFilePath varchar2(300)
-    , FilePath varchar2(300)
+    , originalFileName varchar2(300)
 );
 
 CREATE TABLE email(
