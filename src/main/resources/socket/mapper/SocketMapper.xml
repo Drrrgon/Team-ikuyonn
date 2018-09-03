@@ -64,6 +64,7 @@
 			p.projectSeq = jp.projectSeq
 		AND
 			#{value} = p.projectName
+		
 	</select>
 	
 	

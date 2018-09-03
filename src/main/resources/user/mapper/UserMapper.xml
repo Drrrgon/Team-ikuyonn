@@ -6,18 +6,98 @@
 <mapper namespace="com.ikuyonn.project.user.mapper.UserMapper">
 	<insert id="insertUser" parameterType="User">
 		insert into userTable(userID, userPW, userName, userBirth, userPhone) 
-		values(#{userID}, #{userPW}, #{userName}, #{userBirth}, #{userPhone})
+		values(#{userID}, #{userPW}, #{userName}, #{userBirth}, #{userPhone})		
 	</insert>
 	
 	<select id="loginUser" parameterType="User" resultType="User">
-		select * from userTable where userID = #{userID} and userPW = #{userPW}	
+		select * from userTable where userID = #{userID}
+		<if test="userPW != null">
+			and userPW = #{userPW}
+		</if>	
 	</select>
 	
+	<update id="deleteUserProfile" parameterType="User">
+		update userTable set originalFileName = null where userID = #{userID}
+	</update>
+	
  	<update id="updateUser" parameterType="User">
-		update userTable set userPW = #{userPW}, userPhone = #{userPhone} where userID = #{userID}
+		update userTable 
+		<if test="originalFileName == null">
+			set userPW = #{userPW}, userBirth = #{userBirth}, userPhone = #{userPhone} where userID = #{userID}
+		</if>
+			set originalFileName = #{originalFileName} where userID = #{userID}
 	</update>
 	
 	<delete id="deleteUser" parameterType="User">
 		delete userTable where userID = #{userID}
 	</delete>
+	
+	<delete id="deleteProject" parameterType="int">
+		delete project where projectseq = #{value}
+	</delete>
+	
+	<delete id="deleteJoinProject" parameterType="map">
+		delete joinproject 
+			where 
+			projectseq = #{projectSeq}				
+	</delete>
+	
+	<select id="getUserProjectList" parameterType="map" resultType="Project">		
+		<if test="userID != null">
+		SELECT DISTINCT 
+			p.projectName, p.projectseq 
+		FROM 
+			project p, joinproject jp, usertable ut 
+		WHERE 
+			#{userID} = jp.userid 
+			AND 
+			jp.PROJECTSEQ = p.PROJECTSEQ
+		ORDER BY p.PROJECTSEQ
+		</if>			
+		<if test="userID == null">
+			SELECT * FROM project
+			ORDER BY PROJECTSEQ
+		</if>	
+	</select>
+	
+	<select id="getProjectList" parameterType="map" resultType="Project">		
+		<if test="userID != null">
+		SELECT DISTINCT 
+			p.projectName, p.projectseq 
+		FROM 
+			project p, joinproject jp, usertable ut 
+		WHERE 
+			#{userID} = jp.userid 
+			AND 
+			jp.PROJECTNAME = p.PROJECTNAME
+			AND
+			#{projectName} = p.PROJECTNAME
+		</if>			
+		<if test="userID == null">
+			SELECT * FROM project
+		</if>	
+	</select>
+	
+	<insert id="createProject" parameterType="Project">
+		INSERT INTO PROJECT
+		VALUES
+			(PROJECT_SEQ.nextVal,
+			#{projectName},
+			null,
+			null
+			)
+		<selectKey keyProperty="projectSeq" resultType="Integer" order="AFTER">
+
+		SELECT PROJECT_SEQ.currVal FROM dual
+
+		</selectKey>
+	</insert>
+	
+	<insert id="joinProject" parameterType="map">
+		INSERT INTO JOINPROJECT
+		VALUES
+			(#{userID},
+			#{projectSeq}
+			)
+	</insert>
 </mapper>

@@ -138,8 +138,7 @@
 				</div>
 				<a href="deleteUser?userID=${sessionScope.userID}">
 					<button class="btn btn-accent">회원탈퇴</button></a>
-				<!-- <a href="logoutUser">
-					<button class="btn btn-accent">로그아웃</button></a> -->
+					<button id="modifyProject" class="btn btn-accent">프로젝트 관리</button>
 	
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -159,7 +158,9 @@
 				setLeftSideIcon();
 
 				$('#row2').css('display','none');
-		
+
+				$('#modifyProject').on("click", openProjectWindow);
+			
 		//드래그앤드롭 파일업로드
 		var file = document.querySelector('#fileUplode');
 		
@@ -216,6 +217,13 @@
 		};
 			});
 
+			function openProjectWindow(){
+				var projectWindow = window.open("openProjectInfo","WindowName","width=460, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no");
+				projectWindow.resizeTo(460,800); //resize window to 500x500
+				projectWindow.resizeBy(-10,-10); //make it smaller relatively => to 400x400	
+				
+				projectWindow.focus();
+			};
 
 			function setLeftSideIcon(){
 					$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
