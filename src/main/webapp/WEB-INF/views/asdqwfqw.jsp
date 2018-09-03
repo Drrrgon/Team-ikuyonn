@@ -5,104 +5,104 @@
 <head>
 <!-- meta -->
 <%@ include file="parts/meta.jsp" %> 
-<title>일정표</title>
+<title>메이시</title>
 <!-- header -->
 <%@ include file="parts/header.jsp" %>
+<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-size: 14px;
+		}
+		
+		#top, #calendar.fc-unthemed {
+			font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+		}
+		
+		#top {
+			background: #eee;
+			border-bottom: 1px solid #ddd;
+			padding: 0 10px;
+			line-height: 40px;
+			font-size: 12px;
+			color: #000;
+		}
+		
+		#top .selector {
+			display: inline-block;
+			margin-right: 10px;
+		}
+		
+		#top select {
+			font: inherit; /* mock what Boostrap does, don't compete  */
+		}
+		
+		.left {
+			float: left
+		}
+		
+		.right {
+			float: right
+		}
+		
+		.clear {
+			clear: both
+		}
+		
+		#calendar {
+			max-width: 900px;
+			margin: 40px auto;
+			padding: 0 10px;
+		}
+		
+		.modal {
+			display: none; /* Hidden by default */
+			position: fixed; /* Stay in place */
+			z-index: 5; /* Sit on top */
+			left: 0;
+			top: 0;
+			width: 100%; /* Full width */
+			height: 100%; /* Full height */
+			overflow: auto; /* Enable scroll if needed */
+			background-color: rgb(0,0,0); /* Fallback color */
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+		
+		/* Modal Content/Box */
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto; /* 15% from the top and centered */
+			padding: 20px;
+			border: 1px solid #888;
+			width: 50%; /* Could be more or less, depending on screen size */
+		}
+		
+		/* The Close Button */
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 21px;
+			font-weight: bold;
+		}
+		
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		</style>
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
-<style>
-body {
-	margin: 0;
-	padding: 0;
-	font-size: 14px;
-}
-
-#top, #calendar.fc-unthemed {
-	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-}
-
-#top {
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	padding: 0 10px;
-	line-height: 40px;
-	font-size: 12px;
-	color: #000;
-}
-
-#top .selector {
-	display: inline-block;
-	margin-right: 10px;
-}
-
-#top select {
-	font: inherit; /* mock what Boostrap does, don't compete  */
-}
-
-.left {
-	float: left
-}
-
-.right {
-	float: right
-}
-
-.clear {
-	clear: both
-}
-
-#calendar {
-	max-width: 900px;
-	margin: 40px auto;
-	padding: 0 10px;
-}
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 5; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 21px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="parts/loadFirst-js.jsp" %>
-
+</head>
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="parts/sidebar.jsp" %>
-	
+
 <div class="main-content-container container-fluid px-4">
 	<div class="page-header row no-gutters py-4">
 		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -162,11 +162,6 @@ body {
 </div>
   
 </div>
-
-<script src='./resources/scripts/moment.min.js'></script>
-<script src='./resources/scripts/fullcalendar.min.js'></script>
-<script src='./resources/scripts/scheduler.min.js'></script>
-<script src='./resources/scripts/theme-chooser.js'></script>
 <script>
 document.getElementById("year1").value = new Date().getFullYear();
 document.getElementById("month1").value = new Date().getMonth() + 1;
@@ -367,7 +362,6 @@ function setLeftSideIcon(){
 						
 						// When the user clicks on the button, open the modal 
 						modal.style.display = 'block';
-						
 
 						span.onclick = function() {
 							modal.style.display = 'none';
@@ -403,9 +397,8 @@ function setLeftSideIcon(){
 	});
 	
 	function insertEvents(){
-				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
+				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);		    	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	// alert(startDate1.value + '\n' + endDate2.value);
 		    	if(startDate1.value < endDate2.value){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
@@ -441,12 +434,7 @@ function setLeftSideIcon(){
 				var description3 = $('#description3').val();
 				startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
 		    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-		    	// alert(startDate3.value + '\n' + endDate4.value);
-		    	if(startDate3.value < endDate4.value){
-		    		alert('날짜 입력이 잘못되었습니다!');
-		    		return false;
-		    	}
-		    	
+				
 				$.ajax({
 					type : 'post',
 					url : 'updateEvents',

@@ -186,9 +186,16 @@
 						$("#chat_fullscreen").append(printHTML);						
 	        }     
 	        else{	
+						$.ajax({
+						url: 'getUserProfile',
+						type: 'post',
+						data: {
+							'userID': messages[0]
+						},
+						success: function(result){							
 	            printHTML += "<span class='chat_msg_item chat_msg_item_admin'>";
 	            printHTML += "<div class='chat_avatar'>";
-	            printHTML += "<img src='http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg'/ alt='x'>";
+	            printHTML += "<img src='"+result+"'/ alt='x'>";
 							printHTML += "</div>";
 							printHTML += messages[1]+"<br/>";
 							printHTML += messages[2];
@@ -198,6 +205,8 @@
 	            printHTML += "</span>";	          
 	            printHTML += "</div>";            
 	            $("#chat_fullscreen").append(printHTML);
+						}
+						});	
 	        }          
 				}
 				$("#chat_fullscreen").scrollTop($("#chat_fullscreen")[0].scrollHeight);  
@@ -234,9 +243,16 @@
 						$("#chat_fullscreen").append(printHTML);						
 	        }     
 	        else{	
+						$.ajax({
+						url: 'getUserProfile',
+						type: 'post',
+						data: {
+							'userID': messages[0]
+						},
+						success: function(result){							
 	            printHTML += "<span class='chat_msg_item chat_msg_item_admin'>";
 	            printHTML += "<div class='chat_avatar'>";
-	            printHTML += "<img src='http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg'/ alt='x'>";
+	            printHTML += "<img src='"+result+"'/ alt='x'>";
 							printHTML += "</div>";
 							printHTML += messages[1]+"<br/>";
 							printHTML += messages[2];
@@ -246,6 +262,8 @@
 	            printHTML += "</span>";	          
 	            printHTML += "</div>";            
 	            $("#chat_fullscreen").append(printHTML);
+						}
+						});	
 	        }          
 				}
 				$("#chat_fullscreen").scrollTop($("#chat_fullscreen")[0].scrollHeight);
@@ -274,19 +292,28 @@
 	      }
 				$('#onlineList').text("");
 				var userText = "";
-				userText += '<div><h2 id="connectedUserList"><p class="bg-primary">현재 접속중인 유저</p></h2></div><br/><br/>';
+				userText += '<div><h2 id="connectedUserList"><p id="connectedUserListLabel"class="bg-primary">현재 접속중인 유저</p></h2></div><br/><br/>';
 				$('#onlineList').append(userText);
 	      for (let k = 0; k < checkReduplicated.length; k++) {
-	        userText = "";
-	        userText += "<span class='user-space'>";
-	        userText += "<img class='user-avatar rounded-circle mr-2'";
-	        userText += "src='./resources/images/avatars/0.jpg'";
-	        userText += "alt='User Avatar' width='30px' height='30px'>";
-	        userText += "<span class='d-none d-md-inline-block'>";
-	        userText += checkReduplicated[k];
-	        userText += "</span>";
-	        userText += "</span><br/><br/>";      
-	        $('#onlineList').append(userText);
+					$.ajax({
+						url: 'getUserProfile',
+						type: 'post',
+						data: {
+							'userID': checkReduplicated[k]
+						},
+						success: function(result){
+							userText = "";
+							userText += "<span class='user-space'>";
+							userText += "<img class='user-avatar rounded-circle mr-2'";
+							userText += "src='"+result+"'";
+							userText += "alt='User Avatar' width='30px' height='30px'>";
+							userText += "<span class='d-none d-md-inline-block'>";
+							userText += checkReduplicated[k];
+							userText += "</span>";
+							userText += "</span><br/><br/>";      
+							$('#onlineList').append(userText);
+						}
+					});	       
 				}
 	    }
 	    , error: function(){
@@ -360,8 +387,8 @@
 			<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">Services</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">Products</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+			<li class="nav-item"><a class="nav-link" href="userprofilelite"><i class="material-icons">&#xE7FD;</i> Profile</a></li>
+			<li class="nav-item"><a class="nav-link" href="logoutUser">Logout</a></li>
 		</ul>
 		<span class="copyright ml-auto my-auto mr-2">Copyright Â© 2018 <a
 			href="https://designrevision.com" rel="nofollow">DesignRevision</a>

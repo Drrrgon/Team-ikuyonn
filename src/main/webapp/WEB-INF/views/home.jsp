@@ -43,6 +43,7 @@ $(function(){
 			
 		if(loginID.length<4 || loginID.length>7){
 			$('#userID').html(outi);
+			// return false;
 		}else{
 			$('#userID').html('');
 		}
@@ -55,11 +56,66 @@ $(function(){
 			
 		if(loginPW.length<4 || loginPW.length>10){
 			$('#userPW').html(outp);
+			// return false;
 		}else{
 			$('#userPW').html('');
 		}
 	});
 });
+
+window.onload = function() {
+	var userForm = document.getElementById('joinUser');
+	
+    var yearBirth = new Date().getFullYear();
+    var monthBirth = new Date().getMonth() + 1;
+    var dayBirth = new Date().getDate();
+    
+    var startYear = yearBirth - 99;
+    for(var i=0; i<100; i++) {
+    	userForm['birthYear'].options[i] = new Option(startYear+i, startYear+i);
+    }
+
+    for (var i=0; i<12; i++) {
+    	userForm['birthMonth'].options[i] = new Option(i+1, i+1);
+    }
+    
+    
+    userForm['birthYear'].value = yearBirth;
+    userForm['birthMonth'].value = monthBirth;
+    setDate();
+    userForm['birthDay'].value = dayBirth;
+}
+
+function setDate() {
+	var userForm = document.getElementById('joinUser');
+	
+    var year = userForm['birthYear'].value;
+    var month = userForm['birthMonth'].value;
+    var day = userForm['birthDay'].value;
+    var dayBirth = userForm['birthDay'];
+    
+    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+        arrayMonth[1] = 29;
+    }
+
+    for(var i = dayBirth.length; i>0; i--) {
+    	dayBirth.remove(dayBirth.selectedIndex);
+    }
+        
+    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+    	dayBirth.options[i-1] = new Option(i, i);
+    }
+
+    if(day != null || day != '') {
+        if(day > arrayMonth[month-1]) {
+        	dayBirth.options.selectedIndex = arrayMonth[month-1]-1;
+        } else {
+        	dayBirth.options.selectedIndex = day-1;
+        }
+    }
+}
 
 function joinConfirm(obj){
     //아이디 입력여부 검사
@@ -129,7 +185,19 @@ function joinConfirm(obj){
         obj.userName.focus();
         return false;
     }
-	obj.userBirth.value = new Date(obj.year.value, obj.month.value-1, obj.day.value);	
+    
+    obj.userBirth.value = new Date(obj.birthYear.value, obj.birthMonth.value-1, obj.birthDay.value);
+    
+	var phone = obj.userPhone1.value + '-' + obj.userPhone2.value;
+    if (obj.userPhone1.value == "" || obj.userPhone2.value == "") {
+        alert("전화번호를 입력하지 않았습니다.");
+        return false;
+    }
+	if(isNaN(obj.userPhone1.value) || isNaN(obj.userPhone2.value)){
+		alert('전화번호 입력이 잘못되었습니다!');
+		return false;
+	}
+	obj.userPhone.value = phone;
 }
 </script>
 
@@ -320,7 +388,7 @@ a{color:inherit;text-decoration:none}
 			</div>
 			
 			<div class="sign-up-htm">
-			<form action="joinUser" method="post" name="join">
+			<form action="joinUser" method="post" name="joinUser" id="joinUser">
 				<div class="group">
 					<label for="user" class="label">이름</label>
 					<input type="text" class="input" id="userName" name="userName"/>
@@ -333,69 +401,29 @@ a{color:inherit;text-decoration:none}
 					<label for="pass" class="label">비밀번호</label>
 					<input type="password" class="input" id="userPW" name="userPW"/>
 				</div>
-				<div class="group">
-					<label for="pass" class="label">생년월일</label>
+ 				<div class="group">
+    				<label for="pass" class="label">생년월일</label>
 					<input type="hidden" class="input" id="userBirth" name="userBirth"/>
-					<input type="text" name="year" size="5" maxlength="4" id="year" />년 
-                <select name="month" id="month">
-                    <option value="01">1</option>
-                    <option value="02">2</option>
-                    <option value="03">3</option>
-                    <option value="04">4</option>
-                    <option value="05">5</option>
-                    <option value="06">6</option>
-                    <option value="07">7</option>
-                    <option value="08">8</option>
-                    <option value="09">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <c:set var="month" value="${month}"/>
-                </select> 월
-                <select name="day" id="day">
-                    <option value="01">1</option>
-                    <option value="02">2</option>
-                    <option value="03">3</option>
-                    <option value="04">4</option>
-                    <option value="05">5</option>
-                    <option value="06">6</option>
-                    <option value="07">7</option>
-                    <option value="08">8</option>
-                    <option value="09">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                    <option value="25">25</option>
-                    <option value="26">26</option>
-                    <option value="27">27</option>
-                    <option value="28">28</option>
-                    <c:if test="${month!='2'}">
-                    <option value="29">29</option>
-                    <option value="30">30</option>
-                    <c:if test="${month!=4 || month!=6 || month!=9 || month!=11}">
-                    <option value="31">31</option>
-                    </c:if>
-                    </c:if>
-                </select> 일
+    				<select name='birthYear' id='birthYear' onChange='setDate()'></select>년&nbsp;
+    				<select name='birthMonth' id='birthMonth' onChange='setDate()'></select>월&nbsp;
+    				<select name='birthDay' id='birthDay'></select>일&nbsp;
 				</div>
 				<div class="group">
-					<label for="pass" class="label">전화번호</label>
-					<input type="text" class="input" id="userPhone" name="userPhone"/>
+				<label for="pass" class="label">전화번호</label>
+<!-- 					<select name="userPhone0" id="userPhone0" style="display:inline">
+						<option value="010">010</option>
+                   		<option value="016">016</option>
+                    	<option value="017">017</option>
+                    	<option value="000">000</option>
+					</select>
+					<span>-</span> -->
+					<input type="text" id="userPhone1" name="userPhone1" size="4" maxlength="4" style="display:inline"/>
+					<span>-</span>
+					<input type="text" id="userPhone2" name="userPhone2" size="4" maxlength="4"/>
+					<input type="hidden" id="userPhone" name="userPhone"/>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" value="회원가입" onclick="return joinConfirm(join)">
+					<input type="submit" class="button" value="회원가입" onclick="return joinConfirm(joinUser)"/>
 				</div>
 				</form>
 				<div class="hr"></div>

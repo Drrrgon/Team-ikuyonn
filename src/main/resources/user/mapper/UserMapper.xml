@@ -14,7 +14,7 @@
 	</select>
 	
  	<update id="updateUser" parameterType="User">
-		update userTable set userPW = #{userPW}, userBirth = #{userBirth}, userPhone = #{userPhone} where userID = #{userID}
+		update userTable set userPW = #{userPW}, userPhone = #{userPhone} where userID = #{userID}
 	</update>
 	
 	<delete id="deleteUser" parameterType="User">

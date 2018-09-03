@@ -8,18 +8,21 @@ public class User {
 	private String userName;
 	private Date userBirth;
 	private String userPhone;
+	private String originalFileName;
 	
 	public User() {
 		super();
 	}
-	
-	public User(String userID, String userPW, String userName, Date userBirth, String userPhone) {
+
+	public User(String userID, String userPW, String userName, Date userBirth, String userPhone,
+			String originalFileName) {
 		super();
 		this.userID = userID;
 		this.userPW = userPW;
 		this.userName = userName;
 		this.userBirth = userBirth;
 		this.userPhone = userPhone;
+		this.originalFileName = originalFileName;
 	}
 
 	public String getUserID() {
@@ -62,10 +65,18 @@ public class User {
 		this.userPhone = userPhone;
 	}
 
+	public String getOriginalFileName() {
+		return originalFileName;
+	}
+
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", userPW=" + userPW + ", userName=" + userName + ", userBirth=" + userBirth
-				+ ", userPhone=" + userPhone + "]";
-	}
+				+ ", userPhone=" + userPhone + ", originalFileName=" + originalFileName + "]";
+	}	
 	
 }

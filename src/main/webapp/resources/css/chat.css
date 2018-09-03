@@ -876,3 +876,6 @@ td.chatProjectName{
 .chatProjectNameHeader{
   width: 130px;
 }
+#connectedUserListLabel{
+  opacity: 0.7;
+}

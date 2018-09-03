@@ -24,26 +24,22 @@
 		init();
 	});
 	
-	var i;
-	var t;
-	
-	function init(i,t){
-		console.log(i+' '+t);
-		$.ajax({
-			url : 'selectNameCardList',
-			type : 'get',
-			data : {
-				'page' : i,
-				'searchText' : t
-			},
-			success : outPut
-		});
+
+	function init(){
+		var page = $(this).attr("page");
+		if(page == null){
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				success : outPut
+			});
+		};
 	};
 	
 	function outPut(datas){
-		console.log(datas.nameCardList[0].ncName);
-		console.log(datas.pageNavigator.countPerPage);
+		console.log(datas);
 		$('#nameCardTable').html(''); 
+		$('.card-footer').html(''); 
 		var line = '';
 		
 		if(datas.length == 0){
@@ -68,19 +64,29 @@
 		
 		console.log(datas.pageNavigator.startPageGroup+'  '+datas.pageNavigator.endPageGroup)
 		for(var i=datas.pageNavigator.startPageGroup; i<=datas.pageNavigator.endPageGroup; i++){
-			if(i != datas.pageNavigator.currentGroup){
-				line += '<a href="" onclick="init('+i+','+datas.pageNavigator.searchText+')">'+i+'</a>';
+			console.log(datas.pageNavigator.currentPage);
+			if(i != datas.pageNavigator.currentPage){
+				line += '<a class="num" href="" page="'+i+'">'+i+'</a>';
 			}else{
-				line += '<a href="" onclick="init('+i+','+datas.pageNavigator.searchText+')" style="color:#f00;">'+i+'</a>';
+				line += '<a class="num" href="" page="'+i+'" style="color:#f00;">'+i+'</a>';
 			};
 		};
 		$('.card-footer').append(line);
-		line = '';
-		
 	};
+	
+	$('.num').on('click',function(){
+		var page = $(this).attr("page");
+		$.ajax({
+			url : 'selectNameCardList',
+			type : 'get',
+			data : {
+				'page' : page
+			},
+			success : outPut
+		});
+	});
 </script>
 </head>
-<jsp:include page="header.jsp" flush="true"></jsp:include>
 <div class="main-content-container container-fluid px-4">
 	<div class="page-header row no-gutters py-4">
 		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">

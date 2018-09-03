@@ -68,7 +68,7 @@ public class NameCardController {
 	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam(value="searchText", defaultValue="") String searchText) {
-		System.out.println(page+"  "+searchText);
+		System.out.println(page+" 우로호호ㅗ호 "+searchText);
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		int total = mapper.getTotal(searchText);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
@@ -91,8 +91,8 @@ public class NameCardController {
 		File saveFile = new File(UPLOADPATH,saveFileName);
 		try {
 			uploadFile.transferTo(saveFile);
-			String resurt = vision(saveFileName);
-			return resurt;
+			String result = vision(saveFileName);
+			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "";
