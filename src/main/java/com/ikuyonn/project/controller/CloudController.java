@@ -58,15 +58,14 @@ public class CloudController {
 		ArrayList<fileVO> fList = getFileList(f.getProjectSeq());
 		return fList;
 	}
-	@RequestMapping(value = "/downFile", method = RequestMethod.POST)
-	public @ResponseBody String downFile(fileVO f,HttpServletResponse response) {
+	@RequestMapping(value = "/downFile", method = RequestMethod.GET)
+	public void downFile(fileVO f,HttpServletResponse response) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
-		System.out.println(f.getFileSeq());
 		fileVO vo = mapper.getFile(f.getFileSeq());
-		System.out.println(vo);
 		try {
-			response.setHeader("Content-Dispositoin", "attachment;filename="
-			+URLEncoder.encode(vo.getFileName(),"UTF-8"));
+			response.setContentType("application/octet-stream");
+			response.setHeader("Content-Disposition", "attachment; fileName=" 
+			+ URLEncoder.encode(vo.getFileName(), "UTF-8"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,20 +75,16 @@ public class CloudController {
 		
 		String fullPath = UPLOADPATH+vo.getSaveFileName();
 		try {
-			
 			fis = new FileInputStream(fullPath);
-			System.out.println(1);
 			sos = response.getOutputStream();
-			System.out.println(1);
 			FileCopyUtils.copy(fis, sos);
-			System.out.println(1);
 			fis.close();
-			sos.close();
+			/*
+			sos.close();*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "";
 	}
 	public ArrayList<fileVO> getFileList(int proSeq){
 		MailMapper mapper = session.getMapper(MailMapper.class);

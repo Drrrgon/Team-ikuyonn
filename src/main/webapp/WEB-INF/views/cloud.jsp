@@ -238,8 +238,8 @@
 			var temp = "<tr>"
 			for ( var i in result) {
 				temp += "<td width='60'><img src='./resources/images/aaa.png' height='42' width='42' id='1'><br />"
-				temp += "<a href='' onclick='downFile(" + result[i].fileSeq
-						+ ")'>" + result[i].fileName + "</a></td>"
+				temp += "<a href='downFile?fileSeq=" + result[i].fileSeq
+						+ "'>" + result[i].fileName + "</a></td>"
 			}
 			temp += "</tr>"
 			$("#fileTable").html(temp);

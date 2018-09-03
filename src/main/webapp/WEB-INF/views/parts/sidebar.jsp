@@ -45,15 +45,10 @@
 					<li class="nav-item">
 						<a class="nav-link " href="writeMail">
 							<i class="material-icons">mail</i> 
-							<span>메일쓰기</span>
+							<span>메일</span>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="mailBox"> 
-							<i class="material-icons">error</i> 
-							<span>메일함</span>
-						</a>
-					</li>
+					
 					<li class="nav-item">
 						<a class="nav-link " href="schedule"> 
 							<i class="material-icons">today</i> 
