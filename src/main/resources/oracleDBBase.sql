@@ -117,8 +117,10 @@ ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq);
 
 CREATE TABLE cloudFile(
-    fileName varchar2(100) PRIMARY KEY
-    ,filePath varchar2(300) NOT NULL
+    fileSeq number PRIMARY KEY
+    ,fileName varchar2(100) NOT NULL
+    ,filePath varchar2(300) default 'c:\\\\filerepo\\\\'
+    ,saveFileName varchar2(300) NOT NULL
     ,fileType varchar2(40) NOT NULL
     ,projectSeq number 
 );

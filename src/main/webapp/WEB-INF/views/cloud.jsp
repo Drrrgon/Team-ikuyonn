@@ -5,18 +5,30 @@
 <html>
 <head>
 <!-- meta -->
-<%@ include file="parts/meta.jsp" %> 
+<%@ include file="parts/meta.jsp"%>
 <title>메이시</title>
 <!-- header -->
-<%@ include file="parts/header.jsp" %>
+<%@ include file="parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
-<style>                                         
-	#file {width:0; height:0; opacity:0; position:relative;}
-	#cloudBody{display:none;}                    
+<style>
+#file {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	position: relative;
+}
+
+#cloudBody {
+	display: none;
+}
+
+.td {
+	width: 70;
+}
 </style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp" %>
+<%@ include file="parts/loadFirst-js.jsp"%>
 </head>
 <!-- <html>
 <head>
@@ -51,8 +63,9 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script> -->
 
 <body class="h-100">
-		<!-- sidebar -->
-		<%@ include file="parts/sidebar.jsp" %>
+	<!-- sidebar -->
+	<%@ include file="parts/sidebar.jsp"%>
+
 
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
@@ -84,20 +97,22 @@
 				<div class="card-header border-bottom">
 					<h6 class="m-0">클라우드</h6>
 					<div align="right">
-					<form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
-					<input type='file' id='file' name='file'/>
-					</form>
-						<button type="button" class="btn btn-white"
-							id="upload">파일 등록</button>
-						<button type="button" class="btn btn-white"
-							id="delete">삭&nbsg;제</button>
+						<form id="FILE_FORM" method="post" enctype="multipart/form-data"
+							action="">
+							<input type='file' id='file' name='file' />
+						</form>
+						<button type="button" class="btn btn-white" id="upload">파일
+							등록</button>
+						<button type="button" class="btn btn-white" id="delete">삭&nbsg;제</button>
 					</div>
 				</div>
 				<div class="card-body p-0 pb-3 text-center" id="cloudBody">
-					<div>프로젝트명</div>
-					<table class="table mb-0">
+					<div>
+						프로젝트명<input type="hidden" value="" id="proSeq" />
+					</div>
+					<table class="table mb-0" id="fileTable">
 						<tr>
-							<td><img src="./resources/images/aaa.png" height="42"
+							<!-- <td><img src="./resources/images/aaa.png" height="42"
 								width="42" id="1"><br />
 							<a>aaa.pdf</a></td>
 							<td><img src="./resources/images/aaa.png" height="42"
@@ -114,7 +129,7 @@
 							<a>aaa.pdf</a></td>
 							<td><img src="./resources/images/aaa.png" height="42"
 								width="42" id="1"><br />
-							<a>aaa.pdf</a></td>
+							<a>aaa.pdf</a></td> -->
 						</tr>
 					</table>
 				</div>
@@ -130,7 +145,11 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
-	<script>
+	
+	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+	<%@ include file="parts/footer.jsp"%>
+</body>
+<script>
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
 					'nav-link ');
@@ -144,7 +163,7 @@
 					'nav-link ');
 			$('#navbar').children().eq(5).children().eq(0).attr('class',
 					'nav-link ');
-			$('#navbar').children().eq(6).children().eq(0).addClass('active');
+			$('#navbar').children().eq(4).children().eq(0).addClass('active');
 		}
 		function getProject() {
 			var userID = $("#userID").val();
@@ -172,43 +191,78 @@
 				}
 			});
 		}
-		function fileList(projectSeq){
+		function fileList(projectSeq) {
 			var temp = document.getElementById("cloudBody");
-			temp.style.display="block";
+			temp.style.display = "block";
+			$("#proSeq").val(projectSeq);
+			$.ajax({
+				url : "fileList",
+				processData : false,
+				contentType : false,
+				data : {
+					"projectSeq" : projectSeq
+				},
+				type : 'POST',
+				success : function(result) {
+					makeFile(result);
+				},
+				error : function() {
+					alert("통신실패");
+				}
+			});
 		}
 		$(function() {
 			setLeftSideIcon();
 			getProject();
-			var projectSeq= "";
-			$("#upload").click(function(e){
-				e.preventDefault();             
+			var projectSeq = "";
+			$("#upload").click(function(e) {
+				e.preventDefault();
 				$("#file").click();
 			});
-			$("#file").change(function(){
+			$("#file").change(function() {
 				var formData = new FormData();
 				formData.append("file", $("#file")[0].files[0]);
+				formData.append("proSeq", $("#proSeq").val());
 				$.ajax({
 					url : "addFile",
-					processData: false,
-                    contentType: false,
-                    data: formData,
-                    type: 'POST',
-                    success: function(result){
-                        alert("업로드 성공!!");
-                    },
+					processData : false,
+					contentType : false,
+					data : formData,
+					type : 'POST',
+					success : function(result) {
+						makeFile(result);
+					},
 					error : function() {
 						alert("통신실패");
 					}
 				});
 			});
 		});
-	
-	$(function() {
-		setLeftSideIcon();
-		getProject();
-	});
-</script>
-<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/footer.jsp" %>
-</body>
+		function makeFile(result) {
+			var temp = "<tr>"
+			for ( var i in result) {
+				temp += "<td width='60'><img src='./resources/images/aaa.png' height='42' width='42' id='1'><br />"
+				temp += "<a href='downFile?fileSeq=" + result[i].fileSeq
+						+ "'>" + result[i].fileName + "</a></td>"
+			}
+			temp += "</tr>"
+			$("#fileTable").html(temp);
+		}
+		function downFile(fileSeq) {
+			$.ajax({
+				url : "downFile",
+				type : "post",
+				data : {
+					"fileSeq" : fileSeq
+				},
+				success : function(result) {
+					alert("success");
+				},
+				error : function() {
+					alert("통신실패");
+				}
+			});
+		}
+		
+	</script>
 </html>

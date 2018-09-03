@@ -14,7 +14,7 @@ figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	font-family: "Noto Sans KR", sans-serif;	
-	font-weight: 500;
+	font-weight: 400;
 }
 
 .card-small{
@@ -144,18 +144,14 @@ button:focus, button:active {
 }
 
 /* 명함미리보기 */
+#nameCardDeWrap{
+	background: #fcfcfc;
+}
+
 .nameCardView{ 
 	width: 100%;
     background: #fff;
     height: 380px;
-    border-radius: 0.4rem;  
-	box-shadow: 3px 3px 15px rgba(90,97,105,.11);
-}
-
-.nameCardView2{
-	width: 100%;
-    background: #fff;
-    height: 150px;
     border-radius: 0.4rem;  
 	box-shadow: 3px 3px 15px rgba(90,97,105,.11);
 }
@@ -202,5 +198,135 @@ button:focus, button:active {
 #r-b-wrap{
 	position: absolute;
     bottom: 30px;
-	width: 400px;
+	width: 87%;
+}
+/* 명함리스트 */
+#nameCardTableWrap{
+	height: 432px;
+/*     overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 3.75rem - 1px); */
+}
+
+.nameCardTable{
+    padding: 12px 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-bottom: 1px solid #e1e5eb;
+    transition: 0.4s;
+}
+
+.nameCardTable:hover{
+	background: #fbfbfb;
+}
+
+#nameCardTableWrap > .active{
+	background: #f4f9ff;
+	cursor: default;
+}
+
+.nec{
+	float: left;
+}
+
+.nec > ul > li:first-child > span{
+	font-size: 13pt;
+	color: #212529;
+}
+
+.nec > ul > li > span{
+	color: #737373;
+}
+
+.nbg{
+	position: absolute;
+    right: 20px;
+	top: 25px;
+}
+
+.nec > ul{
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 페이징버튼 */
+.pagingWrap{
+	text-align: center;
+}
+
+.paging{
+	display: inline-block;
+    padding-left: 0;
+    margin: 0;
+    border-radius: 4px;
+}
+
+.paging > li{
+	display: inline;
+}
+
+.paging > li:first-child > a {
+	margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.paging > .asi > a {
+	padding: 9px 9px;
+    font-size: 15px;
+}
+
+.paging > li > a {
+	position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #5d9bde;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+	transition: 0.3s;
+	animation: unset;
+}
+
+.paging > .active > a{
+	color: #fff;
+    cursor: default;
+    background-color: #5d9bde;
+    border-color: #5d9bde;	
+}
+
+.paging > .active > a:hover{
+	background-color: #5d9bde;
+}
+
+.paging > li > a:hover{
+	background-color: #f9f9f9;
+}
+
+.paging > li:last-child > a {
+	border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/* 명함상세보기 */
+.debtn{
+	text-align: right;
+}
+#nameCardSum{
+	margin: 53px auto;
+}
+
+.nameCardView2{
+	width: 100%;
+    background: #fff;
+    height: 330px;
+    border-radius: 0.4rem;
+    box-shadow: 3px 3px 15px rgba(90,97,105,.11);
+}
+.nameCardDetail{
+	height: 33px;
 }

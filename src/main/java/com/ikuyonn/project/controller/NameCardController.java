@@ -46,38 +46,80 @@ public class NameCardController {
 	
 	//파일택스트변환 요청
 	@RequestMapping(value = "/fileUplodeAction", method = RequestMethod.POST, produces = "application/text; charset=utf8")
-	public @ResponseBody String fileUplodeAction(Model model, MultipartFile fileUplode) {
+	public @ResponseBody String fileUplodeAction(MultipartFile fileUplode) {
 		//파일업로드
 		String result = fileService(fileUplode);
 
 		return result;
 	}
 	
+	//이메일등록 검사
+	@RequestMapping(value = "/selectNameCard", method = RequestMethod.POST)
+	public @ResponseBody int selectNameCard(NameCard nameCard,HttpSession httpSession) {
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		nameCard.setUserID((String)httpSession.getAttribute("userID"));
+		NameCard result = new NameCard();
+		result = mapper.selectNameCard(nameCard);
+		
+		if(result == null) {
+			return 0;
+		}
+		
+		return 1;
+	}	
+	
 	//명함등록요청
 	@RequestMapping(value = "/nameCardUplodeAction", method = RequestMethod.POST)
 	public @ResponseBody int nameCardUplodeAction(NameCard nameCard,HttpSession httpSession) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		nameCard.setUserID((String)httpSession.getAttribute("userID"));
-		System.out.println(nameCard);
+		
 		int result = mapper.insertNameCard(nameCard);
 		
 		return result;
 	}
 	
-	//명함리스트 출력
+	//명함리스트 출력/삭제
 	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam(value="searchText", defaultValue="") String searchText) {
-		System.out.println(page+" 우로호호ㅗ호 "+searchText);
+			@RequestParam(value="searchText", defaultValue="") String searchText,String type, String email) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
-		int total = mapper.getTotal(searchText);
+		if(email != null) {
+			mapper.deleteNameCard(email);
+		}
+		System.out.println("asdf  "+searchText);
+		Map<String, String> search = new HashMap<>();
+		search.put("searchText", searchText);
+		search.put("type", type);
+		int total = mapper.getTotal(search);
+		System.out.println("page : "+page+"total : "+total);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
 		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
-		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, searchText);
+		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, search);
 		Map<String, Object> result = new HashMap<>();
 		result.put("nameCardList", nameCardList);
 		result.put("pageNavigator", pageNavigator);
 		result.put("searchText", searchText);
+		System.out.println(result.get(searchText));
+		return result;
+	}
+	
+	//명함수정페이지	
+	@RequestMapping(value = "/updateNameCard", method = RequestMethod.GET)
+	public String updateNameCard(Model model,NameCard nameCard,HttpSession httpSession) {
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		nameCard.setUserID((String)httpSession.getAttribute("userID"));
+		NameCard result = mapper.selectNameCard(nameCard);
+		model.addAttribute("nameCard", result);
+		return "updateNameCard";
+	}
+	
+	//명함수정	
+	@RequestMapping(value = "/updateNameCardAction", method = RequestMethod.POST)
+	public @ResponseBody int updateNameCardAction(NameCard nameCard,HttpSession httpSession) {
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		nameCard.setUserID((String)httpSession.getAttribute("userID"));
+		int result = mapper.upDateNameCard(nameCard);
 		return result;
 	}
 	/************************ 파일업로드 / 사진텍스트 인식 ************************/

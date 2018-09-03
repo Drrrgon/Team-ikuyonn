@@ -186,7 +186,7 @@ function setLeftSideIcon(){
 			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(3).children().eq(0).addClass('active');
+			$('#navbar').children().eq(2).children().eq(0).addClass('active');
 	}
 	
 	$(function() {

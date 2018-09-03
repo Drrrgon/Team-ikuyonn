@@ -22,27 +22,6 @@
 			<h3 class="page-title">명함등록</h3>
 		</div>
 	</div>
-	<div class="row" id="row1">
-		<div class="col-lg-12">
-			<div class="card card-small mb-4">
-				<div class="center col-md-8">
-					<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
-						<div id="uploadBox">
-							<span>이미지를 드래그하거나 선택하세요.</span>
-							<img id="image" alt="" src="">
-							<input type="file" name="fileUplode" id="fileUplode" accept="img/*" multiple> 
-						</div>
-						<div id="imgIcon">
-							<img src="">
-							<div id="ajaxLoading">
-								<img src="./resources/images/loading.gif">
-							</div>
-						</div>
-					</form>
-				</div>	
-			</div>
-		</div>
-	</div>
 	<div class="row" id="row2">
 		<div class="col-lg-7">
 			<div class="card card-small mb-4">
@@ -181,55 +160,77 @@
 			$('.leftNameCard').css('background-size','cover');
 		});
 		
-		$('#row2').css('display','none');
+		//키업
+		$('#ncMobile').keyup(function(){
+			$("#mobile").text('M ' + $(this).val());
+			if($("#ncMobile").val().length < 1){
+				$("#mobile").text('');
+			};
+		});
 		
-		//드래그앤드롭 파일업로드
-		var file = document.querySelector('#fileUplode');
-		file.onchange = function() {
-		    var fileList = file.files ;
-		    
-		    // 읽기
-		    var reader = new FileReader();
-		    reader.readAsDataURL(fileList [0]);
-		    
+		$('#ncFax').keyup(function(){
+			$("#fax").text('F ' + $(this).val());
+			if($("#ncFax").val().length < 1){
+				$("#fax").text('');
+			}
+		});
+		
+		$('#ncPhone').keyup(function(){
+			$("#phone").text('P ' + $(this).val());
+			if($("#ncPhone").val().length < 1){
+				$("#phone").text('');
+			}
+		});
+		
+		$('#ncEmail').keyup(function(){
+			$("#email").text('E ' + $(this).val());
+			if($("#ncEmail").val().length < 1){
+				$("#email").text('');
+			}
+		});
 
-		    //로드 한 후
-		    reader.onload = function(e) {
-		    	if ($("#fileUplode").val() != "") {
-					var ext = $('#fileUplode').val().split('.').pop().toLowerCase();
-					if ($.inArray(ext, [ 'gif', 'png', 'jpg','jpeg' ]) == -1) {
-						alert('이미지파일만 업로드 할수 있습니다.');
-						return false;
-					};
-				};
-				
-				var formData = new FormData();
-				formData.append("fileUplode", $("input[name=fileUplode]")[0].files[0]);
+		$('#ncAddress').keyup(function(){
+			$("#address").text( $(this).val());
+		});
 		
-				$.ajax({
-					url : "fileUplodeAction",
-					type : "post",
-					data : formData,
-					processData : false,
-					contentType : false,
-					success : output,
-					beforeSend : function() {
-						$('#uploadBox').css('display','none');
-						$('#imgIcon').css('display','block');
-						$('#imgIcon>img').attr('src',e.target.result);
-						console.log('로딩중...');
-					},
-					complete : function() {
-						$('#row1').css('display','none');
-						$('#row2').css('display','');
-						console.log('완료');
-					},
-					error : function() {
-						console.log('통신실패');
+		$('#ncWebsite').keyup(function(){
+			$("#website").text( $(this).val());
+		});
+		
+		$('#ncTitle').keyup(function(){
+			$("#title").text( $(this).val());
+		});
+		
+		$('#ncName').keyup(function(){
+			$("#name").text( $(this).val());
+		});
+		
+		$('#ncCompany').keyup(function(){
+			$("#company").text( $(this).val());
+		});	
+		
+		
+		//유효성
+		$('#ncEmail').change(function(){
+			$.ajax({
+				url : "selectNameCard",
+				type : "post",
+				data : {
+					'ncEmail' : $('#ncEmail').val()
+				},
+				success : function(data){
+					if(data == 1){
+						console.log('등록된 이메일 입니다.');
+						return;
 					}
-				});
-		    };
-		};
+				}
+			});	
+		});
+		
+		//취소버튼
+		$('#nameCardCancel').on('click',function(){
+			location.href = 'nameCardList';
+		});
 		
 		//명함등록
 		$('#nameCardSubmit').on('click',function(){
@@ -253,6 +254,7 @@
 				
 			}
 			
+			
 			$.ajax({
 				url : "nameCardUplodeAction",
 				type : "post",
@@ -273,177 +275,9 @@
 				success : function(data){
 					
 				}
-			});
+			});	
 		});
 		
-		//취소버튼
-		$('#nameCardCancel').on('click',function(){
-			location.href = 'nameCardList';
-		});
-		
-		//읽어온 자료 input에 분류
-		function output(data) {
-			
-			var testdata = '\nf 02-4541-5481\nt 02-4541-5481\nPlatSys\nwww.platsys.net\n박지현대리\n경기도 용인시 수지구 신수로 767(동천동, 분당·수지U-TOWER) B동 1340호\nMobile 010-3806-8944\nE-mail asdfwsafe@naver.com';
-
-			var mobileTest1 = /01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
-			var mobileTest2 = /[m|p]?.*01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
-
-			var faxTest1 = /f.*(\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}).*/gi;
-
-			var tellTest1 = /\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}.*/gi;
-			var tellTest2 = /t?.*\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}.*/gi;
-
-			var emailTest1 = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
-			var emailTest2 = /e.*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
-
-			var addressTest1 = /[가-힣]*[도|시].*[구|군].*[면|동].*/gi;
-
-			var webSiteTest1 = /www.*[asia|info|name|mobi|com|net|org|biz|tel|xxx|kr|co|so|me|eu|cc|or|pe|ne|re|tv|jp|tw]/i;
-
-			var positionTest1 = /[선임|주임|대리|과장|차장|부장|이사|상무|전무|부사장|사장|부회장|회장].*/gi;
-
-			var userNameTest1 = /[가-힣]{2,4}/i;
-
-			//휴대전화
-			var phoneNumber = mobileTest1.exec(data);
-			data = data.replace(mobileTest2, '');
-			$('#ncMobile').val(phoneNumber);
-			$('#mobile').text('M ' + phoneNumber);
-			
-			$('#ncMobile').keyup(function(){
-				$("#mobile").text('M ' + $(this).val());
-				if($("#ncMobile").val().length < 1){
-					$("#mobile").text('');
-				};
-			});
-			
-			console.log('phone : ' + phoneNumber);
-			console.log('data1 : ' + data);
-
-			//팩스번호
-			var faxNumberList = faxTest1.exec(data);
-			var faxNumber = '';
-			if (faxNumberList != null) {
-				faxNumber = faxNumberList[1];
-				data = data.replace(faxTest1, "");
-				$('#ncFax').val(faxNumber);
-				$('#fax').html('F ' + faxNumber);
-			};
-			
-			$('#ncFax').keyup(function(){
-				$("#fax").text('F ' + $(this).val());
-				if($("#ncFax").val().length < 1){
-					$("#fax").text('');
-				}
-			});
-			
-			console.log('faxNumber : ' + faxNumber);
-			console.log('data2 : ' + data);
-
-			//전화번호
-			var tellNumber = tellTest1.exec(data);
-			data = data.replace(tellTest2, '');
-			if(tellNumber != null){
-				$('#ncPhone').val(tellNumber);
-				$('#phone').text('P ' + tellNumber);
-			};
-			
-			$('#ncPhone').keyup(function(){
-				$("#phone").text('P ' + $(this).val());
-				if($("#ncPhone").val().length < 1){
-					$("#phone").text('');
-				}
-			});
-			
-			console.log('tellNumber : ' + tellNumber);
-			console.log('data3 : ' + data);
-
-			//이메일
-			var emailNumberList = emailTest1.exec(data);
-			var emailNumber = '';
-			if (emailNumberList != null) {
-				emailNumber = emailNumberList[0];
-				data = data.replace(emailTest2, "");
-				$('#ncEmail').val(emailNumber);
-				$('#email').html('E ' + emailNumber);
-			};
-			
-			$('#ncEmail').keyup(function(){
-				$("#email").text('E ' + $(this).val());
-				if($("#ncEmail").val().length < 1){
-					$("#email").text('');
-				}
-			});
-			
-			console.log('emailNumber : ' + emailNumber);
-			console.log('data4 : ' + data);
-
-			//주소
-			var address = addressTest1.exec(data);
-			data = data.replace(addressTest1, "");
-			$('#ncAddress').val(address);
-			$('#address').html(address);
-			
-			$('#ncAddress').keyup(function(){
-				$("#address").text( $(this).val());
-			});
-			
-			console.log('addressNumber : ' + address);
-			console.log('data4 : ' + data);
-
-			//홈페이지
-			var website = webSiteTest1.exec(data);
-			data = data.replace(webSiteTest1, "");
-			$('#ncWebsite').val(website);
-			$('#website').html(website);
-			
-			$('#ncWebsite').keyup(function(){
-				$("#website").text( $(this).val());
-			});
-			
-			console.log('addressNumber : ' + website);
-			console.log('data5 : ' + data);
-
-			//직책
-			var title = positionTest1.exec(data);
-			data = data.replace(positionTest1, "");
-			$('#ncTitle').val(title);
-			$('#title').html(title);
-			
-			$('#ncTitle').keyup(function(){
-				$("#title").text( $(this).val());
-			});
-			
-			console.log('positionNumber : ' + title);
-			console.log('data6 : ' + data);
-
-			//이름
-			var name = userNameTest1.exec(data);
-			data = data.replace(userNameTest1, "");
-			$('#ncName').val(name);
-			$('#name').html(name);
-			
-			$('#ncName').keyup(function(){
-				$("#name").text( $(this).val());
-			});
-			
-			console.log('userName : ' + name);
-			console.log('data7 : ' + data);
-
-			//회사명
-			var company = /[0-9a-z가-힣].*/gi.exec(data);
-			data = data.replace(/[0-9a-z가-힣].*/gi, "");
-			$('#ncCompany').val(company);
-			$('#company').html(company);
-			
-			$('#ncCompany').keyup(function(){
-				$("#company").text( $(this).val());
-			});
-			
-			console.log('companyName : ' + company);
-			console.log('data8 : ' + data);
-		};
 
 		function setLeftSideIcon(){
 			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');

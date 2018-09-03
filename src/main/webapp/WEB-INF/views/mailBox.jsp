@@ -196,6 +196,8 @@
 		});
 	})
 </script>
+<script src="/.resources/mail/jquery.dataTables.min.js/"></script>
+	<script src="/.resources/mail/jquery-3.3.1.js/"></script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="parts/footer.jsp" %>
 </body>
