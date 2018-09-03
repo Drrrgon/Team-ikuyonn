@@ -1,5 +1,8 @@
 package com.ikuyonn.project.user.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ikuyonn.project.mail.vo.Project;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.user.mapper.UserMapper;
 import com.ikuyonn.project.user.util.FileManager;
@@ -66,20 +70,25 @@ public class UserController {
 	
 	@RequestMapping(value = "/ProfilefileUplodeAction", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	public @ResponseBody String ProfilefileUplodeAction(HttpSession hSession, HttpServletRequest req, MultipartFile fileUplode){
+		// 소스 파일 경로를 얻어와서 FM에게 PATH를 주고 생성시킴
 		UserMapper um = session.getMapper(UserMapper.class);
 		ServletContext cotx = req.getSession().getServletContext();
 		String path = cotx.getRealPath("/resources/userProfileImage");
 		FileManager fm = new FileManager(path);
 		
+		// 기존유저의 얼굴 정보를 초기화 시킴
 		User ur = new User();
 		ur.setUserID(hSession.getAttribute("userID")+"");
 		ur = um.loginUser(ur);
 		fm.DeleteFile(ur.getOriginalFileName());
-		int re = um.deleteUserProfile(ur);		
+		int re = um.deleteUserProfile(ur);
+		hSession.removeAttribute("userProfilePath");
+		
+		// 새로 저장된 얼굴 정보를 저장.
 		String result[] =fm.uploadFile(fileUplode);
 		ur.setOriginalFileName(result[1]);
 		re = um.updateUser(ur);
-		
+		hSession.setAttribute("userProfilePath", "./image/"+result[1]);
 		return "./image/"+result[1];
 	}
 
@@ -107,4 +116,49 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value = "/openProjectInfo", method = RequestMethod.GET)
+	public String getProjectInfo() {		
+		return "projectInfo";
+	}
+	
+	@RequestMapping(value = "/getprojectInfo", method = RequestMethod.POST)
+	public @ResponseBody List<Project> getprojectInfo(User u){
+		UserMapper um = session.getMapper(UserMapper.class);
+		HashMap<String, Object> map = new HashMap<>();		
+			map.put("userID", u.getUserID());
+		List<Project> projectList= um.getUserProjectList(map);
+		return projectList;
+	}
+	
+	@RequestMapping(value = "/deleteProject", method = RequestMethod.POST)
+	public @ResponseBody List<Project> deleteProject(User u, String projectSeq){
+		UserMapper um = session.getMapper(UserMapper.class);
+		HashMap<String, Object> map = new HashMap<>();		
+		// project 값이 null 이 아닌 경우 삭제
+		int pjSeq = Integer.parseInt(projectSeq);
+		map.put("userID", u.getUserID());
+		map.put("projectSeq", pjSeq);
+		int res = um.deleteJoinProject(map);
+		int re = um.deleteProject(pjSeq);
+		List<Project> projectList= um.getUserProjectList(map);
+		return projectList;
+	}
+	
+	@RequestMapping(value = "/createProject", method = RequestMethod.POST)
+	public @ResponseBody List<Project> createProject(User u, String projectName){
+		UserMapper um = session.getMapper(UserMapper.class);
+		Project pro = new Project();
+		pro.setProjectName(projectName);
+		HashMap <String, Object> userMap = new HashMap<String, Object>();
+		userMap.put("userID", u.getUserID());
+		userMap.put("projectName", projectName);
+		int re = um.createProject(pro);
+		userMap.put("projectSeq", pro.getProjectSeq());
+		int res = um.joinProject(userMap);
+		List<Project> project = um.getUserProjectList(userMap);
+		
+		return project;
+	}
+	
 }

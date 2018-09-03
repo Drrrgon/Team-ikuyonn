@@ -31,4 +31,73 @@
 	<delete id="deleteUser" parameterType="User">
 		delete userTable where userID = #{userID}
 	</delete>
+	
+	<delete id="deleteProject" parameterType="int">
+		delete project where projectseq = #{value}
+	</delete>
+	
+	<delete id="deleteJoinProject" parameterType="map">
+		delete joinproject 
+			where 
+			projectseq = #{projectSeq}				
+	</delete>
+	
+	<select id="getUserProjectList" parameterType="map" resultType="Project">		
+		<if test="userID != null">
+		SELECT DISTINCT 
+			p.projectName, p.projectseq 
+		FROM 
+			project p, joinproject jp, usertable ut 
+		WHERE 
+			#{userID} = jp.userid 
+			AND 
+			jp.PROJECTSEQ = p.PROJECTSEQ
+		ORDER BY p.PROJECTSEQ
+		</if>			
+		<if test="userID == null">
+			SELECT * FROM project
+			ORDER BY PROJECTSEQ
+		</if>	
+	</select>
+	
+	<select id="getProjectList" parameterType="map" resultType="Project">		
+		<if test="userID != null">
+		SELECT DISTINCT 
+			p.projectName, p.projectseq 
+		FROM 
+			project p, joinproject jp, usertable ut 
+		WHERE 
+			#{userID} = jp.userid 
+			AND 
+			jp.PROJECTNAME = p.PROJECTNAME
+			AND
+			#{projectName} = p.PROJECTNAME
+		</if>			
+		<if test="userID == null">
+			SELECT * FROM project
+		</if>	
+	</select>
+	
+	<insert id="createProject" parameterType="Project">
+		INSERT INTO PROJECT
+		VALUES
+			(PROJECT_SEQ.nextVal,
+			#{projectName},
+			null,
+			null
+			)
+		<selectKey keyProperty="projectSeq" resultType="Integer" order="AFTER">
+
+		SELECT PROJECT_SEQ.currVal FROM dual
+
+		</selectKey>
+	</insert>
+	
+	<insert id="joinProject" parameterType="map">
+		INSERT INTO JOINPROJECT
+		VALUES
+			(#{userID},
+			#{projectSeq}
+			)
+	</insert>
 </mapper>
