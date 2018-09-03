@@ -91,18 +91,20 @@
 													<div class="form-row">
 														<div class="form-group col-md-6">
 															<label for="feEmailAddress">비밀번호</label> <input
-																type="password" class="form-control" name="userPW"
-																id="userPW">
+																type="password" class="form-control" name="userPW" id="userPW">
 														</div>
 														<div class="form-group col-md-6">
-															<label for="fePassword">생년월일</label> <input type="date"
-																class="form-control" name="userBirth" id="userBirth" value="${sessionScope.ur.userBirth}">
+															<label for="fePassword">생년월일</label> 
+															<div class="form-control" id="userBirth" readonly="readonly">${sessionScope.userBirth}</div>
 														</div>
 													</div>
 													<div class="form-group">
-														<label for="feInputAddress">전화번호</label> <input
-															type="text" class="form-control" name="userPhone"
-															value="${sessionScope.ur.userPhone}" id="userPhone">
+														<label for="feInputAddress">전화번호</label>
+														<input type="hidden" id="userPhone" name="userPhone"/>														
+															<input type="text" id="userPhone1" name="userPhone1" value="${sessionScope.userPhone1}" size="4" maxlength="4" style="display:inline"/>
+															<span>-</span>
+															<input type="text" id="userPhone2" name="userPhone2" value="${sessionScope.userPhone2}" size="4" maxlength="4"/>
+													</div>
 													</div>
 													<!--                             <div class="form-row">
                               <div class="form-group col-md-6">
@@ -125,7 +127,7 @@
                                 <textarea class="form-control" name="feDescription" rows="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?</textarea>
                               </div>
                             </div> -->
-													<input type="submit" class="btn btn-accent" value="회원정보 수정">
+													<input type="submit" class="btn btn-accent" value="회원정보 수정" onclick="return updateForm()">
 												</form>
 										</div>
 									</div>
@@ -134,7 +136,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="deleteUser?userID=${sessionScope.ur.userID}">
+				<a href="deleteUser?userID=${sessionScope.userID}">
 					<button class="btn btn-accent">회원탈퇴</button></a>
 					<button id="modifyProject" class="btn btn-accent">프로젝트 관리</button>
 	
@@ -232,7 +234,20 @@
 					$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
 					$('#navbar').children().eq(4).children().eq(0).addClass('active');
 			}
-		</script>
+			
+			function updateForm(){
+				var phone = $('#userPhone1').val() + '-' + $('#userPhone2').val();	
+			    if ($('#userPhone1').val() == "" || $('#userPhone2').val() == "") {
+			        alert("전화번호를 입력하지 않았습니다.");
+			        return false;
+			    }
+				if(isNaN($('#userPhone1').val()) || isNaN($('#userPhone2').val())){
+					alert('전화번호 입력이 잘못되었습니다!');
+					return false;
+				}
+				document.getElementById("userPhone").value = phone;
+			}
+	</script>
 		<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="parts/footer.jsp" %>
 </body>

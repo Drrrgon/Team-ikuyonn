@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -55,6 +58,12 @@ public class UserController {
 			hs.setAttribute("userProfilePath", path);
 		}
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date birthDate = ur.getUserBirth();
+		String userDate = sdf.format(birthDate);
+		hs.setAttribute("userBirth", userDate);
+		hs.setAttribute("userPhone1", ur.getUserPhone().substring(0, 4));
+		hs.setAttribute("userPhone2", ur.getUserPhone().substring(5, 9));
 		return "insertNameCard";
 	}
 	
