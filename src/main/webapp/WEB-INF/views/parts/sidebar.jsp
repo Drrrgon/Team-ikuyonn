@@ -45,27 +45,22 @@
 					<li class="nav-item">
 						<a class="nav-link " href="writeMail">
 							<i class="material-icons">mail</i> 
-							<span>메일쓰기</span>
+							<span>메일</span>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="mailBox"> 
-							<i class="material-icons">error</i> 
-							<span>메일함</span>
-						</a>
-					</li>
+					
 					<li class="nav-item">
 						<a class="nav-link " href="schedule"> 
 							<i class="material-icons">today</i> 
 							<span>일정표</span>
 						</a>
 					</li>
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<a class="nav-link " href="userprofilelite"> 
 							<i class="material-icons">error</i> 
 							<span>회원정보</span>
 						</a>
-					</li>
+					</li> -->
 					<li class="nav-item">
 						<a class="nav-link " href="projectFileCloud"> 
 							<i class="material-icons">share</i>
@@ -94,7 +89,7 @@
 						<div class="chat_header">
 							<div class="chat_option">
 								<div class="header_img">
-									<img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg"/> 
+									<img id="userProfileTopbar"src=${sessionScope.userProfilePath}/> 
 								</div>
 								<!-- 채팅 인적사항 -->
 								<span id="chat_head">이름</span> <br> <span class="agent">아이디</span> <span class="online">(Online)</span>		
@@ -178,15 +173,15 @@
 						<!-- 드롭다운메뉴 로그아웃 회원정보 수정 등 -->
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> 
-								<img class="user-avatar rounded-circle mr-2" src="./resources/images/avatars/0.jpg" alt="User Avatar"> 
+								<img id="userProfileDropDown"class="user-avatar rounded-circle mr-2" src=${sessionScope.userProfilePath} alt="User Avatar"> 
 								<span class="d-none d-md-inline-block">${sessionScope.userName}</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-small">
-								<!-- <a class="dropdown-item" href="user-profile-lite"> 
+								<a class="dropdown-item" href="userprofilelite"> 
 									<i class="material-icons">&#xE7FD;</i> 
 									Profile
 								</a> 
-								<a class="dropdown-item" href="components-blog-posts"> 
+								<!-- <a class="dropdown-item" href="components-blog-posts"> 
 									<i class="material-icons">vertical_split</i> 
 									Blog Posts
 								</a> 
@@ -196,6 +191,10 @@
 								</a> -->
 								<div class="dropdown-divider">
 								</div>
+								<a class="dropdown-item text-danger" href="userprofilelite"> 
+									<i lass="material-icons text-danger">&#xE879;</i> 
+									회원정보
+								</a>
 								<a class="dropdown-item text-danger" href="logoutUser"> 
 									<i lass="material-icons text-danger">&#xE879;</i> 
 									Logout

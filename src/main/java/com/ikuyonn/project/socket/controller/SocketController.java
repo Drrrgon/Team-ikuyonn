@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.socket.mapper.Repo;
 import com.ikuyonn.project.socket.vo.Message;
+import com.ikuyonn.project.socket.vo.User;
+import com.ikuyonn.project.user.mapper.UserMapper;
 
 /**
  * Handles requests for the application home page.
@@ -25,6 +28,8 @@ import com.ikuyonn.project.socket.vo.Message;
 @Controller
 public class SocketController {
 	@Autowired Repo repo;
+	@Autowired
+	SqlSession sqlSession;
 	private static final Logger logger = LoggerFactory.getLogger(SocketController.class);
 	
 	/**
@@ -98,5 +103,20 @@ public class SocketController {
 		}
 		session.setAttribute("socketIDList", tempList);
 		return tempList;
+	}
+	
+	@RequestMapping(value = "/getUserProfile", method = RequestMethod.POST)
+	public @ResponseBody String getUserProfile(HttpSession session, Model model, User ur) {
+		UserMapper um = sqlSession.getMapper(UserMapper.class);
+		User user = new User();
+		user = um.loginUser(ur);
+		String path= "";
+		if(user.getOriginalFileName() == null) {
+			path = "./resources/images/default.jpg";
+		}
+		else {
+			path = "./image/"+user.getOriginalFileName();
+		}
+		return path;
 	}
 }

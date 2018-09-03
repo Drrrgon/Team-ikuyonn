@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.mail.vo.Project;
 import com.ikuyonn.project.mail.vo.email;
+import com.ikuyonn.project.mail.vo.fileVO;
 import com.ikuyonn.project.mail.vo.inbox;
 import com.ikuyonn.project.socket.vo.User;
 
@@ -38,4 +39,10 @@ public interface MailMapper {
 	public inbox getmail(inbox inbox);
 	
 	public ArrayList<Project> getProject(String userID);
+	
+	public void addFile(fileVO file);
+	
+	public ArrayList<fileVO> getFileList(int proSeq);
+	
+	public fileVO getFile(int fileSeq);
 }
