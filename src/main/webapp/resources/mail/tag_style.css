@@ -2,7 +2,7 @@ html, body, main {
   height: 100%;
 }
 
-main {
+/* main {
   max-width: 500px;
   margin: 0 auto;
   padding: 0 30px;
@@ -17,7 +17,7 @@ main {
       -ms-flex-pack: center;
           justify-content: center;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
-}
+} */
 
 h1 {
   margin-bottom: 20px;
@@ -47,7 +47,7 @@ p {
 
 .tags-input {
   border: 0.5px solid #dfdfdf;
-/*   border-radius: 40px; */
+  border-radius: 40px;
   background: #ffffff;
   height: 40px;
   padding: 0 11px;
@@ -70,7 +70,7 @@ p {
 }
 .tags-input span[data-selected] {
   background: #71ccd5;
-}
+} 
 .tags-input::after {
   content: "";
   background: #888;
@@ -81,6 +81,7 @@ p {
   -webkit-animation: blink 0.5s infinite alternate;
           animation: blink 0.5s infinite alternate;
 }
+
 .tags-input:focus {
   border-color: #71ccd5;
   outline: none;

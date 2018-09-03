@@ -145,7 +145,11 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
-	<script>
+	
+	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+	<%@ include file="parts/footer.jsp"%>
+</body>
+<script>
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
 					'nav-link ');
@@ -159,7 +163,7 @@
 					'nav-link ');
 			$('#navbar').children().eq(5).children().eq(0).attr('class',
 					'nav-link ');
-			$('#navbar').children().eq(6).children().eq(0).addClass('active');
+			$('#navbar').children().eq(4).children().eq(0).addClass('active');
 		}
 		function getProject() {
 			var userID = $("#userID").val();
@@ -261,7 +265,4 @@
 		}
 		
 	</script>
-	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-	<%@ include file="parts/footer.jsp"%>
-</body>
 </html>

@@ -9,7 +9,7 @@
 <title>메이시</title>
 <!-- header -->
 <%@ include file="parts/header.jsp"%>
-<link rel="stylesheet" href="./resources/mail/style.css" />
+<link rel="stylesheet" href="./resources/mail/tag_style.css" />
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
@@ -172,6 +172,7 @@ dd.hidden {
 			</div>
 		</div>
 	</div>
+	<br/><br/><br/><br/><br/><br/><br/>
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -182,7 +183,14 @@ dd.hidden {
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script> -->
 	<script src="./resources/mail/index.js"></script>
 	
-	<script type="text/javascript">
+	
+	<script src="./resources/mail/jquery.dataTables.min.js"></script>
+	
+	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+	<%@ include file="parts/footer.jsp"%>
+	
+</body>
+<script type="text/javascript">
 	function refresh() {
 		var userID = $("#userID").val();
 		var temp;
@@ -324,7 +332,7 @@ dd.hidden {
 				'nav-link ');
 		$('#navbar').children().eq(5).children().eq(0).attr('class',
 				'nav-link ');
-		$('#navbar').children().eq(2).children().eq(0).addClass('active');
+		$('#navbar').children().eq(1).children().eq(0).addClass('active');
 	}
 		function naming() {
 			var aa = $("#to");
@@ -415,8 +423,4 @@ dd.hidden {
 			}
 		});
 	</script>
-	<script src="./resources/mail/jquery.dataTables.min.js"></script>
-	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-	<%@ include file="parts/footer.jsp"%>
-</body>
 </html>
