@@ -38,14 +38,25 @@
 			#{nameCardUrl, jdbcType=VARCHAR}
 		)
 	</insert>
-	<select id="getTotal" parameterType="String" resultType="int">
-		select COUNT(NCSEQ) from NAMECARD
-		<if test="_parameter != null">
+	<select id="selectNameCard" parameterType="NameCard" resultType="NameCard">
+		SELECT * FROM NAMECARD WHERE NCEMAIL = #{ncEmail} AND USERID = #{userID}
+	</select>
+	<select id="getTotal" parameterType="map" resultType="int">
+		SELECT COUNT(NCSEQ) from NAMECARD
+		<if test="type == 'ncName'">
 			WHERE
-				NCSEQ LIKE '%' || #{searchText} || '%'
+				NCNAME LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncEmail'">
+			WHERE
+				NCEMAIL LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncCompany'">
+			WHERE
+				NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 	</select>
-	<select id="selectNameCardList" parameterType="String" resultType="NameCard">
+	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
 		SELECT
 			USERID
 			NCCHECK,
@@ -61,10 +72,37 @@
 			NCADDRESS,
 			NAMECARDURL
 		FROM NAMECARD
-		<if test="_parameter != null">
-		WHERE
-			NCSEQ LIKE '%' || #{searchText} || '%'
+		<if test="type == 'ncName'">
+			WHERE
+				NCNAME LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncEmail'">
+			WHERE
+				NCEMAIL LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncCompany'">
+			WHERE
+				NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 		ORDER BY NCSEQ DESC
 	</select>
+	<delete id="deleteNameCard" parameterType="String">
+		DELETE FROM NAMECARD WHERE NCEMAIL = #{email}
+	</delete>
+	<update id="upDateNameCard" parameterType="NameCard">
+		UPDATE NAMECARD SET 
+			NCCOMPANY = #{ncCompany},
+			NCWEBSITE = #{ncWebsite},
+			NCNAME = #{ncName},
+			NCTITLE = #{ncTitle},
+			NCDEPARTMENT = #{ncDepartment},
+			NCADDRESS = #{ncAddress},
+			NCEMAIL = #{ncEmail},
+			NCMOBILE = #{ncMobile},
+			NCPHONE = #{ncPhone},
+			NCFAX = #{ncFax},
+			NAMECARDURL = #{nameCardUrl}
+		WHERE
+			NCEMAIL = #{ncEmail} AND USERID = #{userID}
+	</update>
 </mapper>

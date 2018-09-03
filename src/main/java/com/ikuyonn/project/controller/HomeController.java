@@ -59,6 +59,9 @@ public class HomeController {
 	@RequestMapping(value = "/insertNameCard", method = RequestMethod.GET)
 	public void insertNameCard() {
 	}
+	@RequestMapping(value = "/insertNameCard2", method = RequestMethod.GET)
+	public void insertNameCard2() {
+	}
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public String chat() {
 		return "/chat/chat";

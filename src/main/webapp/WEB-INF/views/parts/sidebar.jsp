@@ -37,9 +37,9 @@
 			<div class="nav-wrapper">
 				<ul id="navbar" class="nav flex-column">
 					<li class="nav-item">
-						<a class="nav-link " href="insertNameCard"> 
+						<a class="nav-link " href="nameCardList"> 
 							<i class="material-icons">tab</i> 
-							<span>명함등록</span>
+							<span>명함첩</span>
 						</a>
 					</li>
 					<li class="nav-item">
@@ -76,12 +76,6 @@
 						<a class="nav-link " href="cloud"> 
 							<i class="material-icons">error</i> 
 							<span>프로젝트</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="nameCardList"> 
-							<i class="material-icons">tab</i> 
-							<span>명함함</span>
 						</a>
 					</li>						
 				</ul>
