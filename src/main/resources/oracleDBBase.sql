@@ -71,7 +71,7 @@ CREATE TABLE project (
     ,due varchar2(100) default '------'
     ,memberNum number
 );
-
+CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
 INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team Ikuyonn', NULL, NULL);
 INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team DDONG', NULL, NULL);
 INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team 12', NULL, NULL);
@@ -93,7 +93,7 @@ CREATE TABLE joinProject (
     userID varchar2(40)
     , projectSeq number
 );
-CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
+
 insert into joinproject values('qwer',1);
 insert into joinproject values('asdf',1);
 insert into joinproject values('zxcv',1);
@@ -119,6 +119,7 @@ CREATE TABLE nameCard (
     , ncWebsite varchar2(100)
     , ncAddress varchar2(100)
     , ncGroup varchar2(40) DEFAULT '기본' 
+    , nameCardUrl varchar2(100)
 );
 ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_ncCheck CHECK (ncCheck BETWEEN 0 AND 1);
 ALTER TABLE nameCard ADD CONSTRAINT fk_nameCard_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
@@ -140,3 +141,5 @@ CREATE TABLE cloudFile(
     ,projectSeq number 
 );
 ALTER TABLE cloudFile add CONSTRAINT fk_file_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
+
+commit;

@@ -58,7 +58,7 @@
 	</select>
 	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
 		SELECT
-			USERID
+			USERID,
 			NCCHECK,
 			NCNAME,
 			NCEMAIL,
