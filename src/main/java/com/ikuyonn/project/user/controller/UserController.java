@@ -63,8 +63,8 @@ public class UserController {
 		String userDate = sdf.format(birthDate);
 		hs.setAttribute("userBirth", userDate);
 		hs.setAttribute("userPhone1", ur.getUserPhone().substring(0, 4));
-//		hs.setAttribute("userPhone2", ur.getUserPhone().substring(5, 9));
-		return "insertNameCard";
+		/*hs.setAttribute("userPhone2", ur.getUserPhone().substring(5, 9));*/
+		return "nameCardList";
 	}
 	
 	@RequestMapping(value = "/loginUserCheck", method = RequestMethod.POST)
