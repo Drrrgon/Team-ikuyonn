@@ -347,7 +347,7 @@
 											printHtml += '<tr><td class="chatProjectNameHeader">Project Name</td>';
 											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
 											printHtml += '<td>';
-											printHtml += '<button class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<button id="enterChat" class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';
@@ -358,7 +358,7 @@
 											printHtml += '<tr><td class="chatProjectNameHeader"></td>';
 											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
 											printHtml += '<td>';
-											printHtml += '<button class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<button id="enterChat" class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';
@@ -373,7 +373,7 @@
 									}
 									printHtml = "";
 									$('#selectProject').append(printHtml);
-									$("button.chatBtn").click(init);
+									$("#enterChat").click(init);
 								}				
 			}
 		});

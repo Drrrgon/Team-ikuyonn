@@ -4,18 +4,18 @@
 <html>
 <head>
 <!-- meta -->
-<%@ include file="parts/meta.jsp" %> 
+<%@ include file="../parts/meta.jsp" %> 
 <title>메이시</title>
 <!-- header -->
-<%@ include file="parts/header.jsp" %>
+<%@ include file="../parts/header.jsp" %>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp" %>
+<%@ include file="../parts/loadFirst-js.jsp" %>
 </head>
 <body class="h-100">
 	<!-- sidebar -->
-	<%@ include file="parts/sidebar.jsp" %>
+	<%@ include file="../parts/sidebar.jsp" %>
 		<div></div>
 				<!-- Default Light Table -->
 				<div class="row">
@@ -138,7 +138,7 @@
 				</div>
 				<a href="deleteUser?userID=${sessionScope.userID}">
 					<button class="btn btn-accent">회원탈퇴</button></a>
-					<button id="modifyProject" class="btn btn-accent">프로젝트 관리</button>
+				<a><button id="modifyProject" class="btn btn-accent">프로젝트 관리</button></a>
 	
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -249,6 +249,6 @@
 			}
 	</script>
 		<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/footer.jsp" %>
+<%@ include file="../parts/footer.jsp" %>
 </body>
 </html>

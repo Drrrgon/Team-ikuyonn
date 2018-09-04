@@ -16,6 +16,7 @@
 		
 	<mappers>
 		<mapper resource="socket/mapper/SocketMapper.xml"/>		
+		<mapper resource="project/mapper/ProjectMapper.xml"/>	
 		<mapper resource="mail/mapper/MailMapper.xml"/>
 		<mapper resource="user/mapper/UserMapper.xml"/>
 		<mapper resource="events/mapper/EventsMapper.xml"/>	

@@ -5,21 +5,21 @@
 <html>
 <head>
 <!-- meta -->
-<%@ include file="parts/meta.jsp" %> 
+<%@ include file="../parts/meta.jsp" %> 
 <title>메이시</title>
 <!-- header -->
-<%@ include file="parts/header.jsp" %>
+<%@ include file="../parts/header.jsp" %>
 <style>
     .deleteProject{
         opacity: 0.7;
     }
     #listBottom{
         position:relative; 
-        height: 500px; 
+        height: 300px; 
     }
     #projectListBottom{
-        text-align: center;
-        position:relative; 
+        text-align: right;
+        position: fixed; 
         bottom:0px;
         right:0px;   
     }
@@ -28,18 +28,24 @@
     }
     .writeForm{
         display: none;
-        text-align: center;
+        text-align: right;
+    }
+    .writeForm2{
+        text-align: right;
     }
     #projectName{
-        width: 250px;
+        width: 230px;
     }
     #projectList{
         text-align: center;
     }
+    #allProjectList{
+        display: none;
+    }
 </style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp" %>
+<%@ include file="../parts/loadFirst-js.jsp" %>
 </head>
 <body class="h-100">
 	<!-- sidebar -->
@@ -53,15 +59,20 @@
 	<div class="row" id="row1">
 		<div class="col-lg-12">
 			<div class="card card-small mb-4">
-
-				<div id="projectList" class="center col-md-8">
-                        
+                <div id="joinedProjectList">
+                    <div id="projectList" class="center col-md-8">
+                            
+                    </div>
+                    <div id="listBottom">
+                        <div id="projectListBottom" class="center col-md-8">
+                            <span class="writeForm2"><button id="openCreateProjectBtn" class="createProject btn btn-accent">프로젝트 생성</button></span>
+                                <span class="writeForm"><input id="projectName" type="text"><button id="createProjectBtn" class="createProject btn btn-accent">생성</button></span>
+                        </div>	
+                    </div>
+                    <button id="openProjectListBtn" class="createProject btn btn-accent">전체 프로젝트</button>
                 </div>
-                <div id="listBottom">
-                    <div id="projectListBottom" class="center col-md-8">
-                            <button id="openCreateProjectBtn" class="createProject btn btn-accent">프로젝트 생성</button>
-                            <span class="writeForm"><input id="projectName" type="text"><button id="createProjectBtn" class="createProject btn btn-accent">생성</button></span>
-                    </div>	
+                <div id="allProjectList">
+                    <button id="closeProjectListBtn" class="createProject btn btn-accent">창 닫기</button>
                 </div>
 			</div>
 		</div>
@@ -73,10 +84,14 @@
         
         $('#openCreateProjectBtn').on('click', openCreateProject);
         $('#createProjectBtn').on('click', createProject);
-
+        $('#openProjectListBtn').on('click', openProjectList);
+        $('#closeProjectListBtn').on('click', closeProjectList);
     });
 
     function init(){
+        getJoinedProjectName();
+    };
+    function getJoinedProjectName(){
         var sessionID = "${sessionScope.userID}";
         $.ajax({
             url: 'getprojectInfo',
@@ -87,7 +102,6 @@
             success: printProjectList
         });
     };
-
     function printProjectList(projectList){
         $('#projectList').text('');
         var printProjectHtml = "";
@@ -113,10 +127,28 @@
         }
         $('.deleteProject').on('click', deleteProject);
     }
+   
     function openCreateProject(){
         $('.writeForm').css('display', 'block');
-        $('#openCreateProjectBtn').css('display', 'none');
+        $('.writeForm2').css('display', 'none');
     }
+
+     function closeCreateProject(){
+        $('.writeForm').css('display', 'none');
+        $('.writeForm2').css('display', 'block');
+        // $('#projectListBottom').css('text-align', 'right');
+    }
+
+    function openProjectList(){
+        $('#allProjectList').css('display', 'block');
+        $('#joinedProjectList').css('display', 'none');
+    }
+
+    function closeProjectList(){
+        $('#allProjectList').css('display', 'none');
+        $('#joinedProjectList').css('display', 'block');
+    }
+
     function createProject(){
         var projectName = $('#projectName').val();
         if(projectName.length == 0){
@@ -141,9 +173,11 @@
             success: function(list){
                 printProjectList(list);
                 $('#projectName').val('');
+                closeCreateProject();
             }
         });
     }
+    
     function deleteProject(){
         var sessionID = "${sessionScope.userID}";
         var projectSeq = $(this).attr('data-project-seq');
@@ -160,6 +194,14 @@
             });
         }
     };
+
+    function getAllProjectList(){
+        $.ajax({
+            url: 'getprojectInfo',
+            type: 'post',
+            success: printProjectList
+        });
+    }
 </script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 </body>

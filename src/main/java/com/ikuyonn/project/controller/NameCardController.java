@@ -111,7 +111,7 @@ public class NameCardController {
 		nameCard.setUserID((String)httpSession.getAttribute("userID"));
 		NameCard result = mapper.selectNameCard(nameCard);
 		model.addAttribute("nameCard", result);
-		return "updateNameCard";
+		return "nameCard/updateNameCard";
 	}
 	
 	//명함수정	

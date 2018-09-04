@@ -5,10 +5,10 @@
 <html>
 <head>
 <!-- meta -->
-<%@ include file="parts/meta.jsp"%>
+<%@ include file="../parts/meta.jsp"%>
 <title>메이시</title>
 <!-- header -->
-<%@ include file="parts/header.jsp"%>
+<%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <style>
 #file {
@@ -28,7 +28,7 @@
 </style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp"%>
+<%@ include file="../parts/loadFirst-js.jsp"%>
 </head>
 <!-- <html>
 <head>
@@ -64,7 +64,7 @@
 
 <body class="h-100">
 	<!-- sidebar -->
-	<%@ include file="parts/sidebar.jsp"%>
+	<%@ include file="../parts/sidebar.jsp"%>
 
 
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
@@ -147,7 +147,7 @@
 	<script src="./resources/scripts/extras.1.0.0.min.js"></script>
 	
 	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-	<%@ include file="parts/footer.jsp"%>
+	<%@ include file="../parts/footer.jsp"%>
 </body>
 <script>
 		function setLeftSideIcon() {

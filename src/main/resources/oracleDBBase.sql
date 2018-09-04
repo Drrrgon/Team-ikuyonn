@@ -40,6 +40,10 @@ CREATE TABLE usertable(
     , userPhone varchar2(24) NOT NULL
     , originalFileName varchar2(300)
 );
+insert into usertable values('qwer', 'qwer', '신용하',sysdate, '1', null);
+insert into usertable values('asdf', 'asdf', '이민석',sysdate, '1', null);
+insert into usertable values('zxcv', 'zxcv', '강수빈',sysdate, '1', null);
+insert into usertable values('1234', '1234', '이상운',sysdate, '1', null);
 
 CREATE TABLE email(
     emailAddress varchar2(100) PRIMARY KEY
@@ -49,7 +53,7 @@ CREATE TABLE email(
     , smtp varchar2(200) NOT NULL
     , userID varchar2(40)
 );
-ALTER TABLE email ADD CONSTRAINT fk_email_userID FOREIGN KEY (userID) REFERENCES usertable(userID);
+ALTER TABLE email ADD CONSTRAINT fk_email_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
 CREATE TABLE inbox(
     msgNum varchar2(20)
@@ -59,7 +63,7 @@ CREATE TABLE inbox(
     , sentdate varchar2(40) NOT NULL
     , sentaddress varchar2(200) NOT NULL
 );
-ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress);
+ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
 CREATE TABLE project (
     projectSeq number PRIMARY KEY
@@ -67,6 +71,11 @@ CREATE TABLE project (
     ,due varchar2(100) default '------'
     ,memberNum number
 );
+
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team Ikuyonn', NULL, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team DDONG', NULL, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team 12', NULL, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team 34', NULL, NULL);
 
 CREATE TABLE events (
     eventSeq number PRIMARY KEY
@@ -78,16 +87,22 @@ CREATE TABLE events (
 );
 create sequence eventseq;
 
-ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES usertable(userID);
+ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
 CREATE TABLE joinProject (
     userID varchar2(40)
     , projectSeq number
 );
 CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
+insert into joinproject values('qwer',1);
+insert into joinproject values('asdf',1);
+insert into joinproject values('zxcv',1);
+insert into joinproject values('1234',1);
 
-ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_userID FOREIGN KEY (userID) REFERENCES usertable(userID);
-ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);
+
+
+ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
+ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
 
 CREATE TABLE nameCard (
     ncSeq varchar2(20) PRIMARY KEY
@@ -106,15 +121,15 @@ CREATE TABLE nameCard (
     , ncGroup varchar2(40) DEFAULT '기본' 
 );
 ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_ncCheck CHECK (ncCheck BETWEEN 0 AND 1);
-ALTER TABLE nameCard ADD CONSTRAINT fk_nameCard_userID FOREIGN KEY (userID) REFERENCES usertable(userID);
+ALTER TABLE nameCard ADD CONSTRAINT fk_nameCard_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
 CREATE TABLE projectEvent(
     projectSeq number
     , eventSeq number
 );
 
-ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);
-ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq);
+ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
+ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq)on delete cascade;
 
 CREATE TABLE cloudFile(
     fileSeq number PRIMARY KEY
@@ -124,4 +139,4 @@ CREATE TABLE cloudFile(
     ,fileType varchar2(40) NOT NULL
     ,projectSeq number 
 );
-ALTER TABLE cloudFile add CONSTRAINT fk_file_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq);
+ALTER TABLE cloudFile add CONSTRAINT fk_file_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;

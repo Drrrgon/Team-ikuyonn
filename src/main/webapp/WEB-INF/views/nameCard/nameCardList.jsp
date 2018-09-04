@@ -5,25 +5,25 @@
 <html>
 <head>
 <!-- meta -->
-<%@ include file="parts/meta.jsp" %> 
+<%@ include file="../parts/meta.jsp" %> 
 <title>메이시</title>
 <!-- header -->
-<%@ include file="parts/header.jsp" %>
+<%@ include file="../parts/header.jsp" %>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp" %>
+<%@ include file="../parts/loadFirst-js.jsp" %>
 </head>
 <body class="h-100">
 <!-- sidebar -->
-<%@ include file="parts/sidebar.jsp" %>
+<%@ include file="../parts/sidebar.jsp" %>
 <div class="main-content-container container-fluid px-4">
 	<div class="page-header row no-gutters py-4">
 		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
 			<h3 class="page-title">명함첩</h3>
 		</div>
 	</div>	
-	<a href="insertNameCard">사진으로 등록</a>
-	<a href="insertNameCard2">직접 등록</a>
+	<a href="nameCard/insertNameCard">사진으로 등록</a>
+	<a href="nameCard/insertNameCard2">직접 등록</a>
 	<div class="row" >
 		<div class="col-lg-4">
 			<div class="card card-small mb-4">		
@@ -114,7 +114,7 @@
 		</div>	
 	</div>
 </div>
-<%@ include file="parts/footer.jsp" %>
+<%@ include file="../parts/footer.jsp" %>
 <script type="text/javascript">
 	
 	$(function(){

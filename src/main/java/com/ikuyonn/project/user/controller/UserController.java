@@ -1,13 +1,10 @@
 package com.ikuyonn.project.user.controller;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ikuyonn.project.mail.vo.Project;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.user.mapper.UserMapper;
-import com.ikuyonn.project.user.util.FileManager;
+import com.ikuyonn.project.util.FileManager;
 
 @Controller
 public class UserController {
@@ -62,9 +58,9 @@ public class UserController {
 		Date birthDate = ur.getUserBirth();
 		String userDate = sdf.format(birthDate);
 		hs.setAttribute("userBirth", userDate);
-		hs.setAttribute("userPhone1", ur.getUserPhone().substring(0, 4));
+//		hs.setAttribute("userPhone1", ur.getUserPhone().substring(0, 4));
 //		hs.setAttribute("userPhone2", ur.getUserPhone().substring(5, 9));
-		return "insertNameCard";
+		return "nameCard/insertNameCard";
 	}
 	
 	@RequestMapping(value = "/loginUserCheck", method = RequestMethod.POST)
@@ -125,49 +121,4 @@ public class UserController {
 		
 		return "redirect:/";
 	}
-	
-	@RequestMapping(value = "/openProjectInfo", method = RequestMethod.GET)
-	public String getProjectInfo() {		
-		return "projectInfo";
-	}
-	
-	@RequestMapping(value = "/getprojectInfo", method = RequestMethod.POST)
-	public @ResponseBody List<Project> getprojectInfo(User u){
-		UserMapper um = session.getMapper(UserMapper.class);
-		HashMap<String, Object> map = new HashMap<>();		
-			map.put("userID", u.getUserID());
-		List<Project> projectList= um.getUserProjectList(map);
-		return projectList;
-	}
-	
-	@RequestMapping(value = "/deleteProject", method = RequestMethod.POST)
-	public @ResponseBody List<Project> deleteProject(User u, String projectSeq){
-		UserMapper um = session.getMapper(UserMapper.class);
-		HashMap<String, Object> map = new HashMap<>();		
-		// project 값이 null 이 아닌 경우 삭제
-		int pjSeq = Integer.parseInt(projectSeq);
-		map.put("userID", u.getUserID());
-		map.put("projectSeq", pjSeq);
-		int res = um.deleteJoinProject(map);
-		int re = um.deleteProject(pjSeq);
-		List<Project> projectList= um.getUserProjectList(map);
-		return projectList;
-	}
-	
-	@RequestMapping(value = "/createProject", method = RequestMethod.POST)
-	public @ResponseBody List<Project> createProject(User u, String projectName){
-		UserMapper um = session.getMapper(UserMapper.class);
-		Project pro = new Project();
-		pro.setProjectName(projectName);
-		HashMap <String, Object> userMap = new HashMap<String, Object>();
-		userMap.put("userID", u.getUserID());
-		userMap.put("projectName", projectName);
-		int re = um.createProject(pro);
-		userMap.put("projectSeq", pro.getProjectSeq());
-		int res = um.joinProject(userMap);
-		List<Project> project = um.getUserProjectList(userMap);
-		
-		return project;
-	}
-	
 }

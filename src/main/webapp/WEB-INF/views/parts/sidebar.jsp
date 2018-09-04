@@ -191,10 +191,10 @@
 								</a> -->
 								<div class="dropdown-divider">
 								</div>
-								<a class="dropdown-item text-danger" href="userprofilelite"> 
+								<!-- <a class="dropdown-item text-danger" href="userprofilelite"> 
 									<i lass="material-icons text-danger">&#xE879;</i> 
 									회원정보
-								</a>
+								</a> -->
 								<a class="dropdown-item text-danger" href="logoutUser"> 
 									<i lass="material-icons text-danger">&#xE879;</i> 
 									Logout

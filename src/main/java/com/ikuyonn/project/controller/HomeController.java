@@ -35,53 +35,41 @@ public class HomeController {
 		
 		return "home";
 	}
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public void index() {
-	}	
-	@RequestMapping(value = "/components-blog-posts", method = RequestMethod.GET)
-	public void componentsblogposts() {
-	}	
-	@RequestMapping(value = "/add-new-post", method = RequestMethod.GET)
-	public void addnewpost() {
-	}
-	@RequestMapping(value = "/form-components", method = RequestMethod.GET)
-	public void formcomponents() {
-	}
-	@RequestMapping(value = "/tables", method = RequestMethod.GET)
-	public void tables() {
-	}
+	
 	@RequestMapping(value = "/userprofilelite", method = RequestMethod.GET)
-	public void userprofilelite() {
-	}
-	@RequestMapping(value = "/errors", method = RequestMethod.GET)
-	public void errors() {
+	public String userprofilelite() {
+		return "/profile/userprofilelite";
 	}
 	@RequestMapping(value = "/insertNameCard", method = RequestMethod.GET)
-	public void insertNameCard() {
+	public String insertNameCard() {
+		return "/nameCard/insertNameCard";
 	}
 	@RequestMapping(value = "/insertNameCard2", method = RequestMethod.GET)
-	public void insertNameCard2() {
-	}
-	@RequestMapping(value = "/chat", method = RequestMethod.GET)
-	public String chat() {
-		return "/chat/chat";
+	public String insertNameCard2() {
+		return "/nameCard/insertNameCard2";
 	}
 	@RequestMapping(value = "/writeMail", method = RequestMethod.GET)
-	public void writeMail() {
+	public String writeMail() {
+		return "/mail/writeMail";
 	}
 	@RequestMapping(value = "/mailBox", method = RequestMethod.GET)
-	public void mailBox() {
+	public String mailBox() {
+		return "/mail/mailBox";
 	}
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
-	public void schedule() {
+	public String schedule() {
+		return "/events/schedule";
 	}
 	@RequestMapping(value = "/projectFileCloud", method = RequestMethod.GET)
-	public void projectFileCloud() {
+	public String projectFileCloud() {
+		return "/uProject/projectFileCloud";
 	}
 	@RequestMapping(value = "/cloud", method = RequestMethod.GET)
-	public void cloud() {
+	public String cloud() {
+		return "/uProject/cloud";
 	}
 	@RequestMapping(value = "/nameCardList", method = RequestMethod.GET)
-	public void nameCardList() {
+	public String nameCardList() {
+		return "/nameCard/nameCardList";
 	}
 }

@@ -5,18 +5,18 @@
 <html>
 <head>
 <!-- meta -->
-<%@ include file="parts/meta.jsp" %> 
+<%@ include file="../parts/meta.jsp" %> 
 <title>메이시</title>
 <!-- header -->
-<%@ include file="parts/header.jsp" %>
+<%@ include file="../parts/header.jsp" %>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/loadFirst-js.jsp" %>
+<%@ include file="../parts/loadFirst-js.jsp" %>
 </head>
 <body class="h-100">
 	<!-- sidebar -->
-	<%@ include file="parts/sidebar.jsp" %>
+	<%@ include file="../parts/sidebar.jsp" %>
 
 <div class="main-content-container container-fluid px-4">
 	<div class="page-header row no-gutters py-4">
@@ -63,6 +63,6 @@
 	}
 </script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-<%@ include file="parts/footer.jsp" %>
+<%@ include file="../parts/footer.jsp" %>
 </body>
 </html>
