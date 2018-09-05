@@ -60,29 +60,10 @@ public class MailController {
 	SqlSession session;
 	private static final Logger logger = LoggerFactory.getLogger(MailController.class);
 
-	@RequestMapping(value = "/sign", method = RequestMethod.GET)
-	public String sign() {
-
-		return "sign";
-	}
-
-	@RequestMapping(value = "/mailMain", method = RequestMethod.GET)
-	public String mailMain() {
-		return "mailMain";
-	}
-
-	@RequestMapping(value = "/logMain", method = RequestMethod.GET)
-	public String logMain(HttpSession sess) {
-		String userID =(String)sess.getAttribute("userID");
-		loadMail(userID);
-		return "mailMain";
-	}
-
 	@RequestMapping(value = "/reload", method = RequestMethod.GET)
-	public String reload(HttpSession sess) {
+	public @ResponseBody void reload(HttpSession sess) {
 		String userID =(String)sess.getAttribute("userID");
 		loadMail(userID);
-		return "mailBox";
 	}
 
 	public void loadMail(String userID) {
@@ -100,37 +81,18 @@ public class MailController {
 		return email;
 	}
 
-	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public String signin(User user) {
-		MailMapper mapper = session.getMapper(MailMapper.class);
-		int result = mapper.signin(user);
-		return "login";
-	}
-
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		session.removeAttribute("user");
-		return "login";
-	}
-
-	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write() {
-
-		return "write";
-	}
-
-	@RequestMapping(value = "/goInbox", method = RequestMethod.GET)
-	public String goInbox() {
-		return "inbox";
-	}
-
 	@RequestMapping(value = "/addAddress", method = RequestMethod.POST)
-	public @ResponseBody int addAddress(email email) {
+	public String addAddress(email email) {
+		System.out.println(email);
+		MailMapper mapper = session.getMapper(MailMapper.class);
+		mapper.addAddress(email);
+		return "profile/userprofilelite";
+	}
+	
+	@RequestMapping(value = "/mailCheck", method = RequestMethod.POST)
+	public @ResponseBody int mailCheck(email email) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		int result = mapper.checkEmail(email);
-		if (result == 0) {
-			mapper.addAddress(email);
-		}
 		return result;
 	}
 
@@ -144,6 +106,7 @@ public class MailController {
 	@RequestMapping(value = "/delAddress", method = RequestMethod.POST)
 	public @ResponseBody String delAddress(email email) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
+		mapper.delInbox(email);
 		mapper.delAddress(email);
 		return "";
 	}
@@ -152,19 +115,6 @@ public class MailController {
 	public @ResponseBody User check(String userID) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		User result = mapper.checkid(userID);
-		return result;
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody String login(User user, HttpSession session2) {
-		MailMapper mapper = session.getMapper(MailMapper.class);
-		User user2 = mapper.login(user);
-		String result = "";
-		if (user2 != null) {
-			result = user2.getUserName();
-			session2.setAttribute("user", user2);
-		}
-
 		return result;
 	}
 
@@ -312,8 +262,10 @@ public class MailController {
 										+ "</a><div>(다운로드 파일은 C:\\\\download\\\\에 저장됩니다.)</div></div>";
 							}
 					}
+					if(content!=null&&content!="") {
 					content2+=content;
 					temp.setContent(content2);
+					}
 				} else {
 					if(m.getContent().toString().equals(null)||m.getContent().toString().equals("")) {
 						temp.setContent("(내용 없음)");
@@ -321,7 +273,9 @@ public class MailController {
 						temp.setContent(m.getContent().toString());
 					}
 				}
-				temp.setSentdate(m.getSentDate().toString());
+				
+				temp.setSentdate(m.getReceivedDate().toString());
+				
 				String address = MimeUtility.decodeText(m.getFrom()[0].toString());
 				if (address.split("<").length > 1) {
 					address = address.split("<")[0] + " " + address.split("<")[1].split(">")[0];

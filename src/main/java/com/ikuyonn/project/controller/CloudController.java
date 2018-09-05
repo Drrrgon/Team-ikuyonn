@@ -52,6 +52,14 @@ public class CloudController {
 		ArrayList<fileVO> fList = getFileList(proSeq);
 		return fList;
 	}
+	
+	@RequestMapping(value = "/delFile", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<fileVO> delFile(int fileSeq,int proSeq) {
+		MailMapper mapper = session.getMapper(MailMapper.class);
+		mapper.delFile(fileSeq);
+		ArrayList<fileVO> fList = getFileList(proSeq);
+		return fList;
+	}
 	@RequestMapping(value = "/fileList", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<fileVO> fileList(fileVO f) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
