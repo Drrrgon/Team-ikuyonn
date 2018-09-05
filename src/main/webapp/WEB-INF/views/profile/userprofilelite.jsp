@@ -173,8 +173,7 @@
 	<a href="deleteUser?userID=${sessionScope.userID}">
 		<button class="btn btn-accent">회원탈퇴</button>
 	</a>
-	<a><button id="modifyProject" class="btn btn-accent">프로젝트
-			관리</button></a>
+	
 
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -268,8 +267,6 @@
 
 			$('#row2').css('display', 'none');
 
-			$('#modifyProject').on("click", openProjectWindow);
-
 			getList();
 			
 			//emailAddress중복체크 key up
@@ -354,19 +351,7 @@
 				};
 			};
 		});
-
-		function openProjectWindow() {
-			var projectWindow = window
-					.open(
-							"openProjectInfo",
-							"WindowName",
-							"width=460, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no");
-			projectWindow.resizeTo(460, 800); //resize window to 500x500
-			projectWindow.resizeBy(-10, -10); //make it smaller relatively => to 400x400	
-
-			projectWindow.focus();
-		};
-
+		
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
 					'nav-link ');

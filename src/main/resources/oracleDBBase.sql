@@ -66,6 +66,7 @@ CREATE TABLE inbox(
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
 CREATE TABLE project (
+    -- project master e-mail
     projectSeq number PRIMARY KEY
     , projectName varchar2(200)
     ,due varchar2(100) default '------'

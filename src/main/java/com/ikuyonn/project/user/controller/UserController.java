@@ -78,7 +78,7 @@ public class UserController {
 		// 소스 파일 경로를 얻어와서 FM에게 PATH를 주고 생성시킴
 		UserMapper um = session.getMapper(UserMapper.class);
 		ServletContext cotx = req.getSession().getServletContext();
-		String path = cotx.getRealPath("/resources/userProfileImage");
+		String path = cotx.getRealPath("/resources/images/userProfile");
 		FileManager fm = new FileManager(path);
 		
 		// 기존유저의 얼굴 정보를 초기화 시킴
