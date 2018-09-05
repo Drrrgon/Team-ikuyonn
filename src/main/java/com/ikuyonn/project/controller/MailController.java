@@ -61,10 +61,9 @@ public class MailController {
 	private static final Logger logger = LoggerFactory.getLogger(MailController.class);
 
 	@RequestMapping(value = "/reload", method = RequestMethod.GET)
-	public String reload(HttpSession sess) {
+	public @ResponseBody void reload(HttpSession sess) {
 		String userID =(String)sess.getAttribute("userID");
 		loadMail(userID);
-		return "mailBox";
 	}
 
 	public void loadMail(String userID) {
@@ -107,6 +106,7 @@ public class MailController {
 	@RequestMapping(value = "/delAddress", method = RequestMethod.POST)
 	public @ResponseBody String delAddress(email email) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
+		mapper.delInbox(email);
 		mapper.delAddress(email);
 		return "";
 	}
@@ -262,8 +262,10 @@ public class MailController {
 										+ "</a><div>(다운로드 파일은 C:\\\\download\\\\에 저장됩니다.)</div></div>";
 							}
 					}
+					if(content!=null&&content!="") {
 					content2+=content;
 					temp.setContent(content2);
+					}
 				} else {
 					if(m.getContent().toString().equals(null)||m.getContent().toString().equals("")) {
 						temp.setContent("(내용 없음)");
@@ -271,7 +273,9 @@ public class MailController {
 						temp.setContent(m.getContent().toString());
 					}
 				}
-				temp.setSentdate(m.getSentDate().toString());
+				
+				temp.setSentdate(m.getReceivedDate().toString());
+				
 				String address = MimeUtility.decodeText(m.getFrom()[0].toString());
 				if (address.split("<").length > 1) {
 					address = address.split("<")[0] + " " + address.split("<")[1].split(">")[0];

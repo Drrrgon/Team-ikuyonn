@@ -45,4 +45,8 @@ public interface MailMapper {
 	public ArrayList<fileVO> getFileList(int proSeq);
 	
 	public fileVO getFile(int fileSeq);
+	
+	public void delInbox(email email);
+	
+	public void delFile(int fileSeq);
 }

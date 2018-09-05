@@ -44,7 +44,7 @@ select * from inbox where emailAddress = #{emailAddress} and msgNum = #{msgNum}
 </select>
 
 <select id = "getProject" parameterType = "String" resultType ="Project">
-select p.projectSeq projectSeq,p.projectName projectName,p.memberNum memberNum,p.due due 
+select p.projectSeq projectSeq,p.projectName projectName,p.memberNum memberNum
 from userTable u,project p,joinProject j where u.userID=j.userID and j.projectSeq=p.projectSeq 
 and u.userID=#{userID}
 </select>
@@ -61,4 +61,12 @@ select * from cloudFile where projectSeq=#{value}
 <select id = "getFile" parameterType = "int" resultType ="fileVO">
 select * from cloudFile where fileSeq=#{fileSeq}
 </select>
+
+<delete id="delInbox" parameterType="Email">
+delete * from inbox where emailAddress=#{emailAddress}
+</delete>
+
+<delete id="delFile" parameterType="int">
+delete from cloudFile where fileSeq=#{fileSeq}
+</delete>
 </mapper>
