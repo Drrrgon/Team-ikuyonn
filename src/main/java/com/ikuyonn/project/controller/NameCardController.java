@@ -82,10 +82,17 @@ public class NameCardController {
 	//명함리스트 출력/삭제
 	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam(value="searchText", defaultValue="") String searchText,String type, String email) {
+			@RequestParam(value="searchText", defaultValue="") String searchText,String type, String email, String[] emails) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		if(email != null) {
 			mapper.deleteNameCard(email);
+		}
+		System.out.println("asdfefwf : " + emails);
+		if(emails != null) {
+			for(String e : emails) {
+				System.out.println(e	);
+				mapper.deleteNameCard(e);
+			}
 		}
 		System.out.println("asdf  "+searchText);
 		Map<String, String> search = new HashMap<>();
