@@ -2,13 +2,13 @@ package com.ikuyonn.project.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
@@ -28,6 +28,7 @@ import com.ikuyonn.project.mail.vo.fileVO;
 public class CloudController {
 	@Autowired
 	SqlSession session;
+	private static  String UPLOADPATH = "";
 	
 	private static String UPLOADPATH = "";
 	
@@ -38,8 +39,10 @@ public class CloudController {
 		return project;
 	}
 	@RequestMapping(value = "/addFile", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<fileVO> addFile(MultipartFile file,int proSeq) {
-		
+	public @ResponseBody ArrayList<fileVO> addFile(MultipartFile file,int proSeq, HttpServletRequest request) {
+		ServletContext cotx = request.getSession().getServletContext();
+		UPLOADPATH = cotx.getRealPath("/resources/cloud/");
+		System.out.println(UPLOADPATH);
 		fileVO f = new fileVO();
 		f.setFileName(file.getOriginalFilename());
 		f.setSaveFileName(fileService(file));
@@ -68,8 +71,10 @@ public class CloudController {
 		return fList;
 	}
 	@RequestMapping(value = "/downFile", method = RequestMethod.GET)
-	public void downFile(fileVO f,HttpServletResponse response) {
+	public void downFile(fileVO f,HttpServletResponse response, HttpServletRequest request) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
+		ServletContext cotx = request.getSession().getServletContext();
+		UPLOADPATH = cotx.getRealPath("/resources/cloud/");		
 		fileVO vo = mapper.getFile(f.getFileSeq());
 		try {
 			response.setContentType("application/octet-stream");

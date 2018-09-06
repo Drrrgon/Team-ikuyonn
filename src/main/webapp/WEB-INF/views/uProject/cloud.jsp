@@ -25,6 +25,9 @@
 .td {
 	width: 70;
 }
+.projectAddBtnTd{
+	text-align: right;
+}
 div.aa:hover {
     background-color: #e6e6e6;
 }
@@ -77,22 +80,8 @@ div.aa:hover {
 				<div class="card-header border-bottom">
 					<h6 class="m-0">참여중인 프로젝트</h6>
 				</div>
-				<div class="card-body p-0 pb-3 text-center">
-					<table class="table mb-0">
-						<thead class="bg-light">
-							<tr>
-								<th scope="col" class="border-0">#</th>
-								<th scope="col" class="border-0">프로젝트 명</th>
-								<th scope="col" class="border-0">기간</th>
-								<th scope="col" class="border-0">참여인원</th>
-								<th scope="col" class="border-0">클라우드</th>
-							</tr>
-						</thead>
-						<tbody id="tbody">
-
-						</tbody>
-					</table>
-
+				<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
+					
 				</div>
 
 			</div>
@@ -118,10 +107,12 @@ div.aa:hover {
 							
 						</tr>
 					</table>
+					
+					
 				</div>
 			</div>
+			<div><a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a></div>
 		</div>
-
 	</div>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -160,22 +151,86 @@ div.aa:hover {
 					"userID" : userID
 				},
 				success : function(data) {
-					var temp = "";
-					for ( var i in data) {
-						temp += "<tr><td>" + i + "</td>";
-						temp += "<td>" + data[i].projectName + "</td>";
-						temp += "<td>" + data[i].due + "</td>";
-						temp += "<td>" + data[i].memberNum + "</td>";
-						temp += "<td><button onclick='fileList("
-								+ data[i].projectSeq
-								+ ")'>열기</button></td></tr>";
-					}
-					$("#tbody").append(temp);
+					initProjectList();
+					printJoinedProjectList(data);
 				},
 				error : function() {
 					alert("통신실패");
 				}
 			});
+		}
+		function openInputForm(){
+			$('#tbody > tr:last').remove();
+			var temp = "";
+			temp += '<tr><td></td>';
+			temp += '<td><input type="text" id="inputProjectName"></td>';
+			temp += '<td><input type="date" id="inputProjectDate"></td>';
+			temp += '<td></td>';
+			temp += '<td><button id="createProjectBtn" class="btn btn-accent">생성</button></td></tr>';
+			$("#tbody").append(temp);
+			$('#createProjectBtn').on('click', createProject);
+		}
+		function createProject(){
+        var projectName = $('#inputProjectName').val();
+        if(projectName.length == 0){
+            alert('프로젝트 명을 입력해 주세요!');
+            $('#inputProjectName').focus();
+            $('#inputProjectName').select();
+            return false;
+        }
+        if(projectName.length > 15){
+            alert('프로젝트 명을 15자 이하로입력해 주세요!');
+            $('#inputProjectName').focus();
+            $('#inputProjectName').select();
+            return false;
+        }
+        var sessionID = "${sessionScope.userID}";
+        $.ajax({
+            url: 'createProject',
+            type: 'post',
+            data: {
+                'userID': sessionID, 'projectName': projectName
+            },
+            success: function(list){
+				getProject();
+                // printProjectList(list);
+                // $('#inputProjectName').val('');
+                // closeCreateProject();
+            }
+        });
+    }
+		function printJoinedProjectList(joinedProjectList){
+			var temp = "";
+			for ( var i in joinedProjectList) {
+				temp += "<tr><td>" + i + "</td>";
+				temp += "<td>" + joinedProjectList[i].projectName + "</td>";
+				temp += "<td>" + joinedProjectList[i].due + "</td>";
+				temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
+				temp += "<td><button onclick='fileList("
+						+ joinedProjectList[i].projectSeq
+						+ ")'>열기</button></td></tr>";
+			}
+			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
+			temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
+								
+			$("#tbody").append(temp);
+			$('#openInputFormBtn').on('click', openInputForm);
+		}
+		function initProjectList(){
+			$('#joinedProjectList').text('');
+			var printHtml ='<table class="table mb-0">';
+			printHtml += '<thead class="bg-light">';
+			printHtml += '<tr>';
+			printHtml += '<th scope="col" class="border-0">#</th>';
+			printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
+			printHtml += '<th scope="col" class="border-0">기간</th>';
+			printHtml += '<th scope="col" class="border-0">참여인원</th>';
+			printHtml += '</tr>';
+			printHtml += '</thead>';
+			printHtml += '<tbody id="tbody">';
+			printHtml += '</tbody>';
+			printHtml += '</table>';
+			$('#joinedProjectList').html(printHtml);		
 		}
 		function fileList(projectSeq) {
 			var temp = document.getElementById("cloudBody");
@@ -196,6 +251,8 @@ div.aa:hover {
 			});
 		}
 		$(function() {
+			$('#modifyProjectBtn').on("click", openProjectWindow);
+
 			setLeftSideIcon();
 			getProject();
 			var projectSeq = "";
@@ -240,6 +297,19 @@ div.aa:hover {
 				});
 			});
 		});
+
+		function openProjectWindow() {
+			var projectWindow = window
+					.open(
+							"openProjectInfo",
+							"WindowName",
+							"width=460, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no");
+			projectWindow.resizeTo(460, 800); 
+			projectWindow.resizeBy(-10, -10); 
+
+			projectWindow.focus();
+		};
+
 		function makeFile(result) {
 			var temp = "<tr><input type='hidden' value='' id='delSeq'/>"
 			for ( var i in result) {

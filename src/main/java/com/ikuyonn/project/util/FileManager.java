@@ -28,8 +28,8 @@ public class FileManager {
 		UPLOADPATH = path;
 //		System.out.println(UPLOADPATH);
 		File f = new File(UPLOADPATH);
-		if(f.isDirectory()) {
-			f.mkdir();
+		if(f.isDirectory() == false) {
+			f.mkdirs();
 		}
 	}
 	
