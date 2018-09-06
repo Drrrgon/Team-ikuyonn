@@ -31,6 +31,32 @@
 div.aa:hover {
     background-color: #e6e6e6;
 }
+div#create_project_div{
+	display: none;
+
+}
+.page1{
+	width: 50%;
+	float: left;
+}
+.page2{
+	width: 50%;
+	float: left;
+}
+.inline{
+	display: flow-root;
+}
+.createbtn{
+	float: right;
+}
+.projectHeader{
+	display:inline;
+	cursor: pointer;
+	margin: 20px;
+}
+.all_project_div{
+	display: none;
+}
 </style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
@@ -75,12 +101,15 @@ div.aa:hover {
 
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="row">
-		<div class="col">
+		<div id="joinedProjectDiv" class="col">
 			<div class="card card-small mb-4">
 				<div class="card-header border-bottom">
-					<h6 class="m-0">참여중인 프로젝트</h6>
+					<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인 프로젝트</h6>&nbsp;&nbsp;&nbsp;<h6 id="allProjectListHeader" class="projectHeader m-0">전체 프로젝트</h6>
 				</div>
 				<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
+					
+				</div>
+				<div id="allProjectList" class="card-body p-0 pb-3 text-center">
 					
 				</div>
 
@@ -112,6 +141,38 @@ div.aa:hover {
 				</div>
 			</div>
 			<div><a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a></div>
+		</div>
+		<div id="create_project_div" class="col">
+				<div class="inline card card-large mb-4">
+						<div class="card-header border-bottom">
+								<h6 class="m-0">프로젝트 생성</h6>
+							</div>
+					
+							<div class="page1">userList</div>
+							<div class="page2">
+								<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
+								<input type="date" id="inputProjectDate" class="form-control"><br/>
+								<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
+								<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
+							</div>
+				</div>
+				
+		</div>
+		<!-- <div id="all_project_div" class="col">
+				<div class="inline card card-large mb-4">
+						<div class="card-header border-bottom">
+								<h6 class="m-0">프로젝트 리스트</h6>
+							</div> -->
+					
+							<!-- <div class="page1">userList</div>
+							<div class="page2">
+								<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
+								<input type="date" id="inputProjectDate" class="form-control"><br/>
+								<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
+								<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
+							</div> -->
+				</div>
+				
 		</div>
 	</div>
 	<script
@@ -160,15 +221,9 @@ div.aa:hover {
 			});
 		}
 		function openInputForm(){
-			$('#tbody > tr:last').remove();
-			var temp = "";
-			temp += '<tr><td></td>';
-			temp += '<td><input type="text" id="inputProjectName"></td>';
-			temp += '<td><input type="date" id="inputProjectDate"></td>';
-			temp += '<td></td>';
-			temp += '<td><button id="createProjectBtn" class="btn btn-accent">생성</button></td></tr>';
-			$("#tbody").append(temp);
-			$('#createProjectBtn').on('click', createProject);
+			$('#create_project_div').css('display', 'block');
+			$('#joinedProjectDiv').css('display', 'none');
+			
 		}
 		function createProject(){
         var projectName = $('#inputProjectName').val();
@@ -193,12 +248,15 @@ div.aa:hover {
             },
             success: function(list){
 				getProject();
-                // printProjectList(list);
-                // $('#inputProjectName').val('');
-                // closeCreateProject();
+                $('#inputProjectName').val('');
+                closeCreateProject();
             }
         });
     }
+	function closeCreateProject(){
+		$('#create_project_div').css('display', 'none');
+		$('#joinedProjectDiv').css('display', 'block');
+	}
 		function printJoinedProjectList(joinedProjectList){
 			var temp = "";
 			for ( var i in joinedProjectList) {
@@ -251,8 +309,17 @@ div.aa:hover {
 			});
 		}
 		$(function() {
+			$('#createProjectBtn').on('click', createProject);
 			$('#modifyProjectBtn').on("click", openProjectWindow);
-
+			$('#backBtn').on('click', closeCreateProject);
+			$('#joinedProjectListHeader').on('click', function(){
+				$('#allProjectList').css('display', 'none');
+				$('#joinedProjectList').css('display', 'block');
+			});
+			$('#allProjectListHeader').on('click', function(){
+				$('#allProjectList').css('display', 'block');
+				$('#joinedProjectList').css('display', 'none');
+			});
 			setLeftSideIcon();
 			getProject();
 			var projectSeq = "";
