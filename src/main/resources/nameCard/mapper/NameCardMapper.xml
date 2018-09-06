@@ -45,33 +45,33 @@
 	</select>
 	<select id="getTotal" parameterType="map" resultType="int">
 		SELECT COUNT(NCSEQ) from NAMECARD
-		<if test="emailCheck != null">
+		<if test="emailCheck != null and type == null">
 			WHERE
 				EMAILCHECK = #{emailCheck}	
 		</if>
-		<if test="type == 'ncName'">
+		<if test="type == 'ncName' and emailCheck == 2">
 			WHERE
 				NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncEmail'">
+		<if test="type == 'ncEmail' and emailCheck == 2">
 			WHERE
 				NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncCompany'">
+		<if test="type == 'ncCompany' and emailCheck == 2">
 			WHERE
 				NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncName' AND emailCheck != null">
+		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
 			WHERE
-				NCNAME LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+				EMAILCHECK = #{emailCheck} AND NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncEmail' AND emailCheck != null">
+		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
 			WHERE
-				NCEMAIL LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+				EMAILCHECK = #{emailCheck} AND NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncCompany' AND emailCheck != null">
+		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
 			WHERE
-				NCCOMPANY LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+				EMAILCHECK = #{emailCheck} AND NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 	</select>
 	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
@@ -90,33 +90,33 @@
 			NCADDRESS,
 			NAMECARDURL
 		FROM NAMECARD
-		<if test="emailCheck != null">
+		<if test="emailCheck != null and type == null">
 			WHERE
 				EMAILCHECK = #{emailCheck}	
 		</if>
-		<if test="type == 'ncName'">
+		<if test="type == 'ncName' and emailCheck == 2">
 			WHERE
 				NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncEmail'">
+		<if test="type == 'ncEmail' and emailCheck == 2">
 			WHERE
 				NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncCompany'">
+		<if test="type == 'ncCompany' and emailCheck == 2">
 			WHERE
 				NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncName' AND emailCheck != null">
+		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
 			WHERE
-				NCNAME LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+				EMAILCHECK = #{emailCheck} AND NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncEmail' AND emailCheck != null">
+		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
 			WHERE
-				NCEMAIL LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+				EMAILCHECK = #{emailCheck} AND NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
-		<if test="type == 'ncCompany' AND emailCheck != null">
+		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
 			WHERE
-				NCCOMPANY LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+				EMAILCHECK = #{emailCheck} AND NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 		ORDER BY NCSEQ DESC
 	</select>

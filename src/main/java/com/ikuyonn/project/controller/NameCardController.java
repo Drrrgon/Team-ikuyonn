@@ -104,13 +104,12 @@ public class NameCardController {
 			}
 		}
 		
-		System.out.println("asdf  "+searchText);
 		Map<String, String> search = new HashMap<>();
 		search.put("searchText", searchText);
 		search.put("type", type);
 		search.put("emailCheck", emailCheck);
 		int total = mapper.getTotal(search);
-		System.out.println("page : "+page+"total : "+total);
+		System.out.println("page : "+page+"total : "+total+"emailCheck : "+emailCheck+"type : "+type+"searchText : "+searchText);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
 		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
 		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, search);

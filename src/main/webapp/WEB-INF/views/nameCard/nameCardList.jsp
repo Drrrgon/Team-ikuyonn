@@ -283,14 +283,14 @@
 	};
 	
 	$('input:radio[name=options]').change(function(){
-		var result = $('input:radio[name=options]:checked').val();
-		if(result == 2){
+		var emailCheck = $('input:radio[name=options]:checked').val();
+		if(emailCheck == 2){
 			init();
 		}else{
 			$.ajax({
 				url : 'selectNameCardList',
 				data : {
-					'emailCheck' : result
+					'emailCheck' : emailCheck
 				},
 				type : 'get',
 				success : outPut
@@ -311,8 +311,7 @@
 	function nameCardMove(){
 		$('.nameCardTable').attr('class','nameCardTable');
 		$(this).attr('class','nameCardTable active');
-		var nameCard = nameCardList[$(this).attr('data-rownum')];
-		
+		var nameCard = nameCardList[$(this).attr('data-rownum')];		
 		
 		$('.leftNameCard').attr('style','background:url('+nameCard.nameCardUrl+'); background-size: cover;');
 		$('#company').text(nameCard.ncCompany);
@@ -379,6 +378,8 @@
 	});
 	
 	$('#searchBtn').on('click',function(){
+		var emailCheck = $('input:radio[name=options]:checked').val();
+		console.log(emailCheck);
 		var page = $('.paging > .active > a').attr('page');
 		var type = $('.form-control option:selected').val();
 		console.log(type);
@@ -390,6 +391,7 @@
 			data : {
 				'page' : page,
 				'searchText' : searchText,
+				'emailCheck' : emailCheck,
 				'type' : type
 			},
 			success : outPut
