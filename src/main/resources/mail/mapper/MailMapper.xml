@@ -69,4 +69,8 @@ delete * from inbox where emailAddress=#{emailAddress}
 <delete id="delFile" parameterType="int">
 delete from cloudFile where fileSeq=#{fileSeq}
 </delete>
+
+<update id="fixNameCard" parameterType="Email">
+update nameCard set emailCheck=1 where ncEmail=#{emailAddress}
+</update>
 </mapper>

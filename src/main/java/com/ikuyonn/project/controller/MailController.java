@@ -86,6 +86,7 @@ public class MailController {
 		System.out.println(email);
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		mapper.addAddress(email);
+		mapper.fixNameCard(email);
 		return "profile/userprofilelite";
 	}
 	

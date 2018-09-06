@@ -349,6 +349,7 @@ div#create_project_div{
 				var formData = new FormData();
 				formData.append("file", $("#file")[0].files[0]);
 				formData.append("proSeq", $("#proSeq").val());
+				if($("#file")[0].files[0]!=null){
 				$.ajax({
 					url : "addFile",
 					processData : false,
@@ -362,6 +363,7 @@ div#create_project_div{
 						alert("통신실패");
 					}
 				});
+				}
 			});
 		});
 
@@ -380,7 +382,10 @@ div#create_project_div{
 		function makeFile(result) {
 			var temp = "<tr><input type='hidden' value='' id='delSeq'/>"
 			for ( var i in result) {
-				temp += "<td width='60' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/aaa.png' height='42' width='42'><br />"
+				if(i!=0&&i%6==0){
+					temp+="</tr><tr>"
+				}
+				temp += "<td width='10px' style='word-break:break-all' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/fileIcon/"+result[i].fileType+".jpg' height='42' width='42' onerror=\"this.src='./resources/images/fileIcon/ccc.jpg'\"><br />"
 				temp += "<a href='downFile?fileSeq=" + result[i].fileSeq
 						+ "'>" + result[i].fileName + "</a></div></td>"
 			}

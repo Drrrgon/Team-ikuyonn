@@ -19,7 +19,8 @@
 			NCTITLE,
 			NCWEBSITE,
 			NCADDRESS,
-			NAMECARDURL
+			NAMECARDURL,
+			EMAILCHECK
 		)
 		VALUES(
 			NCSEQ.NEXTVAL,
@@ -35,7 +36,8 @@
 			#{ncTitle, jdbcType=VARCHAR},
 			#{ncWebsite, jdbcType=VARCHAR},
 			#{ncAddress, jdbcType=VARCHAR},
-			#{nameCardUrl, jdbcType=VARCHAR}
+			#{nameCardUrl, jdbcType=VARCHAR},
+			#{emailCheck, jdbcType=VARCHAR}
 		)
 	</insert>
 	<select id="selectNameCard" parameterType="NameCard" resultType="NameCard">
@@ -43,6 +45,10 @@
 	</select>
 	<select id="getTotal" parameterType="map" resultType="int">
 		SELECT COUNT(NCSEQ) from NAMECARD
+		<if test="emailCheck != null">
+			WHERE
+				EMAILCHECK = #{emailCheck}	
+		</if>
 		<if test="type == 'ncName'">
 			WHERE
 				NCNAME LIKE '%' || #{searchText} || '%'
@@ -54,6 +60,18 @@
 		<if test="type == 'ncCompany'">
 			WHERE
 				NCCOMPANY LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncName' AND emailCheck != null">
+			WHERE
+				NCNAME LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+		</if>
+		<if test="type == 'ncEmail' AND emailCheck != null">
+			WHERE
+				NCEMAIL LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+		</if>
+		<if test="type == 'ncCompany' AND emailCheck != null">
+			WHERE
+				NCCOMPANY LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
 		</if>
 	</select>
 	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
@@ -72,6 +90,10 @@
 			NCADDRESS,
 			NAMECARDURL
 		FROM NAMECARD
+		<if test="emailCheck != null">
+			WHERE
+				EMAILCHECK = #{emailCheck}	
+		</if>
 		<if test="type == 'ncName'">
 			WHERE
 				NCNAME LIKE '%' || #{searchText} || '%'
@@ -83,6 +105,18 @@
 		<if test="type == 'ncCompany'">
 			WHERE
 				NCCOMPANY LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncName' AND emailCheck != null">
+			WHERE
+				NCNAME LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+		</if>
+		<if test="type == 'ncEmail' AND emailCheck != null">
+			WHERE
+				NCEMAIL LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
+		</if>
+		<if test="type == 'ncCompany' AND emailCheck != null">
+			WHERE
+				NCCOMPANY LIKE '%' || #{searchText} || '%' AND EMAILCHECK = #{emailCheck}
 		</if>
 		ORDER BY NCSEQ DESC
 	</select>
@@ -105,4 +139,7 @@
 		WHERE
 			NCEMAIL = #{ncEmail} AND USERID = #{userID}
 	</update>
+	<select id="selectEmailAddress" parameterType="String" resultType="int">
+		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
+	</select>
 </mapper>

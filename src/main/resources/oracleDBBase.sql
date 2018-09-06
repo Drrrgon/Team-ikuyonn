@@ -110,7 +110,7 @@ CREATE TABLE nameCard (
     , userID varchar2(40)
     , ncCheck varchar2(10)
     , ncName varchar2(40)
-    , ncEmail varchar2(100) NOT NULL
+    , ncEmail varchar2(100) UNIQUE NOT NULL
     , ncMobile varchar2(60)
     , ncPhone varchar2(60)
     , ncFax varchar2(60)
@@ -121,8 +121,10 @@ CREATE TABLE nameCard (
     , ncAddress varchar2(100)
     , ncGroup varchar2(40) DEFAULT '기본' 
     , nameCardUrl varchar2(100)
+    , emailCheck varchar2(10) DEFAULT 0
 );
 ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_ncCheck CHECK (ncCheck BETWEEN 0 AND 1);
+ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_emailCheck CHECK (emailCheck BETWEEN 0 AND 1);
 ALTER TABLE nameCard ADD CONSTRAINT fk_nameCard_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
 CREATE TABLE projectEvent(
