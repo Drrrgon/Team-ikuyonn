@@ -271,7 +271,7 @@
 					'nameCardUrl' : nameCardUrl
 				},
 				success : function(data){
-					
+					location.href = 'nameCardList';
 				}
 			});
 		});

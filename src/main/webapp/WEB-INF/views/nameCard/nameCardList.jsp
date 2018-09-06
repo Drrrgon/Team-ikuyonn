@@ -28,6 +28,14 @@
 		<div class="col-lg-4">
 			<div class="card card-small mb-4">		
 				<div class="card-header border-bottom">
+					<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
+						<label class="btn btn-white active">
+						<input type="radio" name="options" value="2" autocomplete="off" checked="">전체</label>
+						<label class="btn btn-white">
+                    	<input type="radio" name="options" value="1" autocomplete="off">회원</label>
+                    	<label class="btn btn-white">
+                    	<input type="radio" name="options" value="0" autocomplete="off">비회원</label>
+                    </div>
 					<div class="row" >
 						<div class="input-group col-md-8">
 							<input type="text" name="searchText" class="input-sm form-control" id="searchText">
@@ -194,7 +202,7 @@
 			line += '<span>'+datas.nameCardList[i].ncName+'</span>';
 			line += '</li>';
 			line += '<li>';
-			line += '<span>'+datas.nameCardList[i].ncEmail+'</span>';
+			line += '<a href="#">'+datas.nameCardList[i].ncEmail+'</a>';
 			line += '</li>';
 			line += '<li>';
 			if(datas.nameCardList[i].ncCompany == null){
@@ -255,7 +263,7 @@
 				line +='</li>';
 			};
 		};
-		line += '<li class="asi">';
+		line += '<li class="asi">';	
 		line += '<a href="javascript:void(0)" page="'+(datas.pageNavigator.currentPage+1)+'">';
 		line += '<i class="fas fa-angle-right"></i>';
 		line += '</a>';
@@ -275,6 +283,22 @@
 		$('.nameCardTable').click(nameCardMove);
 	};
 	
+	$('input:radio[name=options]').change(function(){
+		var result = $('input:radio[name=options]:checked').val();
+		if(result == 2){
+			init();
+		}else{
+			$.ajax({
+				url : 'selectNameCardList',
+				data : {
+					'emailCheck' : result
+				},
+				type : 'get',
+				success : outPut
+			});		
+		};
+	});
+
 	function checkBoxClick(){
 		$('#selectGroup').css('display','');
 		$('#deleteList').css('display','none');	

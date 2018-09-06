@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
@@ -42,13 +44,13 @@ public class NameCardController {
 	
 	final int COUNTPERPAGE = 5;
 	final int PAGEPERGROUP = 5;
-	private static final String UPLOADPATH = "c:\\\\testFileinfo\\\\";
+	private String UPLOADPATH = "";
 	
 	//파일택스트변환 요청
 	@RequestMapping(value = "/fileUplodeAction", method = RequestMethod.POST, produces = "application/text; charset=utf8")
-	public @ResponseBody String fileUplodeAction(MultipartFile fileUplode) {
+	public @ResponseBody String fileUplodeAction(MultipartFile fileUplode,HttpServletRequest request) {
 		//파일업로드
-		String result = fileService(fileUplode);
+		String result = fileService(request,fileUplode);
 
 		return result;
 	}
@@ -73,7 +75,14 @@ public class NameCardController {
 	public @ResponseBody int nameCardUplodeAction(NameCard nameCard,HttpSession httpSession) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		nameCard.setUserID((String)httpSession.getAttribute("userID"));
-		
+		int re = mapper.selectEmailAddress(nameCard.getNcEmail()); 
+		if(re == 0) {
+			//등록된사람 없을때
+			nameCard.setEmailCheck("0");
+		}else {
+			//등록된사람 있을때
+			nameCard.setEmailCheck("1");
+		}
 		int result = mapper.insertNameCard(nameCard);
 		
 		return result;
@@ -82,22 +91,24 @@ public class NameCardController {
 	//명함리스트 출력/삭제
 	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam(value="searchText", defaultValue="") String searchText,String type, String email, String[] emails) {
+			@RequestParam(value="searchText", defaultValue="") String searchText,String type, String email, String[] emails, String emailCheck) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		//하나삭제
 		if(email != null) {
 			mapper.deleteNameCard(email);
 		}
-		System.out.println("asdfefwf : " + emails);
+		//일괄살제
 		if(emails != null) {
 			for(String e : emails) {
-				System.out.println(e	);
 				mapper.deleteNameCard(e);
 			}
 		}
+		
 		System.out.println("asdf  "+searchText);
 		Map<String, String> search = new HashMap<>();
 		search.put("searchText", searchText);
 		search.put("type", type);
+		search.put("emailCheck", emailCheck);
 		int total = mapper.getTotal(search);
 		System.out.println("page : "+page+"total : "+total);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
@@ -132,8 +143,15 @@ public class NameCardController {
 	/************************ 파일업로드 / 사진텍스트 인식 ************************/
 	
 	//파일업로드
-	public String fileService(MultipartFile uploadFile) {
-		
+	public String fileService(HttpServletRequest request,MultipartFile uploadFile) {
+		ServletContext cotx= request.getSession().getServletContext();
+		String path = cotx.getRealPath("/cResources/images/nameCard/");
+		UPLOADPATH = path;
+		File f = new File(UPLOADPATH);
+		if(f.isDirectory() == false) {
+			f.mkdirs();
+		}
+		System.out.println(path);
 		UUID uuid = UUID.randomUUID();
 		String saveFileName = uuid+"_"+uploadFile.getOriginalFilename();
 		
@@ -141,6 +159,7 @@ public class NameCardController {
 		try {
 			uploadFile.transferTo(saveFile);
 			String result = vision(saveFileName);
+			saveFile.delete();
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
