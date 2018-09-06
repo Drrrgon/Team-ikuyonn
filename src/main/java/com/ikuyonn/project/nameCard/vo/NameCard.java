@@ -15,13 +15,14 @@ public class NameCard {
 	private String ncAddress;
 	private String nameCardUrl;
 	private String ncGroup;
+	private String emailCheck;
 	public NameCard() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public NameCard(String userID, String ncCheck, String ncName, String ncMobile, String ncPhone, String ncFax,
 			String ncEmail, String ncCompany, String ncDepartment, String ncTitle, String ncWebsite, String ncAddress,
-			String nameCardUrl, String ncGroup) {
+			String nameCardUrl, String ncGroup, String emailCheck) {
 		super();
 		this.userID = userID;
 		this.ncCheck = ncCheck;
@@ -37,6 +38,7 @@ public class NameCard {
 		this.ncAddress = ncAddress;
 		this.nameCardUrl = nameCardUrl;
 		this.ncGroup = ncGroup;
+		this.emailCheck = emailCheck;
 	}
 	public String getUserID() {
 		return userID;
@@ -122,11 +124,18 @@ public class NameCard {
 	public void setNcGroup(String ncGroup) {
 		this.ncGroup = ncGroup;
 	}
+	public String getEmailCheck() {
+		return emailCheck;
+	}
+	public void setEmailCheck(String emailCheck) {
+		this.emailCheck = emailCheck;
+	}
 	@Override
 	public String toString() {
 		return "NameCard [userID=" + userID + ", ncCheck=" + ncCheck + ", ncName=" + ncName + ", ncMobile=" + ncMobile
 				+ ", ncPhone=" + ncPhone + ", ncFax=" + ncFax + ", ncEmail=" + ncEmail + ", ncCompany=" + ncCompany
 				+ ", ncDepartment=" + ncDepartment + ", ncTitle=" + ncTitle + ", ncWebsite=" + ncWebsite
-				+ ", ncAddress=" + ncAddress + ", nameCardUrl=" + nameCardUrl + ", ncGroup=" + ncGroup + "]";
+				+ ", ncAddress=" + ncAddress + ", nameCardUrl=" + nameCardUrl + ", ncGroup=" + ncGroup + ", emailCheck="
+				+ emailCheck + "]";
 	}
 }
