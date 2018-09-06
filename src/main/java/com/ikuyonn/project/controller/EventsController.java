@@ -61,4 +61,12 @@ public class EventsController {
 		
 		return result;
 	}
+	
+/*	@RequestMapping(value = "/projectEvents", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<Events> projectEvents(Events e) {
+		EventsMapper em = session.getMapper(EventsMapper.class);
+		ArrayList<Events> ae = em.projectEvents(e);
+		
+		return ae;
+	}*/
 }

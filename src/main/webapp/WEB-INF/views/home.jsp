@@ -9,6 +9,7 @@
  	function loginCheck(){
 		var loginID = $('#loginID').val();
 		var loginPW = $('#loginPW').val();
+		
 		if(loginID == ''){
 			alert('아이디를 입력해주세요!');
 			return false;
@@ -42,10 +43,10 @@ $(function(){
 		var outi = '<span id="idCheck">길이는 4~7 사이입니다</span>';
 			
 		if(loginID.length<4 || loginID.length>7){
-			$('#userID').html(outi);
+			$('#loginIDR').html(outi);
 			// return false;
 		}else{
-			$('#userID').html('');
+			$('#loginIDR').html('');
 		}
 	});
 	
@@ -55,16 +56,16 @@ $(function(){
 		var outp = '<span id="pwCheck">길이는 4~10 사이입니다</span>';
 			
 		if(loginPW.length<4 || loginPW.length>10){
-			$('#userPW').html(outp);
+			$('#loginPWR').html(outp);
 			// return false;
 		}else{
-			$('#userPW').html('');
+			$('#loginPWR').html('');
 		}
 	});
 });
 
 window.onload = function() {
-	var userForm = document.getElementById('joinUser');
+	var userForm = document.getElementById('joinForm');
 	
     var yearBirth = new Date().getFullYear();
     var monthBirth = new Date().getMonth() + 1;
@@ -87,7 +88,7 @@ window.onload = function() {
 }
 
 function setDate() {
-	var userForm = document.getElementById('joinUser');
+	var userForm = document.getElementById('joinForm');
 	
     var year = userForm['birthYear'].value;
     var month = userForm['birthMonth'].value;
@@ -117,53 +118,63 @@ function setDate() {
     }
 }
 
-function joinConfirm(obj){
+function joinConfirm(){
+	var userID = $('#userID').val();
+	var userPW = $('#userPW').val();
+	var userName = $('#userName').val();
+	var userBirth = $('#userBirth').val('');
+	var birthYear = $('#birthYear').val();
+	var birthMonth = $('#birthMonth').val();
+	var birthDay = $('#birthDay').val();
+	var userPhone = $('#userPhone').val();
+	
     //아이디 입력여부 검사
-    if (obj.userID.value == '') {
+    if (userID == '') {
         alert('아이디를 입력하지 않았습니다.');
-        obj.userID.focus();
+        // userID.focus();
         return false;
     }
     //아이디 유효성 검사 (영문소문자, 숫자만 허용)
-    for (i = 0; i < obj.userID.value.length; i++) {
-        ch = obj.userID.value.charAt(i)
+     for (i = 0; i < userID.length; i++) {
+        var ch = userID.charAt(i);
         if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
             alert('아이디는 대소문자, 숫자만 입력가능합니다.');
-            obj.userID.focus();
-            obj.userID.select();
+            // userID.focus();
+            // userID.select();
             return false;
         }
     }
     //아이디에 공백 사용하지 않기
-    if (obj.userID.value.indexOf(' ') >= 0) {
+    if (userID.indexOf(' ') >= 0) {
         alert("아이디에 공백을 사용할 수 없습니다.");
-        obj.userID.focus();
-        obj.userID.select();
+        userID.focus();
+        userID.select();
         return false;
     }
     //아이디 길이 체크 (4~12자)
-    if (obj.userID.value.length<4 || obj.userID.value.length>12) {
+    if (userID.length<4 || userID.length>12) {
         alert('아이디를 4~12자까지 입력해주세요.');
-        obj.userID.focus();
-        obj.userID.select();
+        userID.focus();
+        userID.select();
         return false;
     }
+    
     //비밀번호 입력여부 체크
-    if (obj.userPW.value == "") {
+    if (userPW == "") {
         alert("비밀번호를 입력하지 않았습니다.");
-        obj.userPW.focus();
+        userPW.focus();
         return false;
     }
-    if (obj.userPW.value == userID.value) {
+    if (userPW == userID) {
         alert("아이디와 비밀번호가 같습니다.")
-        obj.userPW.focus();
+        // userPW.focus();
         return false;
     }
     //비밀번호 길이 체크(4~8자 까지 허용)
-    if (obj.userPW.value.length<4 || obj.userPW.value.length>12) {
+    if (userPW.length<4 || userPW.length>12) {
         alert("비밀번호를 4~12자까지 입력해주세요.");
-        obj.userPW.focus();
-        obj.userPW.select();
+        // userPW.focus();
+        // userPW.select();
         return false;
     }
 
@@ -175,29 +186,50 @@ function joinConfirm(obj){
         return false;
     } */
 
-    if (obj.userName.value == "") {
+    if (userName == "") {
         alert("이름을 입력하지 않았습니다.");
-        obj.userName.focus();
+        userName.focus();
         return false;
     }
-    if(obj.userName.value.length<2){
+    if(userName.length<2){
         alert("이름을 2자 이상 입력해주십시오.");
-        obj.userName.focus();
+        userName.focus();
         return false;
     }
     
-    obj.userBirth.value = new Date(obj.birthYear.value, obj.birthMonth.value-1, obj.birthDay.value);
-    
-	var phone = obj.userPhone1.value + '-' + obj.userPhone2.value;
-    if (obj.userPhone1.value == "" || obj.userPhone2.value == "") {
-        alert("전화번호를 입력하지 않았습니다.");
+    userBirth = new Date(birthYear, birthMonth-1, birthDay);
+    $("#userBirth").val(userBirth);
+
+    if (userPhone == "") {
+        alert("전화번호를 입력하지 않았습니다!");
         return false;
     }
-	if(isNaN(obj.userPhone1.value) || isNaN(obj.userPhone2.value)){
-		alert('전화번호 입력이 잘못되었습니다!');
+	if(isNaN(userPhone)){
+		alert('전화번호는 숫자만 입력할 수 있습니다!');
 		return false;
 	}
-	obj.userPhone.value = phone;
+    if (userPhone.length<10 || userPhone.length>11) {
+        alert('전화번호 입력이 잘못되었습니다!');
+        return false;
+    }
+	
+	// 아이디 중복 검사
+	$.ajax({
+		url : 'userIDCheck',
+		type : 'post',
+		data : {
+			'userID' : userID
+		},
+		success : function(data){	
+			if (data != ''){
+				alert('아이디가 중복됩니다!');		
+			}
+			else{	
+				$('#joinForm').submit();
+			}
+		}
+	});
+	return true;
 }
 </script>
 
@@ -366,12 +398,12 @@ a{color:inherit;text-decoration:none}
 				<div class="group">
 					<label for="user" class="label">아이디</label>
 					<input type="text" class="input" id="loginID" name="userID"/>
-					<div id="userID"></div>
+					<div id="loginIDR"></div>
 				</div>
 				<div class="group">
 					<label for="pass" class="label">비밀번호</label>
 					<input type="password" class="input" data-type="password" id="loginPW" name="userPW"/>
-					<div id="userPW"></div>
+					<div id="loginPWR"></div>
 				</div>
 				<div class="group">
 					<input id="check" type="checkbox" class="check" checked>
@@ -387,8 +419,8 @@ a{color:inherit;text-decoration:none}
 				</div>
 			</div>
 			
-			<div class="sign-up-htm">
-			<form action="joinUser" method="post" name="joinUser" id="joinUser">
+			<div class="sign-up-htm">		
+			<form action="joinUser" method="post" id="joinForm">
 				<div class="group">
 					<label for="user" class="label">이름</label>
 					<input type="text" class="input" id="userName" name="userName"/>
@@ -410,20 +442,10 @@ a{color:inherit;text-decoration:none}
 				</div>
 				<div class="group">
 				<label for="pass" class="label">전화번호</label>
-<!-- 					<select name="userPhone0" id="userPhone0" style="display:inline">
-						<option value="010">010</option>
-                   		<option value="016">016</option>
-                    	<option value="017">017</option>
-                    	<option value="000">000</option>
-					</select>
-					<span>-</span> -->
-					<input type="text" id="userPhone1" name="userPhone1" size="4" maxlength="4" style="display:inline"/>
-					<span>-</span>
-					<input type="text" id="userPhone2" name="userPhone2" size="4" maxlength="4"/>
-					<input type="hidden" id="userPhone" name="userPhone"/>
+					<input type="text" class="input" id="userPhone" size="11" maxlength="11" name="userPhone"/>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" value="회원가입" onclick="return joinConfirm(joinUser)"/>
+					<button type="button" class="button" onclick="joinConfirm()">회원가입</button>
 				</div>
 				</form>
 				<div class="hr"></div>

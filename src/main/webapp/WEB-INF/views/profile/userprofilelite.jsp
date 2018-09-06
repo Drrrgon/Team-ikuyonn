@@ -104,11 +104,9 @@
 								<form action="updateUser" method="post">
 									<div class="form-row">
 										<div class="form-group col-md-6">
-											<input type="hidden" name="userID" id="userID"
-												value="${sessionScope.userID}"> <label
-												for="feFirstName">이름</label> <input type="text"
-												class="form-control" name="userName" id="userName"
-												value="${sessionScope.userID}" readonly="readonly">
+											<input type="hidden" name="userID" id="userID" value="${sessionScope.userID}"> 
+											<label for="feFirstName">이름</label> 
+												<input type="text" class="form-control" name="userName" id="userName" value="${sessionScope.userID}" readonly="readonly">
 										</div>
 										<!--    <div class="form-group col-md-6">
                                 <label for="feLastName">Last Name</label>
@@ -116,9 +114,8 @@
                             </div> -->
 										<div class="form-row">
 											<div class="form-group col-md-6">
-												<label for="feEmailAddress">비밀번호</label> <input
-													type="password" class="form-control" name="userPW"
-													id="userPW">
+												<label for="feEmailAddress">비밀번호</label> 
+												<input type="password" class="form-control" name="userPW" id="userPW">
 											</div>
 											<div class="form-group col-md-6">
 												<label for="fePassword">생년월일</label>
@@ -126,13 +123,8 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="feInputAddress">전화번호</label> <input type="hidden"
-												id="userPhone" name="userPhone" /> <input type="text"
-												id="userPhone1" name="userPhone1"
-												value="${sessionScope.userPhone1}" size="4" maxlength="4"
-												style="display: inline" /> <span>-</span> <input type="text"
-												id="userPhone2" name="userPhone2"
-												value="${sessionScope.userPhone2}" size="4" maxlength="4" />
+											<label for="feInputAddress">전화번호</label> 
+											<input type="text" class="form-control" id="userPhone" name="userPhone" size="11" maxlength="11" value="${sessionScope.userPhone}"/> 
 										</div>
 									</div>
 									<div>
@@ -374,16 +366,14 @@
 		}
 
 		function updateForm() {
-			var phone = $('#userPhone1').val() + '-' + $('#userPhone2').val();
-			if ($('#userPhone1').val() == "" || $('#userPhone2').val() == "") {
+			if ($('#userPhone').val() == "")) {
 				alert("전화번호를 입력하지 않았습니다.");
 				return false;
 			}
-			if (isNaN($('#userPhone1').val()) || isNaN($('#userPhone2').val())) {
+			if (isNaN($('#userPhone').val())) {
 				alert('전화번호 입력이 잘못되었습니다!');
 				return false;
 			}
-			document.getElementById("userPhone").value = phone;
 		}
 	</script>
 </html>

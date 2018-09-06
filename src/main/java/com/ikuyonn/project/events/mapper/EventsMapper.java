@@ -15,4 +15,6 @@ public interface EventsMapper {
 	public int updateEvents(Events e);
 	
 	public int deleteEvents(Events e);
+
+	// public ArrayList<Events> projectEvents(Events e);
 }

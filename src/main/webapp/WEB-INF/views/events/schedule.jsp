@@ -61,7 +61,7 @@ body {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 5; /* Sit on top */
+    z-index: 1070; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -132,6 +132,9 @@ body {
 <div class="modal-content">
 	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close">&times;</span></h4>
     <form>
+    	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
+    	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily">
+    	<input type="color" id="color1" name="color1"/> -->
 		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
@@ -208,7 +211,7 @@ function setLeftSideIcon(){
 						right : 'month,agendaWeek,timelineDay,listWeek'
 					},
 					defaultView : 'month',
-					resourceLabelText : 'Rooms',
+					/* resourceLabelText : 'Rooms',
 					resources : [ {
 						id : 'a',
 						title : 'Auditorium A'
@@ -246,21 +249,17 @@ function setLeftSideIcon(){
 					}, {
 						id : 'i',
 						title : 'Auditorium I'
-					} ],
-					events : function(start, end, timezone, callback){							
+					} ], */
+					events : function(start, end, timezone, callback){
+						var events = [];
+						
 						$.ajax({
 							type : 'post',
 							url : 'privateEvents',
   							data : {
 								'userID' : $('#userID1').val()
 							},
-							success : function(data) {								
-								var events = [];
-								for(var index in data){
-									if(data[index].userID=='<%=session.getAttribute("userID")%>'){
-										var eColor = 'green';
-									}
-								}
+							success : function(data) {
 								$(data).each(function(index, item) {
 									events.push({
 										id : item.userID,
@@ -268,7 +267,7 @@ function setLeftSideIcon(){
 										start : item.startDate,
 										end : item.endDate,
 										num : item.eventSeq,
-										color : eColor
+										color : item.color
 									});
 								});
 								callback(events);
@@ -277,6 +276,30 @@ function setLeftSideIcon(){
 								alert("수신실패");
 							}
 						});
+						
+						/* $.ajax({
+							type : 'post',
+							url : 'projectEvents',
+  							data : {
+								'userID' : $('#userID1').val()
+							},
+							success : function(data) {
+								$(data).each(function(index, item) {
+									events.push({
+										id : item.userID,
+										title : item.summary,
+										start : item.startDate,
+										end : item.endDate,
+										num : item.eventSeq,
+										color : item.color
+									});
+								});
+								callback(events);						
+							},
+							error : function() {
+								alert("수신실패");
+							}
+						}); */
 					},
 					dayClick : function(date, jsEvent, view){
 						
@@ -348,9 +371,9 @@ function setLeftSideIcon(){
 								eventDetail += '<input type="text" name="month4" size="3" maxlength="2" id="month4" value="'+endMonth+'">월';
 								eventDetail += '<input type="text" name="day4" size="3" maxlength="2" id="day4" value="'+endDay+'">일';
 								eventDetail += '<input type="text" name="hour4" size="3" maxlength="2" id="hour4" value="'+endHour+'">시';
-								eventDetail += '<input type="text" name="minute4" size="3" maxlength="2" id="minute4" value="'+endMinute+'">분<br/>';     						        
+								eventDetail += '<input type="text" name="minute4" size="3" maxlength="2" id="minute4" value="'+endMinute+'">분<br/>';
 								eventDetail += '<input class="updateEvents" data-uno="'+data.eventSeq+'" type="button" id="updateEvent" value="수정" onclick="location.reload()"/>';
-								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/> ';
+								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/>';
 								
 								$('#eventDetail').html(eventDetail);
 								$("input:button.updateEvents").click(updateEvents);
@@ -402,6 +425,15 @@ function setLeftSideIcon(){
 		$('#insertEvents').on('click', insertEvents);
 	});
 	
+	/* var serviceStr="";
+	var service = document.getElementsByName("repeat");
+	for(var i=0; i<service.length; i++){
+		if(service[i].checked==true){
+			serviceStr=service[i].value;
+			
+		}
+	} */
+	
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
@@ -416,7 +448,8 @@ function setLeftSideIcon(){
 						'summary' : $('#summary1').val(),
 						'description' : $('#description1').val(),
 						'startDate' : $('#startDate1').val(),
-						'endDate' : $('#endDate2').val()
+						'endDate' : $('#endDate2').val(),
+						'color' : $('#color1').val()
 		    	}
 		    	
 				$.ajax({

@@ -2,17 +2,13 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ikuyonn.project.events.mapper.EventsMapper">
-	<insert id="insertEvents" parameterType="Events">
+	<insert parameterType="Events" id="insertEvents"> 
 		insert into events(eventSeq, userID, summary, description, startDate, endDate) 
-		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate})
+		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}) 
 	</insert>
-
-<!-- 	<select id="roomEvents" parameterType="Events" resultType="Events">
-		select * from events where room_seq = #{room_seq}
-	</select> -->
 	
 	<select id="privateEvents" resultType="Events">
-		select * from events
+		select * from events where userID = #{userID} or eventSeq = (select projectSeq from joinProject where userID = #{userID})
 	</select>
 	
 	<select id="oneEvents" resultType="Events">
@@ -26,4 +22,12 @@
 	<delete id="deleteEvents" parameterType="Events">
 		delete events where eventSeq = #{eventSeq}
 	</delete>
+	
+<!--  	<select id="projectEvents" resultType="Events">
+		select * from events where userID = #{userID} or eventSeq = (select projectSeq from joinProject where userID = #{userID})
+	</select> -->
+	
+	<select id="projectEventsList" resultType="Events">
+		select * from events where userID = #{userID}
+	</select>
 </mapper>
