@@ -28,6 +28,9 @@
 .projectAddBtnTd{
 	text-align: right;
 }
+div.aa:hover {
+    background-color: #e6e6e6;
+}
 </style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
@@ -101,24 +104,7 @@
 					</div>
 					<table class="table mb-0" id="fileTable">
 						<tr>
-							<!-- <td><img src="./resources/images/aaa.png" height="42"
-								width="42" id="1"><br />
-							<a>aaa.pdf</a></td>
-							<td><img src="./resources/images/aaa.png" height="42"
-								width="42" id="1"><br />
-							<a>aaa.pdf</a></td>
-							<td><img src="./resources/images/aaa.png" height="42"
-								width="42" id="1"><br />
-							<a>aaa.pdf</a></td>
-							<td><img src="./resources/images/aaa.png" height="42"
-								width="42" id="1"><br />
-							<a>aaa.pdf</a></td>
-							<td><img src="./resources/images/aaa.png" height="42"
-								width="42" id="1"><br />
-							<a>aaa.pdf</a></td>
-							<td><img src="./resources/images/aaa.png" height="42"
-								width="42" id="1"><br />
-							<a>aaa.pdf</a></td> -->
+							
 						</tr>
 					</table>
 					
@@ -252,8 +238,6 @@
 			$("#proSeq").val(projectSeq);
 			$.ajax({
 				url : "fileList",
-				processData : false,
-				contentType : false,
 				data : {
 					"projectSeq" : projectSeq
 				},
@@ -276,6 +260,24 @@
 				e.preventDefault();
 				$("#file").click();
 			});
+			
+			$("#delete").click(function(){
+				$.ajax({
+					url : "delFile",
+					data : {
+						"fileSeq" : $("#delSeq").val(),
+						"proSeq" : $("#proSeq").val()
+					},
+					type : 'POST',
+					success : function(result) {
+						makeFile(result);
+					},
+					error : function() {
+						alert("통신실패");
+					}
+				});
+			});
+			
 			$("#file").change(function() {
 				var formData = new FormData();
 				formData.append("file", $("#file")[0].files[0]);
@@ -309,14 +311,20 @@
 		};
 
 		function makeFile(result) {
-			var temp = "<tr>"
+			var temp = "<tr><input type='hidden' value='' id='delSeq'/>"
 			for ( var i in result) {
-				temp += "<td width='60'><img src='./resources/images/aaa.png' height='42' width='42' id='1'><br />"
+				temp += "<td width='60' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/aaa.png' height='42' width='42'><br />"
 				temp += "<a href='downFile?fileSeq=" + result[i].fileSeq
-						+ "'>" + result[i].fileName + "</a></td>"
+						+ "'>" + result[i].fileName + "</a></div></td>"
 			}
 			temp += "</tr>"
 			$("#fileTable").html(temp);
+		}
+		
+		function select(i,fileSeq){
+			$('.aa').css('background-color','');
+			$(".aa").eq(i).css('background-color','#e6e6e6');
+			$("#delSeq").val(fileSeq);
 		}
 		function downFile(fileSeq) {
 			$.ajax({

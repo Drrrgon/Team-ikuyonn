@@ -286,30 +286,32 @@
 			
 			var testdata = '\nf 02-4541-5481\nt 02-4541-5481\nPlatSys\nwww.platsys.net\n박지현대리\n경기도 용인시 수지구 신수로 767(동천동, 분당·수지U-TOWER) B동 1340호\nMobile 010-3806-8944\nE-mail asdfwsafe@naver.com';
 
-			var mobileTest1 = /01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
-			var mobileTest2 = /[m|p]?.*01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{4}.*/gi;
+			var mobileTest1 = /01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{3,4}/gi;
+			var mobileTest2 = /[m|p]?.*01[0-9][-|.|/\s/g]?[0-9]{3,4}[-|.|/\s/g]?[0-9]{3,4}.*/gi;
 
-			var faxTest1 = /f.*(\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}).*/gi;
+			var faxTest1 = /f.*(\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{3,4}).*/gi;
 
-			var tellTest1 = /\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}.*/gi;
-			var tellTest2 = /t?.*\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{4}.*/gi;
+			var tellTest1 = /\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{3,4}.*/gi;
+			var tellTest2 = /t?.*\d{2,3}[-|.|/\s/g]?\d{3,4}[-|.|/\s/g]?\d{3,4}.*/gi;
 
 			var emailTest1 = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
-			var emailTest2 = /e.*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
+			var emailTest2 = /e?.*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}.*/gi;
 
-			var addressTest1 = /[가-힣]*[도|시].*[구|군].*[면|동].*/gi;
+			var addressTest1 = /[0-9가-힣].*[울|도|시].*[구|군].*[면|동|로].*/gi;
 
 			var webSiteTest1 = /www.*[asia|info|name|mobi|com|net|org|biz|tel|xxx|kr|co|so|me|eu|cc|or|pe|ne|re|tv|jp|tw]/i;
 
-			var positionTest1 = /[선임|주임|대리|과장|차장|부장|이사|상무|전무|부사장|사장|부회장|회장].*/gi;
-
+			var positionTest1 = /[선|주|대|과|차|부|이|상|전|부|사|부|회|디][임|리|장|사|무|회|자][장|이]{0,1}[너]{0,1}/g;
+			
+			var DepartmentTest1 = /.*[팀|부|서|실|계]/g; 
+			
 			var userNameTest1 = /[가-힣]{2,4}/i;
 
 			//휴대전화
-			var phoneNumber = mobileTest1.exec(data);
+			var ncMobile = mobileTest1.exec(data);
 			data = data.replace(mobileTest2, '');
-			$('#ncMobile').val(phoneNumber);
-			$('#mobile').text('M ' + phoneNumber);
+			$('#ncMobile').val(ncMobile);
+			$('#mobile').text('M ' + ncMobile);
 			
 			$('#ncMobile').keyup(function(){
 				$("#mobile").text('M ' + $(this).val());
@@ -318,17 +320,17 @@
 				};
 			});
 			
-			console.log('phone : ' + phoneNumber);
+			console.log('ncMobile : ' + ncMobile);
 			console.log('data1 : ' + data);
 
 			//팩스번호
-			var faxNumberList = faxTest1.exec(data);
-			var faxNumber = '';
-			if (faxNumberList != null) {
-				faxNumber = faxNumberList[1];
+			var ncFaxList = faxTest1.exec(data);
+			var ncFax = '';
+			if (ncFaxList != null) {
+				ncFax = ncFaxList[1];
 				data = data.replace(faxTest1, "");
-				$('#ncFax').val(faxNumber);
-				$('#fax').html('F ' + faxNumber);
+				$('#ncFax').val(ncFax);
+				$('#fax').text('F ' + ncFax);
 			};
 			
 			$('#ncFax').keyup(function(){
@@ -338,15 +340,15 @@
 				}
 			});
 			
-			console.log('faxNumber : ' + faxNumber);
+			console.log('ncFax : ' + ncFax);
 			console.log('data2 : ' + data);
 
 			//전화번호
-			var tellNumber = tellTest1.exec(data);
+			var ncPhone = tellTest1.exec(data);
 			data = data.replace(tellTest2, '');
-			if(tellNumber != null){
-				$('#ncPhone').val(tellNumber);
-				$('#phone').text('P ' + tellNumber);
+			if(ncPhone != null){
+				$('#ncPhone').val(ncPhone);
+				$('#phone').text('P ' + ncPhone);
 			};
 			
 			$('#ncPhone').keyup(function(){
@@ -356,17 +358,17 @@
 				}
 			});
 			
-			console.log('tellNumber : ' + tellNumber);
+			console.log('ncPhone : ' + ncPhone);
 			console.log('data3 : ' + data);
 
 			//이메일
-			var emailNumberList = emailTest1.exec(data);
-			var emailNumber = '';
-			if (emailNumberList != null) {
-				emailNumber = emailNumberList[0];
+			var ncEmailList = emailTest1.exec(data);
+			var ncEmail = '';
+			if (ncEmailList != null) {
+				ncEmail = ncEmailList[0];
 				data = data.replace(emailTest2, "");
-				$('#ncEmail').val(emailNumber);
-				$('#email').html('E ' + emailNumber);
+				$('#ncEmail').val(ncEmail);
+				$('#email').text('E ' + ncEmail);
 			};
 			
 			$('#ncEmail').keyup(function(){
@@ -376,60 +378,78 @@
 				}
 			});
 			
-			console.log('emailNumber : ' + emailNumber);
+			console.log('ncEmail : ' + ncEmail);
 			console.log('data4 : ' + data);
 
 			//주소
-			var address = addressTest1.exec(data);
+			var ncAddress = addressTest1.exec(data);
 			data = data.replace(addressTest1, "");
-			$('#ncAddress').val(address);
-			$('#address').html(address);
+			$('#ncAddress').val(ncAddress);
+			$('#address').text(ncAddress);
 			
 			$('#ncAddress').keyup(function(){
 				$("#address").text( $(this).val());
 			});
 			
-			console.log('addressNumber : ' + address);
+			console.log('ncAddress : ' + ncAddress);
 			console.log('data4 : ' + data);
 
 			//홈페이지
-			var website = webSiteTest1.exec(data);
+			var ncWebsite = webSiteTest1.exec(data);
 			data = data.replace(webSiteTest1, "");
-			$('#ncWebsite').val(website);
-			$('#website').html(website);
+			$('#ncWebsite').val(ncWebsite);
+			$('#website').text(ncWebsite);
 			
 			$('#ncWebsite').keyup(function(){
 				$("#website").text( $(this).val());
 			});
 			
-			console.log('addressNumber : ' + website);
+			console.log('ncWebsite : ' + ncWebsite);
 			console.log('data5 : ' + data);
 
 			//직책
-			var title = positionTest1.exec(data);
+			var ncTitle = positionTest1.exec(data);
 			data = data.replace(positionTest1, "");
-			$('#ncTitle').val(title);
-			$('#title').html(title);
+			$('#ncTitle').val(ncTitle);
+			$('#title').text(ncTitle);
 			
 			$('#ncTitle').keyup(function(){
 				$("#title").text( $(this).val());
 			});
 			
-			console.log('positionNumber : ' + title);
+			console.log('ncTitle : ' + ncTitle);
 			console.log('data6 : ' + data);
-
+			
+			//부서
+			var ncDepartment = DepartmentTest1.exec(data);
+			data = data.replace(DepartmentTest1, "");
+			if(ncDepartment != null){
+				$('#ncDepartment').val(ncDepartment);
+				$('#department').text(ncDepartment + ' | ');
+			}	
+			
+			$('#ncDepartment').keyup(function(){
+				$("#department").text($(this).val() + ' | ');
+				if($("#ncDepartment").val().length < 1){
+					$("#department").text('');
+				}
+			});
+			
+			console.log('ncDepartment : ' + ncDepartment);
+			console.log('data7 : ' + data);
+			
 			//이름
-			var name = userNameTest1.exec(data);
+			var ncName = userNameTest1.exec(data);
 			data = data.replace(userNameTest1, "");
-			$('#ncName').val(name);
-			$('#name').html(name);
+			$('#ncName').val(ncName);
+			$('#name').text(ncName);
 			
 			$('#ncName').keyup(function(){
 				$("#name").text( $(this).val());
 			});
 			
 			console.log('userName : ' + name);
-			console.log('data7 : ' + data);
+			console.log('data8 : ' + data);
 
 			//회사명
 			var company = /[0-9a-z가-힣].*/gi.exec(data);
@@ -442,7 +462,7 @@
 			});
 			
 			console.log('companyName : ' + company);
-			console.log('data8 : ' + data);
+			console.log('data9 : ' + data);
 		};
 
 		function setLeftSideIcon(){

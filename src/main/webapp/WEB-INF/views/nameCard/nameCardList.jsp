@@ -22,8 +22,8 @@
 			<h3 class="page-title">명함첩</h3>
 		</div>
 	</div>	
-	<a href="nameCard/insertNameCard">사진으로 등록</a>
-	<a href="nameCard/insertNameCard2">직접 등록</a>
+	<a href="insertNameCard">사진으로 등록</a>
+	<a href="insertNameCard2">직접 등록</a>
 	<div class="row" >
 		<div class="col-lg-4">
 			<div class="card card-small mb-4">		
@@ -36,11 +36,12 @@
 							</div>
 						</div>
 						<div class="col-md-4" style="text-align: right;">
-							<select class="form-control">
+							<select class="form-control" id="selectGroup">
                                 <option value="ncName" selected="">이름</option>
                                 <option value="ncEmail">이메일</option>
                                 <option value="ncCompany">회사명</option>
                         	</select>
+                        	<button type="button" class="btn btn-sm btn-white" id="deleteList" style="display:none;">선택삭제</button>
 						</div>
 					</div>
 				</div>
@@ -67,7 +68,7 @@
 					<!-- 명함디테일 -->
 					<div class="col-lg-10" id="nameCardSum">
 						<div class="nameCardView2">
-							<div class="leftNameCard" style="background:url(./resources/images/nameCard/namecard_sem1.jpg); background-size: cover;"></div>
+							<div class="leftNameCard"></div>
 							<div class="rightNameCard">
 								<div class="r-wrap">
 									<div id="r-t-wrap">
@@ -172,6 +173,8 @@
 			line += '</ul>';			
 			$('.pagingWrap').append(line);
 			line = '';
+			
+			$('.leftNameCard').removeAttr('style'); 
 			$('#delete').addClass('disabled');
 			$('#update').addClass('disabled');
 			$('.r-wrap').css('display','none'); 
@@ -203,7 +206,8 @@
 			line += '</div>';
 			line += '<div class="nbg">';
 			line += '<div>';
-			line += '<button type="button" class="btn btn-sm btn-white">파트너요청</button>';
+			line += '<input type="checkbox" name="nameCardGroup" style="width: 20px;height: 20px;" value="'+i+'">';
+			/* <button type="button" class="btn btn-sm btn-white">파트너요청</button> */
 			line += '</div>';
 			line += '</div>';
 			line += '</div>';
@@ -265,14 +269,26 @@
 		$('.pagingWrap').append(line);
 		line = '';
 		
+		$('input:checkbox[name=nameCardGroup]').change(checkBoxClick);
 		$('.paging > li > a').click(pageMove);
 		$('.nameCardTable').click(nameCardMove);
+	};
+	
+	function checkBoxClick(){
+		$('#selectGroup').css('display','');
+		$('#deleteList').css('display','none');	
+		var checkBoxGroup = $('input:checkbox[name=nameCardGroup]:checked').length;
+		if(checkBoxGroup > 0){
+			$('#selectGroup').css('display','none');
+			$('#deleteList').css('display','');	
+		}
 	};
 	
 	function nameCardMove(){
 		$('.nameCardTable').attr('class','nameCardTable');
 		$(this).attr('class','nameCardTable active');
 		var nameCard = nameCardList[$(this).attr('data-rownum')];
+		
 		
 		$('.leftNameCard').attr('style','background:url('+nameCard.nameCardUrl+'); background-size: cover;');
 		$('#company').text(nameCard.ncCompany);
@@ -304,6 +320,31 @@
 				type : 'get',
 				data : {
 					'email' : email,
+					'page' : page
+				},
+				success : outPut
+			});
+		} else {
+
+		};
+	});
+	
+	$('#deleteList').on('click',function(){
+		var emails = [];
+		jQuery.ajaxSettings.traditional = true;
+
+		var page = $('.paging > .active > a').attr('page');
+		var rows = $('input:checkbox[name=nameCardGroup]:checked');	
+		for(var i = 0; i < rows.length; i++){
+			emails.push(nameCardList[rows[i].value].ncEmail);
+		};
+	
+		if (confirm('삭제하시겠습니까?')) {
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				data : {
+					'emails' : emails,
 					'page' : page
 				},
 				success : outPut

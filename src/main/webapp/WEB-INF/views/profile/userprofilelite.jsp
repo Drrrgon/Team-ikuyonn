@@ -17,7 +17,7 @@
 .modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
-	z-index: 9999; /* Sit on top */
+	
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -155,7 +155,7 @@
 										<a>메일 주소</a><br /><input type="text" id="emailAddress" name="emailAddress" />
 										<div id="mailCheck"></div>
 										<a>메일 계정(ID)</a><br /><input type="text" id="emailId" name="emailId" /><br /> 
-										<a>메일 비밀번호</a><br /><input type="text" id="emailPassword" name="emailPassword" /><br /> 
+										<a>메일 비밀번호</a><br /><input type="password" id="emailPassword" name="emailPassword" /><br /> 
 										<a>IMAP주소</a><br /><input type="text" id="host" name="host" /> <br />
 										<a>SMTP주소</a><br /><input type="text" id="smtp" name="smtp" /> <br />
 										<span>※IMAP/SMTP주소는 해당 계정 메일->외부 메일 설정에서 확인하실 수 있습니다.</span>
@@ -188,7 +188,11 @@
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
-	<script>
+	
+	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
+	<%@ include file="../parts/footer.jsp"%>
+</body>
+<script>
 	//메일 등록
 	function addMail(){
 		$("#mailForm").submit();
@@ -221,9 +225,9 @@
 								+ data[index].emailAddress
 								+ "')\">삭제</button></li>";
 							}
-						ext +="<button type='button' class = 'btn btn-sm btn-outline-accent' id ='add'>메일 등록</button>"
-						$('#mailList').html(ext);
 					}
+					ext +="<button type='button' class = 'btn btn-sm btn-outline-accent' id ='add'>메일 등록</button>"
+						$('#mailList').html(ext);
 					 //메일 등록창 열기
 					$("#add").on('click',function(){
 						$("#insertModal").show();
@@ -269,6 +273,7 @@
 
 			getList();
 			
+			$('.modal').css('z-index',9);
 			//emailAddress중복체크 key up
 			$("#emailAddress").keyup(function(){
 				$.ajax({
@@ -365,7 +370,7 @@
 					'nav-link ');
 			$('#navbar').children().eq(5).children().eq(0).attr('class',
 					'nav-link ');
-			$('#navbar').children().eq(4).children().eq(0).addClass('active');
+			/* $('#navbar').children().eq(4).children().eq(0).addClass('active'); */
 		}
 
 		function updateForm() {
@@ -381,7 +386,4 @@
 			document.getElementById("userPhone").value = phone;
 		}
 	</script>
-	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
-	<%@ include file="../parts/footer.jsp"%>
-</body>
 </html>
