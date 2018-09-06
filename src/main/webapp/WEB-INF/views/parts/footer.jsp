@@ -334,8 +334,8 @@
                 var printHtml ="";
 								if(proList.length == 0){
 									printHtml += '<table>';				
-									printHtml += '<tr><td>Project Name</td>';
-									printHtml += '<td colspan="2">참여중인 프로젝트가 없습니다.</td>';
+									printHtml += '<tr><td colspan="2" class="chatProjectName">참여중인 프로젝트가 없습니다.</td>';
+									printHtml += '<td></td>';
 									printHtml += '</tr>';				
 									printHtml += '</table>';
 									$('#selectProject').append(printHtml);		
@@ -351,6 +351,7 @@
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';
+											printHtml += '</table>';
 											$('#selectProject').append(printHtml);
 										}
 										else{
@@ -366,7 +367,7 @@
 
 											if( i == proList.length-1 ){
 												printHtml = "";
-												printHtml += '</table>';
+												
 												$('#selectProject').append(printHtml);
 											}
 										}

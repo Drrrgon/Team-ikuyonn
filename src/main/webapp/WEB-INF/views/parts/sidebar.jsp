@@ -117,14 +117,14 @@
 				<!-- Main Navbar -->
 				<nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
 					<form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
-						<div class="input-group input-group-seamless ml-3">
+						<!-- <div class="input-group input-group-seamless ml-3">
 							<div class="input-group-prepend">
 								<div class="input-group-text">
 									<i class="fas fa-search"></i>
 								</div>
 							</div>
 							<input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search">
-						</div>
+						</div> -->
 					</form>
 					<ul class="navbar-nav border-left flex-row ">
 						<li class="nav-item border-right dropdown notifications">
@@ -142,11 +142,11 @@
 										</div>
 									</div>
 									<div class="notification__content">
-										<span class="notification__category">Analytics</span>
+										<span class="notification__category">1</span>
 										<p>
-										Your websiteâs active users count increased by 
-										<span class="text-success text-semibold">28%</span> 
-										in the last week. Great job!
+										
+										<span class="text-success text-semibold">2</span> 
+										
 										</p>
 									</div>
 								</a> 
@@ -157,10 +157,9 @@
 										</div>
 									</div>
 									<div class="notification__content">
-										<span class="notification__category">Sales</span>
+										<span class="notification__category">3</span>
 										<p>
-											Last week your storeâs sales count decreased by 
-											<span class="text-danger text-semibold">5.52%</span>. It could have been worse!
+											<span class="text-danger text-semibold">4</span>
 										</p>
 									</div>
 								</a> 

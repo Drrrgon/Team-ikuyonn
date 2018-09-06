@@ -72,7 +72,7 @@
 					</button>
 				</div>
 				<ul class="list-group list-group-flush">
-					<li class="list-group-item px-4">
+					<!-- <li class="list-group-item px-4">
 						<div class="progress-wrapper">
 							<strong class="text-muted d-block mb-2">Workload</strong>
 							<div class="progress progress-sm">
@@ -89,7 +89,7 @@
 							ipsum dolor sit amet consectetur adipisicing elit. Odio eaque,
 							quidem, commodi soluta qui quae minima obcaecati quod dolorum
 							sint alias, possimus illum assumenda eligendi cumque?</span></li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 		<div class="col-lg-8">
