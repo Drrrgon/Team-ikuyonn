@@ -50,7 +50,7 @@ public class UserController {
 			hs.setAttribute("userProfilePath", path);
 		}
 		else {
-			String path = "./image/"+ur.getOriginalFileName();
+			String path = "./cResources/images/userProfile/"+ur.getOriginalFileName();
 			hs.setAttribute("userProfilePath", path);
 		}
 		
@@ -78,7 +78,8 @@ public class UserController {
 		// 소스 파일 경로를 얻어와서 FM에게 PATH를 주고 생성시킴
 		UserMapper um = session.getMapper(UserMapper.class);
 		ServletContext cotx = req.getSession().getServletContext();
-		String path = cotx.getRealPath("/resources/userProfileImage");
+		String path = cotx.getRealPath("/resources/images/userProfile");
+		System.out.println(path);
 		FileManager fm = new FileManager(path);
 		
 		// 기존유저의 얼굴 정보를 초기화 시킴
@@ -93,8 +94,8 @@ public class UserController {
 		String result[] =fm.uploadFile(fileUplode);
 		ur.setOriginalFileName(result[1]);
 		re = um.updateUser(ur);
-		hSession.setAttribute("userProfilePath", "./image/"+result[1]);
-		return "./image/"+result[1];
+		hSession.setAttribute("userProfilePath", "./cResources/images/userProfile/"+result[1]);
+		return "./cResources/images/userProfile/"+result[1];
 	}
 
 	@RequestMapping(value = "/joinUser", method = RequestMethod.POST)

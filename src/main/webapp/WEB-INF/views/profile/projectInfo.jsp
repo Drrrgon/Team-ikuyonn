@@ -13,11 +13,11 @@
     .deleteProject{
         opacity: 0.7;
     }
-    #listBottom{
+    .listBottom{
         position:relative; 
         height: 300px; 
     }
-    #projectListBottom{
+    .projectListBottom{
         text-align: right;
         position: fixed; 
         bottom:0px;
@@ -39,8 +39,14 @@
     #projectList{
         text-align: center;
     }
-    #allProjectList{
+    #allProjectLis-cover{
         display: none;
+    }
+    .tableProjectName{
+        width: 390px;
+    }
+    .table_project_deleteBtn{
+        width: 50px;
     }
 </style>
 <!-- load first js 
@@ -60,18 +66,20 @@
 		<div class="col-lg-12">
 			<div class="card card-small mb-4">
                 <div id="joinedProjectList">
-                    <div id="projectList" class="center col-md-8">
-                            
+                    <div id="projectList" class="center col-md-8">      
                     </div>
-                    <div id="listBottom">
-                        <div id="projectListBottom" class="center col-md-8">
+                    <div class="listBottom">
+                        <div id="projectListBottom" class="projectListBottom center col-md-8">
                             <span class="writeForm2"><button id="openCreateProjectBtn" class="createProject btn btn-accent">프로젝트 생성</button></span>
                                 <span class="writeForm"><input id="projectName" type="text"><button id="createProjectBtn" class="createProject btn btn-accent">생성</button></span>
                         </div>	
                     </div>
                     <button id="openProjectListBtn" class="createProject btn btn-accent">전체 프로젝트</button>
                 </div>
-                <div id="allProjectList">
+                <div id="allProjectLis-cover">
+                    <div id="allProjectList" class="center col-md-8">      
+                    </div>
+                    
                     <button id="closeProjectListBtn" class="createProject btn btn-accent">창 닫기</button>
                 </div>
 			</div>
@@ -102,36 +110,93 @@
             success: printProjectList
         });
     };
+    function getAllProjectList(){
+        $.ajax({
+            url: 'getprojectInfo',
+            type: 'post',
+            success: printAllProjectList
+        });
+    }
     function printProjectList(projectList){
         $('#projectList').text('');
         var printProjectHtml = "";
+        printProjectHtml += '<br/>';
+        printProjectHtml += '<table id="joinedProjectListTable" border="0">';
+        $('#projectList').append(printProjectHtml);
             if(projectList.length == 0){
-                printProjectHtml += '<div>';
-                printProjectHtml += '';
-                printProjectHtml += '';
-                printProjectHtml += '';
-                printProjectHtml += '';
-                printProjectHtml += '';
+                printProjectHtml += '<tr>';
+                printProjectHtml += '<td colspan="2" class="tableProjectName">';
                 printProjectHtml += "참여중인 프로젝트가 없습니다.";
-                printProjectHtml += '</div>';
-                $('#projectList').append(printProjectHtml);
+                printProjectHtml += '</td>';
+                printProjectHtml += '<td class="table_project_deleteBtn">';
+                printProjectHtml += '</td>';
+                printProjectHtml += '</tr>';
+                $('#joinedProjectListTable').append(printProjectHtml);
             }
         for (let i = 0; i < projectList.length; i++) {
             printProjectHtml = "";
-            printProjectHtml += '<div>';
+            printProjectHtml += '<tr>';
+            printProjectHtml += '<td class="tableProjectName">';
             printProjectHtml += projectList[i].projectName;
-            printProjectHtml += '&nbsp;&nbsp;';
+            printProjectHtml += '</td>';
+            printProjectHtml += '<td class="table_project_deleteBtn">';
             printProjectHtml += '<button class="deleteProject btn btn-accent" data-project-seq="'+projectList[i].projectSeq+'">삭제</button>';
-            printProjectHtml += '</div>';
-            $('#projectList').append(printProjectHtml);
+            printProjectHtml += '</td>';
+            printProjectHtml += '</tr>';
+            $('#joinedProjectListTable').append(printProjectHtml);
         }
         $('.deleteProject').on('click', deleteProject);
     }
-   
+    function printAllProjectList(projectList){
+        $('#allProjectList').text('');
+        var printProjectHtml = "";
+        printProjectHtml += '<br/>';
+        printProjectHtml += '<table id="allProjectListTable" border="0">';
+        $('#allProjectList').append(printProjectHtml);
+            if(projectList.length == 0){
+                printProjectHtml += '<tr>';
+                printProjectHtml += '<td colspan="2" class="tableProjectName">';
+                printProjectHtml += "프로젝트가 없습니다.";
+                printProjectHtml += '</td>';
+                printProjectHtml += '<td class="table_project_deleteBtn">';
+                printProjectHtml += '</td>';
+                printProjectHtml += '</tr>';
+                $('#allProjectListTable').append(printProjectHtml);
+            }
+        for (let i = 0; i < projectList.length; i++) {
+            printProjectHtml = "";
+            printProjectHtml += '<tr>';
+            printProjectHtml += '<td class="tableProjectName">';
+            printProjectHtml += projectList[i].projectName;
+            printProjectHtml += '</td>';
+            printProjectHtml += '<td class="table_project_deleteBtn">';
+            printProjectHtml += '<button class="joinProjectBtn btn btn-accent" data-project-seq="'+projectList[i].projectSeq+'">참가</button>';
+            printProjectHtml += '</td>';
+            printProjectHtml += '</tr>';
+            $('#allProjectListTable').append(printProjectHtml);
+        }
+        $('.joinProjectBtn').on('click', joinProject);
+    }
+    function joinProject(){
+        var sessionID = "${sessionScope.userID}";
+        var projectSeq = $(this).attr('data-project-seq');
+        console.log(projectSeq);
+        var flag = confirm('정말로 삭제하시겠습니까?');
+        if(flag){
+            $.ajax({
+               url: 'deleteProject',
+               type: 'post',
+               data: {
+                  'userID': sessionID, 'projectSeq': projectSeq
+               },
+               success: printProjectList
+            });
+        }
+    };
     function openCreateProject(){
         $('.writeForm').css('display', 'block');
         $('.writeForm2').css('display', 'none');
-    }
+    };
 
      function closeCreateProject(){
         $('.writeForm').css('display', 'none');
@@ -139,13 +204,14 @@
         // $('#projectListBottom').css('text-align', 'right');
     }
 
-    function openProjectList(){
-        $('#allProjectList').css('display', 'block');
+    function openProjectList(){    
+        $('#allProjectLis-cover').css('display', 'block');
         $('#joinedProjectList').css('display', 'none');
+        getAllProjectList();
     }
 
     function closeProjectList(){
-        $('#allProjectList').css('display', 'none');
+        $('#allProjectLis-cover').css('display', 'none');
         $('#joinedProjectList').css('display', 'block');
     }
 
@@ -195,13 +261,7 @@
         }
     };
 
-    function getAllProjectList(){
-        $.ajax({
-            url: 'getprojectInfo',
-            type: 'post',
-            success: printProjectList
-        });
-    }
+    
 </script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 </body>

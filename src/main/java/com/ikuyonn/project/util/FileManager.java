@@ -29,7 +29,7 @@ public class FileManager {
 //		System.out.println(UPLOADPATH);
 		File f = new File(UPLOADPATH);
 		if(f.isDirectory() == false) {
-			f.mkdir();
+			f.mkdirs();
 		}
 	}
 	

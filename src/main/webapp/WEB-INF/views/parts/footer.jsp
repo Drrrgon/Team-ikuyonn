@@ -18,7 +18,7 @@
 	sock.onclose = onClose;
 	// console.log("<c:url value='/echo'/>");
 
-	function init(){
+	function chatInitiation(){
 		currentProject = $(this).attr("data-pjName");		
 		$('#chat_converse').css('display', 'none');
 		$('#chat_body').css('display', 'none');
@@ -334,8 +334,8 @@
                 var printHtml ="";
 								if(proList.length == 0){
 									printHtml += '<table>';				
-									printHtml += '<tr><td>Project Name</td>';
-									printHtml += '<td colspan="2">참여중인 프로젝트가 없습니다.</td>';
+									printHtml += '<tr><td colspan="2" class="chatProjectName">참여중인 프로젝트가 없습니다.</td>';
+									printHtml += '<td></td>';
 									printHtml += '</tr>';				
 									printHtml += '</table>';
 									$('#selectProject').append(printHtml);		
@@ -347,10 +347,11 @@
 											printHtml += '<tr><td class="chatProjectNameHeader">Project Name</td>';
 											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
 											printHtml += '<td>';
-											printHtml += '<button id="enterChat" class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<button class="enterChatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';
+											printHtml += '</table>';
 											$('#selectProject').append(printHtml);
 										}
 										else{
@@ -358,7 +359,7 @@
 											printHtml += '<tr><td class="chatProjectNameHeader"></td>';
 											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
 											printHtml += '<td>';
-											printHtml += '<button id="enterChat" class="chatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<button class="enterChatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';
@@ -366,14 +367,14 @@
 
 											if( i == proList.length-1 ){
 												printHtml = "";
-												printHtml += '</table>';
+												
 												$('#selectProject').append(printHtml);
 											}
 										}
 									}
 									printHtml = "";
 									$('#selectProject').append(printHtml);
-									$("#enterChat").click(init);
+									$(".enterChatBtn").click(chatInitiation);
 								}				
 			}
 		});

@@ -17,7 +17,7 @@ drop table cloudFile purge;
 DROP sequence message_seq;
 DROP sequence project_seq;
 DROP sequence eventseq;
-
+DROP Sequence fileSeq ;
 CREATE TABLE message (
     messageSeq number PRIMARY KEY
     , userID varchar2(40)
@@ -66,6 +66,7 @@ CREATE TABLE inbox(
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
 CREATE TABLE project (
+    -- project master e-mail
     projectSeq number PRIMARY KEY
     , projectName varchar2(200)
     ,due varchar2(100) default '------'
@@ -133,7 +134,7 @@ CREATE TABLE projectEvent(
 
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_eventSeq FOREIGN KEY (eventSeq) REFERENCES events(eventSeq)on delete cascade;
-
+Create Sequence fileSeq ;
 CREATE TABLE cloudFile(
     fileSeq number PRIMARY KEY
     ,fileName varchar2(100) NOT NULL
