@@ -30,8 +30,6 @@ public class CloudController {
 	SqlSession session;
 	private static  String UPLOADPATH = "";
 	
-	private static String UPLOADPATH = "";
-	
 	@RequestMapping(value = "/getProject", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<Project> getProject(String userID) {
 		MailMapper mapper = session.getMapper(MailMapper.class);

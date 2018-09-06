@@ -282,6 +282,7 @@ div.aa:hover {
 				var formData = new FormData();
 				formData.append("file", $("#file")[0].files[0]);
 				formData.append("proSeq", $("#proSeq").val());
+				if($("#file")[0].files[0]!=null){
 				$.ajax({
 					url : "addFile",
 					processData : false,
@@ -295,6 +296,7 @@ div.aa:hover {
 						alert("통신실패");
 					}
 				});
+				}
 			});
 		});
 
@@ -316,7 +318,7 @@ div.aa:hover {
 				if(i!=0&&i%6==0){
 					temp+="</tr><tr>"
 				}
-				temp += "<td width=50 style='word-break:break-all' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/fileIcon/"+result[i].fileType+".jpg' height='42' width='42' onerror=\"this.src='./resources/images/fileIcon/ccc.jpg'\"><br />"
+				temp += "<td width='10px' style='word-break:break-all' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/fileIcon/"+result[i].fileType+".jpg' height='42' width='42' onerror=\"this.src='./resources/images/fileIcon/ccc.jpg'\"><br />"
 				temp += "<a href='downFile?fileSeq=" + result[i].fileSeq
 						+ "'>" + result[i].fileName + "</a></div></td>"
 			}
