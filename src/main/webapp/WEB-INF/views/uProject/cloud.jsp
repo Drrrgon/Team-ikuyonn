@@ -243,7 +243,10 @@ div.aa:hover {
 		function makeFile(result) {
 			var temp = "<tr><input type='hidden' value='' id='delSeq'/>"
 			for ( var i in result) {
-				temp += "<td width='60' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/aaa.png' height='42' width='42'><br />"
+				if(i!=0&&i%6==0){
+					temp+="</tr><tr>"
+				}
+				temp += "<td width=50 style='word-break:break-all' onclick='select("+i+","+result[i].fileSeq+")'><div class='aa'><img src='./resources/images/fileIcon/"+result[i].fileType+".jpg' height='42' width='42' onerror=\"this.src='./resources/images/fileIcon/ccc.jpg'\"><br />"
 				temp += "<a href='downFile?fileSeq=" + result[i].fileSeq
 						+ "'>" + result[i].fileName + "</a></div></td>"
 			}

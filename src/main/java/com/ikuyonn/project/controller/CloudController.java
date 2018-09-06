@@ -28,8 +28,8 @@ import com.ikuyonn.project.mail.vo.fileVO;
 public class CloudController {
 	@Autowired
 	SqlSession session;
-	private static final String UPLOADPATH = "c:\\\\filerepo\\\\";
-	private static final String DOWNLOADPATH = "c:\\\\download\\\\";
+	
+	private static String UPLOADPATH = "";
 	
 	@RequestMapping(value = "/getProject", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<Project> getProject(String userID) {
@@ -39,6 +39,7 @@ public class CloudController {
 	}
 	@RequestMapping(value = "/addFile", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<fileVO> addFile(MultipartFile file,int proSeq) {
+		
 		fileVO f = new fileVO();
 		f.setFileName(file.getOriginalFilename());
 		f.setSaveFileName(fileService(file));
