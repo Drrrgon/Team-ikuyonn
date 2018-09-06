@@ -53,6 +53,7 @@ dd.hidden {
 	<%@ include file="../parts/sidebar.jsp"%>
 	<input type="hidden" value="${sessionScope.userID}" id="userID"
 		name="userID" />
+	<input type="hidden" value="${hrefMail}" id="hrefMail"/>
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
 			<div id="page-inner">
@@ -303,7 +304,13 @@ dd.hidden {
 			// 아이콘 설정
 			setLeftSideIcon();
 			refresh();
-
+			//메일 링크로 보내기 받는부분
+			if( $("#hrefMail").val()!=null&&$("#hrefMail").val()!=""){
+				var mail = "<span contenteditable=\"false\">";
+				mail += $("#hrefMail").val() + "</span>&#\8203\;";
+				$('#to').html(mail);
+			}
+			
 			var $menuEle = $('.tab_button'); // 탭메뉴를 변수에 지정
 			$menuEle.click(function() { // 탭메뉴 클릭 이벤트
 				$('dd').addClass('hidden');

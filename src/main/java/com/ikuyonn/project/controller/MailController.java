@@ -31,6 +31,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -83,11 +84,18 @@ public class MailController {
 
 	@RequestMapping(value = "/addAddress", method = RequestMethod.POST)
 	public String addAddress(email email) {
-		System.out.println(email);
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		mapper.addAddress(email);
 		mapper.fixNameCard(email);
 		return "profile/userprofilelite";
+	}
+	
+	@RequestMapping(value = "/hrefMail", method = RequestMethod.GET)
+	public String hrefMail(String emailAddress,Model model ) {
+		System.out.println(emailAddress);
+		model.addAttribute("hrefMail", emailAddress);
+		System.out.println(model.containsAttribute("hrefMail"));
+		return "mail/writeMail";
 	}
 	
 	@RequestMapping(value = "/mailCheck", method = RequestMethod.POST)
@@ -210,7 +218,7 @@ public class MailController {
 			e.printStackTrace();
 		}
 		file2.delete();
-		return "writeMail";
+		return "mail/writeMail";
 	}
 
 	@RequestMapping(value = "/mailList", method = RequestMethod.POST)
@@ -325,7 +333,6 @@ public class MailController {
 					MimeMultipart multi = (MimeMultipart) mbp.getContent();
 					saveParts(multi);
 				}else if(mbp.isMimeType("text/plain")&&mbp.getDataHandler().getName()==null){
-					System.out.println(mbp.getDataHandler().getName());
 					content += mbp.getContent();
 				}
 			}
