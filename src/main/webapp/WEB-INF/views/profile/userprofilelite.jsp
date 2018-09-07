@@ -83,12 +83,12 @@
 					<li class="list-group-item p-3">
 						<div class="row">
 							<div class="col">
-								<form action="updateUser" method="post">
+								<form action="updateUser" method="post" id="updateForm">
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<input type="hidden" name="userID" id="userID" value="${sessionScope.userID}"> 
 											<label for="feFirstName">이름</label> 
-												<input type="text" class="form-control" name="userName" id="userName" value="${sessionScope.userID}" readonly="readonly">
+												<input type="text" class="form-control" name="userName" id="userName" value="${sessionScope.userName}" readonly="readonly">
 										</div>
 										<!--    <div class="form-group col-md-6">
                                 <label for="feLastName">Last Name</label>
@@ -101,7 +101,10 @@
 											</div>
 											<div class="form-group col-md-6">
 												<label for="fePassword">생년월일</label>
-												<div class="form-control" id="userBirth" readonly="readonly">${sessionScope.userBirth}</div>
+												<input type="hidden" class="input" id="userBirth" name="userBirth" value="${sessionScope.userBirth}"/>
+    											<select class="form-control" name='birthYear' id='birthYear' onChange='setDate()'></select>년&nbsp;
+    											<select class="form-control" name='birthMonth' id='birthMonth' onChange='setDate()'></select>월&nbsp;
+    											<select class="form-control" name='birthDay' id='birthDay'></select>일&nbsp;
 											</div>
 										</div>
 										<div class="form-group">
@@ -348,7 +351,12 @@
 		}
 
 		function updateForm() {
-			if ($('#userPhone').val() == "")) {
+			var userBirth = $('#userBirth').val('');
+			var birthYear = $('#birthYear').val();
+			var birthMonth = $('#birthMonth').val();
+			var birthDay = $('#birthDay').val();
+			
+			if ($('#userPhone').val() == "") {
 				alert("전화번호를 입력하지 않았습니다.");
 				return false;
 			}
@@ -356,6 +364,72 @@
 				alert('전화번호 입력이 잘못되었습니다!');
 				return false;
 			}
+			
+			userBirth = new Date(birthYear, birthMonth-1, birthDay);
+		    $("#userBirth").val(userBirth);
+		}
+		
+		window.onload = function() {
+			var userForm = document.getElementById('updateForm');
+			
+			var userBirth = $('#userBirth').val();
+			var yearBirth; var monthBirth; var dayBirth;
+		    yearBirth = userBirth.substring(0, 4);
+		    monthBirth = userBirth.substring(5, 7);
+		    dayBirth = userBirth.substring(8, 10);
+		    
+		    $('#birthYear').val(yearBirth);
+		    if(monthBirth<10)
+		    	monthBirth = userBirth.substring(6, 7);
+			$('#birthMonth').val(monthBirth);
+			if(dayBirth<10)
+		    	dayBirth = userBirth.substring(9, 10);
+			$('#birthDay').val(dayBirth);
+		    
+		    var startYear = yearBirth - 99;
+		    for(var i=0; i<100; i++) {
+		    	userForm['birthYear'].options[i] = new Option(startYear+i, startYear+i);
+		    }
+
+		    for (var i=0; i<12; i++) {
+		    	userForm['birthMonth'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    userForm['birthYear'].value = yearBirth;
+		    userForm['birthMonth'].value = monthBirth;
+		    setDate();
+		    userForm['birthDay'].value = dayBirth;
+		}
+
+		function setDate() {
+			var userForm = document.getElementById('updateForm');
+			
+		    var year = userForm['birthYear'].value;
+		    var month = userForm['birthMonth'].value;
+		    var day = userForm['birthDay'].value;
+		    var dayBirth = userForm['birthDay'];
+		    
+		    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+		    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		        arrayMonth[1] = 29;
+		    }
+
+		    for(var i = dayBirth.length; i>0; i--) {
+		    	dayBirth.remove(dayBirth.selectedIndex);
+		    }
+		        
+		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+		    	dayBirth.options[i-1] = new Option(i, i);
+		    }
+
+		    if(day != null || day != '') {
+		        if(day > arrayMonth[month-1]) {
+		        	dayBirth.options.selectedIndex = arrayMonth[month-1]-1;
+		        } else {
+		        	dayBirth.options.selectedIndex = day-1;
+		        }
+		    }
 		}
 	</script>
 </html>

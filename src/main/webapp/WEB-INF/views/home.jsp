@@ -152,8 +152,8 @@ function joinConfirm(){
         return false;
     }
     //아이디 길이 체크 (4~12자)
-    if (userID.length<4 || userID.length>12) {
-        alert('아이디를 4~12자까지 입력해주세요.');
+    if (!/^[a-zA-Z0-9]{3,11}$/.test(userID)) {
+        alert('아이디를 4~12자, 영문과 숫자를 혼합해주세요.');
         userID.focus();
         userID.select();
         return false;

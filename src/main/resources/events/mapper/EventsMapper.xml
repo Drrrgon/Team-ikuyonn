@@ -7,11 +7,11 @@
 		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}) 
 	</insert>
 	
-	<select id="privateEvents" resultType="Events">
-		select * from events where userID = #{userID} or eventSeq = (select projectSeq from joinProject where userID = #{userID})
+	<select id="privateEvents" parameterType="String" resultType="Events">
+		select * from events where userID = #{userID}
 	</select>
 	
-	<select id="oneEvents" resultType="Events">
+	<select id="oneEvents" parameterType="Events" resultType="Events">
 		select * from events where eventSeq = #{eventSeq}
 	</select>
 	
@@ -23,11 +23,11 @@
 		delete events where eventSeq = #{eventSeq}
 	</delete>
 	
-<!--  	<select id="projectEvents" resultType="Events">
+	<select id="projectEvents" resultType="Events">
 		select * from events where userID = #{userID} or eventSeq = (select projectSeq from joinProject where userID = #{userID})
-	</select> -->
+	</select>
 	
-	<select id="projectEventsList" resultType="Events">
+	<select id="projectEventsList" parameterType="String" resultType="Events">
 		select * from events where userID = #{userID}
 	</select>
 </mapper>

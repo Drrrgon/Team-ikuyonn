@@ -25,7 +25,7 @@
 			<set>
 				<if test="originalFileName != null">originalFileName = #{originalFileName},</if>
 				<if test="userPW != '' ">userPW = #{userPW},</if>
-				userPhone = #{userPhone}
+				userBirth = #{userBirth}, userPhone = #{userPhone}
 			</set>
 		where userID = #{userID} 
 	</update>
