@@ -71,25 +71,7 @@
 						<i class="zmdi zmdi-camera"></i>Upload Picture
 					</button>
 				</div>
-				<ul class="list-group list-group-flush">
-					<!-- <li class="list-group-item px-4">
-						<div class="progress-wrapper">
-							<strong class="text-muted d-block mb-2">Workload</strong>
-							<div class="progress progress-sm">
-								<div class="progress-bar bg-primary" role="progressbar"
-									aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"
-									style="width: 74%;">
-									<span class="progress-value">74%</span>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li class="list-group-item p-4"><strong
-						class="text-muted d-block mb-2">Description</strong> <span>Lorem
-							ipsum dolor sit amet consectetur adipisicing elit. Odio eaque,
-							quidem, commodi soluta qui quae minima obcaecati quod dolorum
-							sint alias, possimus illum assumenda eligendi cumque?</span></li>
-				</ul> -->
+			
 			</div>
 		</div>
 		<div class="col-lg-8">

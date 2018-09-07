@@ -46,6 +46,29 @@ dd {
 dd.hidden {
 	display: none;
 }
+
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 10% auto; /* 15% from the top and centered */
+	margin-top: 6%;
+	padding: 30px;
+	border: 1px solid #888;
+	width: 40%; /* Could be more or less, depending on screen size */
+	height: 100%; /* Full height */
+}
 </style>
 </head>
 <body class="h-100">
@@ -53,13 +76,13 @@ dd.hidden {
 	<%@ include file="../parts/sidebar.jsp"%>
 	<input type="hidden" value="${sessionScope.userID}" id="userID"
 		name="userID" />
+	<input type="hidden" value="${hrefMail}" id="hrefMail" />
 	<div class="main-content-container container-fluid px-4">
 		<div id="page-wrapper">
 			<div id="page-inner">
 				<dl>
-					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_1">메일
-						쓰기</button>
-					</hr>
+					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_1">메일 쓰기</button>
+				
 					<dd>
 						<div class="row">
 							<div class="col-md-12">
@@ -72,7 +95,7 @@ dd.hidden {
 												id="from"></select>
 										</div>
 										<div class="form-group">
-											<a>받는 사람 :</a> <a><주소록></a>
+											<a>받는 사람 :</a> <a id="list"><주소록></a>
 											<div class="custom-control custom-checkbox mb-1">
 												<input type="checkbox" class="custom-control-input"
 													id="formsCheckboxChecked"> <label
@@ -105,7 +128,7 @@ dd.hidden {
 					</dd>
 
 					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_2">메일함</button>
-					</hr>
+					<hr />
 					<dd class="hidden">
 						<div class="panel-heading">
 							<button type="button" class="btn btn-sm btn-outline-accent"
@@ -125,16 +148,71 @@ dd.hidden {
 			</div>
 		</div>
 	</div>
-	<br/><br/><br/><br/><br/><br/><br/>
+	<div id="insertModal" class="modal">
+		<div class="modal-content">
+			<h4 class="modal-title">
+				<주소록> <span id="close1" class="close"></span>
+			</h4>
+			<div class="card card-small mb-4">
+				<div class="card-header border-bottom">
+					<div class="btn-group btn-group-toggle mb-3" id="ebuttons"
+						data-toggle="buttons">
+						<label class="btn btn-white active"> <input type="radio"
+							name="options" value="2" autocomplete="off" checked="">전체
+						</label> <label class="btn btn-white"> <input type="radio"
+							name="options" value="1" autocomplete="off">회원
+						</label> <label class="btn btn-white"> <input type="radio"
+							name="options" value="0" autocomplete="off">비회원
+						</label>
+					</div>
+					<div class="row">
+						<div class="input-group col-md-8">
+							<input type="text" name="searchText"
+								class="input-sm form-control" id="searchText">
+							<div class="input-group-append">
+								<button type="button" class="btn btn-sm btn-white"
+									id="searchBtn">검색</button>
+							</div>
+						</div>
+						<div class="col-md-4" style="text-align: right;">
+							<select class="form-control" id="selectGroup">
+								<option value="ncName" selected="">이름</option>
+								<option value="ncEmail">이메일</option>
+								<option value="ncCompany">회사명</option>
+							</select>
+							<button type="button" class="btn btn-sm btn-white"
+								id="deleteList" style="display: none;">선택삭제</button>
+						</div>
+					</div>
+				</div>
+				<div class="card-body p-0" id="nameCardTableWrap">
+					<!-- 명함리스트 -->
+
+				</div>
+				<div class="card-footer border-top">
+					<div class="pagingWrap">
+						<!-- 페이징 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
 
 	<script src="./resources/mail/index.js"></script>
-	
-	
+
+
 	<script src="./resources/mail/jquery.dataTables.min.js"></script>
-	
+
 	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 	<%@ include file="../parts/footer.jsp"%>
-	
+
 </body>
 <script type="text/javascript">
 	function refresh() {
@@ -280,104 +358,117 @@ dd.hidden {
 				'nav-link ');
 		$('#navbar').children().eq(1).children().eq(0).addClass('active');
 	}
-		function naming() {
-			var aa = $("#to");
-			var temp = "";
-			for (var i = 0; i < aa.length + 1; i++) {
-				if (!(typeof aa.children().eq(i).html() == "undefined")) {
-					temp += aa.children().eq(i).html();
-					temp += " ";
-				}
+	function naming() {
+		var aa = $("#to");
+		var temp = "";
+		for (var i = 0; i < aa.length + 1; i++) {
+			if (!(typeof aa.children().eq(i).html() == "undefined")) {
+				temp += aa.children().eq(i).html();
+				temp += " ";
 			}
-			$("#to2").val(temp);
-			$("#filename").val($("#file").val());
-			return true;
 		}
-		function tag() {
-			var event = document.createEvent("Events");
-			event.initEvent('keydown', true, true);
-			event.keyCode = 32;
-			document.getElementById('to').dispatchEvent(event);
+		$("#to2").val(temp);
+		$("#filename").val($("#file").val());
+		return true;
+	}
+	function tag() {
+		var event = document.createEvent("Events");
+		event.initEvent('keydown', true, true);
+		event.keyCode = 32;
+		document.getElementById('to').dispatchEvent(event);
+	}
+	$(function() {
+		// 아이콘 설정
+		setLeftSideIcon();
+		refresh();
+		$('.modal').css('z-index', 9);
+
+		//메일 등록창 열기
+		$("#list").on('click', function() {
+			$("#insertModal").show();
+		});
+		//modal cancle button
+		$("#close1").on('click', function() {
+			$("#insertModal").css("display", "none");
+		});
+		//메일 링크로 보내기 받는부분
+		if ($("#hrefMail").val() != null && $("#hrefMail").val() != "") {
+			var mail = "<span contenteditable=\"false\">";
+			mail += $("#hrefMail").val() + "</span>&#\8203\;";
+			$('#to').html(mail);
 		}
-		$(function() {
-			// 아이콘 설정
-			setLeftSideIcon();
-			refresh();
 
-			var $menuEle = $('.tab_button'); // 탭메뉴를 변수에 지정
-			$menuEle.click(function() { // 탭메뉴 클릭 이벤트
-				$('dd').addClass('hidden');
-				$(this).next().removeClass('hidden');
-			});
+		var $menuEle = $('.tab_button'); // 탭메뉴를 변수에 지정
+		$menuEle.click(function() { // 탭메뉴 클릭 이벤트
+			$('dd').addClass('hidden');
+			$(this).next().removeClass('hidden');
+		});
 
-			$("#list").on('click', function() {
-				$("#content").html("");
-			});
-			$("#reload").on('click', function() {
-				$.ajax({
-					url:"reload",
-					type:"get",
-					success : function(){
-						var address = $('#pills').children().eq(0).html();
-						alert("메일 불러오기가 완료되었습니다.");
-						setlist(event,address);
-					},
-					error:function(){
-						alert("통신 실패");
-					}
-				});
-			});
-			
-			var userID = $("#userID").val();
+		$("#list").on('click', function() {
+			$("#content").html("");
+		});
+		$("#reload").on('click', function() {
 			$.ajax({
-				url : "mailList",
-				type : "post",
-				data : {
-					"userID" : userID
-				},
-				success : function(data) {
-					var from = document.getElementById("from");
-					for ( var index in data) {
-						var option = document.createElement("option");
-						option.text = data[index].emailAddress;
-						from.add(option);
-					}
+				url : "reload",
+				type : "get",
+				success : function() {
+					var address = $('#pills').children().eq(0).html();
+					alert("메일 불러오기가 완료되었습니다.");
+					setlist(event, address);
 				},
 				error : function() {
-					alert("통신실패");
+					alert("통신 실패");
 				}
 			});
+		});
 
-			$("#formsCheckboxChecked").change(
-					function() {
-						if ($("input:checkbox[id='formsCheckboxChecked']").is(
-								":checked")) {
-							var mail = "<span contenteditable=\"false\">";
-							mail += $("#from").val() + "</span>&#\8203\;";
-							$('#to').html(mail);
-						}
-					});
-
-			$("#reset").on('click', function() {
-				$("#to").html("");
-			});
-
-			function setLeftSideIcon() {
-				$('#navbar').children().eq(0).children().eq(0).attr('class',
-						'nav-link ');
-				$('#navbar').children().eq(1).children().eq(0).attr('class',
-						'nav-link ');
-				$('#navbar').children().eq(2).children().eq(0).attr('class',
-						'nav-link ');
-				$('#navbar').children().eq(3).children().eq(0).attr('class',
-						'nav-link ');
-				$('#navbar').children().eq(4).children().eq(0).attr('class',
-						'nav-link ');
-				$('#navbar').children().eq(5).children().eq(0).attr('class',
-						'nav-link ');
-				$('#navbar').children().eq(1).children().eq(0).addClass(
-						'active');
+		var userID = $("#userID").val();
+		$.ajax({
+			url : "mailList",
+			type : "post",
+			data : {
+				"userID" : userID
+			},
+			success : function(data) {
+				var from = document.getElementById("from");
+				for ( var index in data) {
+					var option = document.createElement("option");
+					option.text = data[index].emailAddress;
+					from.add(option);
+				}
+			},
+			error : function() {
+				alert("통신실패");
 			}
 		});
-	</script>
+
+		$("#formsCheckboxChecked").change(function() {
+			if ($("input:checkbox[id='formsCheckboxChecked']").is(":checked")) {
+				var mail = "<span contenteditable=\"false\">";
+				mail += $("#from").val() + "</span>&#\8203\;";
+				$('#to').html(mail);
+			}
+		});
+
+		$("#reset").on('click', function() {
+			$("#to").html("");
+		});
+
+		function setLeftSideIcon() {
+			$('#navbar').children().eq(0).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(2).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(3).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(4).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(5).children().eq(0).attr('class',
+					'nav-link ');
+			$('#navbar').children().eq(1).children().eq(0).addClass('active');
+		}
+	});
+</script>
 </html>
