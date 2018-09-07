@@ -185,7 +185,7 @@ color: blue;
 								<option value="ncCompany">회사명</option>
 							</select>
 							<button type="button" class="btn btn-sm btn-white"
-								id="deleteList" style="display: none;">선택삭제</button>
+								id="setAddress" style="display: none;">선택</button>
 						</div>
 					</div>
 				</div>
@@ -528,7 +528,7 @@ color: blue;
 				line += '<span>'+datas.nameCardList[i].ncName+'</span>';
 				line += '</li>';
 				line += '<li>';
-				line += '<a href="hrefMail?emailAddress='+datas.nameCardList[i].ncEmail+'">'+datas.nameCardList[i].ncEmail+'</a>';
+				line += '<a>'+datas.nameCardList[i].ncEmail+'</a>';
 				line += '</li>';
 				line += '<li>';
 				if(datas.nameCardList[i].ncCompany == null){
@@ -621,11 +621,11 @@ color: blue;
 		
 		function checkBoxClick(){
 			$('#selectGroup').css('display','');
-			$('#deleteList').css('display','none');	
+			$('#setAddress').css('display','none');	
 			var checkBoxGroup = $('input:checkbox[name=nameCardGroup]:checked').length;
 			if(checkBoxGroup > 0){
 				$('#selectGroup').css('display','none');
-				$('#deleteList').css('display','');	
+				$('#setAddress').css('display','');	
 			}
 		};
 		
@@ -637,29 +637,18 @@ color: blue;
 		};
 		
 		//이게 일괄로
-		$('#deleteList').on('click',function(){
-			var emails = [];
+		$('#setAddress').on('click',function(){
+			var emails = "";
 			jQuery.ajaxSettings.traditional = true;
 
 			var page = $('.paging > .active > a').attr('page');
 			var rows = $('input:checkbox[name=nameCardGroup]:checked');	
 			for(var i = 0; i < rows.length; i++){
-				emails.push(nameCardList[rows[i].value].ncEmail);
-			};
-		
-			if (confirm('삭제하시겠습니까?')) {
-				$.ajax({
-					url : 'selectNameCardList',
-					type : 'get',
-					data : {
-						'emails' : emails,
-						'page' : page
-					},
-					success : outPut
-				});
-			} else {
-
-			};
+				emails += "<span contenteditable=\"false\">"+nameCardList[rows[i].value].ncEmail+"</span>";
+			}
+			emails += "&#\8203\;";
+			$("#to").html(emails);
+			$("#insertModal").css("display", "none");
 		});
 		
 		$('#searchBtn').on('click',function(){
