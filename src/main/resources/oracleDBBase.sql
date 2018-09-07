@@ -55,6 +55,11 @@ CREATE TABLE email(
 );
 ALTER TABLE email ADD CONSTRAINT fk_email_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
+insert into email values('ikuyong01@gmail.com','ikuyong01@gmail.com','dlzndyd01','imap.gmail.com','smtp.gmail.com','asdf');
+insert into email values('ikuyong02@gmail.com','ikuyong02@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','zxcv');
+insert into email values('ikuyong03@gmail.com','ikuyong03@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','qwer');
+insert into email values('ikuyong04@gmail.com','ikuyong04@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','1234');
+
 CREATE TABLE inbox(
     msgNum varchar2(20)
     , emailAddress varchar2(100)
