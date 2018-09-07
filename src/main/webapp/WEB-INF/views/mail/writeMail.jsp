@@ -602,7 +602,19 @@ dd.hidden {
 				});		
 			};
 		});
-
+		
+		function pageMove(){
+			var page = $(this).attr("page");
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				data : {
+					'page' : page
+				},
+				success : outPut
+			});
+		};
+		
 		function checkBoxClick(){
 			$('#selectGroup').css('display','');
 			$('#deleteList').css('display','none');	
