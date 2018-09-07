@@ -191,7 +191,7 @@ color: blue;
 				</div>
 				<div class="card-body p-0" id="nameCardTableWrap">
 					<!-- 명함리스트 -->
-
+					
 				</div>
 				<div class="card-footer border-top">
 					<div class="pagingWrap">
@@ -390,6 +390,7 @@ color: blue;
 		//메일 등록창 열기
 		$("#list2").on('click', function() {
 			$("#insertModal").show();
+			init();
 		});
 		//modal cancle button
 		$("#close1").on('click', function() {
@@ -457,6 +458,219 @@ color: blue;
 		$("#reset").on('click', function() {
 			$("#to").html("");
 		});
+		
+		//모달 명함리스트
+		function init(){
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				success : outPut
+			});	
+		};
+		
+		var nameCardList;
+
+		function outPut(datas){
+			nameCardList = datas.nameCardList;
+			console.log(datas);
+			$('#nameCardTableWrap').html(''); 
+			$('.pagingWrap').html(''); 
+			$('.r-wrap').css('display',''); 
+			$('#delete').removeClass('disabled');
+			$('#update').removeClass('disabled');
+			var line = '';
+			
+			if(nameCardList.length == 0){
+				line += '<p style="text-align: center;">데이터가 없습니다.<br>명함을<a href="#">추가</a>하세요</p>';
+				$("#nameCardTableWrap").append(line);	
+				line = '';
+				
+				line += '<ul class="paging">';
+				line += '<li class="asi">';
+				line += '<a href="javascript:void(0)" page="">';
+				line += '<i class="fas fa-angle-double-left"></i>';
+				line += '</a>';
+				line += '</li>';
+				line += '<li class="asi">';
+				line += '<a href="javascript:void(0)" page="">';
+				line += '<i class="fas fa-angle-left"></i>';
+				line += '</a>';
+				line += '</li>';
+				line +='<li>';
+				line +='<a href="javascript:void(0)" page="1">1</a>';
+				line +='</li>';
+				line += '<li class="asi">';
+				line += '<a href="javascript:void(0)" page="">';
+				line += '<i class="fas fa-angle-right"></i>';
+				line += '</a>';
+				line += '</li>';
+				line += '<li class="asi">';
+				line += '<a href="javascript:void(0)" page="">';
+				line += '<i class="fas fa-angle-double-right"></i>';
+				line += '</a>';
+				line += '</li>';
+				line += '</ul>';			
+				$('.pagingWrap').append(line);
+				line = '';
+				
+				return;
+			};
+			
+			for(var i in datas.nameCardList){
+				if(i == 0){
+					line += '<div class="nameCardTable active" data-rownum="'+i+'">';
+				}else{
+					line += '<div class="nameCardTable" data-rownum="'+i+'">';
+				}
+				line += '<div class="nec">';
+				line += '<ul>';
+				line += '<li>';
+				line += '<span>'+datas.nameCardList[i].ncName+'</span>';
+				line += '</li>';
+				line += '<li>';
+				line += '<a href="hrefMail?emailAddress='+datas.nameCardList[i].ncEmail+'">'+datas.nameCardList[i].ncEmail+'</a>';
+				line += '</li>';
+				line += '<li>';
+				if(datas.nameCardList[i].ncCompany == null){
+					line += '<span>없음</span>';
+				}else{
+					line += '<span>'+datas.nameCardList[i].ncCompany+'</span>';
+				};		
+				line += '</li>';
+				line += '</ul>';
+				line += '</div>';
+				line += '<div class="nbg">';
+				line += '<div>';
+				line += '<input type="checkbox" name="nameCardGroup" style="width: 20px;height: 20px;" value="'+i+'">';
+				line += '</div>';
+				line += '</div>';
+				line += '</div>';
+			};
+			$('#nameCardTableWrap').append(line);
+			line = '';
+				
+			line += '<ul class="paging">';
+			line += '<li class="asi">';
+			line += '<a href="javascript:void(0)" page="'+datas.pageNavigator.startPageGroup+'">';
+			line += '<i class="fas fa-angle-double-left"></i>';
+			line += '</a>';
+			line += '</li>';
+			line += '<li class="asi">';
+			line += '<a href="javascript:void(0)" page="'+(datas.pageNavigator.currentPage-1)+'">';
+			line += '<i class="fas fa-angle-left"></i>';
+			line += '</a>';
+			line += '</li>';
+			for(var i=datas.pageNavigator.startPageGroup; i<=datas.pageNavigator.endPageGroup; i++){
+				if(i != datas.pageNavigator.currentPage){
+					line +='<li>';
+					line +='<a href="javascript:void(0)" page="'+i+'">'+i+'</a>';
+					line +='</li>';
+				}else{
+					line +='<li class="active">';
+					line +='<a href="javascript:void(0)" page="'+i+'">'+i+'</a>';
+					line +='</li>';
+				};
+			};
+			line += '<li class="asi">';	
+			line += '<a href="javascript:void(0)" page="'+(datas.pageNavigator.currentPage+1)+'">';
+			line += '<i class="fas fa-angle-right"></i>';
+			line += '</a>';
+			line += '</li>';
+			line += '<li class="asi">';
+			line += '<a href="javascript:void(0)" page="'+datas.pageNavigator.endPageGroup+'">';
+			line += '<i class="fas fa-angle-double-right"></i>';
+			line += '</a>';
+			line += '</li>';
+			line += '</ul>';
+			
+			$('.pagingWrap').append(line);
+			line = '';
+			
+			$('input:checkbox[name=nameCardGroup]').change(checkBoxClick);
+			$('.paging > li > a').click(pageMove);
+			$('.nameCardTable').click(nameCardMove);
+		};
+		
+		$('input:radio[name=options]').change(function(){
+			var emailCheck = $('input:radio[name=options]:checked').val();
+			if(emailCheck == 2){
+				init();
+			}else{
+				$.ajax({
+					url : 'selectNameCardList',
+					data : {
+						'emailCheck' : emailCheck
+					},
+					type : 'get',
+					success : outPut
+				});		
+			};
+		});
+
+		function checkBoxClick(){
+			$('#selectGroup').css('display','');
+			$('#deleteList').css('display','none');	
+			var checkBoxGroup = $('input:checkbox[name=nameCardGroup]:checked').length;
+			if(checkBoxGroup > 0){
+				$('#selectGroup').css('display','none');
+				$('#deleteList').css('display','');	
+			}
+		};
+		
+		function nameCardMove(){
+			$('.nameCardTable').attr('class','nameCardTable');
+			$(this).attr('class','nameCardTable active');
+			var nameCard = nameCardList[$(this).attr('data-rownum')];		
+			
+		};
+		
+		//이게 일괄로
+		$('#deleteList').on('click',function(){
+			var emails = [];
+			jQuery.ajaxSettings.traditional = true;
+
+			var page = $('.paging > .active > a').attr('page');
+			var rows = $('input:checkbox[name=nameCardGroup]:checked');	
+			for(var i = 0; i < rows.length; i++){
+				emails.push(nameCardList[rows[i].value].ncEmail);
+			};
+		
+			if (confirm('삭제하시겠습니까?')) {
+				$.ajax({
+					url : 'selectNameCardList',
+					type : 'get',
+					data : {
+						'emails' : emails,
+						'page' : page
+					},
+					success : outPut
+				});
+			} else {
+
+			};
+		});
+		
+		$('#searchBtn').on('click',function(){
+			var emailCheck = $('input:radio[name=options]:checked').val();
+			console.log(emailCheck);
+			var page = $('.paging > .active > a').attr('page');
+			var type = $('.form-control option:selected').val();
+			console.log(type);
+			var searchText = $('#searchText').val();
+			console.log(searchText)
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				data : {
+					'page' : page,
+					'searchText' : searchText,
+					'emailCheck' : emailCheck,
+					'type' : type
+				},
+				success : outPut
+			});
+		});
+		
 
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
