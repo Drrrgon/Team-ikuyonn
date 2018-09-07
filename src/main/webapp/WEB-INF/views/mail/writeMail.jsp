@@ -22,7 +22,7 @@ dl {
 #tab_1 {
 	height: 40px;
 	float: left;
-	width: 150px;
+	width: 130px;
 	z-index: 9;
 	position: relative;
 }
@@ -30,7 +30,7 @@ dl {
 #tab_2 {
 	height: 40px;
 	float: left;
-	width: 150px;
+	width: 130px;
 	z-index: 9;
 	position: relative;
 }
@@ -69,6 +69,10 @@ dd.hidden {
 	width: 40%; /* Could be more or less, depending on screen size */
 	height: 100%; /* Full height */
 }
+#list2{
+cursor:pointer;
+color: blue;
+}
 </style>
 </head>
 <body class="h-100">
@@ -95,7 +99,7 @@ dd.hidden {
 												id="from"></select>
 										</div>
 										<div class="form-group">
-											<a>받는 사람 :</a> <a id="list"><주소록></a>
+											<a>받는 사람 :</a> <a id="list2">&nbsp;&nbsp;<주소록></a>
 											<div class="custom-control custom-checkbox mb-1">
 												<input type="checkbox" class="custom-control-input"
 													id="formsCheckboxChecked"> <label
@@ -128,7 +132,7 @@ dd.hidden {
 					</dd>
 
 					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_2">메일함</button>
-					<hr />
+					
 					<dd class="hidden">
 						<div class="panel-heading">
 							<button type="button" class="btn btn-sm btn-outline-accent"
@@ -384,7 +388,7 @@ dd.hidden {
 		$('.modal').css('z-index', 9);
 
 		//메일 등록창 열기
-		$("#list").on('click', function() {
+		$("#list2").on('click', function() {
 			$("#insertModal").show();
 			init();
 		});
