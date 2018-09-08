@@ -276,30 +276,6 @@ function setLeftSideIcon(){
 								alert("수신실패");
 							}
 						});
-						
-						/* $.ajax({
-							type : 'post',
-							url : 'projectEvents',
-  							data : {
-								'userID' : $('#userID1').val()
-							},
-							success : function(data) {
-								$(data).each(function(index, item) {
-									events.push({
-										id : item.userID,
-										title : item.summary,
-										start : item.startDate,
-										end : item.endDate,
-										num : item.eventSeq,
-										color : item.color
-									});
-								});
-								callback(events);						
-							},
-							error : function() {
-								alert("수신실패");
-							}
-						}); */
 					},
 					dayClick : function(date, jsEvent, view){
 						
@@ -356,7 +332,7 @@ function setLeftSideIcon(){
 								var endDay = newEnd.getDate();
 								var endHour = newEnd.getHours();
 								var endMinute = newEnd.getMinutes();						
-								alert(startYear+' '+endMinute);
+								
 								var eventDetail = '';
 								eventDetail += '<label>제목</label><input type="text" id="summary3" name="summary3" value="'+data.summary+'"/><br/>';
 								eventDetail += '<label>내용</label><input type="text" id="description3" name="description3" value="'+data.description+'"/><br/>';
@@ -376,79 +352,75 @@ function setLeftSideIcon(){
 								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/>';
 								
 								$('#eventDetail').html(eventDetail);
-								var modal = $('#startDate3').val();
-								alert(modal);
 								
+								var eventDetail = document.getElementById('eventDetail');
+								var year = new Date().getFullYear();
+								var year3; var month3; var day3; var hour3; var minute3;
+								year3 = $('#eventDetail').parent().children("#year3").text();					
+								month3 = $('#eventDetail').parent().children("#month3").text();
+								day3 = $('#eventDetail').parent().children("#day3").text();
+								hour3 = $('#eventDetail').parent().children("#hour3").text();
+								minute3 = $('#eventDetail').parent().children("#minute3").text();
+								var year4; var month4; var day4; var hour4; var minute4;
+								year4 = $('#eventDetail').parent().children("#year4").text();
+								month4 = $('#eventDetail').parent().children("#month4").text();
+								day4 = $('#eventDetail').parent().children("#day4").text();
+								hour4 = $('#eventDetail').parent().children("#hour4").text();
+								minute4 = $('#eventDetail').parent().children("#minute4").text();
+									    
+								var startYear = year - 80;
+								for(var i=0; i<100; i++) {
+									eventDetail['year3'].options[i] = new Option(startYear+i, startYear+i);
+									eventDetail['year4'].options[i] = new Option(startYear+i, startYear+i);
+								}
+
+								for (var i=0; i<12; i++) {
+									 eventDetail['month3'].options[i] = new Option(i+1, i+1);
+									 eventDetail['month4'].options[i] = new Option(i+1, i+1);
+								}
+									    
+								for (var i=0; i<60; i++) {
+									 eventDetail['hour3'].options[i] = new Option(i+1, i+1);
+									 eventDetail['hour4'].options[i] = new Option(i+1, i+1);
+								}
+									    
+								for (var i=0; i<60; i++) {
+									 eventDetail['minute3'].options[i] = new Option(i+1, i+1);
+									 eventDetail['minute4'].options[i] = new Option(i+1, i+1);
+								}
 								
-								/* window.onload = (function() {
-										var eventDetail = document.getElementById('eventDetail');
-										var newStart = $('#startDate3').val();
-										console.log('1111'+newStart);
+								setDate0();
+								eventDetail['year3'].value = year;
+								setDate0();
+								eventDetail['year4'].value = year;
+								setDate0();
+								eventDetail['month3'].value = month;
+								setDate0();
+								eventDetail['month4'].value = month;
+								setDate0();
+								eventDetail['day3'].value = day;
+								setDate0();
+								eventDetail['day4'].value = day;
+								eventDetail['hour3'].value = hour;
+								eventDetail['hour4'].value = hour;
+								eventDetail['minute3'].value = minute;
+								eventDetail['minute4'].value = minute;
+
+
+								function setDate0() {
+									var eventDetail = document.getElementById('eventDetail');
 										
-										var year3; var month3; var day3; var hour3; var minute3;
-									    year3 = $('#eventDetail').parent().children("#year3").text();
-									    console.log('1111'+year3);
-									    month3 = $(this).parent().children("#month3").text();
-									    day3 = $(this).parent().children("#day3").text();
-									    hour3 = $(this).parent().children("#hour3").text();
-									    minute3 = $(this).parent().children("#minute3").text();
-									    console.log(year3); 
-										var year4; var month4; var day4; var hour4; var minute4;
-										year4 = $(this).parent().children("#year4").text();
-									    month4 = $(this).parent().children("#month4").text();
-									    day4 = $(this).parent().children("#day4").text();
-									    hour4 = $(this).parent().children("#hour4").text();
-									    minute4 = $(this).parent().children("#minute4").text();
+									var year = eventDetail['year3'].value;
+									var month = eventDetail['month3'].value;
+									var day = eventDetail['day3'].value;
+									var dayInsert3 = eventDetail['day3'];
+									var dayInsert4 = eventDetail['day4'];
 									    
-									    var startYear = year3 - 80;
-									    for(var i=0; i<100; i++) {
-									    	eventDetail['year3'].options[i] = new Option(startYear+i, startYear+i);
-									    	eventDetail['year4'].options[i] = new Option(startYear+i, startYear+i);
-									    }
+									var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 
-									    for (var i=0; i<12; i++) {
-									    	eventDetail['month3'].options[i] = new Option(i+1, i+1);
-									    	eventDetail['month4'].options[i] = new Option(i+1, i+1);
-									    }
-									    
-									    for (var i=0; i<60; i++) {
-									    	eventDetail['hour3'].options[i] = new Option(i+1, i+1);
-									    	eventDetail['hour4'].options[i] = new Option(i+1, i+1);
-									    }
-									    
-									    for (var i=0; i<60; i++) {
-									    	eventDetail['minute3'].options[i] = new Option(i+1, i+1);
-									    	eventDetail['minute4'].options[i] = new Option(i+1, i+1);
-									    }
-									    
-									    eventDetail['year3'].value = year;
-									    eventDetail['year4'].value = year;
-									    eventDetail['month3'].value = month;
-									    eventDetail['month4'].value = month;
-									    setDate();
-									    eventDetail['day3'].value = day;
-									    setDate();
-									    eventDetail['day4'].value = day;
-									    eventDetail['hour3'].value = hour;
-									    eventDetail['hour4'].value = hour;
-									    eventDetail['minute3'].value = minute;
-									    eventDetail['minute4'].value = minute;
-									});
-
-									function setDate() {
-										var eventDetail = document.getElementById('eventDetail');
-										
-										var year = new Date().getFullYear();
-									    var month = new Date().getMonth() + 1;
-									    var day = new Date().getDate();
-									    var dayInsert3 = eventDetail['day3'];
-									    var dayInsert4 = eventDetail['day4'];
-									    
-									    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-
-									    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-									        arrayMonth[1] = 29;
-									    }
+									if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+									   arrayMonth[1] = 29;
+									}
 									
 									for(var i = dayInsert3.length; i>0; i--) {
 								    	dayInsert3.remove(dayInsert3.selectedIndex);
@@ -467,7 +439,7 @@ function setLeftSideIcon(){
 								    }
 								    
 								    for(var i = dayInsert4.length; i>0; i--) {
-								    	dayInsert4.remove(dayInsert2.selectedIndex);
+								    	dayInsert4.remove(dayInsert4.selectedIndex);
 								    }
 								        
 								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
@@ -481,7 +453,7 @@ function setLeftSideIcon(){
 								        	dayInsert4.options.selectedIndex = day-1;
 								        }
 								    }
-								} */ 
+								}
 								$("input:button.updateEvents").click(updateEvents);
 								$("input:button.deleteEvents").click(deleteEvents);
 							},
@@ -529,6 +501,48 @@ function setLeftSideIcon(){
 		});
 
 		$('#insertEvents').on('click', insertEvents);
+		
+		var insertForm = document.getElementById('insertForm');
+		
+	    var year = new Date().getFullYear();
+	    var month = new Date().getMonth() + 1;
+	    var day = new Date().getDate();
+	    var hour = new Date().getHours();
+	    var minute = new Date().getMinutes();
+	    
+	    var startYear = year - 80;
+	    for(var i=0; i<100; i++) {
+	    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
+	    	insertForm['year2'].options[i] = new Option(startYear+i, startYear+i);
+	    }
+
+	    for (var i=0; i<12; i++) {
+	    	insertForm['month1'].options[i] = new Option(i+1, i+1);
+	    	insertForm['month2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+	    for (var i=0; i<60; i++) {
+	    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
+	    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+	    for (var i=0; i<60; i++) {
+	    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
+	    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+	    insertForm['year1'].value = year;
+	    insertForm['year2'].value = year;
+	    insertForm['month1'].value = month;
+	    insertForm['month2'].value = month;
+	    setDate();
+	    insertForm['day1'].value = day;
+	    setDate();
+	    insertForm['day2'].value = day;
+	    insertForm['hour1'].value = hour;
+	    insertForm['hour2'].value = hour;
+	    insertForm['minute1'].value = minute;
+	    insertForm['minute2'].value = minute;
 	});
 	
 	/* var serviceStr="";
@@ -618,52 +632,8 @@ function setLeftSideIcon(){
 					}
 				});
 			}
-		
- 		/* window.onload = function() {
-			var insertForm = document.getElementById('insertForm');
-			
-		    var year = new Date().getFullYear();
-		    var month = new Date().getMonth() + 1;
-		    var day = new Date().getDate();
-		    var hour = new Date().getHours();
-		    var minute = new Date().getMinutes();
-		    
-		    var startYear = year - 80;
-		    for(var i=0; i<100; i++) {
-		    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
-		    	insertForm['year2'].options[i] = new Option(startYear+i, startYear+i);
-		    }
 
-		    for (var i=0; i<12; i++) {
-		    	insertForm['month1'].options[i] = new Option(i+1, i+1);
-		    	insertForm['month2'].options[i] = new Option(i+1, i+1);
-		    }
-		    
-		    for (var i=0; i<60; i++) {
-		    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
-		    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
-		    }
-		    
-		    for (var i=0; i<60; i++) {
-		    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
-		    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
-		    }
-		    
-		    insertForm['year1'].value = year;
-		    insertForm['year2'].value = year;
-		    insertForm['month1'].value = month;
-		    insertForm['month2'].value = month;
-		    setDate();
-		    insertForm['day1'].value = day;
-		    setDate();
-		    insertForm['day2'].value = day;
-		    insertForm['hour1'].value = hour;
-		    insertForm['hour2'].value = hour;
-		    insertForm['minute1'].value = minute;
-		    insertForm['minute2'].value = minute;
-		}
-
-		function setDate() {
+ 		function setDate() {
 			var insertForm = document.getElementById('insertForm');
 			
 			var year = new Date().getFullYear();
@@ -709,7 +679,7 @@ function setLeftSideIcon(){
 		        	dayInsert2.options.selectedIndex = day-1;
 		        }
 		    }
-	} */
+	}
 </script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/footer.jsp" %>
