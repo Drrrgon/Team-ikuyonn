@@ -17,14 +17,9 @@
 <!-- sidebar -->
 <%@ include file="../parts/sidebar.jsp" %>
 <div class="main-content-container container-fluid px-4">
-	<div class="page-header row no-gutters py-4">
-		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-			<h3 class="page-title">명함등록</h3>
-		</div>
-	</div>
 	<div class="row" id="row1">
 		<div class="col-lg-12">
-			<div class="card card-small mb-4">
+			<div class="card card-small mt-5">
 				<div class="center col-md-8">
 					<form action="fileUplodeAction" method="post" enctype="multipart/form-data" >
 						<div id="uploadBox">
@@ -43,7 +38,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" id="row2">
+	<div class="row mt-5" id="row2">
 		<div class="col-lg-7">
 			<div class="card card-small mb-4">
 				<div class="carousel-wrap">
@@ -231,6 +226,25 @@
 		    };
 		};
 		
+		//이메일 등록 체크
+		function emailCheck(){
+			var ncEmail = $('#ncEmail').val();
+			$.ajax({
+				url : "selectNameCard",
+				type : "post",
+				data : {
+					'ncEmail' : $('#ncEmail').val()
+				},
+				success : function(data){
+					if(data == 1){
+						$('#ncEmail').attr('class','form-control is-invalid');
+					}else{
+						$('#ncEmail').attr('class','form-control');
+					}
+				}
+			});
+		};
+		
 		//명함등록
 		$('#nameCardSubmit').on('click',function(){
 			var ncCheck = '1';
@@ -248,10 +262,20 @@
 			var backgroundUrl = imgPt.exec($('.leftNameCard').css('background'));		
 			var nameCardUrl = './'+backgroundUrl;
 			
-			//체크체크
-			if(ncName == ''){
-				
-			}
+			//유효성 이메일
+			$.ajax({
+				url : "selectNameCard",
+				type : "post",
+				data : {
+					'ncEmail' : $('#ncEmail').val()
+				},
+				success : function(data){
+					if(data == 1){
+						alert('등록된 이메일 입니다.');
+						$('#ncEmail').focus();
+					}
+				}
+			});	
 			
 			$.ajax({
 				url : "nameCardUplodeAction",
@@ -463,8 +487,11 @@
 			
 			console.log('companyName : ' + company);
 			console.log('data9 : ' + data);
+			
+			emailCheck();
+			$('#ncEmail').keyup(emailCheck);
 		};
-
+		
 		function setLeftSideIcon(){
 			$('#navbar').children().eq(0).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(1).children().eq(0).attr('class','nav-link ');

@@ -17,12 +17,7 @@
 <!-- sidebar -->
 <%@ include file="../parts/sidebar.jsp" %>
 <div class="main-content-container container-fluid px-4">
-	<div class="page-header row no-gutters py-4">
-		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-			<h3 class="page-title">명함등록</h3>
-		</div>
-	</div>
-	<div class="row" id="row2">
+	<div class="row mt-5" id="row2">
 		<div class="col-lg-7">
 			<div class="card card-small mb-4">
 				<div class="carousel-wrap">
@@ -209,9 +204,14 @@
 			$("#company").text( $(this).val());
 		});	
 		
+		//취소버튼
+		$('#nameCardCancel').on('click',function(){
+			location.href = 'nameCardList';
+		});
 		
-		//유효성
-		$('#ncEmail').change(function(){
+		//이메일 등록 체크
+		function emailCheck(){
+			var ncEmail = $('#ncEmail').val();
 			$.ajax({
 				url : "selectNameCard",
 				type : "post",
@@ -220,17 +220,15 @@
 				},
 				success : function(data){
 					if(data == 1){
-						console.log('등록된 이메일 입니다.');
-						return;
+						$('#ncEmail').attr('class','form-control is-invalid');
+					}else{
+						$('#ncEmail').attr('class','form-control');
 					}
 				}
-			});	
-		});
+			});
+		};
 		
-		//취소버튼
-		$('#nameCardCancel').on('click',function(){
-			location.href = 'nameCardList';
-		});
+		$('#ncEmail').keyup(emailCheck);
 		
 		//명함등록
 		$('#nameCardSubmit').on('click',function(){
@@ -249,11 +247,20 @@
 			var backgroundUrl = imgPt.exec($('.leftNameCard').css('background'));		
 			var nameCardUrl = './'+backgroundUrl;
 			
-			//체크체크
-			if(ncName == ''){
-				
-			}
-			
+			//유효성 이메일
+			$.ajax({
+				url : "selectNameCard",
+				type : "post",
+				data : {
+					'ncEmail' : $('#ncEmail').val()
+				},
+				success : function(data){
+					if(data == 1){
+						alert('등록된 이메일 입니다.');
+						$('#ncEmail').focus();
+					}
+				}
+			});	
 			
 			$.ajax({
 				url : "nameCardUplodeAction",
@@ -273,7 +280,7 @@
 					'nameCardUrl' : nameCardUrl
 				},
 				success : function(data){
-					
+					location.href = 'nameCardList';
 				}
 			});	
 		});

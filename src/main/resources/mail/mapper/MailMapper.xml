@@ -63,7 +63,7 @@ select * from cloudFile where fileSeq=#{fileSeq}
 </select>
 
 <delete id="delInbox" parameterType="Email">
-delete * from inbox where emailAddress=#{emailAddress}
+delete from inbox where emailAddress=#{emailAddress}
 </delete>
 
 <delete id="delFile" parameterType="int">
