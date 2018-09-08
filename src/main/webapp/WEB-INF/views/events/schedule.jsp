@@ -130,8 +130,8 @@ body {
 	
 <div id="insertModal" class="modal">
 <div class="modal-content">
-	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close">&times;</span></h4>
-    <form>
+	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close"></span></h4>
+    <form id="insertForm">
     	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
     	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily">
     	<input type="color" id="color1" name="color1"/> -->
@@ -139,17 +139,17 @@ body {
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
 		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
-		<input type="text" name="year1" size="5" maxlength="4" id="year1" />년 
-		<input type="text" name="month1" size="3" maxlength="2" id="month1"/>월	
-        <input type="text" name="day1" size="3" maxlength="2" id="day1"/>일
-        <input type="text" name="hour1" size="3" maxlength="2" id="hour1" />시
-        <input type="text" name="minute1" size="3" maxlength="2" id="minute1" />분<br />           
+    	<select name='year1' id='year1' onChange='setDate()'></select>년&nbsp;
+    	<select name='month1' id='month1' onChange='setDate()'></select>월&nbsp;
+    	<select name='day1' id='day1'></select>일&nbsp;
+		<select name='hour1' id='hour1'></select>시&nbsp;
+		<select name='minute1' id='minute1'></select>분&nbsp;           
 		<label>마감</label><input type="hidden" id="endDate2" name="endDate2"/>
-		<input type="text" name="year2" size="5" maxlength="4" id="year2" />년 
-		<input type="text" name="month2" size="3" maxlength="2" id="month2" />월	
-        <input type="text" name="day2" size="3" maxlength="2" id="day2" />일
-        <input type="text" name="hour2" size="3" maxlength="2" id="hour2" />시
-        <input type="text" name="minute2" size="3" maxlength="2" id="minute2" />분
+    	<select name='year2' id='year2' onChange='setDate()'></select>년&nbsp;
+    	<select name='month2' id='month2' onChange='setDate()'></select>월&nbsp;
+    	<select name='day2' id='day2'></select>일&nbsp;
+		<select name='hour2' id='hour2'></select>시&nbsp;
+		<select name='minute2' id='minute2'></select>분&nbsp; 
 	</form>
 	<button type="button" id="insertEvents" onclick="location.reload()">일정 입력</button>
 	<button type="button" id="cancelButton1">취소</button>
@@ -158,7 +158,7 @@ body {
 
 <div id="eventModal" class="modal">
 <div class="modal-content">
-	<h4 class="modal-title">일정입니다<span id="close3" class="close">&times;</span></h4>
+	<h4 class="modal-title">일정입니다<span id="close3" class="close"></span></h4>
     <form id="eventDetail"></form>
 	<button type="button" id="cancelButton3">취소</button>
 </div>
@@ -345,33 +345,33 @@ function setLeftSideIcon(){
 							},
 							success : function(data) {
 								var newStart = new Date(data.startDate);
+								var newEnd = new Date(data.endDate);
 								var startYear = newStart.getFullYear();
 								var startMonth = newStart.getMonth() + 1;
 								var startDay = newStart.getDate();
 								var startHour = newStart.getHours();
 								var startMinute = newStart.getMinutes();
-								var newEnd = new Date(data.endDate);
 								var endYear = newEnd.getFullYear();
 								var endMonth = newEnd.getMonth() + 1;
 								var endDay = newEnd.getDate();
 								var endHour = newEnd.getHours();
-								var endMinute = newEnd.getMinutes();								
-								
+								var endMinute = newEnd.getMinutes();						
+								alert(startYear+' '+endMinute);
 								var eventDetail = '';
 								eventDetail += '<label>제목</label><input type="text" id="summary3" name="summary3" value="'+data.summary+'"/><br/>';
 								eventDetail += '<label>내용</label><input type="text" id="description3" name="description3" value="'+data.description+'"/><br/>';
 								eventDetail += '<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>';
-								eventDetail += '<input type="text" name="year3" size="5" maxlength="4" id="year3" value="'+startYear+'"/>년 ';
-								eventDetail += '<input type="text" name="month3" size="3" maxlength="2" id="month3" value="'+startMonth+'">월';
-								eventDetail += '<input type="text" name="day3" size="3" maxlength="2" id="day3" value="'+startDay+'">일';
-								eventDetail += '<input type="text" name="hour3" size="3" maxlength="2" id="hour3" value="'+startHour+'">시';
-								eventDetail += '<input type="text" name="minute3" size="3" maxlength="2" id="minute3" value="'+startMinute+'">분<br/> ';
+								eventDetail += '<select name="year3" id="year3" onChange="setDate()">'+startYear+'</select>년&nbsp';
+								eventDetail += '<select name="month3" id="month3" onChange="setDate()">'+startMonth+'</select>월&nbsp';
+								eventDetail += '<select name="day3" id="day3">'+startDay+'</select>일&nbsp';
+								eventDetail += '<select name="hour3" id="hour3">'+startHour+'</select>시&nbsp';
+								eventDetail += '<select name="minute3" id="minute3">'+startMinute+'</select>분&nbsp';
 								eventDetail += '<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>';
-								eventDetail += '<input type="text" name="year4" size="5" maxlength="4" id="year4" value="'+endYear+'"/>년 ';
-								eventDetail += '<input type="text" name="month4" size="3" maxlength="2" id="month4" value="'+endMonth+'">월';
-								eventDetail += '<input type="text" name="day4" size="3" maxlength="2" id="day4" value="'+endDay+'">일';
-								eventDetail += '<input type="text" name="hour4" size="3" maxlength="2" id="hour4" value="'+endHour+'">시';
-								eventDetail += '<input type="text" name="minute4" size="3" maxlength="2" id="minute4" value="'+endMinute+'">분<br/>';
+								eventDetail += '<select name="year4" id="year4" onChange="setDate()">'+endYear+'</select>년&nbsp';
+								eventDetail += '<select name="month4" id="month4" onChange="setDate()">'+endMonth+'</select>월&nbsp';
+								eventDetail += '<select name="day4" id="day4">'+endDay+'</select>일&nbsp';
+								eventDetail += '<select name="hour4" id="hour4">'+endHour+'</select>시&nbsp';
+								eventDetail += '<select name="minute4" id="minute4">'+endMinute+'</select>분&nbsp';
 								eventDetail += '<input class="updateEvents" data-uno="'+data.eventSeq+'" type="button" id="updateEvent" value="수정" onclick="location.reload()"/>';
 								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/>';
 								
@@ -468,7 +468,6 @@ function setLeftSideIcon(){
 			}
 	
    		function updateEvents(){
-   				// var aaa = $('#summary3').attr('value');	alert(aaa);
 				var eventSeq = $(this).attr('data-uno');
 				var summary3 = $('#summary3').val();
 				var description3 = $('#description3').val();
@@ -513,6 +512,200 @@ function setLeftSideIcon(){
 					}
 				});
 			}
+		
+ 		/* window.onload = function() {
+			var insertForm = document.getElementById('insertForm');
+			
+		    var year = new Date().getFullYear();
+		    var month = new Date().getMonth() + 1;
+		    var day = new Date().getDate();
+		    var hour = new Date().getHours();
+		    var minute = new Date().getMinutes();
+		    
+		    var startYear = year - 80;
+		    for(var i=0; i<100; i++) {
+		    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
+		    	insertForm['year2'].options[i] = new Option(startYear+i, startYear+i);
+		    }
+
+		    for (var i=0; i<12; i++) {
+		    	insertForm['month1'].options[i] = new Option(i+1, i+1);
+		    	insertForm['month2'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    for (var i=0; i<60; i++) {
+		    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
+		    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    for (var i=0; i<60; i++) {
+		    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
+		    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    insertForm['year1'].value = year;
+		    insertForm['year2'].value = year;
+		    insertForm['month1'].value = month;
+		    insertForm['month2'].value = month;
+		    setDate();
+		    insertForm['day1'].value = day;
+		    setDate();
+		    insertForm['day2'].value = day;
+		    insertForm['hour1'].value = hour;
+		    insertForm['hour2'].value = hour;
+		    insertForm['minute1'].value = minute;
+		    insertForm['minute2'].value = minute;
+		}
+
+		function setDate() {
+			var insertForm = document.getElementById('insertForm');
+			
+			var year = new Date().getFullYear();
+		    var month = new Date().getMonth() + 1;
+		    var day = new Date().getDate();
+		    var dayInsert1 = insertForm['day1'];
+		    var dayInsert2 = insertForm['day2'];
+		    
+		    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+		    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		        arrayMonth[1] = 29;
+		    }
+
+		    for(var i = dayInsert1.length; i>0; i--) {
+		    	dayInsert1.remove(dayInsert1.selectedIndex);
+		    }
+		        
+		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+		    	dayInsert1.options[i-1] = new Option(i, i);
+		    }
+
+		    if(day != null || day != '') {
+		        if(day > arrayMonth[month-1]) {
+		        	dayInsert1.options.selectedIndex = arrayMonth[month-1]-1;
+		        } else {
+		        	dayInsert1.options.selectedIndex = day-1;
+		        }
+		    }
+		    
+		    for(var i = dayInsert2.length; i>0; i--) {
+		    	dayInsert2.remove(dayInsert2.selectedIndex);
+		    }
+		        
+		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+		    	dayInsert2.options[i-1] = new Option(i, i);
+		    }
+
+		    if(day != null || day != '') {
+		        if(day > arrayMonth[month-1]) {
+		        	dayInsert2.options.selectedIndex = arrayMonth[month-1]-1;
+		        } else {
+		        	dayInsert2.options.selectedIndex = day-1;
+		        }
+		    }
+	} */
+		
+		 window.onload = function() {
+			var eventDetail = document.getElementById('eventDetail');
+			/* var newStart = $(this).attr('data-start');
+			console.log('1111'+newStart); */
+			
+			var year3; var month3; var day3; var hour3; var minute3;
+		    year3 = $(this).parent().children("#year3").text();
+		    month3 = $(this).parent().children("#month3").text();
+		    day3 = $(this).parent().children("#day3").text();
+		    hour3 = $(this).parent().children("#hour3").text();
+		    minute3 = $(this).parent().children("#minute3").text();
+		    console.log(typeof month3); 
+			var year4; var month4; var day4; var hour4; var minute4;
+			year4 = $(this).parent().children("#year4").text();
+		    month4 = $(this).parent().children("#month4").text();
+		    day4 = $(this).parent().children("#day4").text();
+		    hour4 = $(this).parent().children("#hour4").text();
+		    minute4 = $(this).parent().children("#minute4").text();
+		    
+		    var startYear = year3 - 80;
+		    for(var i=0; i<100; i++) {
+		    	eventDetail['year3'].options[i] = new Option(startYear+i, startYear+i);
+		    	eventDetail['year4'].options[i] = new Option(startYear+i, startYear+i);
+		    }
+
+		    for (var i=0; i<12; i++) {
+		    	eventDetail['month3'].options[i] = new Option(i+1, i+1);
+		    	eventDetail['month4'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    for (var i=0; i<60; i++) {
+		    	eventDetail['hour3'].options[i] = new Option(i+1, i+1);
+		    	eventDetail['hour4'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    for (var i=0; i<60; i++) {
+		    	eventDetail['minute3'].options[i] = new Option(i+1, i+1);
+		    	eventDetail['minute4'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    eventDetail['year3'].value = year;
+		    eventDetail['year4'].value = year;
+		    eventDetail['month3'].value = month;
+		    eventDetail['month4'].value = month;
+		    setDate();
+		    eventDetail['day3'].value = day;
+		    setDate();
+		    eventDetail['day4'].value = day;
+		    eventDetail['hour3'].value = hour;
+		    eventDetail['hour4'].value = hour;
+		    eventDetail['minute3'].value = minute;
+		    eventDetail['minute4'].value = minute;
+		}
+
+		function setDate() {
+			var eventDetail = document.getElementById('eventDetail');
+			
+			var year = new Date().getFullYear();
+		    var month = new Date().getMonth() + 1;
+		    var day = new Date().getDate();
+		    var dayInsert3 = eventDetail['day3'];
+		    var dayInsert4 = eventDetail['day4'];
+		    
+		    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+		    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		        arrayMonth[1] = 29;
+		    }
+		
+		for(var i = dayInsert3.length; i>0; i--) {
+	    	dayInsert3.remove(dayInsert3.selectedIndex);
+	    }
+	        
+	    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+	    	dayInsert3.options[i-1] = new Option(i, i);
+	    }
+
+	    if(day != null || day != '') {
+	        if(day > arrayMonth[month-1]) {
+	        	dayInsert3.options.selectedIndex = arrayMonth[month-1]-1;
+	        } else {
+	        	dayInsert3.options.selectedIndex = day-1;
+	        }
+	    }
+	    
+	    for(var i = dayInsert4.length; i>0; i--) {
+	    	dayInsert4.remove(dayInsert2.selectedIndex);
+	    }
+	        
+	    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+	    	dayInsert4.options[i-1] = new Option(i, i);
+	    }
+
+	    if(day != null || day != '') {
+	        if(day > arrayMonth[month-1]) {
+	        	dayInsert4.options.selectedIndex = arrayMonth[month-1]-1;
+	        } else {
+	        	dayInsert4.options.selectedIndex = day-1;
+	        }
+	    }
+	} 
 </script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/footer.jsp" %>

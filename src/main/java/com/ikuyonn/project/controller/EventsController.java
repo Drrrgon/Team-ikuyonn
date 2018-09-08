@@ -2,13 +2,9 @@ package com.ikuyonn.project.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,12 +34,12 @@ public class EventsController {
 		MailMapper mm = session.getMapper(MailMapper.class);
 		
 		ArrayList<Events> ae = em.privateEvents(userID);
-		ArrayList<Project> ap = mm.getProject(userID);
+		/*ArrayList<Project> ap = mm.getProject(userID);
 		
 		for(int i = 0; i < ap.size() ; i++) {
 			String sp = Integer.toString(ap.get(i).getProjectSeq());
 			ae = em.privateEvents(sp);
-		}
+		}*/
 		
 		return ae;
 	}

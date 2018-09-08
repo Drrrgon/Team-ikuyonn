@@ -158,7 +158,7 @@ CREATE TABLE cloudFile(
     ,filePath varchar2(300) default 'c:\\\\filerepo\\\\'
     ,saveFileName varchar2(300) NOT NULL
     ,fileType varchar2(40) NOT NULL
-    ,projectSeq number 
+    ,projectSeq number
 );
 ALTER TABLE cloudFile add CONSTRAINT fk_file_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
 

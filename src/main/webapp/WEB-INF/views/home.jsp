@@ -151,8 +151,11 @@ function joinConfirm(){
         userID.select();
         return false;
     }
+    
+    var idReg = /^.*(?=.{4,12})(?=.*[0-9])(?=.*[a-zA-Z]).*$/g;
+
     //아이디 길이 체크 (4~12자)
-    if (!/^[a-zA-Z0-9]{3,11}$/.test(userID)) {
+    if (!idReg.test(userID)) {
         alert('아이디를 4~12자, 영문과 숫자를 혼합해주세요.');
         userID.focus();
         userID.select();
