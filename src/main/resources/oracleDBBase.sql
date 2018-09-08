@@ -117,7 +117,7 @@ CREATE TABLE nameCard (
     , userID varchar2(40)
     , ncCheck varchar2(10)
     , ncName varchar2(40)
-    , ncEmail varchar2(100) UNIQUE NOT NULL
+    , ncEmail varchar2(100) NOT NULL
     , ncMobile varchar2(60)
     , ncPhone varchar2(60)
     , ncFax varchar2(60)

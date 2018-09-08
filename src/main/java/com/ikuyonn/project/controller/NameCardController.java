@@ -75,7 +75,7 @@ public class NameCardController {
 	public @ResponseBody int nameCardUplodeAction(NameCard nameCard,HttpSession httpSession) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		nameCard.setUserID((String)httpSession.getAttribute("userID"));
-		int re = mapper.selectEmailAddress(nameCard.getNcEmail()); 
+		int re = mapper.selectEmailAddress(nameCard); 
 		if(re == 0) {
 			//등록된사람 없을때
 			nameCard.setEmailCheck("0");
@@ -90,26 +90,27 @@ public class NameCardController {
 	
 	//명함리스트 출력/삭제
 	@RequestMapping(value = "/selectNameCardList", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> selectNameCardList(Model model, @RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam(value="searchText", defaultValue="") String searchText,String type, String email, String[] emails, String emailCheck) {
+	public @ResponseBody Map<String, Object> selectNameCardList(HttpSession httpSession, @RequestParam(value="page", defaultValue="1") int page, 
+			@RequestParam(value="searchText", defaultValue="") String searchText,String type,NameCard nameCard, String[] emails) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		nameCard.setUserID((String)httpSession.getAttribute("userID"));
 		//하나삭제
-		if(email != null) {
-			mapper.deleteNameCard(email);
+		if(nameCard.getNcEmail() != null) {
+			mapper.deleteNameCard(nameCard);
 		}
 		//일괄살제
 		if(emails != null) {
 			for(String e : emails) {
-				mapper.deleteNameCard(e);
+				nameCard.setNcEmail(e);
+				mapper.deleteNameCard(nameCard);
 			}
-		}
-		
+		}	
 		Map<String, String> search = new HashMap<>();
 		search.put("searchText", searchText);
 		search.put("type", type);
-		search.put("emailCheck", emailCheck);
+		search.put("emailCheck", nameCard.getEmailCheck());
+		search.put("userID", nameCard.getUserID());
 		int total = mapper.getTotal(search);
-		System.out.println("page : "+page+"total : "+total+"emailCheck : "+emailCheck+"type : "+type+"searchText : "+searchText);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
 		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
 		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, search);
@@ -117,7 +118,7 @@ public class NameCardController {
 		result.put("nameCardList", nameCardList);
 		result.put("pageNavigator", pageNavigator);
 		result.put("searchText", searchText);
-		System.out.println(result.get(searchText));
+		System.out.println("nameCardList.size : "+nameCardList.size()+" searchText : "+searchText);
 		return result;
 	}
 	

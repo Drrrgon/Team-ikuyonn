@@ -42,7 +42,8 @@
 	<%@ include file="../parts/sidebar.jsp"%>
 	<div></div>
 	<!-- Default Light Table -->
-	<div class="row">
+<div class="main-content-container container-fluid px-4">	
+	<div class="row mt-5">
 		<div class="col-lg-4">
 			<div class="card card-small mb-4 pt-3">
 				<div class="card-header border-bottom text-center">
@@ -71,7 +72,6 @@
 						<i class="zmdi zmdi-camera"></i>Upload Picture
 					</button>
 				</div>
-			
 			</div>
 		</div>
 		<div class="col-lg-8">
@@ -150,7 +150,7 @@
 	<a href="deleteUser?userID=${sessionScope.userID}">
 		<button class="btn btn-accent">회원탈퇴</button>
 	</a>
-	
+</div>	
 
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
