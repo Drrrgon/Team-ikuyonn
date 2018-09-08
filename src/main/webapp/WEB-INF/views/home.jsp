@@ -62,9 +62,7 @@ $(function(){
 			$('#loginPWR').html('');
 		}
 	});
-});
-
-window.onload = function() {
+	
 	var userForm = document.getElementById('joinForm');
 	
     var yearBirth = new Date().getFullYear();
@@ -85,7 +83,7 @@ window.onload = function() {
     userForm['birthMonth'].value = monthBirth;
     setDate();
     userForm['birthDay'].value = dayBirth;
-}
+});
 
 function setDate() {
 	var userForm = document.getElementById('joinForm');

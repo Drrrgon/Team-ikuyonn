@@ -332,6 +332,36 @@
 					});
 				};
 			};
+			
+			var userForm = document.getElementById('updateForm');
+			
+			var userBirth = $('#userBirth').val();
+			var yearBirth; var monthBirth; var dayBirth;
+		    yearBirth = userBirth.substring(0, 4);
+		    monthBirth = userBirth.substring(5, 7);
+		    dayBirth = userBirth.substring(8, 10);
+		    
+		    $('#birthYear').val(yearBirth);
+		    if(monthBirth<10)
+		    	monthBirth = userBirth.substring(6, 7);
+			$('#birthMonth').val(monthBirth);
+			if(dayBirth<10)
+		    	dayBirth = userBirth.substring(9, 10);
+			$('#birthDay').val(dayBirth);
+		    
+		    var startYear = yearBirth - 99;
+		    for(var i=0; i<100; i++) {
+		    	userForm['birthYear'].options[i] = new Option(startYear+i, startYear+i);
+		    }
+
+		    for (var i=0; i<12; i++) {
+		    	userForm['birthMonth'].options[i] = new Option(i+1, i+1);
+		    }
+		    
+		    userForm['birthYear'].value = yearBirth;
+		    userForm['birthMonth'].value = monthBirth;
+		    setDate();
+		    userForm['birthDay'].value = dayBirth;
 		});
 		
 		function setLeftSideIcon() {
@@ -367,38 +397,6 @@
 			
 			userBirth = new Date(birthYear, birthMonth-1, birthDay);
 		    $("#userBirth").val(userBirth);
-		}
-		
-		window.onload = function() {
-			var userForm = document.getElementById('updateForm');
-			
-			var userBirth = $('#userBirth').val();
-			var yearBirth; var monthBirth; var dayBirth;
-		    yearBirth = userBirth.substring(0, 4);
-		    monthBirth = userBirth.substring(5, 7);
-		    dayBirth = userBirth.substring(8, 10);
-		    
-		    $('#birthYear').val(yearBirth);
-		    if(monthBirth<10)
-		    	monthBirth = userBirth.substring(6, 7);
-			$('#birthMonth').val(monthBirth);
-			if(dayBirth<10)
-		    	dayBirth = userBirth.substring(9, 10);
-			$('#birthDay').val(dayBirth);
-		    
-		    var startYear = yearBirth - 99;
-		    for(var i=0; i<100; i++) {
-		    	userForm['birthYear'].options[i] = new Option(startYear+i, startYear+i);
-		    }
-
-		    for (var i=0; i<12; i++) {
-		    	userForm['birthMonth'].options[i] = new Option(i+1, i+1);
-		    }
-		    
-		    userForm['birthYear'].value = yearBirth;
-		    userForm['birthMonth'].value = monthBirth;
-		    setDate();
-		    userForm['birthDay'].value = dayBirth;
 		}
 
 		function setDate() {

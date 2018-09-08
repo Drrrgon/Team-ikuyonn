@@ -8,7 +8,7 @@
 	</insert>
 	
 	<select id="privateEvents" parameterType="String" resultType="Events">
-		select * from events where userID = #{userID}
+		select * from events where userID = #{userID} or projectSeq in (select projectSeq from joinproject where userID = #{userID})
 	</select>
 	
 	<select id="oneEvents" parameterType="Events" resultType="Events">

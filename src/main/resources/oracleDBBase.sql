@@ -90,10 +90,12 @@ CREATE TABLE events (
     , description varchar2(500) NOT NULL
     , startDate date NOT NULL
     , endDate date NOT NULL
+    , projectseq number
 );
 create sequence eventseq;
 
 ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
+ALTER TABLE events ADD CONSTRAINT fk_events_projectseq FOREIGN KEY (projectseq) REFERENCES project(projectseq)on delete cascade;
 
 CREATE TABLE joinProject (
     userID varchar2(40)
