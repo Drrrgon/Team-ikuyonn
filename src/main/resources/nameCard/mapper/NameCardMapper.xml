@@ -45,33 +45,28 @@
 	</select>
 	<select id="getTotal" parameterType="map" resultType="int">
 		SELECT COUNT(NCSEQ) from NAMECARD
+		WHERE
+			USERID = #{userID}
 		<if test="emailCheck != null and type == null">
-			WHERE
-				EMAILCHECK = #{emailCheck}	
+			AND EMAILCHECK = #{emailCheck}	
 		</if>
 		<if test="type == 'ncName' and emailCheck == 2">
-			WHERE
-				NCNAME LIKE '%' || #{searchText} || '%'
+			AND NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck == 2">
-			WHERE
-				NCEMAIL LIKE '%' || #{searchText} || '%'
+			AND NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck == 2">
-			WHERE
-				NCCOMPANY LIKE '%' || #{searchText} || '%'
+			AND NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
-			WHERE
-				EMAILCHECK = #{emailCheck} AND NCNAME LIKE '%' || #{searchText} || '%'
+			AND EMAILCHECK = #{emailCheck} AND NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
-			WHERE
-				EMAILCHECK = #{emailCheck} AND NCEMAIL LIKE '%' || #{searchText} || '%'
+			AND EMAILCHECK = #{emailCheck} AND NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
-			WHERE
-				EMAILCHECK = #{emailCheck} AND NCCOMPANY LIKE '%' || #{searchText} || '%'
+			AND EMAILCHECK = #{emailCheck} AND NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 	</select>
 	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
@@ -90,38 +85,32 @@
 			NCADDRESS,
 			NAMECARDURL
 		FROM NAMECARD
+		WHERE USERID = #{userID}
 		<if test="emailCheck != null and type == null">
-			WHERE
-				EMAILCHECK = #{emailCheck}	
+			AND	EMAILCHECK = #{emailCheck}	
 		</if>
 		<if test="type == 'ncName' and emailCheck == 2">
-			WHERE
-				NCNAME LIKE '%' || #{searchText} || '%'
+			AND	NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck == 2">
-			WHERE
-				NCEMAIL LIKE '%' || #{searchText} || '%'
+			AND	NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck == 2">
-			WHERE
-				NCCOMPANY LIKE '%' || #{searchText} || '%'
+			AND	NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
-			WHERE
-				EMAILCHECK = #{emailCheck} AND NCNAME LIKE '%' || #{searchText} || '%'
+			AND	EMAILCHECK = #{emailCheck} AND NCNAME LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
-			WHERE
-				EMAILCHECK = #{emailCheck} AND NCEMAIL LIKE '%' || #{searchText} || '%'
+			AND	EMAILCHECK = #{emailCheck} AND NCEMAIL LIKE '%' || #{searchText} || '%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
-			WHERE
-				EMAILCHECK = #{emailCheck} AND NCCOMPANY LIKE '%' || #{searchText} || '%'
+			AND	EMAILCHECK = #{emailCheck} AND NCCOMPANY LIKE '%' || #{searchText} || '%'
 		</if>
 		ORDER BY NCSEQ DESC
 	</select>
-	<delete id="deleteNameCard" parameterType="String">
-		DELETE FROM NAMECARD WHERE NCEMAIL = #{email}
+	<delete id="deleteNameCard" parameterType="NameCard">
+		DELETE FROM NAMECARD WHERE NCEMAIL = #{ncEmail} AND USERID = #{userID}
 	</delete>
 	<update id="upDateNameCard" parameterType="NameCard">
 		UPDATE NAMECARD SET 
@@ -139,8 +128,8 @@
 		WHERE
 			NCEMAIL = #{ncEmail} AND USERID = #{userID}
 	</update>
-	<select id="selectEmailAddress" parameterType="String" resultType="int">
-		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
+	<select id="selectEmailAddress" parameterType="NameCard" resultType="int">
+		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail} AND USERID = #{userID}
 	</select>
 	<select id="getAllNC" parameterType="String" resultType="NameCard">
 		SELECT

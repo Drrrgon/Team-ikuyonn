@@ -2,19 +2,17 @@ package com.ikuyonn.project.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.events.mapper.EventsMapper;
 import com.ikuyonn.project.events.vo.Events;
+import com.ikuyonn.project.mail.mapper.MailMapper;
+import com.ikuyonn.project.mail.vo.Project;
 
 @Controller
 public class EventsController {
@@ -31,9 +29,17 @@ public class EventsController {
 	}
 	
 	@RequestMapping(value = "/privateEvents", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Events> privateEvents(Events e) {
+	public @ResponseBody ArrayList<Events> privateEvents(String userID) {
 		EventsMapper em = session.getMapper(EventsMapper.class);
-		ArrayList<Events> ae = em.privateEvents(e);
+		MailMapper mm = session.getMapper(MailMapper.class);
+		
+		ArrayList<Events> ae = em.privateEvents(userID);
+		/*ArrayList<Project> ap = mm.getProject(userID);
+		
+		for(int i = 0; i < ap.size() ; i++) {
+			String sp = Integer.toString(ap.get(i).getProjectSeq());
+			ae = em.privateEvents(sp);
+		}*/
 		
 		return ae;
 	}
@@ -61,4 +67,12 @@ public class EventsController {
 		
 		return result;
 	}
+	
+/*	@RequestMapping(value = "/projectEvents", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<Events> projectEvents(Events e) {
+		EventsMapper em = session.getMapper(EventsMapper.class);
+		ArrayList<Events> ae = em.projectEvents(e);
+		
+		return ae;
+	}*/
 }

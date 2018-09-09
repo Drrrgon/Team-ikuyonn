@@ -61,7 +61,7 @@ body {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 5; /* Sit on top */
+    z-index: 1070; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -130,23 +130,29 @@ body {
 	
 <div id="insertModal" class="modal">
 <div class="modal-content">
-	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close">&times;</span></h4>
-    <form>
+	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close"></span></h4>
+    <form id="insertForm">
+    	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
+    	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily"> -->
 		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
+		<select name='color1' id='color1'>
+			<option id='red' value='#FF0000'></option>
+			<option id='red' value='#FF6347'></option>
+		</select>색깔 지정&nbsp;<br>
 		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
-		<input type="text" name="year1" size="5" maxlength="4" id="year1" />년 
-		<input type="text" name="month1" size="3" maxlength="2" id="month1"/>월	
-        <input type="text" name="day1" size="3" maxlength="2" id="day1"/>일
-        <input type="text" name="hour1" size="3" maxlength="2" id="hour1" />시
-        <input type="text" name="minute1" size="3" maxlength="2" id="minute1" />분<br />           
+    	<select name='year1' id='year1' onChange='setDate()'></select>년&nbsp;
+    	<select name='month1' id='month1' onChange='setDate()'></select>월&nbsp;
+    	<select name='day1' id='day1'></select>일&nbsp;
+		<select name='hour1' id='hour1'></select>시&nbsp;
+		<select name='minute1' id='minute1'></select>분&nbsp;<br>           
 		<label>마감</label><input type="hidden" id="endDate2" name="endDate2"/>
-		<input type="text" name="year2" size="5" maxlength="4" id="year2" />년 
-		<input type="text" name="month2" size="3" maxlength="2" id="month2" />월	
-        <input type="text" name="day2" size="3" maxlength="2" id="day2" />일
-        <input type="text" name="hour2" size="3" maxlength="2" id="hour2" />시
-        <input type="text" name="minute2" size="3" maxlength="2" id="minute2" />분
+    	<select name='year2' id='year2' onChange='setDate()'></select>년&nbsp;
+    	<select name='month2' id='month2' onChange='setDate()'></select>월&nbsp;
+    	<select name='day2' id='day2'></select>일&nbsp;
+		<select name='hour2' id='hour2'></select>시&nbsp;
+		<select name='minute2' id='minute2'></select>분&nbsp; 
 	</form>
 	<button type="button" id="insertEvents" onclick="location.reload()">일정 입력</button>
 	<button type="button" id="cancelButton1">취소</button>
@@ -155,7 +161,7 @@ body {
 
 <div id="eventModal" class="modal">
 <div class="modal-content">
-	<h4 class="modal-title">일정입니다<span id="close3" class="close">&times;</span></h4>
+	<h4 class="modal-title">일정입니다<span id="close3" class="close"></span></h4>
     <form id="eventDetail"></form>
 	<button type="button" id="cancelButton3">취소</button>
 </div>
@@ -167,6 +173,7 @@ body {
 <script src='./resources/scripts/fullcalendar.min.js'></script>
 <script src='./resources/scripts/scheduler.min.js'></script>
 <script src='./resources/scripts/theme-chooser.js'></script>
+<script src="jscolor.js"></script>
 <script>
 document.getElementById("year1").value = new Date().getFullYear();
 document.getElementById("month1").value = new Date().getMonth() + 1;
@@ -208,7 +215,7 @@ function setLeftSideIcon(){
 						right : 'month,agendaWeek,timelineDay,listWeek'
 					},
 					defaultView : 'month',
-					resourceLabelText : 'Rooms',
+					/* resourceLabelText : 'Rooms',
 					resources : [ {
 						id : 'a',
 						title : 'Auditorium A'
@@ -246,29 +253,29 @@ function setLeftSideIcon(){
 					}, {
 						id : 'i',
 						title : 'Auditorium I'
-					} ],
-					events : function(start, end, timezone, callback){							
+					} ], */
+					events : function(start, end, timezone, callback){
+						var events = [];
+						
 						$.ajax({
 							type : 'post',
 							url : 'privateEvents',
   							data : {
 								'userID' : $('#userID1').val()
 							},
-							success : function(data) {								
-								var events = [];
-								for(var index in data){
-									if(data[index].userID=='<%=session.getAttribute("userID")%>'){
-										var eColor = 'green';
-									}
-								}
+							success : function(data) {				
 								$(data).each(function(index, item) {
+									/* for(var i in data){
+										var color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
+									} */
+									
 									events.push({
 										id : item.userID,
 										title : item.summary,
 										start : item.startDate,
 										end : item.endDate,
 										num : item.eventSeq,
-										color : eColor
+										color : item.color
 									});
 								});
 								callback(events);
@@ -322,37 +329,137 @@ function setLeftSideIcon(){
 							},
 							success : function(data) {
 								var newStart = new Date(data.startDate);
-								var startYear = newStart.getFullYear();
+								var newEnd = new Date(data.endDate);
+								/* var startYear = newStart.getFullYear();
 								var startMonth = newStart.getMonth() + 1;
 								var startDay = newStart.getDate();
 								var startHour = newStart.getHours();
 								var startMinute = newStart.getMinutes();
-								var newEnd = new Date(data.endDate);
 								var endYear = newEnd.getFullYear();
 								var endMonth = newEnd.getMonth() + 1;
 								var endDay = newEnd.getDate();
 								var endHour = newEnd.getHours();
-								var endMinute = newEnd.getMinutes();								
+								var endMinute = newEnd.getMinutes(); */						
 								
 								var eventDetail = '';
 								eventDetail += '<label>제목</label><input type="text" id="summary3" name="summary3" value="'+data.summary+'"/><br/>';
 								eventDetail += '<label>내용</label><input type="text" id="description3" name="description3" value="'+data.description+'"/><br/>';
-								eventDetail += '<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>';
-								eventDetail += '<input type="text" name="year3" size="5" maxlength="4" id="year3" value="'+startYear+'"/>년 ';
-								eventDetail += '<input type="text" name="month3" size="3" maxlength="2" id="month3" value="'+startMonth+'">월';
-								eventDetail += '<input type="text" name="day3" size="3" maxlength="2" id="day3" value="'+startDay+'">일';
-								eventDetail += '<input type="text" name="hour3" size="3" maxlength="2" id="hour3" value="'+startHour+'">시';
-								eventDetail += '<input type="text" name="minute3" size="3" maxlength="2" id="minute3" value="'+startMinute+'">분<br/> ';
-								eventDetail += '<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>';
-								eventDetail += '<input type="text" name="year4" size="5" maxlength="4" id="year4" value="'+endYear+'"/>년 ';
-								eventDetail += '<input type="text" name="month4" size="3" maxlength="2" id="month4" value="'+endMonth+'">월';
-								eventDetail += '<input type="text" name="day4" size="3" maxlength="2" id="day4" value="'+endDay+'">일';
-								eventDetail += '<input type="text" name="hour4" size="3" maxlength="2" id="hour4" value="'+endHour+'">시';
-								eventDetail += '<input type="text" name="minute4" size="3" maxlength="2" id="minute4" value="'+endMinute+'">분<br/>';     						        
+								eventDetail += '<label>시작</label><input type="hidden" id="startDate3" name="startDate3" value="'+newStart+'"/>';
+								eventDetail += '<select name="year3" id="year3" onChange="setDate()" value="'+startYear+'"></select>년&nbsp';
+								eventDetail += '<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp';
+								eventDetail += '<select name="day3" id="day3"></select>일&nbsp';
+								eventDetail += '<select name="hour3" id="hour3"></select>시&nbsp';
+								eventDetail += '<select name="minute3" id="minute3"></select>분&nbsp';
+								eventDetail += '<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value="'+newEnd+'"/>';
+								eventDetail += '<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp';
+								eventDetail += '<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp';
+								eventDetail += '<select name="day4" id="day4"></select>일&nbsp';
+								eventDetail += '<select name="hour4" id="hour4"></select>시&nbsp';
+								eventDetail += '<select name="minute4" id="minute4"></select>분&nbsp';
 								eventDetail += '<input class="updateEvents" data-uno="'+data.eventSeq+'" type="button" id="updateEvent" value="수정" onclick="location.reload()"/>';
-								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/> ';
+								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/>';
 								
-								$('#eventDetail').html(eventDetail);
+								$('#eventDetail').html(eventDetail);		
+								var eventDetail = document.getElementById('eventDetail');
+								var startDate3 = new Date(document.getElementById('startDate3').value);
+								var endDate4 = new Date(document.getElementById('endDate4').value);
+								var year = new Date().getFullYear();
+								var year3 = startDate3.getFullYear();
+								var month3 = startDate3.getMonth() + 1;
+								var day3 = startDate3.getDate();
+								var hour3 = startDate3.getHours();
+								var minute3 = startDate3.getMinutes();
+								var year4 = endDate4.getFullYear();
+								var month4 = endDate4.getMonth() + 1;
+								var day4 = endDate4.getDate();
+								var hour4 = endDate4.getHours();
+								var minute4 = endDate4.getMinutes();
+									    
+								var startYear = year - 80;
+								for(var i=0; i<100; i++) {
+									eventDetail['year3'].options[i] = new Option(startYear+i, startYear+i);
+									eventDetail['year4'].options[i] = new Option(startYear+i, startYear+i);
+								}
+
+								for (var i=0; i<12; i++) {
+									 eventDetail['month3'].options[i] = new Option(i+1, i+1);
+									 eventDetail['month4'].options[i] = new Option(i+1, i+1);
+								}
+									    
+								for (var i=0; i<60; i++) {
+									 eventDetail['hour3'].options[i] = new Option(i+1, i+1);
+									 eventDetail['hour4'].options[i] = new Option(i+1, i+1);
+								}
+									    
+								for (var i=0; i<60; i++) {
+									 eventDetail['minute3'].options[i] = new Option(i+1, i+1);
+									 eventDetail['minute4'].options[i] = new Option(i+1, i+1);
+								}
+								
+								setDate0();
+								eventDetail['year3'].value = year3;
+								setDate0();
+								eventDetail['year4'].value = year4;
+								setDate0();
+								eventDetail['month3'].value = month3;
+								setDate0();
+								eventDetail['month4'].value = month4;
+								setDate0();
+								eventDetail['day3'].value = day3;
+								setDate0();
+								eventDetail['day4'].value = day4;
+								eventDetail['hour3'].value = hour3;
+								eventDetail['hour4'].value = hour4;
+								eventDetail['minute3'].value = minute3;
+								eventDetail['minute4'].value = minute4;
+
+								function setDate0() {
+									var eventDetail = document.getElementById('eventDetail');
+										
+									var year = eventDetail['year3'].value;
+									var month = eventDetail['month3'].value;
+									var day = eventDetail['day3'].value;
+									var dayInsert3 = eventDetail['day3'];
+									var dayInsert4 = eventDetail['day4'];
+									    
+									var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+									if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+									   arrayMonth[1] = 29;
+									}
+									
+									for(var i = dayInsert3.length; i>0; i--) {
+								    	dayInsert3.remove(dayInsert3.selectedIndex);
+								    }
+								        
+								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+								    	dayInsert3.options[i-1] = new Option(i, i);
+								    }
+
+								    if(day != null || day != '') {
+								        if(day > arrayMonth[month-1]) {
+								        	dayInsert3.options.selectedIndex = arrayMonth[month-1]-1;
+								        } else {
+								        	dayInsert3.options.selectedIndex = day-1;
+								        }
+								    }
+								    
+								    for(var i = dayInsert4.length; i>0; i--) {
+								    	dayInsert4.remove(dayInsert4.selectedIndex);
+								    }
+								        
+								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+								    	dayInsert4.options[i-1] = new Option(i, i);
+								    }
+
+								    if(day != null || day != '') {
+								        if(day > arrayMonth[month-1]) {
+								        	dayInsert4.options.selectedIndex = arrayMonth[month-1]-1;
+								        } else {
+								        	dayInsert4.options.selectedIndex = day-1;
+								        }
+								    }
+								}
 								$("input:button.updateEvents").click(updateEvents);
 								$("input:button.deleteEvents").click(deleteEvents);
 							},
@@ -400,7 +507,65 @@ function setLeftSideIcon(){
 		});
 
 		$('#insertEvents').on('click', insertEvents);
+		
+		var insertForm = document.getElementById('insertForm');
+		
+	    var year = new Date().getFullYear();
+	    var month = new Date().getMonth() + 1;
+	    var day = new Date().getDate();
+	    var hour = new Date().getHours();
+	    var minute = new Date().getMinutes();
+	    // var color = $('#color1').val();
+	    
+	    var startYear = year - 80;
+	    for(var i=0; i<100; i++) {
+	    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
+	    	insertForm['year2'].options[i] = new Option(startYear+i, startYear+i);
+	    }
+
+	    for (var i=0; i<12; i++) {
+	    	insertForm['month1'].options[i] = new Option(i+1, i+1);
+	    	insertForm['month2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+	    for (var i=0; i<60; i++) {
+	    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
+	    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+	    for (var i=0; i<60; i++) {
+	    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
+	    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+ 	    var colorArray = [red, tomato, 'FFFF00', '#008000', '#0000FF'];
+	    for (var i=0; i<colorArray.length; i++) {
+	    	insertForm['color1'].options[i] = new Option(colorArray[i], colorArray[i]);
+	    	// insertForm['color1'].options = colorArray[i];
+	    }
+	    
+	    insertForm['year1'].value = year;
+	    insertForm['year2'].value = year;
+	    insertForm['month1'].value = month;
+	    insertForm['month2'].value = month;
+	    setDate();
+	    insertForm['day1'].value = day;
+	    setDate();
+	    insertForm['day2'].value = day;
+	    insertForm['hour1'].value = hour;
+	    insertForm['hour2'].value = hour;
+	    insertForm['minute1'].value = minute;
+	    insertForm['minute2'].value = minute;
 	});
+	
+	/* var serviceStr="";
+	var service = document.getElementsByName("repeat");
+	for(var i=0; i<service.length; i++){
+		if(service[i].checked==true){
+			serviceStr=service[i].value;
+			
+		}
+	} */
 	
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
@@ -416,7 +581,8 @@ function setLeftSideIcon(){
 						'summary' : $('#summary1').val(),
 						'description' : $('#description1').val(),
 						'startDate' : $('#startDate1').val(),
-						'endDate' : $('#endDate2').val()
+						'endDate' : $('#endDate2').val(),
+						'color' : $('#color1').val()
 		    	}
 		    	
 				$.ajax({
@@ -435,7 +601,6 @@ function setLeftSideIcon(){
 			}
 	
    		function updateEvents(){
-   				// var aaa = $('#summary3').attr('value');	alert(aaa);
 				var eventSeq = $(this).attr('data-uno');
 				var summary3 = $('#summary3').val();
 				var description3 = $('#description3').val();
@@ -480,6 +645,54 @@ function setLeftSideIcon(){
 					}
 				});
 			}
+
+ 		function setDate() {
+			var insertForm = document.getElementById('insertForm');
+			
+			var year = new Date().getFullYear();
+		    var month = new Date().getMonth() + 1;
+		    var day = new Date().getDate();
+		    var dayInsert1 = insertForm['day1'];
+		    var dayInsert2 = insertForm['day2'];
+		    
+		    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+		    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		        arrayMonth[1] = 29;
+		    }
+
+		    for(var i = dayInsert1.length; i>0; i--) {
+		    	dayInsert1.remove(dayInsert1.selectedIndex);
+		    }
+		        
+		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+		    	dayInsert1.options[i-1] = new Option(i, i);
+		    }
+
+		    if(day != null || day != '') {
+		        if(day > arrayMonth[month-1]) {
+		        	dayInsert1.options.selectedIndex = arrayMonth[month-1]-1;
+		        } else {
+		        	dayInsert1.options.selectedIndex = day-1;
+		        }
+		    }
+		    
+		    for(var i = dayInsert2.length; i>0; i--) {
+		    	dayInsert2.remove(dayInsert2.selectedIndex);
+		    }
+		        
+		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+		    	dayInsert2.options[i-1] = new Option(i, i);
+		    }
+
+		    if(day != null || day != '') {
+		        if(day > arrayMonth[month-1]) {
+		        	dayInsert2.options.selectedIndex = arrayMonth[month-1]-1;
+		        } else {
+		        	dayInsert2.options.selectedIndex = day-1;
+		        }
+		    }
+	}
 </script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/footer.jsp" %>
