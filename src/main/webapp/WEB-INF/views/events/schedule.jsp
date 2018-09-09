@@ -137,10 +137,14 @@ body {
 		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
-		<select name='color1' id='color1'>
+		<br/>
+		<p>색깔지정
+		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="colorPicker"></button>
+		<br/><br/>
+		<!-- <select name='color1' id='color1'>
 			<option id='red' value='#FF0000'></option>
 			<option id='red' value='#FF6347'></option>
-		</select>색깔 지정&nbsp;<br>
+		</select>색깔 지정&nbsp;<br> -->
 		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
     	<select name='year1' id='year1' onChange='setDate()'></select>년&nbsp;
     	<select name='month1' id='month1' onChange='setDate()'></select>월&nbsp;
@@ -173,7 +177,6 @@ body {
 <script src='./resources/scripts/fullcalendar.min.js'></script>
 <script src='./resources/scripts/scheduler.min.js'></script>
 <script src='./resources/scripts/theme-chooser.js'></script>
-<script src="jscolor.js"></script>
 <script>
 document.getElementById("year1").value = new Date().getFullYear();
 document.getElementById("month1").value = new Date().getMonth() + 1;
@@ -199,6 +202,7 @@ function setLeftSideIcon(){
 	$(function() {
 		setLeftSideIcon();
 		
+		$("#colorPicker").addClass(' jscolor-active');
 		initThemeChooser({	
 			
 			init : function(themeSystem) {
@@ -538,11 +542,11 @@ function setLeftSideIcon(){
 	    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
 	    }
 	    
- 	    var colorArray = [red, tomato, 'FFFF00', '#008000', '#0000FF'];
+ 	   /*  var colorArray = [red, tomato, 'FFFF00', '#008000', '#0000FF'];
 	    for (var i=0; i<colorArray.length; i++) {
 	    	insertForm['color1'].options[i] = new Option(colorArray[i], colorArray[i]);
 	    	// insertForm['color1'].options = colorArray[i];
-	    }
+	    } */
 	    
 	    insertForm['year1'].value = year;
 	    insertForm['year2'].value = year;
@@ -694,6 +698,7 @@ function setLeftSideIcon(){
 		    }
 	}
 </script>
+<script src="./resources/js/jscolor.js"></script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/footer.jsp" %>
 </body>
