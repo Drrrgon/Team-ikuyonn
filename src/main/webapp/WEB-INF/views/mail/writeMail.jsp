@@ -68,6 +68,7 @@ dd.hidden {
 	border: 1px solid #888;
 	width: 40%; /* Could be more or less, depending on screen size */
 	height: 80%; /* Full height */
+	top :0;
 }
 
 #list2 {
