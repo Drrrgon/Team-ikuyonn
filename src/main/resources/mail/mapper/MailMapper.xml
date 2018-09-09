@@ -43,11 +43,11 @@ select * from inbox where emailAddress = #{emailAddress} order by to_number(msgn
 select * from inbox where emailAddress = #{emailAddress} and msgNum = #{msgNum}
 </select>
 
-<select id = "getProject" parameterType = "String" resultType ="Project">
+<!-- <select id = "getProject" parameterType = "String" resultType ="Project">
 select p.projectSeq projectSeq,p.projectName projectName,p.memberNum memberNum
 from userTable u,project p,joinProject j where u.userID=j.userID and j.projectSeq=p.projectSeq 
 and u.userID=#{userID}
-</select>
+</select> -->
 
 <insert id = "addFile" parameterType = "fileVO">
 insert into cloudFile(fileSeq,fileName,saveFileName,fileType,projectSeq)

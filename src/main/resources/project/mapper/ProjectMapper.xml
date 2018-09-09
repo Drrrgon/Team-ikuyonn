@@ -19,7 +19,7 @@
 	<select id="getUserProjectList" parameterType="map" resultType="Project">		
 		<if test="userID != null">
 		SELECT DISTINCT 
-			p.projectName, p.projectseq 
+			p.projectName, p.projectseq, p.memberNum memberNum, p.due, p.projectMaster
 		FROM 
 			project p, joinproject jp, usertable ut 
 		WHERE 
@@ -34,10 +34,10 @@
 		</if>	
 	</select>
 	
-	<select id="getProjectList" parameterType="map" resultType="Project">		
+	<!-- <select id="getProjectList" parameterType="map" resultType="Project">		
 		<if test="userID != null">
 		SELECT DISTINCT 
-			p.projectName, p.projectseq 
+			p.projectName, p.projectseq, p.due 
 		FROM 
 			project p, joinproject jp, usertable ut 
 		WHERE 
@@ -50,14 +50,15 @@
 		<if test="userID == null">
 			SELECT * FROM project
 		</if>	
-	</select>
+	</select> -->
 	
 	<insert id="createProject" parameterType="Project">
 		INSERT INTO PROJECT
 		VALUES
 			(PROJECT_SEQ.nextVal,
+			#{projectMaster},
 			#{projectName},
-			null,
+			#{due},
 			null
 			)
 		<selectKey keyProperty="projectSeq" resultType="Integer" order="AFTER">
@@ -74,4 +75,15 @@
 			#{projectSeq}
 			)
 	</insert>
+	<select id="getCountOfProjectMember" parameterType="int" resultType="map">
+		SELECT COUNT(USERID) memberNum 
+		FROM JOINPROJECT 
+		WHERE PROJECTSEQ = #{VALUE}
+	</select>
+	
+	<update id="updateCountOfProjectMember" parameterType="map">
+		UPDATE PROJECT
+		SET MEMBERNUM = #{MEMBERNUM}
+		WHERE PROJECTSEQ = #{PROJECTSEQ}
+	</update>
 </mapper>

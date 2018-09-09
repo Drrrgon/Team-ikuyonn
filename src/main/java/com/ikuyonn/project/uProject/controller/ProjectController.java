@@ -34,7 +34,7 @@ public class ProjectController {
 		return "profile/projectInfo";
 	}
 	
-	@RequestMapping(value = "/getprojectInfo", method = RequestMethod.POST)
+	@RequestMapping(value = "/getProjectInfo", method = RequestMethod.POST)
 	public @ResponseBody List<Project> getprojectInfo(User u){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
 		HashMap<String, Object> map = new HashMap<>();		
@@ -53,21 +53,30 @@ public class ProjectController {
 		map.put("projectSeq", pjSeq);
 		int res = um.deleteJoinProject(map);
 		int re = um.deleteProject(pjSeq);
+		map.put("userID", null);
 		List<Project> projectList= um.getUserProjectList(map);
 		return projectList;
 	}
 	
 	@RequestMapping(value = "/createProject", method = RequestMethod.POST)
-	public @ResponseBody List<Project> createProject(User u, String projectName){
+	public @ResponseBody List<Project> createProject(User u, String projectName, String due){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
 		Project pro = new Project();
+		pro.setProjectMaster(u.getUserID());
 		pro.setProjectName(projectName);
 		HashMap <String, Object> userMap = new HashMap<String, Object>();
 		userMap.put("userID", u.getUserID());
 		userMap.put("projectName", projectName);
+		if(due.contains("-")) {
+			pro.setDue(due);
+		}
+		pro.setDue("기간 미정");
 		int re = um.createProject(pro);
 		userMap.put("projectSeq", pro.getProjectSeq());
 		int res = um.joinProject(userMap);
+		userMap = um.getCountOfProjectMember(pro.getProjectSeq());
+		userMap.put("PROJECTSEQ", pro.getProjectSeq());
+		um.updateCountOfProjectMember(userMap);
 		List<Project> project = um.getUserProjectList(userMap);
 		
 		return project;
