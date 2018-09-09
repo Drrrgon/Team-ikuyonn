@@ -322,7 +322,7 @@ function setLeftSideIcon(){
 							success : function(data) {
 								var newStart = new Date(data.startDate);
 								var newEnd = new Date(data.endDate);
-								var startYear = newStart.getFullYear();
+								/* var startYear = newStart.getFullYear();
 								var startMonth = newStart.getMonth() + 1;
 								var startDay = newStart.getDate();
 								var startHour = newStart.getHours();
@@ -331,42 +331,41 @@ function setLeftSideIcon(){
 								var endMonth = newEnd.getMonth() + 1;
 								var endDay = newEnd.getDate();
 								var endHour = newEnd.getHours();
-								var endMinute = newEnd.getMinutes();						
+								var endMinute = newEnd.getMinutes(); */						
 								
 								var eventDetail = '';
 								eventDetail += '<label>제목</label><input type="text" id="summary3" name="summary3" value="'+data.summary+'"/><br/>';
 								eventDetail += '<label>내용</label><input type="text" id="description3" name="description3" value="'+data.description+'"/><br/>';
 								eventDetail += '<label>시작</label><input type="hidden" id="startDate3" name="startDate3" value="'+newStart+'"/>';
-								eventDetail += '<select name="year3" id="year3" onChange="setDate()">'+startYear+'</select>년&nbsp';
-								eventDetail += '<select name="month3" id="month3" onChange="setDate()">'+startMonth+'</select>월&nbsp';
-								eventDetail += '<select name="day3" id="day3">'+startDay+'</select>일&nbsp';
-								eventDetail += '<select name="hour3" id="hour3">'+startHour+'</select>시&nbsp';
-								eventDetail += '<select name="minute3" id="minute3">'+startMinute+'</select>분&nbsp';
+								eventDetail += '<select name="year3" id="year3" onChange="setDate()" value="'+startYear+'"></select>년&nbsp';
+								eventDetail += '<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp';
+								eventDetail += '<select name="day3" id="day3"></select>일&nbsp';
+								eventDetail += '<select name="hour3" id="hour3"></select>시&nbsp';
+								eventDetail += '<select name="minute3" id="minute3"></select>분&nbsp';
 								eventDetail += '<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value="'+newEnd+'"/>';
-								eventDetail += '<select name="year4" id="year4" onChange="setDate()">'+endYear+'</select>년&nbsp';
-								eventDetail += '<select name="month4" id="month4" onChange="setDate()">'+endMonth+'</select>월&nbsp';
-								eventDetail += '<select name="day4" id="day4">'+endDay+'</select>일&nbsp';
-								eventDetail += '<select name="hour4" id="hour4">'+endHour+'</select>시&nbsp';
-								eventDetail += '<select name="minute4" id="minute4">'+endMinute+'</select>분&nbsp';
+								eventDetail += '<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp';
+								eventDetail += '<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp';
+								eventDetail += '<select name="day4" id="day4"></select>일&nbsp';
+								eventDetail += '<select name="hour4" id="hour4"></select>시&nbsp';
+								eventDetail += '<select name="minute4" id="minute4"></select>분&nbsp';
 								eventDetail += '<input class="updateEvents" data-uno="'+data.eventSeq+'" type="button" id="updateEvent" value="수정" onclick="location.reload()"/>';
 								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/>';
 								
-								$('#eventDetail').html(eventDetail);
-								
+								$('#eventDetail').html(eventDetail);		
 								var eventDetail = document.getElementById('eventDetail');
+								var startDate3 = new Date(document.getElementById('startDate3').value);
+								var endDate4 = new Date(document.getElementById('endDate4').value);
 								var year = new Date().getFullYear();
-								var year3; var month3; var day3; var hour3; var minute3;
-								year3 = $('#eventDetail').parent().children("#year3").text();					
-								month3 = $('#eventDetail').parent().children("#month3").text();
-								day3 = $('#eventDetail').parent().children("#day3").text();
-								hour3 = $('#eventDetail').parent().children("#hour3").text();
-								minute3 = $('#eventDetail').parent().children("#minute3").text();
-								var year4; var month4; var day4; var hour4; var minute4;
-								year4 = $('#eventDetail').parent().children("#year4").text();
-								month4 = $('#eventDetail').parent().children("#month4").text();
-								day4 = $('#eventDetail').parent().children("#day4").text();
-								hour4 = $('#eventDetail').parent().children("#hour4").text();
-								minute4 = $('#eventDetail').parent().children("#minute4").text();
+								var year3 = startDate3.getFullYear();
+								var month3 = startDate3.getMonth() + 1;
+								var day3 = startDate3.getDate();
+								var hour3 = startDate3.getHours();
+								var minute3 = startDate3.getMinutes();
+								var year4 = endDate4.getFullYear();
+								var month4 = endDate4.getMonth() + 1;
+								var day4 = endDate4.getDate();
+								var hour4 = endDate4.getHours();
+								var minute4 = endDate4.getMinutes();
 									    
 								var startYear = year - 80;
 								for(var i=0; i<100; i++) {
@@ -390,21 +389,21 @@ function setLeftSideIcon(){
 								}
 								
 								setDate0();
-								eventDetail['year3'].value = year;
+								eventDetail['year3'].value = year3;
 								setDate0();
-								eventDetail['year4'].value = year;
+								eventDetail['year4'].value = year4;
 								setDate0();
-								eventDetail['month3'].value = month;
+								eventDetail['month3'].value = month3;
 								setDate0();
-								eventDetail['month4'].value = month;
+								eventDetail['month4'].value = month4;
 								setDate0();
-								eventDetail['day3'].value = day;
+								eventDetail['day3'].value = day3;
 								setDate0();
-								eventDetail['day4'].value = day;
-								eventDetail['hour3'].value = hour;
-								eventDetail['hour4'].value = hour;
-								eventDetail['minute3'].value = minute;
-								eventDetail['minute4'].value = minute;
+								eventDetail['day4'].value = day4;
+								eventDetail['hour3'].value = hour3;
+								eventDetail['hour4'].value = hour4;
+								eventDetail['minute3'].value = minute3;
+								eventDetail['minute4'].value = minute4;
 
 
 								function setDate0() {
