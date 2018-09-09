@@ -103,18 +103,10 @@ body {
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp" %>
-	
-<div class="main-content-container container-fluid px-4">
-	<div class="page-header row no-gutters py-4">
-		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-			<h3 class="page-title">일정표</h3>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-8">
+		<div class="col-lg-10">
 			<div class="card card-small mb-4">
 				<div class="card-header border-bottom">
-					<h6 class="m-0"></h6>
+					<h3 class="m-0">일정표</h3>
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item p-3">
@@ -127,7 +119,6 @@ body {
 				</ul>
 			</div>
 		</div>
-	</div>
 	
 <div id="insertModal" class="modal">
 <div class="modal-content">
@@ -192,7 +183,6 @@ body {
 </div>
 </div>
   
-</div>
 
 <script src='./resources/scripts/moment.min.js'></script>
 <script src='./resources/scripts/fullcalendar.min.js'></script>
@@ -649,8 +639,8 @@ function setLeftSideIcon(){
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	// alert(startDate1.value + '\n' + endDate2.value);
-		    	if(startDate1.value < endDate2.value){
+		    	/* alert(startDate1.value + '\n' + endDate2.value); */
+		    	if(startDate1.value > endDate2.value){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
 		    	}
