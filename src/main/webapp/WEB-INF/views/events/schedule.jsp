@@ -103,18 +103,10 @@ body {
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp" %>
-	
-<div class="main-content-container container-fluid px-4">
-	<div class="page-header row no-gutters py-4">
-		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-			<h3 class="page-title">일정표</h3>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-8">
+		<div class="col-lg-10">
 			<div class="card card-small mb-4">
 				<div class="card-header border-bottom">
-					<h6 class="m-0"></h6>
+					<h3 class="m-0">일정표</h3>
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item p-3">
@@ -127,7 +119,6 @@ body {
 				</ul>
 			</div>
 		</div>
-	</div>
 	
 <div id="insertModal" class="modal">
 <div class="modal-content">
@@ -139,7 +130,7 @@ body {
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
 
-		<br/><p>색깔지정</p>
+		<br/><span>색깔지정</span>
 		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="color1">
 		</button><br/>
 
@@ -166,12 +157,32 @@ body {
 <div id="eventModal" class="modal">
 <div class="modal-content">
 	<h4 class="modal-title">일정입니다<span id="close3" class="close"></span></h4>
-    <form id="eventDetail"></form>
+    <form id="eventDetail">
+    <label>제목</label><input type="text" id="summary3" name="summary3"/><br/>
+	<label>내용</label><input type="text" id="description3" name="description3"/><br/>
+	<br/><span>색깔지정</span>
+	<button class="jscolor {valueElement:null, value:'66ccff'}" style="width:50px; height:20px;" id="color3">
+	</button><br/>
+	<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
+	<select name="year3" id="year3" onChange="setDate()"></select>년&nbsp
+	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp
+	<select name="day3" id="day3"></select>일&nbsp
+	<select name="hour3" id="hour3"></select>시&nbsp
+	<select name="minute3" id="minute3"></select>분&nbsp
+	<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value=""/>
+	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp
+	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp
+	<select name="day4" id="day4"></select>일&nbsp
+	<select name="hour4" id="hour4"></select>시&nbsp
+	<select name="minute4" id="minute4"></select>분&nbsp
+	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
+	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
+    </form>
+    
 	<button type="button" id="cancelButton3">취소</button>
 </div>
 </div>
   
-</div>
 
 <script src='./resources/scripts/moment.min.js'></script>
 <script src='./resources/scripts/fullcalendar.min.js'></script>
@@ -269,11 +280,7 @@ function setLeftSideIcon(){
 								'userID' : $('#userID1').val()
 							},
 							success : function(data) {				
-								$(data).each(function(index, item) {
-									/* for(var i in data){
-										var color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
-									} */
-									
+								$(data).each(function(index, item) {	
 									events.push({
 										id : item.userID,
 										title : item.summary,
@@ -295,12 +302,10 @@ function setLeftSideIcon(){
 						var yearC = dateC.substring(0, 4);
 						var monthC = dateC.substring(5, 7);
 						var dayC = dateC.substring(8, 10);
-						var year1 = document.getElementById('year1');
-						var month1 = document.getElementById('month1');
-						var day1 = document.getElementById('day1');
-						year1 = yearC;
-						month1 = monthC;
-						day1 = dayC;
+						if(monthC<10)
+							monthC = dateC.substring(6, 7);
+						if(dayC<10)
+							dayC = dateC.substring(9, 10);
 						
 						var modal = document.getElementById('insertModal');
 						var span = document.getElementById('close1');
@@ -330,6 +335,97 @@ function setLeftSideIcon(){
 						        modal.style.display = 'none';
 						    }
 						}
+						
+						var insertForm = document.getElementById('insertForm');
+						
+							    var year = yearC;
+							    var month = monthC;
+							    var day = dayC;
+							    var hour = new Date().getHours();
+							    var minute = new Date().getMinutes();
+							    var color = $('#color1').val();
+							    
+							    var startYear = year - 80;
+							    for(var i=0; i<100; i++) {
+							    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
+							    	insertForm['year2'].options[i] = new Option(startYear+i, startYear+i);
+							    }
+
+							    for (var i=0; i<12; i++) {
+							    	insertForm['month1'].options[i] = new Option(i+1, i+1);
+							    	insertForm['month2'].options[i] = new Option(i+1, i+1);
+							    }
+							    
+							    for (var i=0; i<60; i++) {
+							    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
+							    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
+							    }
+							    
+							    for (var i=0; i<60; i++) {
+							    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
+							    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+							    }
+							    
+							    insertForm['year1'].value = year;
+							    insertForm['year2'].value = year;
+							    insertForm['month1'].value = month;
+							    insertForm['month2'].value = month;
+							    setDate();
+							    insertForm['day1'].value = day;
+							    setDate();
+							    insertForm['day2'].value = day;
+							    insertForm['hour1'].value = hour;
+							    insertForm['hour2'].value = hour;
+							    insertForm['minute1'].value = minute;
+							    insertForm['minute2'].value = minute;
+						
+				 		function setDate() {
+							var insertForm = document.getElementById('insertForm');
+							
+							var year = insertForm['year1'].value;
+						    var month = insertForm['month1'].value;
+						    var day = insertForm['day1'].value;
+						    var dayInsert1 = insertForm['day1'];
+						    var dayInsert2 = insertForm['day2'];
+						    
+						    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+						    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+						        arrayMonth[1] = 29;
+						    }
+
+						    for(var i = dayInsert1.length; i>0; i--) {
+						    	dayInsert1.remove(dayInsert1.selectedIndex);
+						    }
+						        
+						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+						    	dayInsert1.options[i-1] = new Option(i, i);
+						    }
+
+						    if(day != null || day != '') {
+						        if(day > arrayMonth[month-1]) {
+						        	dayInsert1.options.selectedIndex = arrayMonth[month-1]-1;
+						        } else {
+						        	dayInsert1.options.selectedIndex = day-1;
+						        }
+						    }
+						    
+						    for(var i = dayInsert2.length; i>0; i--) {
+						    	dayInsert2.remove(dayInsert2.selectedIndex);
+						    }
+						        
+						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+						    	dayInsert2.options[i-1] = new Option(i, i);
+						    }
+
+						    if(day != null || day != '') {
+						        if(day > arrayMonth[month-1]) {
+						        	dayInsert2.options.selectedIndex = arrayMonth[month-1]-1;
+						        } else {
+						        	dayInsert2.options.selectedIndex = day-1;
+						        }
+						    }
+					}
 					},
 					eventClick : function(event, jsEvent, view){
 						var eventSeq = event.num;
@@ -343,20 +439,20 @@ function setLeftSideIcon(){
 							success : function(data) {
 								var newStart = new Date(data.startDate);
 								var newEnd = new Date(data.endDate);
-								/* var startYear = newStart.getFullYear();
-								var startMonth = newStart.getMonth() + 1;
-								var startDay = newStart.getDate();
-								var startHour = newStart.getHours();
-								var startMinute = newStart.getMinutes();
-								var endYear = newEnd.getFullYear();
-								var endMonth = newEnd.getMonth() + 1;
-								var endDay = newEnd.getDate();
-								var endHour = newEnd.getHours();
-								var endMinute = newEnd.getMinutes(); */						
-								
-								var eventDetail = '';
+					
+								$("#summary3").val(data.summary);
+								$("#description3").val(data.description);
+								$("#startDate3").val(newStart);
+								$("#year3").val(startYear);
+								$("#endDate4").val(newEnd);
+								$("#updateEvents").attr('data-uno', data.eventSeq);
+								$("#deleteEvents").attr('data-dno', data.eventSeq);
+								/* var eventDetail = '';
 								eventDetail += '<label>제목</label><input type="text" id="summary3" name="summary3" value="'+data.summary+'"/><br/>';
 								eventDetail += '<label>내용</label><input type="text" id="description3" name="description3" value="'+data.description+'"/><br/>';
+								eventDetail += '<br/><p>색깔지정</p>';
+								eventDetail += '<button class="jscolor {valueElement:null, value:"66ccff"}" style="width:50px; height:20px;" id="color3">';
+								eventDetail += '</button><br/>';
 								eventDetail += '<label>시작</label><input type="hidden" id="startDate3" name="startDate3" value="'+newStart+'"/>';
 								eventDetail += '<select name="year3" id="year3" onChange="setDate()" value="'+startYear+'"></select>년&nbsp';
 								eventDetail += '<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp';
@@ -372,7 +468,7 @@ function setLeftSideIcon(){
 								eventDetail += '<input class="updateEvents" data-uno="'+data.eventSeq+'" type="button" id="updateEvent" value="수정" onclick="location.reload()"/>';
 								eventDetail += '<input class="deleteEvents" data-dno="'+data.eventSeq+'" type="button" id="deleteEvent" value="삭제" onclick="location.reload()"/>';
 								
-								$('#eventDetail').html(eventDetail);		
+								$('#eventDetail').html(eventDetail); */		
 								var eventDetail = document.getElementById('eventDetail');
 								var startDate3 = new Date(document.getElementById('startDate3').value);
 								var endDate4 = new Date(document.getElementById('endDate4').value);
@@ -473,8 +569,8 @@ function setLeftSideIcon(){
 								        }
 								    }
 								}
-								$("input:button.updateEvents").click(updateEvents);
-								$("input:button.deleteEvents").click(deleteEvents);
+								/* $("input:button.updateEvents").click(updateEvents);
+								$("input:button.deleteEvents").click(deleteEvents); */
 							},
 							error : function() {
 								alert("수신실패");
@@ -520,62 +616,8 @@ function setLeftSideIcon(){
 		});
 
 		$('#insertEvents').on('click', insertEvents);
-		
-		var insertForm = document.getElementById('insertForm');
-		
-/* 	    var year = new Date().getFullYear();
-	    var month = new Date().getMonth() + 1;
-	    var day = new Date().getDate();
-	    var hour = new Date().getHours();
-	    var minute = new Date().getMinutes(); */
-	    var year = document.getElementById('year1').value;
-	    var month = document.getElementById('month1').value;
-	    var day = document.getElementById('day1').value;
-	    var hour = new Date().getHours();
-	    var minute = new Date().getMinutes();
-	    alert(year);
-	    var color = $('#color1').val();
-	    
-	    var startYear = year - 80;
-	    for(var i=0; i<100; i++) {
-	    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
-	    	insertForm['year2'].options[i] = new Option(startYear+i, startYear+i);
-	    }
-
-	    for (var i=0; i<12; i++) {
-	    	insertForm['month1'].options[i] = new Option(i+1, i+1);
-	    	insertForm['month2'].options[i] = new Option(i+1, i+1);
-	    }
-	    
-	    for (var i=0; i<60; i++) {
-	    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
-	    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
-	    }
-	    
-	    for (var i=0; i<60; i++) {
-	    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
-	    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
-	    }
-	    
-/*  	    var colorArray = ['red', 'tomato', 'yellow', 'green', 'blue'];
-
-	    for (var i=0; i<colorArray.length; i++) {
-	    	insertForm['color1'].options[i] = new Option(colorArray[i], colorArray[i]);
-	    	// insertForm['color1'].options = colorArray[i];
-	    } */
-	    
-	    insertForm['year1'].value = year;
-	    insertForm['year2'].value = year;
-	    insertForm['month1'].value = month;
-	    insertForm['month2'].value = month;
-	    setDate();
-	    insertForm['day1'].value = day;
-	    setDate();
-	    insertForm['day2'].value = day;
-	    insertForm['hour1'].value = hour;
-	    insertForm['hour2'].value = hour;
-	    insertForm['minute1'].value = minute;
-	    insertForm['minute2'].value = minute;
+		$('#updateEvents').on('click', updateEvents);
+		$('#deleteEvents').on('click', deleteEvents);
 	});
 	
 	/* var serviceStr="";
@@ -585,13 +627,20 @@ function setLeftSideIcon(){
 			serviceStr=service[i].value;
 			
 		}
-	} */
+	}
+	
+	var colorArray = ['red', 'tomato', 'yellow', 'green', 'blue'];
+
+    for (var i=0; i<colorArray.length; i++) {
+    	insertForm['color1'].options[i] = new Option(colorArray[i], colorArray[i]);
+    	// insertForm['color1'].options = colorArray[i];
+    } */
 	
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	// alert(startDate1.value + '\n' + endDate2.value);
-		    	if(startDate1.value < endDate2.value){
+		    	/* alert(startDate1.value + '\n' + endDate2.value); */
+		    	if(startDate1.value > endDate2.value){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
 		    	}
@@ -623,9 +672,10 @@ function setLeftSideIcon(){
 			}
 	
    		function updateEvents(){
-				var eventSeq = $(this).attr('data-uno');
+   				var eventSeq = $(this).attr("data-uno");
 				var summary3 = $('#summary3').val();
 				var description3 = $('#description3').val();
+				var color3 = $('#color3').css("background-color");
 				startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
 		    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
 		    	// alert(startDate3.value + '\n' + endDate4.value);
@@ -638,11 +688,12 @@ function setLeftSideIcon(){
 					type : 'post',
 					url : 'updateEvents',
 					data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-							'startDate' : startDate3.value, 'endDate' : endDate4.value},
+							'startDate' : startDate3.value, 'endDate' : endDate4.value, 'color' : color3},
 					success : function(data){
 						if(data == 'success'){
 						var modal2 = document.getElementById('eventModal');
 						modal2.style.display = 'none';}
+						location.reload();
 					},
 					error : function() {
 						// alert("송신실패");
@@ -651,8 +702,7 @@ function setLeftSideIcon(){
 			}
 	
 		function deleteEvents(){
-				var eventSeq = $(this).attr("data-dno");
-				
+			var eventSeq = $(this).attr("data-dno");	
 				$.ajax({
 					type : 'get',
 					url : 'deleteEvents',
@@ -661,60 +711,13 @@ function setLeftSideIcon(){
 						if(data == 'success'){
 						var modal3 = document.getElementById('eventModal');
 						modal3.style.display = 'none';}
+						location.reload();
 					},	
 					error : function() {
 						// alert("송신실패");
 					}
 				});
 			}
-
- 		function setDate() {
-			var insertForm = document.getElementById('insertForm');
-			
-			var year = new Date().getFullYear();
-		    var month = new Date().getMonth() + 1;
-		    var day = new Date().getDate();
-		    var dayInsert1 = insertForm['day1'];
-		    var dayInsert2 = insertForm['day2'];
-		    
-		    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-
-		    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-		        arrayMonth[1] = 29;
-		    }
-
-		    for(var i = dayInsert1.length; i>0; i--) {
-		    	dayInsert1.remove(dayInsert1.selectedIndex);
-		    }
-		        
-		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-		    	dayInsert1.options[i-1] = new Option(i, i);
-		    }
-
-		    if(day != null || day != '') {
-		        if(day > arrayMonth[month-1]) {
-		        	dayInsert1.options.selectedIndex = arrayMonth[month-1]-1;
-		        } else {
-		        	dayInsert1.options.selectedIndex = day-1;
-		        }
-		    }
-		    
-		    for(var i = dayInsert2.length; i>0; i--) {
-		    	dayInsert2.remove(dayInsert2.selectedIndex);
-		    }
-		        
-		    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-		    	dayInsert2.options[i-1] = new Option(i, i);
-		    }
-
-		    if(day != null || day != '') {
-		        if(day > arrayMonth[month-1]) {
-		        	dayInsert2.options.selectedIndex = arrayMonth[month-1]-1;
-		        } else {
-		        	dayInsert2.options.selectedIndex = day-1;
-		        }
-		    }
-	}
 </script>
 <script src="./resources/js/jscolor.js"></script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
