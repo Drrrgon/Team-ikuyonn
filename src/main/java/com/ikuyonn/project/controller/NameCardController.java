@@ -121,6 +121,7 @@ public class NameCardController {
 		System.out.println("nameCardList.size : "+nameCardList.size()+" searchText : "+searchText);
 		return result;
 	}
+	
 	@RequestMapping(value = "/getAllNC", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<NameCard> getAllNC(HttpSession ss) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);

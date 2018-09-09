@@ -114,7 +114,8 @@ div.hidden {
 
 
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
-	<div class="row">
+	<div class="main-content-container container-fluid px-4">
+	<div class="row mt-5">
 		<div id="joinedProjectDiv" class="col">
 			<div class="card card-small mb-4">
 				<div class="card-header border-bottom">
@@ -160,7 +161,7 @@ div.hidden {
 					<table class="table mb-0" id="fileTable">
 						<tr>
 						</tr>
-					</table>
+					</table>	
 				</div>
 				</div>
 				</div>
@@ -179,32 +180,49 @@ div.hidden {
 				<div class="card-header border-bottom">
 					<h6 class="m-0">프로젝트 생성</h6>
 				</div>
-
-				<div class="page1">userList</div>
+				<div class="page1">
+					<div class="card-header border-bottom">
+						<div class="row">
+							<div class="input-group col-md-8">
+								<input type="text" name="searchText" class="input-sm form-control" id="searchText" onkeyup="searchfunc()" placeholder="검색">
+								<select class="form-control" id="selectGroup">
+									<option value="0" selected="">이름</option>
+									<option value="1" style="backgroun:red">이메일</option>
+									<option value="2">회사명</option>
+								</select>
+							</div>
+							<div class="col-md-4" style="text-align: right;">
+								<button type="button" class="btn btn-sm btn-white" id="setAddress">선택</button>
+							</div>
+						</div>
+					</div>
+					<div class="card-body p-0" style="overflow:scroll" id="nameCardTableWrap">
+						<!-- 명함리스트 -->		
+								
+					</div>					
+				</div>
 				<div class="page2">
-					<input type="text" id="inputProjectName" class="form-control"
-						placeholder="Project Name"><br /> <input type="date"
-						id="inputProjectDate" class="form-control"><br />
+					<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
+					<input type="date" id="inputProjectDate" class="form-control"><br/>
 					<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
 					<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
 				</div>
 			</div>
 		</div>
 		<!-- <div id="all_project_div" class="col">
-				<div class="inline card card-large mb-4">
-						<div class="card-header border-bottom">
-								<h6 class="m-0">프로젝트 리스트</h6>
-							</div> -->
-
-		<!-- <div class="page1">userList</div>
-							<div class="page2">
-								<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
-								<input type="date" id="inputProjectDate" class="form-control"><br/>
-								<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
-								<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
-							</div> -->
-	</div>
-
+			<div class="inline card card-large mb-4">
+				<div class="card-header border-bottom">
+					<h6 class="m-0">프로젝트 리스트</h6>
+				</div> 
+				<div class="page1">userList</div>
+				<div class="page2">
+					<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
+					<input type="date" id="inputProjectDate" class="form-control"><br/>
+					<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
+					<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
+				</div> 
+			</div>
+		</div> -->
 	</div>
 	</div>
 	<script
@@ -282,23 +300,71 @@ div.hidden {
 			$('#inputProjectName').select();
 			return false;
 		}
-		var sessionID = "${sessionScope.userID}";
-		$.ajax({
-			url : 'createProject',
-			type : 'post',
-			data : {
-				'userID' : sessionID,
-				'projectName' : projectName,
-				'due' : due
-			},
-			success : function(list) {
-				getJoinedProject();
-				$('#inputProjectName').val('');
-				closeCreateProject();
+		function getAllProject(){
+			$.ajax({
+				url : "getProjectInfo",
+				type : "post",
+				success : function(data) {
+					initAllProjectList();
+					printAllProjectList(data);
+				},
+				error : function() {
+					alert("통신실패");
+				}
+			});
+		}
+		function openInputForm(){
+			$('#create_project_div').css('display', 'block');
+			$('#joinedProjectDiv').css('display', 'none');
+			namecardload();	
+		}
+		function createProject(){
+			var projectName = $('#inputProjectName').val();
+			var due = $('#inputProjectDate').val();
+			
+			//이메일로 아이디 검색 by 민석
+			jQuery.ajaxSettings.traditional = true;
+			var emails = [];
+			var emailCheck = $('input:checkbox[name=nameCardGroup]:checked');
+			if(emailCheck == null){
+				alert('프로젝트 참가자를 선택해 주세요.');
+				return false;
+			};
+			for(var i = 0; i < emailCheck.length; i++){
+				emails.push(emailCheck.val());
+				console.log(emails);
+			};
+
+			if(projectName.length == 0){
+				alert('프로젝트 명을 입력해 주세요!');
+				$('#inputProjectName').focus();
+				$('#inputProjectName').select();
+				return false;
 			}
-		});
-	}
-	function closeCreateProject() {
+			if(projectName.length > 15){
+				alert('프로젝트 명을 15자 이하로입력해 주세요!');
+				$('#inputProjectName').focus();
+				$('#inputProjectName').select();
+				return false;
+			}
+			
+			var sessionID = "${sessionScope.userID}";
+			$.ajax({
+				url: 'createProject',
+				type: 'post',
+				data: {
+					'userID': sessionID, 'projectName': projectName, 'due':due, 'emails' : emails
+				},
+				success: function(list){
+					getJoinedProject();
+					$('#inputProjectName').val('');
+					closeCreateProject();
+				}
+			});
+			
+			
+    	}
+		function closeCreateProject(){
 		$('#create_project_div').css('display', 'none');
 		$('#joinedProjectDiv').css('display', 'block');
 	}
@@ -348,8 +414,43 @@ div.hidden {
 					+ joinedProjectList[i].projectSeq
 					+ ")'>열기</button></td></tr>";
 		}
-		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
-		temp += '<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
+		function printJoinedProjectList(joinedProjectList){
+			var userID = "${sessionScope.userID}"
+			var temp = "";
+			for ( var i in joinedProjectList) {
+				temp += "<tr><td>" + i + "</td>";
+				temp += "<td>" + joinedProjectList[i].projectName + "</td>";
+				temp += "<td>" + joinedProjectList[i].due + "</td>";
+				temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
+				temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
+						+ joinedProjectList[i].projectSeq
+						+ ")'>열기</button></td></tr>";
+			}
+			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
+			temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
+								
+			$("#joinedTbody").append(temp);
+			$('#openInputFormBtn').on('click', openInputForm);
+		}
+		function initJoinedProjectList(){
+			$('#joinedProjectList').text('');
+			var printHtml ='<table class="table mb-0">';
+			printHtml += '<thead class="bg-light">';
+			printHtml += '<tr>';
+			printHtml += '<th scope="col" class="border-0">#</th>';
+			printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
+			printHtml += '<th scope="col" class="border-0">기간</th>';
+			printHtml += '<th scope="col" class="border-0">참여인원</th>';
+			printHtml += '</tr>';
+			printHtml += '</thead>';
+			printHtml += '<tbody id="joinedTbody">';
+			printHtml += '</tbody>';
+			printHtml += '</table>';
+			$('#joinedProjectList').html(printHtml);		
+		}
+		function printAllProjectList(allProjectList){
+			var temp = "";
+			
 
 		$("#joinedTbody").append(temp);
 		$('#openInputFormBtn').on('click', openInputForm);
@@ -568,29 +669,124 @@ div.hidden {
 			temp += "<a href='downFile?fileSeq=" + result[i].fileSeq + "'>"
 					+ result[i].fileName + "</a></div></td>"
 		}
-		temp += "</tr>"
-		$("#fileTable").html(temp);
-	}
-
-	function select(i, fileSeq) {
-		$('.aa').css('background-color', '');
-		$(".aa").eq(i).css('background-color', '#e6e6e6');
-		$("#delSeq").val(fileSeq);
-	}
-	function downFile(fileSeq) {
-		$.ajax({
-			url : "downFile",
-			type : "post",
-			data : {
-				"fileSeq" : fileSeq
-			},
-			success : function(result) {
-				alert("success");
-			},
-			error : function() {
-				alert("통신실패");
+		
+		function select(i,fileSeq){
+			$('.aa').css('background-color','');
+			$(".aa").eq(i).css('background-color','#e6e6e6');
+			$("#delSeq").val(fileSeq);
+		}
+		function downFile(fileSeq) {
+			$.ajax({
+				url : "downFile",
+				type : "post",
+				data : {
+					"fileSeq" : fileSeq
+				},
+				success : function(result) {
+					alert("success");
+				},
+				error : function() {
+					alert("통신실패");
+				}
+			});
+		}
+		
+		/* 네임카드리스트(회원만) 가져오기 by 민석 */
+		function namecardload() {
+			var emailCheck = 1;
+			$.ajax({
+				url : 'getMember',
+				data : {
+					'emailCheck' : emailCheck
+				},
+				type : 'post',
+				success : namecardOutput,
+				error : function(){
+					alert("통신 실패");
+				}
+			});
+		};
+		
+		/* 네임카드리스트(회원만) 출력 by 민석 */
+		var nameCardList;
+		function namecardOutput(datas) {
+			var line = '';
+			nameCardList = datas;
+			for ( var i in datas) {
+				line += '<div class="nameCardTable" id="nct'+i+'">';
+				line += '<div class="nec">';
+				line += '<ul>';
+				line += '<li>';
+				line += '<span>' + datas[i].ncName + '</span>';
+				line += '</li>';
+				line += '<li>';
+				line += '<span>' + datas[i].ncEmail + '</span>';
+				line += '</li>';
+				line += '<li>';
+				if (datas[i].ncCompany == null) {
+					line += '<span>없음</span>';
+				} else {
+					line += '<span>' + datas[i].ncCompany + '</span>';
+				}
+				;
+				line += '</li>';
+				line += '</ul>';
+				line += '</div>';
+				line += '<div class="nbg">';
+				line += '<div>';
+				line += '<input type="checkbox" name="nameCardGroup" style="width: 20px;height: 20px;" value="'+datas[i].ncEmail+'">';
+				line += '</div>';
+				line += '</div>';
+				line += '</div>';
 			}
+			;
+			$('#nameCardTableWrap').append(line);
+			
+			$('.nameCardTable').click(nameCardMove);
+		};
+		
+		//네임카드 항목이동 by 민석
+		function nameCardMove(){
+			$('.nameCardTable').attr('class','nameCardTable');
+			$(this).attr('class','nameCardTable active');	
+		};
+		
+		$('#searchBtn').on('click',function(){
+			var emailCheck = $('input:radio[name=options]:checked').val();
+			console.log(emailCheck);
+			var page = $('.paging > .active > a').attr('page');
+			var type = $('.form-control option:selected').val();
+			console.log(type);
+			var searchText = $('#searchText').val();
+			console.log(searchText)
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				data : {
+					'searchText' : searchText,
+					'emailCheck' : emailCheck,
+					'type' : type
+				},
+				success : outPut
+			});
 		});
-	}
-</script>
+		
+		//테이블 검색
+		function searchfunc() {
+		  	var input, filter, table, nec, span, i,j;
+		  	input = document.getElementById("searchText");
+		  	filter = input.value.toUpperCase();
+		  	table = document.getElementById("nameCardTable");
+		  	nec = document.getElementsByClassName("nec");
+		  	for (i = 0; i < nec.length; i++) {
+		  		span = nec[i].getElementsByTagName("span");
+		  		var index = $("#selectGroup").val();
+		  		     if (span[index].innerHTML.toUpperCase().indexOf(filter) > -1) {
+		  		    	$('#nameCardTableWrap').children().eq(i).css("display", "block");
+		  		     } else {
+		  		    	$('#nameCardTableWrap').children().eq(i).css("display", "none");
+		  		     }
+			}
+		}
+	</script>
 </html>

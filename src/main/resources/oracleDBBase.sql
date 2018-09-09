@@ -18,6 +18,7 @@ DROP sequence message_seq;
 DROP sequence project_seq;
 DROP sequence eventseq;
 DROP Sequence fileSeq ;
+DROP Sequence ncSeq ;
 CREATE TABLE message (
     messageSeq number PRIMARY KEY
     , userID varchar2(40)
@@ -133,6 +134,7 @@ CREATE TABLE nameCard (
     , nameCardUrl varchar2(100)
     , emailCheck varchar2(10) DEFAULT 0
 );
+CREATE sequence ncSeq;
 ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_ncCheck CHECK (ncCheck BETWEEN 0 AND 1);
 ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_emailCheck CHECK (emailCheck BETWEEN 0 AND 1);
 ALTER TABLE nameCard ADD CONSTRAINT fk_nameCard_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
@@ -148,7 +150,15 @@ INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,
 		VALUES(NCSEQ.NEXTVAL,'asdf','1','김쥐똥','aaa4@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem4.jpg','0');
 INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
 		VALUES(NCSEQ.NEXTVAL,'asdf','1','김뱀똥','aaa5@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem5.jpg','0');
-
+--회원
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','신용하','ikuyong02@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','1');
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','강수빈','ikuyong03@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','이상운','ikuyong04@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');        
+        
+        
 CREATE TABLE projectEvent(
     projectSeq number
     , eventSeq number

@@ -86,4 +86,6 @@
 		SET MEMBERNUM = #{MEMBERNUM}
 		WHERE PROJECTSEQ = #{PROJECTSEQ}
 	</update>
+	<!-- 이민석추가 -->
+	
 </mapper>

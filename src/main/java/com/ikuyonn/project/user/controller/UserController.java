@@ -59,7 +59,7 @@ public class UserController {
 		String userDate = sdf.format(birthDate);
 		hs.setAttribute("userBirth", userDate);
 		hs.setAttribute("userPhone", ur.getUserPhone());
-		return "nameCard/insertNameCard";
+		return "events/schedule";
 	}
 	
 	@RequestMapping(value = "/loginUserCheck", method = RequestMethod.POST)
