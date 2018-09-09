@@ -9,12 +9,15 @@ public class Events {
 	private String description;
 	private Date startDate;
 	private Date endDate;
+	private String projectSeq;
+	private String color;
 	
 	public Events() {
 		super();
 	}
 
-	public Events(String eventSeq, String userID, String summary, String description, Date startDate, Date endDate) {
+	public Events(String eventSeq, String userID, String summary, String description, Date startDate, Date endDate,
+			String projectSeq, String color) {
 		super();
 		this.eventSeq = eventSeq;
 		this.userID = userID;
@@ -22,6 +25,8 @@ public class Events {
 		this.description = description;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.projectSeq = projectSeq;
+		this.color = color;
 	}
 
 	public String getEventSeq() {
@@ -71,11 +76,28 @@ public class Events {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public String getProjectSeq() {
+		return projectSeq;
+	}
+
+	public void setProjectSeq(String projectSeq) {
+		this.projectSeq = projectSeq;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 	@Override
 	public String toString() {
 		return "Events [eventSeq=" + eventSeq + ", userID=" + userID + ", summary=" + summary + ", description="
-				+ description + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ description + ", startDate=" + startDate + ", endDate=" + endDate + ", projectSeq=" + projectSeq
+				+ ", color=" + color + "]";
 	}
 
 }

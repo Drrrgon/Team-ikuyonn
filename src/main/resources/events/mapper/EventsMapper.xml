@@ -3,8 +3,8 @@
 
 <mapper namespace="com.ikuyonn.project.events.mapper.EventsMapper">
 	<insert parameterType="Events" id="insertEvents"> 
-		insert into events(eventSeq, userID, summary, description, startDate, endDate) 
-		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}) 
+		insert into events(eventSeq, userID, summary, description, startDate, endDate, projectSeq, color) 
+		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}, #{projectSeq}, #{color}) 
 	</insert>
 	
 	<select id="privateEvents" parameterType="String" resultType="Events">
@@ -16,7 +16,7 @@
 	</select>
 	
  	<update id="updateEvents" parameterType="Events">
-		update events set summary = #{summary}, startDate = #{startDate}, endDate = #{endDate} where eventSeq = #{eventSeq}
+		update events set summary = #{summary}, startDate = #{startDate}, endDate = #{endDate}, color = #{color} where eventSeq = #{eventSeq}
 	</update>
 	
 	<delete id="deleteEvents" parameterType="Events">
@@ -28,6 +28,6 @@
 	</select> -->
 	
 	<select id="projectEventsList" parameterType="String" resultType="Events">
-		select * from events where userID = #{userID}
+		select * from events where projectSeq = #{projectSeq}
 	</select>
 </mapper>
