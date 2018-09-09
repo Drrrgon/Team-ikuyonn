@@ -21,11 +21,13 @@
 	</update>
 	
  	<update id="updateUser" parameterType="User">
-		update userTable 
-		<if test="originalFileName == null">
-			set userPW = #{userPW}, userBirth = #{userBirth}, userPhone = #{userPhone} where userID = #{userID}
-		</if>
-			set originalFileName = #{originalFileName} where userID = #{userID}
+		update userTable
+			<set>
+				<if test="originalFileName != null">originalFileName = #{originalFileName},</if>
+				<if test="userPW != '' ">userPW = #{userPW},</if>
+				userBirth = #{userBirth}, userPhone = #{userPhone}
+			</set>
+		where userID = #{userID} 
 	</update>
 	
 	<delete id="deleteUser" parameterType="User">

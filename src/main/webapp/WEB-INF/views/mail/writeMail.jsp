@@ -22,7 +22,7 @@ dl {
 #tab_1 {
 	height: 40px;
 	float: left;
-	width: 150px;
+	width: 130px;
 	z-index: 9;
 	position: relative;
 }
@@ -30,7 +30,7 @@ dl {
 #tab_2 {
 	height: 40px;
 	float: left;
-	width: 150px;
+	width: 130px;
 	z-index: 9;
 	position: relative;
 }
@@ -69,9 +69,38 @@ dd.hidden {
 	width: 40%; /* Could be more or less, depending on screen size */
 	height: 100%; /* Full height */
 }
+
+#list2 {
+	cursor: pointer;
+	color: blue;
+}
+/*ajax loading*/
+.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background: rgba(0,0,0,0.2);
+    z-index:9999;
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+}
+    .wrap-loading div{ /*로딩 이미지*/
+        position: fixed;
+        top:30%;
+        left:50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+
+    .display-none{ /*감추기*/
+        display:none;
+    }
+    
 </style>
 </head>
 <body class="h-100">
+
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp"%>
 	<input type="hidden" value="${sessionScope.userID}" id="userID"
@@ -81,8 +110,9 @@ dd.hidden {
 		<div id="page-wrapper">
 			<div id="page-inner">
 				<dl>
-					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_1">메일 쓰기</button>
-				
+					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_1">메일
+						쓰기</button>
+
 					<dd>
 						<div class="row">
 							<div class="col-md-12">
@@ -95,7 +125,7 @@ dd.hidden {
 												id="from"></select>
 										</div>
 										<div class="form-group">
-											<a>받는 사람 :</a> <a id="list"><주소록></a>
+											<a>받는 사람 :</a> <a id="list2">&nbsp;&nbsp;<주소록></a>
 											<div class="custom-control custom-checkbox mb-1">
 												<input type="checkbox" class="custom-control-input"
 													id="formsCheckboxChecked"> <label
@@ -128,7 +158,7 @@ dd.hidden {
 					</dd>
 
 					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_2">메일함</button>
-					<hr />
+
 					<dd class="hidden">
 						<div class="panel-heading">
 							<button type="button" class="btn btn-sm btn-outline-accent"
@@ -167,36 +197,36 @@ dd.hidden {
 					</div>
 					<div class="row">
 						<div class="input-group col-md-8">
-							<input type="text" name="searchText"
-								class="input-sm form-control" id="searchText">
-							<div class="input-group-append">
+							<input type="text" name="searchText" class="input-sm form-control" 
+							id="searchText" onkeyup="searchfunc()" placeholder="검색">
+							<!-- <div class="input-group-append">
 								<button type="button" class="btn btn-sm btn-white"
 									id="searchBtn">검색</button>
-							</div>
-						</div>
-						<div class="col-md-4" style="text-align: right;">
+							</div> -->
 							<select class="form-control" id="selectGroup">
-								<option value="ncName" selected="">이름</option>
-								<option value="ncEmail">이메일</option>
-								<option value="ncCompany">회사명</option>
+								<option value="0" selected="">이름</option>
+								<option value="1" style="backgroun:red">이메일</option>
+								<option value="2">회사명</option>
 							</select>
+						</div>
+						
+						<div class="col-md-4" style="text-align: right;">
+						
 							<button type="button" class="btn btn-sm btn-white"
-								id="deleteList" style="display: none;">선택삭제</button>
+								id="setAddress">선택</button>
 						</div>
 					</div>
 				</div>
-				<div class="card-body p-0" id="nameCardTableWrap">
+				<div class="card-body p-0" style="overflow:scroll" id="nameCardTableWrap">
 					<!-- 명함리스트 -->
 
 				</div>
-				<div class="card-footer border-top">
-					<div class="pagingWrap">
-						<!-- 페이징 -->
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
+	
+
 	<br />
 	<br />
 	<br />
@@ -212,7 +242,13 @@ dd.hidden {
 
 	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 	<%@ include file="../parts/footer.jsp"%>
+<div class="wrap-loading display-none">
 
+		<div>
+			<img src="./resources/images/loading1.gif" />
+		</div>
+
+	</div>
 </body>
 <script type="text/javascript">
 	function refresh() {
@@ -381,11 +417,13 @@ dd.hidden {
 		// 아이콘 설정
 		setLeftSideIcon();
 		refresh();
-		$('.modal').css('z-index', 9);
+		$('.modal').css('z-index', 99999);
 
 		//메일 등록창 열기
-		$("#list").on('click', function() {
+		$("#list2").on('click', function() {
 			$("#insertModal").show();
+			$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
+			init();
 		});
 		//modal cancle button
 		$("#close1").on('click', function() {
@@ -419,6 +457,12 @@ dd.hidden {
 				error : function() {
 					alert("통신 실패");
 				}
+				,beforeSend:function(){
+			        $('.wrap-loading').removeClass('display-none');
+			    }
+			    ,complete:function(){
+			        $('.wrap-loading').addClass('display-none');
+			    }
 			});
 		});
 
@@ -449,10 +493,145 @@ dd.hidden {
 				$('#to').html(mail);
 			}
 		});
+		
+		$("#selectGroup").change(function() {
+			$("#searchText").val("");
+			searchfunc();
+		});
 
 		$("#reset").on('click', function() {
 			$("#to").html("");
 		});
+
+		function outPut(datas) {
+			var line = '';
+			nameCardList = datas;
+			for ( var i in datas) {
+			/* 	if (i == 0) {
+					line += '<div class="nameCardTable active" data-rownum="'+i+'">';
+				} else { */
+					line += '<div class="nameCardTable" id="nct'+i+'">';
+				/* } */
+				line += '<div class="nec">';
+				line += '<ul>';
+				line += '<li>';
+				line += '<span>' + datas[i].ncName + '</span>';
+				line += '</li>';
+				line += '<li>';
+				line += '<span>' + datas[i].ncEmail + '</span>';
+				line += '</li>';
+				line += '<li>';
+				if (datas[i].ncCompany == null) {
+					line += '<span>없음</span>';
+				} else {
+					line += '<span>' + datas[i].ncCompany
+							+ '</span>';
+				}
+				;
+				line += '</li>';
+				line += '</ul>';
+				line += '</div>';
+				line += '<div class="nbg">';
+				line += '<div>';
+				line += '<input type="checkbox" name="nameCardGroup" style="width: 20px;height: 20px;" value="'+i+'">';
+				line += '</div>';
+				line += '</div>';
+				line += '</div>';
+			}
+			;
+			$('#nameCardTableWrap').append(line);
+			/* $('input:checkbox[name=nameCardGroup]').change(checkBoxClick); */
+		};
+		
+		//모달 명함리스트
+		function init() {
+			$.ajax({
+				url : 'getAllNC',
+				type : 'post',
+				success : function(data){
+					outPut(data);
+				},
+				error : function(){
+					alert("통신 실패");
+				}
+			});
+		}
+		;
+
+		var nameCardList;
+
+		$('input:radio[name=options]').change(function() {
+			var emailCheck = $('input:radio[name=options]:checked').val();
+			$('#nameCardTableWrap').html("");
+			$("#searchText").val("");
+			if (emailCheck == 2) {
+				init();
+			} else{
+				$.ajax({
+					url : 'getMember',
+					data : {
+						'emailCheck' : emailCheck
+					},
+					type : 'post',
+					success : function(data){
+						
+						outPut(data);
+					},
+					error : function(){
+						alert("통신 실패");
+					}
+				});
+			}
+			;
+		});
+
+		/* function checkBoxClick() {
+			$('#selectGroup').css('display', '');
+			$('#setAddress').css('display', 'none');
+			var checkBoxGroup = $('input:checkbox[name=nameCardGroup]:checked').length;
+			if (checkBoxGroup > 0) {
+				$('#selectGroup').css('display', 'none');
+				$('#setAddress').css('display', '');
+			}
+		}
+		; */
+
+		//이게 일괄로
+		$('#setAddress').on(
+				'click',
+				function() {
+					var emails = "";
+					var rows = $('input:checkbox[name=nameCardGroup]:checked');
+					for (var i = 0; i < rows.length; i++) {
+						emails += "<span contenteditable=\"false\">"
+								+ nameCardList[rows[i].value].ncEmail
+								+ "</span>";
+					}
+					emails += "&#\8203\;";
+					$("#to").html(emails);
+					$("#insertModal").css("display", "none");
+				});
+
+		/* $('#searchBtn').on('click', function() {
+			var emailCheck = $('input:radio[name=options]:checked').val();
+			console.log(emailCheck);
+			var page = $('.paging > .active > a').attr('page');
+			var type = $('.form-control option:selected').val();
+			console.log(type);
+			var searchText = $('#searchText').val();
+			console.log(searchText)
+			$.ajax({
+				url : 'selectNameCardList',
+				type : 'get',
+				data : {
+					'page' : page,
+					'searchText' : searchText,
+					'emailCheck' : emailCheck,
+					'type' : type
+				},
+				success : outPut
+			});
+		}); */
 
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
@@ -470,5 +649,23 @@ dd.hidden {
 			$('#navbar').children().eq(1).children().eq(0).addClass('active');
 		}
 	});
+	
+	//테이블 검색
+	function searchfunc() {
+  	var input, filter, table, nec, span, i,j;
+  	input = document.getElementById("searchText");
+  	filter = input.value.toUpperCase();
+  	table = document.getElementById("nameCardTable");
+  	nec = document.getElementsByClassName("nec");
+  	for (i = 0; i < nec.length; i++) {
+  		span = nec[i].getElementsByTagName("span");
+  		var index = $("#selectGroup").val();
+  		     if (span[index].innerHTML.toUpperCase().indexOf(filter) > -1) {
+  		    	$('#nameCardTableWrap').children().eq(i).css("display", "block");
+  		     } else {
+  		    	$('#nameCardTableWrap').children().eq(i).css("display", "none");
+  		     }
+  }
+}
 </script>
 </html>

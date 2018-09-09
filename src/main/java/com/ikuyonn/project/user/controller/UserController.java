@@ -58,8 +58,7 @@ public class UserController {
 		Date birthDate = ur.getUserBirth();
 		String userDate = sdf.format(birthDate);
 		hs.setAttribute("userBirth", userDate);
-//		hs.setAttribute("userPhone1", ur.getUserPhone().substring(0, 4));
-//		hs.setAttribute("userPhone2", ur.getUserPhone().substring(5, 9));
+		hs.setAttribute("userPhone", ur.getUserPhone());
 		return "nameCard/insertNameCard";
 	}
 	
@@ -71,6 +70,18 @@ public class UserController {
 			return 1+"";
 		}
 		return 0+"";
+	}
+	
+	@RequestMapping(value = "/userIDCheck", method = RequestMethod.POST)
+	public @ResponseBody String userIDCheck(User u){
+		UserMapper um = session.getMapper(UserMapper.class);
+		User ur = um.loginUser(u);
+		if(ur != null) {
+			String ru = ur.getUserID();
+			return ru;
+		} else {
+			return "";
+		}
 	}
 	
 	@RequestMapping(value = "/ProfilefileUplodeAction", method = RequestMethod.POST, produces = "application/text; charset=utf8")
@@ -105,7 +116,7 @@ public class UserController {
 		
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
 	public String updateUser(HttpSession hs, User u) {
 		UserMapper um = session.getMapper(UserMapper.class);

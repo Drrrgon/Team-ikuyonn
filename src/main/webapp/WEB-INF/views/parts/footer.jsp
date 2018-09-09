@@ -383,16 +383,5 @@
 	}
 	</script>
 	
-	<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
-		<ul class="nav">
-			<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-			<li class="nav-item"><a class="nav-link" href="userprofilelite"><i class="material-icons">&#xE7FD;</i> Profile</a></li>
-			<li class="nav-item"><a class="nav-link" href="logoutUser">Logout</a></li>
-		</ul>
-		<span class="copyright ml-auto my-auto mr-2">Copyright Â© 2018 <a
-			href="https://designrevision.com" rel="nofollow">DesignRevision</a>
-		</span>
-	</footer>
+	
 

@@ -16,26 +16,52 @@
 <body class="h-100">
 <!-- sidebar -->
 <%@ include file="../parts/sidebar.jsp" %>
+<div id="insertModal" class="modal">
+	<div class="modal-content">
+		<h4 class="modal-title">
+			명함등록<span id="close1" class="close"></span>
+		</h4>
+		<div class="nameCardPlus">
+			<div id="insertNameCard">
+				<span>
+					<i class="far fa-images"></i>
+				</span>
+				<span>컴퓨터에 있는 사진으로 명함을 등록할 수 있습니다.</span>
+			</div>
+			<div id="insertNameCard2">
+				<span>
+					<i class="far fa-edit"></i>
+				</span>
+				<span>사진없이 직접 입력하여 명함을 등록할 수 있습니다.</span>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="main-content-container container-fluid px-4">
-	<div class="page-header row no-gutters py-4">
-		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-			<h3 class="page-title">명함첩</h3>
+	<div class="row">
+		<div class=" col-lg-12">
+			<div class="btn-group btn-group-toggle mt-4 mb-3"id="ebuttons" data-toggle="buttons">
+				<label class="btn btn-white active"> 
+					<input type="radio"name="options" value="2" autocomplete="off" checked="">전체
+				</label> 
+				<label class="btn btn-white"> 
+					<input type="radio"name="options" value="1" autocomplete="off">회원
+				</label> 
+				<label class="btn btn-white"> 
+					<input type="radio" name="options" value="0" autocomplete="off">비회원
+				</label> 
+			</div>
+			<div class="namecardPlus mt-4">
+				<a href="javascript:void(0);">
+					<i class="fas fa-user-plus"></i>
+				</a>
+			</div>
 		</div>
 	</div>	
-	<a href="insertNameCard">사진으로 등록</a>
-	<a href="insertNameCard2">직접 등록</a>
 	<div class="row" >
 		<div class="col-lg-4">
 			<div class="card card-small mb-4">		
 				<div class="card-header border-bottom">
-					<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
-						<label class="btn btn-white active">
-						<input type="radio" name="options" value="2" autocomplete="off" checked="">전체</label>
-						<label class="btn btn-white">
-                    	<input type="radio" name="options" value="1" autocomplete="off">회원</label>
-                    	<label class="btn btn-white">
-                    	<input type="radio" name="options" value="0" autocomplete="off">비회원</label>
-                    </div>
 					<div class="row" >
 						<div class="input-group col-md-8">
 							<input type="text" name="searchText" class="input-sm form-control" id="searchText">
@@ -150,7 +176,7 @@
 		var line = '';
 		
 		if(nameCardList.length == 0){
-			line += '<p style="text-align: center;">데이터가 없습니다.<br>명함을<a href="#">추가</a>하세요</p>';
+			line += '<p style="text-align: center;margin-top: 5%;">데이터가 없습니다.<br>명함을추가하세요.</p>';
 			$("#nameCardTableWrap").append(line);	
 			line = '';
 			
@@ -201,7 +227,7 @@
 			line += '<span>'+datas.nameCardList[i].ncName+'</span>';
 			line += '</li>';
 			line += '<li>';
-			line += '<a href="hrefMail?emailAddress='+datas.nameCardList[i].ncEmail+'">'+datas.nameCardList[i].ncEmail+'</a>';
+			line += '<a href="#">'+datas.nameCardList[i].ncEmail+'</a>';
 			line += '</li>';
 			line += '<li>';
 			if(datas.nameCardList[i].ncCompany == null){
@@ -335,14 +361,14 @@
 	$('#delete').on('click',function(){
 		var nameCard = nameCardList[$('#nameCardTableWrap > .active').attr('data-rownum')];
 		var page = $('.paging > .active > a').attr('page');
-		var email = nameCard.ncEmail;
+		var ncEmail = nameCard.ncEmail;
 		console.log(email);
 		if (confirm('삭제하시겠습니까?')) {
 			$.ajax({
 				url : 'selectNameCardList',
 				type : 'get',
 				data : {
-					'email' : email,
+					'ncEmail' : ncEmail,
 					'page' : page
 				},
 				success : outPut
@@ -416,6 +442,24 @@
 			success : outPut
 		});
 	};	
+	
+	 //등록창 열기
+	$(".namecardPlus").on('click',function(){
+		$("#insertModal").show();
+	});
+	 
+	//modal cancle button
+    $(".close").on('click',function() {
+    	$("#insertModal").css("display","none");
+	});
+	
+	$('#insertNameCard').on('click',function(){
+		location.href = 'insertNameCard';
+	});
+	
+	$('#insertNameCard2').on('click',function(){
+		location.href = 'insertNameCard2';
+	});
 </script>
 <%@ include file="../parts/footer.jsp" %>
 </body>

@@ -55,6 +55,11 @@ CREATE TABLE email(
 );
 ALTER TABLE email ADD CONSTRAINT fk_email_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
+insert into email values('ikuyong01@gmail.com','ikuyong01@gmail.com','dlzndyd01','imap.gmail.com','smtp.gmail.com','asdf');
+insert into email values('ikuyong02@gmail.com','ikuyong02@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','zxcv');
+insert into email values('ikuyong03@gmail.com','ikuyong03@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','qwer');
+insert into email values('ikuyong04@gmail.com','ikuyong04@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','1234');
+
 CREATE TABLE inbox(
     msgNum varchar2(20)
     , emailAddress varchar2(100)
@@ -87,10 +92,13 @@ CREATE TABLE events (
     , description varchar2(500) NOT NULL
     , startDate date NOT NULL
     , endDate date NOT NULL
+    , projectseq number
+    , color varchar2(10)
 );
 create sequence eventseq;
 
 ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
+ALTER TABLE events ADD CONSTRAINT fk_events_projectseq FOREIGN KEY (projectseq) REFERENCES project(projectseq)on delete cascade;
 
 CREATE TABLE joinProject (
     userID varchar2(40)
@@ -112,7 +120,7 @@ CREATE TABLE nameCard (
     , userID varchar2(40)
     , ncCheck varchar2(10)
     , ncName varchar2(40)
-    , ncEmail varchar2(100) UNIQUE NOT NULL
+    , ncEmail varchar2(100) NOT NULL
     , ncMobile varchar2(60)
     , ncPhone varchar2(60)
     , ncFax varchar2(60)
@@ -129,6 +137,18 @@ ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_ncCheck CHECK (ncCheck BETWEE
 ALTER TABLE nameCard ADD CONSTRAINT check_nameCard_emailCheck CHECK (emailCheck BETWEEN 0 AND 1);
 ALTER TABLE nameCard ADD CONSTRAINT fk_nameCard_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 
+--비회원
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','김개똥','aaa1@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem1.jpg','0');
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','김말똥','aaa2@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','0');
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','김소똥','aaa3@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','0');
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','김쥐똥','aaa4@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem4.jpg','0');
+INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','김뱀똥','aaa5@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem5.jpg','0');
+
 CREATE TABLE projectEvent(
     projectSeq number
     , eventSeq number
@@ -143,7 +163,7 @@ CREATE TABLE cloudFile(
     ,filePath varchar2(300) default 'c:\\\\filerepo\\\\'
     ,saveFileName varchar2(300) NOT NULL
     ,fileType varchar2(40) NOT NULL
-    ,projectSeq number 
+    ,projectSeq number
 );
 ALTER TABLE cloudFile add CONSTRAINT fk_file_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
 
