@@ -112,10 +112,10 @@ public class SocketController {
 		user = um.loginUser(ur);
 		String path= "";
 		if(user.getOriginalFileName() == null) {
-			path = "./resources/images/default.jpg";
+			path = "./cResources/images/userProfile/default.jpg";
 		}
 		else {
-			path = "./image/"+user.getOriginalFileName();
+			path = "./cResources/images/userProfile/"+user.getOriginalFileName();
 		}
 		return path;
 	}

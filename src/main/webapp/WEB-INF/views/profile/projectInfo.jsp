@@ -140,12 +140,12 @@
             printProjectHtml += projectList[i].projectName;
             printProjectHtml += '</td>';
             printProjectHtml += '<td class="table_project_deleteBtn">';
-            printProjectHtml += '<button class="deleteProject btn btn-accent" data-project-seq="'+projectList[i].projectSeq+'">삭제</button>';
+            printProjectHtml += '<button class="deleteProjectBtn btn btn-accent" data-project-seq="'+projectList[i].projectSeq+'">삭제</button>';
             printProjectHtml += '</td>';
             printProjectHtml += '</tr>';
             $('#joinedProjectListTable').append(printProjectHtml);
         }
-        $('.deleteProject').on('click', deleteProject);
+        $('.deleteProjectBtn').on('click', deleteProject);
     }
     function printAllProjectList(projectList){
         $('#allProjectList').text('');

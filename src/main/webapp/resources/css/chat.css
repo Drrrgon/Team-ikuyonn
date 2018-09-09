@@ -411,7 +411,7 @@ html.open {
     position: absolute;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
-        z-index: 16;
+    z-index: 16;
   }
 
 .fab_field a {

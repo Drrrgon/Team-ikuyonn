@@ -24,7 +24,7 @@
 				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD') -->
 		AND
 		rownum = 1
-		order by messageSeq desc
+		order by messageSeq DESC
 		
 	</select>
 	<insert id="insertContent" parameterType="message" >
