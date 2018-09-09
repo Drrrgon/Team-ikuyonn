@@ -52,4 +52,7 @@ public interface MailMapper {
 	
 	public void fixNameCard1(email email);
 	public void fixNameCard0(email email);
+	
+	/*이민석 추가*/
+	public String selectUserID(String email);
 }

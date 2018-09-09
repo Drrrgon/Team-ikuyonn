@@ -76,4 +76,9 @@ update nameCard set emailCheck=1 where ncEmail=#{emailAddress}
 <update id="fixNameCard0" parameterType="Email">
 update nameCard set emailCheck=0 where ncEmail=#{emailAddress}
 </update>
+
+<!-- 이메일주소로 아이디검색 by 이민석 -->
+<select id="selectUserID" parameterType="String" resultType="String">
+SELECT USERID FROM EMAIL WHERE EMAILADDRESS = #{email} 
+</select>
 </mapper>

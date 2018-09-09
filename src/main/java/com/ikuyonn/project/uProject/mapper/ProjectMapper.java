@@ -23,5 +23,6 @@ public interface ProjectMapper {
 
 	public void updateCountOfProjectMember(HashMap<String, Object> userMap);
 
-
+	/*이민석추가*/
+	
 }

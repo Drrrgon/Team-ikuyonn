@@ -2,6 +2,7 @@ package com.ikuyonn.project.uProject.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.Project;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.uProject.mapper.ProjectMapper;
@@ -59,7 +61,7 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/createProject", method = RequestMethod.POST)
-	public @ResponseBody List<Project> createProject(User u, String projectName, String due){
+	public @ResponseBody List<Project> createProject(User u, String projectName, String due,String[] emails){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
 		Project pro = new Project();
 		pro.setProjectMaster(u.getUserID());
@@ -73,11 +75,23 @@ public class ProjectController {
 		pro.setDue("기간 미정");
 		int re = um.createProject(pro);
 		userMap.put("projectSeq", pro.getProjectSeq());
-		int res = um.joinProject(userMap);
+		
+		/*이민석 추가*/
+		System.out.println("emails[0] : " + emails[0]);
+		MailMapper mailMapper = session.getMapper(MailMapper.class);
+		um.joinProject(userMap);
+		HashMap<String, Object> parameters = new HashMap<>();	
+		for(String s : emails) {
+			parameters.put("userID", mailMapper.selectUserID(s));
+			parameters.put("projectSeq",pro.getProjectSeq());
+			System.out.println("userid : "+parameters.get("userID")+" projectSEQ : "+parameters.get("projectSEQ"));
+			int res = um.joinProject(parameters);
+		}
 		userMap = um.getCountOfProjectMember(pro.getProjectSeq());
 		userMap.put("PROJECTSEQ", pro.getProjectSeq());
 		um.updateCountOfProjectMember(userMap);
-		List<Project> project = um.getUserProjectList(userMap);
+		List<Project> project = um.getUserProjectList(userMap);		
+		
 		
 		return project;
 	}

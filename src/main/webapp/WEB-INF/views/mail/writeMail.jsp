@@ -538,7 +538,7 @@ dd.hidden {
 			/* $('input:checkbox[name=nameCardGroup]').change(checkBoxClick); */
 		};
 		
-		//모달 명함리스트
+
 		function init() {
 			$.ajax({
 				url : 'getAllNC',
@@ -550,10 +550,10 @@ dd.hidden {
 					alert("통신 실패");
 				}
 			});
-		}
-		;
+		};
 
 		var nameCardList;
+		
 
 		$('input:radio[name=options]').change(function() {
 			var emailCheck = $('input:radio[name=options]:checked').val();
