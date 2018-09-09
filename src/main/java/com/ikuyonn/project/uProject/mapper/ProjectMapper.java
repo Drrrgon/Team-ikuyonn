@@ -19,5 +19,9 @@ public interface ProjectMapper {
 
 	public int createProject(Project pro);
 
+	public HashMap<String, Object> getCountOfProjectMember(int projectSeq);
+
+	public void updateCountOfProjectMember(HashMap<String, Object> userMap);
+
 
 }

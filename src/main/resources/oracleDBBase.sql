@@ -71,17 +71,19 @@ CREATE TABLE inbox(
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
 CREATE TABLE project (
-    -- project master e-mail
-    projectSeq number PRIMARY KEY
+    
+    projectSeq number PRIMARY KEY,
+    projectMaster varchar2(40)
     , projectName varchar2(200)
-    ,due varchar2(100) default '------'
-    ,memberNum number
+    , due varchar2(100) default '------'
+    , memberNum number
 );
 CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team Ikuyonn', NULL, NULL);
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team DDONG', NULL, NULL);
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team 12', NULL, NULL);
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'Team 34', NULL, NULL);
+ALTER TABLE project ADD CONSTRAINT fk_project_projectMaster FOREIGN KEY (projectMaster) REFERENCES userTable(userID)on delete cascade;
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team Ikuyonn', sysdate, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team DDONG', sysdate, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team 12', sysdate, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team 34', sysdate, NULL);
 
 CREATE TABLE events (
     eventSeq number PRIMARY KEY

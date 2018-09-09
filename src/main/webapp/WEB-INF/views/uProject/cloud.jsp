@@ -114,7 +114,7 @@ div#create_project_div{
 				</div>
 
 			</div>
-			<div class="card card-small mb-4">
+			<div id="cloudDiv" class="card card-small mb-4">
 				<div class="card-header border-bottom">
 					<h6 class="m-0">클라우드</h6>
 					<div align="right">
@@ -188,6 +188,7 @@ div#create_project_div{
 	<%@ include file="../parts/footer.jsp"%>
 </body>
 <script>
+	var checkJoinedP ;
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
 					'nav-link ');
@@ -203,17 +204,30 @@ div#create_project_div{
 					'nav-link ');
 			$('#navbar').children().eq(4).children().eq(0).addClass('active');
 		}
-		function getProject() {
+		function getJoinedProject() {
 			var userID = $("#userID").val();
 			$.ajax({
-				url : "getProject",
+				url : "getProjectInfo",
 				type : "post",
 				data : {
 					"userID" : userID
 				},
 				success : function(data) {
-					initProjectList();
+					initJoinedProjectList();
 					printJoinedProjectList(data);
+				},
+				error : function() {
+					alert("통신실패");
+				}
+			});
+		}
+		function getAllProject(){
+			$.ajax({
+				url : "getProjectInfo",
+				type : "post",
+				success : function(data) {
+					initAllProjectList();
+					printAllProjectList(data);
 				},
 				error : function() {
 					alert("통신실패");
@@ -226,38 +240,73 @@ div#create_project_div{
 			
 		}
 		function createProject(){
-        var projectName = $('#inputProjectName').val();
-        if(projectName.length == 0){
-            alert('프로젝트 명을 입력해 주세요!');
-            $('#inputProjectName').focus();
-            $('#inputProjectName').select();
-            return false;
-        }
-        if(projectName.length > 15){
-            alert('프로젝트 명을 15자 이하로입력해 주세요!');
-            $('#inputProjectName').focus();
-            $('#inputProjectName').select();
-            return false;
-        }
-        var sessionID = "${sessionScope.userID}";
-        $.ajax({
-            url: 'createProject',
-            type: 'post',
-            data: {
-                'userID': sessionID, 'projectName': projectName
-            },
-            success: function(list){
-				getProject();
-                $('#inputProjectName').val('');
-                closeCreateProject();
-            }
-        });
-    }
-	function closeCreateProject(){
+			var projectName = $('#inputProjectName').val();
+			var due = $('#inputProjectDate').val();
+			if(projectName.length == 0){
+				alert('프로젝트 명을 입력해 주세요!');
+				$('#inputProjectName').focus();
+				$('#inputProjectName').select();
+				return false;
+			}
+			if(projectName.length > 15){
+				alert('프로젝트 명을 15자 이하로입력해 주세요!');
+				$('#inputProjectName').focus();
+				$('#inputProjectName').select();
+				return false;
+			}
+			var sessionID = "${sessionScope.userID}";
+			$.ajax({
+				url: 'createProject',
+				type: 'post',
+				data: {
+					'userID': sessionID, 'projectName': projectName, 'due':due
+				},
+				success: function(list){
+					getJoinedProject();
+					$('#inputProjectName').val('');
+					closeCreateProject();
+				}
+			});
+    	}
+		function closeCreateProject(){
 		$('#create_project_div').css('display', 'none');
 		$('#joinedProjectDiv').css('display', 'block');
 	}
+		function checkJoinedProject(allProjectList){
+			var userID = '${sessionScope.userID}';
+			$.ajax({
+				url: 'getProjectInfo',
+				type: 'post',
+				data: {
+					'userID': userID
+				},
+				success: function(joinedProjectList){
+					var temp = "";					
+					for (let i = 0; i < joinedProjectList.length; i++) {
+						
+						for (var j = 0; j < allProjectList.length; j++) {
+							console.log(allProjectList[j]);
+							console.log(allProjectList[i].projectName);
+							if(allProjectList[j] == allProjectList[i].projectName){
+								temp += '<td><button class="secessionProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">탈퇴</button></td>';
+								console.log('1');
+								$("#allTbody").append(temp);
+								return;
+							}else{
+								temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
+								console.log('2');
+								$("#allTbody").append(temp);
+								return;
+							}					
+				}				
+					}
+					
+				}
+			});
+			
+		}
 		function printJoinedProjectList(joinedProjectList){
+			var userID = "${sessionScope.userID}"
 			var temp = "";
 			for ( var i in joinedProjectList) {
 				temp += "<tr><td>" + i + "</td>";
@@ -271,10 +320,10 @@ div#create_project_div{
 			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
 			temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
 								
-			$("#tbody").append(temp);
+			$("#joinedTbody").append(temp);
 			$('#openInputFormBtn').on('click', openInputForm);
 		}
-		function initProjectList(){
+		function initJoinedProjectList(){
 			$('#joinedProjectList').text('');
 			var printHtml ='<table class="table mb-0">';
 			printHtml += '<thead class="bg-light">';
@@ -285,10 +334,87 @@ div#create_project_div{
 			printHtml += '<th scope="col" class="border-0">참여인원</th>';
 			printHtml += '</tr>';
 			printHtml += '</thead>';
-			printHtml += '<tbody id="tbody">';
+			printHtml += '<tbody id="joinedTbody">';
 			printHtml += '</tbody>';
 			printHtml += '</table>';
 			$('#joinedProjectList').html(printHtml);		
+		}
+		function printAllProjectList(allProjectList){
+			var temp = "";
+			
+
+
+			for ( let i = 0; i < allProjectList.length; i++) {
+				temp += "<tr><td>" + i + "</td>";
+				temp += "<td>" + allProjectList[i].projectName + "</td>";
+				temp += "<td>" + allProjectList[i].due + "</td>";
+				temp += "<td>" + allProjectList[i].memberNum + "</td>";
+				if(userID == allProjectList[i].projectMaster){
+					temp +='<td><button class="deleteProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">삭제</button></td>';
+				}else{
+					
+				}				
+				checkJoinedProject(allProjectList);
+
+				console.log('-1');
+				console.log(checkJoinedP);
+				
+				console.log('3');
+				
+			}
+			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
+			$("#allTbody").append(temp);
+			$('.deleteProjectBtn').on('click', deleteProject);
+			$('.joinProjectBtn').on('click', joinProject);					
+			$('.secessionProjectBtn').on('click', secessionProject);	
+			// $('#openInputFormBtn').on('click', openInputForm);
+		}
+		function joinProject(){
+
+		}
+		function secessionProject(){
+
+		}
+		function deleteProject(){
+			var sessionID = "${sessionScope.userID}";
+			var projectSeq = $(this).attr('data-project-seq');
+			console.log(projectSeq);
+			var flag = confirm('정말로 삭제하시겠습니까?');
+			if(flag){
+				$.ajax({
+				url: 'deleteProject',
+				type: 'post',
+				data: {
+					'userID': sessionID, 'projectSeq': projectSeq
+				},
+				success: function(allProjectList){
+					initAllProjectList();
+					printAllProjectList(allProjectList);
+				}
+				});
+			}
+		};
+		function initAllProjectList(){
+			// $.ajax({
+			// 	url: 'getProjectInfo',
+			// 	type: 'post',
+			// 	success: 
+
+			// });
+			$('#allProjectList').text('');
+			var printHtml ='<table class="table mb-0">';
+			printHtml += '<thead class="bg-light">';
+			printHtml += '<tr>';
+			printHtml += '<th scope="col" class="border-0">#</th>';
+			printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
+			printHtml += '<th scope="col" class="border-0">기간</th>';
+			printHtml += '<th scope="col" class="border-0">참여인원</th>';
+			printHtml += '</tr>';
+			printHtml += '</thead>';
+			printHtml += '<tbody id="allTbody">';
+			printHtml += '</tbody>';
+			printHtml += '</table>';
+			$('#allProjectList').html(printHtml);
 		}
 		function fileList(projectSeq) {
 			var temp = document.getElementById("cloudBody");
@@ -308,20 +434,27 @@ div#create_project_div{
 				}
 			});
 		}
-		$(function() {
+		function btnFunction(){
 			$('#createProjectBtn').on('click', createProject);
 			$('#modifyProjectBtn').on("click", openProjectWindow);
 			$('#backBtn').on('click', closeCreateProject);
 			$('#joinedProjectListHeader').on('click', function(){
 				$('#allProjectList').css('display', 'none');
 				$('#joinedProjectList').css('display', 'block');
+				$('#cloudDiv').css('display', 'block');
 			});
 			$('#allProjectListHeader').on('click', function(){
 				$('#allProjectList').css('display', 'block');
 				$('#joinedProjectList').css('display', 'none');
+				$('#cloudDiv').css('display', 'none');
+				getAllProject();
 			});
+		}
+		$(function() {
+			btnFunction();
 			setLeftSideIcon();
-			getProject();
+			getJoinedProject();
+
 			var projectSeq = "";
 			$("#upload").click(function(e) {
 				e.preventDefault();

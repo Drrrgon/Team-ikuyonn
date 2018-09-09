@@ -30,12 +30,12 @@ public class CloudController {
 	SqlSession session;
 	private static  String UPLOADPATH = "";
 	
-	@RequestMapping(value = "/getProject", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Project> getProject(String userID) {
-		MailMapper mapper = session.getMapper(MailMapper.class);
-		ArrayList<Project> project = mapper.getProject(userID);
-		return project;
-	}
+//	@RequestMapping(value = "/getProject", method = RequestMethod.POST)
+//	public @ResponseBody ArrayList<Project> getProject(String userID) {
+//		MailMapper mapper = session.getMapper(MailMapper.class);
+//		ArrayList<Project> project = mapper.getProject(userID);
+//		return project;
+//	}
 	@RequestMapping(value = "/addFile", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<fileVO> addFile(MultipartFile file,int proSeq, HttpServletRequest request) {
 		ServletContext cotx = request.getSession().getServletContext();
