@@ -133,17 +133,20 @@ body {
 	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close"></span></h4>
     <form id="insertForm">
     	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
-    	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily">
-    	<input type="color" id="color1" name="color1"/> -->
+    	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily"> -->
 		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
+		<select name='color1' id='color1'>
+			<option id='red' value='#FF0000'></option>
+			<option id='red' value='#FF6347'></option>
+		</select>색깔 지정&nbsp;<br>
 		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
     	<select name='year1' id='year1' onChange='setDate()'></select>년&nbsp;
     	<select name='month1' id='month1' onChange='setDate()'></select>월&nbsp;
     	<select name='day1' id='day1'></select>일&nbsp;
 		<select name='hour1' id='hour1'></select>시&nbsp;
-		<select name='minute1' id='minute1'></select>분&nbsp;           
+		<select name='minute1' id='minute1'></select>분&nbsp;<br>           
 		<label>마감</label><input type="hidden" id="endDate2" name="endDate2"/>
     	<select name='year2' id='year2' onChange='setDate()'></select>년&nbsp;
     	<select name='month2' id='month2' onChange='setDate()'></select>월&nbsp;
@@ -170,6 +173,7 @@ body {
 <script src='./resources/scripts/fullcalendar.min.js'></script>
 <script src='./resources/scripts/scheduler.min.js'></script>
 <script src='./resources/scripts/theme-chooser.js'></script>
+<script src="jscolor.js"></script>
 <script>
 document.getElementById("year1").value = new Date().getFullYear();
 document.getElementById("month1").value = new Date().getMonth() + 1;
@@ -259,8 +263,12 @@ function setLeftSideIcon(){
   							data : {
 								'userID' : $('#userID1').val()
 							},
-							success : function(data) {
+							success : function(data) {				
 								$(data).each(function(index, item) {
+									/* for(var i in data){
+										var color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
+									} */
+									
 									events.push({
 										id : item.userID,
 										title : item.summary,
@@ -405,7 +413,6 @@ function setLeftSideIcon(){
 								eventDetail['minute3'].value = minute3;
 								eventDetail['minute4'].value = minute4;
 
-
 								function setDate0() {
 									var eventDetail = document.getElementById('eventDetail');
 										
@@ -508,6 +515,7 @@ function setLeftSideIcon(){
 	    var day = new Date().getDate();
 	    var hour = new Date().getHours();
 	    var minute = new Date().getMinutes();
+	    // var color = $('#color1').val();
 	    
 	    var startYear = year - 80;
 	    for(var i=0; i<100; i++) {
@@ -528,6 +536,12 @@ function setLeftSideIcon(){
 	    for (var i=0; i<60; i++) {
 	    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
 	    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+	    }
+	    
+ 	    var colorArray = [red, tomato, 'FFFF00', '#008000', '#0000FF'];
+	    for (var i=0; i<colorArray.length; i++) {
+	    	insertForm['color1'].options[i] = new Option(colorArray[i], colorArray[i]);
+	    	// insertForm['color1'].options = colorArray[i];
 	    }
 	    
 	    insertForm['year1'].value = year;
