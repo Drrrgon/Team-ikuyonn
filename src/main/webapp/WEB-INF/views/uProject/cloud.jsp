@@ -130,17 +130,17 @@ div.hidden {
 				<div id="allProjectList" class="card-body p-0 pb-3 text-center">
 				</div>
 			</div>
-			<div id="cloudDiv" class="card card-small mb-4">
+			<div id="cloudDiv" class="card card-small mb-4 hidden" display="none">
 				<div class="card-header border-bottom">
 				<div class="btn-group btn-group-toggle mb-3" id="ebuttons"
 						data-toggle="buttons">
 					<label class="btn btn-white active"> <input type="radio"
-						name="options" value="2" autocomplete="off" checked="">클라우드
+						name="options" value="1" autocomplete="off" checked="">일정
 					</label> <label class="btn btn-white"> <input type="radio"
-						name="options" value="1" autocomplete="off">일정
+						name="options" value="2" autocomplete="off">클라우드
 					</label>
 				</div>
-				<div id="cloudTab">
+				<div class="hidden" id="cloudTab">
 					<div align="right">
 						<form id="FILE_FORM" method="post" enctype="multipart/form-data"
 							action="">
@@ -150,20 +150,22 @@ div.hidden {
 							등록</button>
 						<button type="button" class="btn btn-white" id="delete">삭&nbsp;제</button>
 					</div>
-				</div>
-				</div>
+				
+				
 				<div>
 				<div class="card-body p-0 pb-3 text-center" id="cloudBody">
-					<div>
-						프로젝트명<input type="hidden" value="" id="proSeq" />
+					<div id="proName">
 					</div>
+					<input type="hidden" value="" id="proSeq" />
 					<table class="table mb-0" id="fileTable">
 						<tr>
 						</tr>
 					</table>
 				</div>
 				</div>
-				<div class="hidden" id="scheduleTab">
+				</div>
+				</div>
+				<div id="scheduleTab">
 				<h1>aaaa</h1>
 				</div>
 			</div>
@@ -187,7 +189,6 @@ div.hidden {
 					<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
 				</div>
 			</div>
-
 		</div>
 		<!-- <div id="all_project_div" class="col">
 				<div class="inline card card-large mb-4">
@@ -446,6 +447,7 @@ div.hidden {
 		$('#allProjectList').html(printHtml);
 	}
 	function fileList(projectSeq) {
+		$("#cloudDiv").css("display","block");
 		var temp = document.getElementById("cloudBody");
 		temp.style.display = "block";
 		$("#proSeq").val(projectSeq);
