@@ -2,9 +2,15 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ikuyonn.project.events.mapper.EventsMapper">
-	<insert parameterType="Events" id="insertEvents"> 
-		insert into events(eventSeq, userID, summary, description, startDate, endDate, projectSeq, color) 
-		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}, #{projectSeq}, #{color}) 
+	<insert parameterType="Events" id="insertEvents">
+	<if test="projectSeq==null">
+		insert into events(eventSeq, userID, summary, description, startDate, endDate, color) 
+		values(eventseq.nextval, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}, #{color})
+	</if>
+	<if test="userID==null">
+		insert into events(eventSeq, projectSeq, summary, description, startDate, endDate, color) 
+		values(eventseq.nextval, #{projectSeq}, #{summary}, #{description}, #{startDate}, #{endDate}, #{color})
+	</if>
 	</insert>
 	
 	<select id="privateEvents" parameterType="String" resultType="Events">

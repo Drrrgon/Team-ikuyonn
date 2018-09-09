@@ -137,14 +137,13 @@ body {
 		<input type="hidden" id="userID1" value="${sessionScope.userID}" />
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
-		<br/>
-		<p>색깔지정
-		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="colorPicker"></button>
-		<br/><br/>
-		<!-- <select name='color1' id='color1'>
-			<option id='red' value='#FF0000'></option>
-			<option id='red' value='#FF6347'></option>
-		</select>색깔 지정&nbsp;<br> -->
+
+		<br/><p>색깔지정</p>
+		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="color1">
+		</button><br/>
+
+		<!-- <select name='color1' id='color1'></select>색깔 지정&nbsp;<br> -->
+
 		<label>시작</label><input type="hidden" id="startDate1" name="startDate1"/>
     	<select name='year1' id='year1' onChange='setDate()'></select>년&nbsp;
     	<select name='month1' id='month1' onChange='setDate()'></select>월&nbsp;
@@ -290,11 +289,19 @@ function setLeftSideIcon(){
 						});
 					},
 					dayClick : function(date, jsEvent, view){
+						var dateC = date.format();
+						var yearC = dateC.substring(0, 4);
+						var monthC = dateC.substring(5, 7);
+						var dayC = dateC.substring(8, 10);
+						var year1 = document.getElementById('year1');
+						var month1 = document.getElementById('month1');
+						var day1 = document.getElementById('day1');
+						year1 = yearC;
+						month1 = monthC;
+						day1 = dayC;
 						
 						var modal = document.getElementById('insertModal');
-						
 						var span = document.getElementById('close1');
-						
 						var cancel = document.getElementById('cancelButton1');
 						
 						modal.style.display = 'block';
@@ -514,12 +521,18 @@ function setLeftSideIcon(){
 		
 		var insertForm = document.getElementById('insertForm');
 		
-	    var year = new Date().getFullYear();
+/* 	    var year = new Date().getFullYear();
 	    var month = new Date().getMonth() + 1;
 	    var day = new Date().getDate();
 	    var hour = new Date().getHours();
+	    var minute = new Date().getMinutes(); */
+	    var year = document.getElementById('year1').value;
+	    var month = document.getElementById('month1').value;
+	    var day = document.getElementById('day1').value;
+	    var hour = new Date().getHours();
 	    var minute = new Date().getMinutes();
-	    // var color = $('#color1').val();
+	    alert(year);
+	    var color = $('#color1').val();
 	    
 	    var startYear = year - 80;
 	    for(var i=0; i<100; i++) {
@@ -542,7 +555,8 @@ function setLeftSideIcon(){
 	    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
 	    }
 	    
- 	   /*  var colorArray = [red, tomato, 'FFFF00', '#008000', '#0000FF'];
+/*  	    var colorArray = ['red', 'tomato', 'yellow', 'green', 'blue'];
+
 	    for (var i=0; i<colorArray.length; i++) {
 	    	insertForm['color1'].options[i] = new Option(colorArray[i], colorArray[i]);
 	    	// insertForm['color1'].options = colorArray[i];
@@ -586,7 +600,7 @@ function setLeftSideIcon(){
 						'description' : $('#description1').val(),
 						'startDate' : $('#startDate1').val(),
 						'endDate' : $('#endDate2').val(),
-						'color' : $('#color1').val()
+						'color' : $('#color1').css("background-color")
 		    	}
 		    	
 				$.ajax({

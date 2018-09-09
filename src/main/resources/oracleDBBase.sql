@@ -91,7 +91,7 @@ CREATE TABLE events (
     , startDate date NOT NULL
     , endDate date NOT NULL
     , projectseq number
-    , color varchar2(10)
+    , color varchar2(20)
 );
 create sequence eventseq;
 
