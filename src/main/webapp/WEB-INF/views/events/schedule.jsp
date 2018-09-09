@@ -75,6 +75,7 @@ body {
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
+    margin-top: 10%;
     padding: 20px;
     border: 1px solid #888;
     width: 50%; /* Could be more or less, depending on screen size */
@@ -195,14 +196,15 @@ function setLeftSideIcon(){
 			$('#navbar').children().eq(2).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(2).children().eq(0).addClass('active');
+			$('#navbar').children().eq(0).children().eq(0).addClass('active');
 	}
 	
 	$(function() {
 		setLeftSideIcon();
 		
-		$("#colorPicker").addClass(' jscolor-active');
+		$("#colorPicker").click(function(){
+			alert($("#colorPicker").css('background-color'));
+		});
 		initThemeChooser({	
 			
 			init : function(themeSystem) {
@@ -596,7 +598,9 @@ function setLeftSideIcon(){
 					success : function(data){
 						if(data == 'success'){
 						var modal1 = document.getElementById('insertModal');
-						modal1.style.display = 'none';}
+						modal1.style.display = 'none';
+						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
+						}
 					},
 					error : function() {
 						// alert("송신실패");

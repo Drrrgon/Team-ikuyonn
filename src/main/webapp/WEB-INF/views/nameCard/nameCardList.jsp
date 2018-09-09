@@ -149,10 +149,24 @@
 		</div>	
 	</div>
 </div>
+
+<%@ include file="../parts/footer.jsp" %>
+</body>
 <script type="text/javascript">
-	
+function setLeftSideIcon() {
+	$('#navbar').children().eq(0).children().eq(0).attr('class',
+			'nav-link ');
+	$('#navbar').children().eq(1).children().eq(0).attr('class',
+			'nav-link ');
+	$('#navbar').children().eq(2).children().eq(0).attr('class',
+			'nav-link ');
+	$('#navbar').children().eq(3).children().eq(0).attr('class',
+			'nav-link ');
+	$('#navbar').children().eq(1).children().eq(0).addClass('active');
+}
 	$(function(){
 		init();	
+		setLeftSideIcon();
 	});
 
 	function init(){
@@ -461,6 +475,4 @@
 		location.href = 'insertNameCard2';
 	});
 </script>
-<%@ include file="../parts/footer.jsp" %>
-</body>
 </html>

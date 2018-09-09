@@ -37,6 +37,12 @@
 			<div class="nav-wrapper">
 				<ul id="navbar" class="nav flex-column">
 					<li class="nav-item">
+						<a class="nav-link " href="schedule"> 
+							<i class="material-icons">today</i> 
+							<span>일정표</span>
+						</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link " href="nameCardList"> 
 							<i class="material-icons">tab</i> 
 							<span>명함첩</span>
@@ -46,25 +52,6 @@
 						<a class="nav-link " href="writeMail">
 							<i class="material-icons">mail</i> 
 							<span>메일</span>
-						</a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link " href="schedule"> 
-							<i class="material-icons">today</i> 
-							<span>일정표</span>
-						</a>
-					</li>
-					<!-- <li class="nav-item">
-						<a class="nav-link " href="userprofilelite"> 
-							<i class="material-icons">error</i> 
-							<span>회원정보</span>
-						</a>
-					</li> -->
-					<li class="nav-item">
-						<a class="nav-link " href="projectFileCloud"> 
-							<i class="material-icons">share</i>
-							<span>Project Cloud</span>
 						</a>
 					</li>
 					<li class="nav-item">

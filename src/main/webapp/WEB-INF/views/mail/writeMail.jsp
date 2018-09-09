@@ -67,7 +67,7 @@ dd.hidden {
 	padding: 30px;
 	border: 1px solid #888;
 	width: 40%; /* Could be more or less, depending on screen size */
-	height: 100%; /* Full height */
+	height: 80%; /* Full height */
 }
 
 #list2 {
@@ -249,8 +249,7 @@ dd.hidden {
 		</div>
 
 	</div>
-</body>
-<script type="text/javascript">
+	<script type="text/javascript">
 	function refresh() {
 		var userID = $("#userID").val();
 		var temp;
@@ -388,11 +387,7 @@ dd.hidden {
 				'nav-link ');
 		$('#navbar').children().eq(3).children().eq(0).attr('class',
 				'nav-link ');
-		$('#navbar').children().eq(4).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(5).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(1).children().eq(0).addClass('active');
+		$('#navbar').children().eq(2).children().eq(0).addClass('active');
 	}
 	function naming() {
 		var aa = $("#to");
@@ -642,11 +637,7 @@ dd.hidden {
 					'nav-link ');
 			$('#navbar').children().eq(3).children().eq(0).attr('class',
 					'nav-link ');
-			$('#navbar').children().eq(4).children().eq(0).attr('class',
-					'nav-link ');
-			$('#navbar').children().eq(5).children().eq(0).attr('class',
-					'nav-link ');
-			$('#navbar').children().eq(1).children().eq(0).addClass('active');
+			$('#navbar').children().eq(2).children().eq(0).addClass('active');
 		}
 	});
 	
@@ -668,4 +659,6 @@ dd.hidden {
   }
 }
 </script>
+</body>
+
 </html>
