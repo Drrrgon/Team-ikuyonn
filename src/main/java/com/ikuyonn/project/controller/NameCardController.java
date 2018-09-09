@@ -120,7 +120,22 @@ public class NameCardController {
 		System.out.println(result.get(searchText));
 		return result;
 	}
+	@RequestMapping(value = "/getAllNC", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<NameCard> getAllNC(HttpSession ss) {
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		ArrayList<NameCard> result = mapper.getAllNC((String)ss.getAttribute("userID"));
+		return result;
+	}
 	
+	@RequestMapping(value = "/getMember", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<NameCard> getMember(HttpSession ss,String emailCheck) {
+		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
+		NameCard nc = new NameCard();
+		nc.setUserID((String)ss.getAttribute("userID"));
+		nc.setEmailCheck(emailCheck);
+		ArrayList<NameCard> result = mapper.getMember(nc);
+		return result;
+	}
 	//명함수정페이지	
 	@RequestMapping(value = "/updateNameCard", method = RequestMethod.GET)
 	public String updateNameCard(Model model,NameCard nameCard,HttpSession httpSession) {

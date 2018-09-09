@@ -258,6 +258,13 @@
 			$('.modal').css('z-index',9);
 			//emailAddress중복체크 key up
 			$("#emailAddress").keyup(function(){
+				var email = $("#emailAddress").val();
+				var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+				if(exptext.test(email)==false){
+					var temp="잘못된 이메일 형식입니다.";
+					$("#mailCheck").html(temp);
+					$("#addMail").attr('disabled',true);
+				}else{
 				$.ajax({
 					url : "mailCheck",
 					type : "post",
@@ -279,6 +286,7 @@
 						alert("통신실패");
 					}
 				});
+				}
 			});
 			//드래그앤드롭 파일업로드
 			var file = document.querySelector('#fileUplode');

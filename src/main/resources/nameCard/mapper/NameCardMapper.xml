@@ -142,4 +142,44 @@
 	<select id="selectEmailAddress" parameterType="String" resultType="int">
 		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
 	</select>
+	<select id="getAllNC" parameterType="String" resultType="NameCard">
+		SELECT
+			USERID,
+			NCCHECK,
+			NCNAME,
+			NCEMAIL,
+			NCMOBILE,
+			NCPHONE,
+			NCFAX,
+			NCCOMPANY,
+			NCDEPARTMENT,
+			NCTITLE,
+			NCWEBSITE,
+			NCADDRESS,
+			NAMECARDURL,
+			EMAILCHECK
+		FROM NAMECARD
+		WHERE USERID=#{userID} 
+		ORDER BY NCSEQ DESC
+	</select>
+	<select id="getMember" parameterType="NameCard" resultType="NameCard">
+		SELECT
+			USERID,
+			NCCHECK,
+			NCNAME,
+			NCEMAIL,
+			NCMOBILE,
+			NCPHONE,
+			NCFAX,
+			NCCOMPANY,
+			NCDEPARTMENT,
+			NCTITLE,
+			NCWEBSITE,
+			NCADDRESS,
+			NAMECARDURL,
+			EMAILCHECK
+		FROM NAMECARD
+		WHERE USERID=#{userID} and EMAILCHECK=#{emailCheck}
+		ORDER BY NCSEQ DESC
+	</select>
 </mapper>

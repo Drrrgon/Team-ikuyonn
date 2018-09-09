@@ -48,6 +48,21 @@ $(function(){
 			$('#userID').html('');
 		}
 	});
+	$("#userID2").keyup(function(){
+		var userID= $("#userID2").val();
+		var chk_num = userID.search(/[0-9]/g); 
+	    var chk_eng = userID.search(/[a-z]/ig);
+	    
+
+	    if(chk_num < 0 || chk_eng < 0||userID.length<4||userID.length>11)
+	    { 
+	    	var message="아이디는 영문,숫자 혼합 4~11자 입니다.";
+	    	$("#temp").html(message);
+	        return false;
+	    }else{
+	    	$("#temp").html("");
+	    }
+	});
 	
 	$('#loginPW').on('keyup', function() {
 		var loginPW = $('#loginPW').val();
@@ -395,7 +410,8 @@ a{color:inherit;text-decoration:none}
 				</div>
 				<div class="group">
 					<label for="pass" class="label">아이디</label>
-					<input type="text" class="input" id="userID" name="userID"/>
+					<input type="text" class="input" id="userID2" name="userID"/>
+					<div id="temp"></div>
 				</div>
 				<div class="group">
 					<label for="pass" class="label">비밀번호</label>

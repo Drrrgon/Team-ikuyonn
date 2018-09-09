@@ -15,4 +15,6 @@ public interface NameCardMapper {
 	public int deleteNameCard(String email);
 	public int upDateNameCard(NameCard nameCard);
 	public int selectEmailAddress(String ncEmail);
+	public ArrayList<NameCard> getAllNC(String userID);
+	public ArrayList<NameCard> getMember(NameCard nc);
 }
