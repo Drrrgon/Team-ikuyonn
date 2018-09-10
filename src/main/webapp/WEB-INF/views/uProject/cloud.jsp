@@ -385,25 +385,25 @@ div.hidden {
 						var temp = "";
 						for (let i = 0; i < joinedProjectList.length; i++) {
 
-							for (var j = 0; j < allProjectList.length; j++) {
-								console.log(allProjectList[j]);
-								console.log(allProjectList[i].projectName);
-								if (allProjectList[j] == allProjectList[i].projectName) {
-									temp += '<td><button class="secessionProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">탈퇴</button></td>';
-									console.log('1');
-									$("#allTbody").append(temp);
-									return;
-								} else {
-									temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
-									console.log('2');
-									$("#allTbody").append(temp);
-									return;
-								}
-							}
+					for (var j = 0; j < allProjectList.length; j++) {
+						console.log(allProjectList[j]);
+						console.log(allProjectList[i].projectName);
+						if (allProjectList[j] == allProjectList[i].projectName) {
+							temp += '<td><button class="secessionProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">탈퇴</button></td>';
+							console.log('1');
+							$("#allTbody").append(temp);
+							return;
+						} else {
+							temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
+							console.log('2');
+							$("#allTbody").append(temp);
+							return;
 						}
-
 					}
-				});
+				}
+
+			}
+		});
 
 	}
 	/* function printJoinedProjectList(joinedProjectList) {
