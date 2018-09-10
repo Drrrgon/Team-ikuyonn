@@ -11,6 +11,10 @@
 <%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <style>
+#cloudDiv{
+	display:none;
+}
+
 #file {
 	width: 0;
 	height: 0;
@@ -183,7 +187,7 @@ body {
 				</div>
 			</div>
 			<!-- 일정/클라우드 -->
-			<div id="cloudDiv" class="col-lg-12" display="none">
+			<div id="cloudDiv" class="col-lg-12">
 				<div class="card card-small">
 					<div class="card-header border-bottom">
 						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
