@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.events.mapper.EventsMapper;
 import com.ikuyonn.project.events.vo.Events;
-import com.ikuyonn.project.mail.mapper.MailMapper;
-import com.ikuyonn.project.mail.vo.Project;
 
 @Controller
 public class EventsController {
@@ -29,17 +27,9 @@ public class EventsController {
 	}
 	
 	@RequestMapping(value = "/privateEvents", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Events> privateEvents(String userID) {
+	public @ResponseBody ArrayList<Events> privateEvents(Events e) {
 		EventsMapper em = session.getMapper(EventsMapper.class);
-		MailMapper mm = session.getMapper(MailMapper.class);
-		
-		ArrayList<Events> ae = em.privateEvents(userID);
-		/*ArrayList<Project> ap = mm.getProject(userID);
-		
-		for(int i = 0; i < ap.size() ; i++) {
-			String sp = Integer.toString(ap.get(i).getProjectSeq());
-			ae = em.privateEvents(sp);
-		}*/
+		ArrayList<Events> ae = em.privateEvents(e);
 		
 		return ae;
 	}
@@ -68,11 +58,11 @@ public class EventsController {
 		return result;
 	}
 	
-/*	@RequestMapping(value = "/projectEvents", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Events> projectEvents(Events e) {
+	@RequestMapping(value = "/projectEventsList", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<Events> projectEventsList(Events e) {
 		EventsMapper em = session.getMapper(EventsMapper.class);
-		ArrayList<Events> ae = em.projectEvents(e);
+		ArrayList<Events> ae = em.projectEventsList(e);
 		
 		return ae;
-	}*/
+	}
 }
