@@ -16,6 +16,10 @@
 	z-index : 0;
 }
 
+#cloudDiv{
+	display:none;
+}
+
 #file {
 	width: 0;
 	height: 0;
@@ -167,106 +171,65 @@ body {
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
 </head>
-<!-- <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>메이시</title>
-<meta name="description"
-	content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
-	href="./resources/styles/shards-dashboards.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="./resources/styles/custom.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script> -->
-
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp"%>
-
-
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="main-content-container container-fluid px-4">
 		<div class="row mt-5">
-			<div id="joinedProjectDiv" class="col">
+			<!-- 프로젝트 리스트 -->
+			<div id="joinedProjectDiv" class="col-lg-12">
 				<div class="card card-small mb-4">
 					<div class="card-header border-bottom">
-						<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인
-							프로젝트</h6>
+						<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인프로젝트</h6>
 						&nbsp;&nbsp;&nbsp;
-						<h6 id="allProjectListHeader" class="projectHeader m-0">전체
-							프로젝트</h6>
+						<h6 id="allProjectListHeader" class="projectHeader m-0">전체프로젝트</h6>
 					</div>
 					<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
-
 					</div>
 					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
 					</div>
 				</div>
-
-				<div id="cloudDiv" class="card card-small mb-4 hidden"
-					display="none">
+			</div>
+			<!-- 일정/클라우드 -->
+			<div id="cloudDiv" class="col-lg-12">
+				<div class="card card-small">
 					<div class="card-header border-bottom">
-						<div class="btn-group btn-group-toggle mb-3" id="ebuttons"
-							data-toggle="buttons">
-							<label class="btn btn-white active"> <input type="radio"
-								name="options" value="1" autocomplete="off" checked="">일정
-							</label> <label class="btn btn-white"> <input type="radio"
-								name="options" value="2" autocomplete="off">클라우드
+						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
+							<label class="btn btn-white active"> 
+								<input type="radio" name="options" value="1" autocomplete="off" checked="">일정
+							</label> 
+							<label class="btn btn-white"> 
+								<input type="radio" name="options" value="2" autocomplete="off">클라우드
 							</label>
 						</div>
 						<div id="proName"></div>
 						<div class="hidden" id="cloudTab">
 							<div align="right">
-								<form id="FILE_FORM" method="post" enctype="multipart/form-data"
-									action="">
+								<form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
 									<input type='file' id='file' name='file' />
 								</form>
-								<button type="button" class="btn btn-white" id="upload">파일
-									등록</button>
+								<button type="button" class="btn btn-white" id="upload">파일등록</button>
 								<button type="button" class="btn btn-white" id="delete">삭&nbsp;제</button>
 							</div>
-
-
 							<div>
 								<div class="card-body p-0 pb-3 text-center" id="cloudBody">
-									
 									<input type="hidden" value="" id="proSeq" />
 									<table class="table mb-0" id="fileTable">
-										
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div id="scheduleTab">
-					<div id='calendar'></div>
-
-				</div>
-
-				<div>
-					<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
+						<div id='calendar'></div>
+					</div>
+					<div>
+						<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
+					</div>
 				</div>
 			</div>
+			<!-- 프로젝트등록 -->
 			<div id="create_project_div" class="col">
 				<div class="inline card card-large mb-4">
 					<div class="card-header border-bottom">
@@ -286,15 +249,12 @@ body {
 									</select>
 								</div>
 								<div class="col-md-4" style="text-align: right;">
-									<button type="button" class="btn btn-sm btn-white"
-										id="setAddress">선택</button>
+									<button type="button" class="btn btn-sm btn-white" id="setAddress">선택</button>
 								</div>
 							</div>
 						</div>
-						<div class="card-body p-0" style="overflow: scroll"
-							id="nameCardTableWrap">
-							<!-- 명함리스트 -->
-
+						<div class="card-body p-0" style="overflow: scroll" id="nameCardTableWrap">
+							<!-- 명함리스트 생성 -->
 						</div>
 					</div>
 					<div class="page2">
@@ -306,22 +266,7 @@ body {
 					</div>
 				</div>
 			</div>
-			<!-- <div id="all_project_div" class="col">
-			<div class="inline card card-large mb-4">
-				<div class="card-header border-bottom">
-					<h6 class="m-0">프로젝트 리스트</h6>
-				</div> 
-				<div class="page1">userList</div>
-				<div class="page2">
-					<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
-					<input type="date" id="inputProjectDate" class="form-control"><br/>
-					<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
-					<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
-				</div> 
-			</div>
-		</div> -->
 		</div>
-	</div>
 	</div>
 <!--  일정 관련 모달  -->	
 <div id="insertModal" class="modal">
@@ -433,40 +378,22 @@ body {
 			}
 		});
 	}
-	function getAllProject() {
-		$.ajax({
-			url : "getProjectInfo",
-			type : "post",
-			success : function(data) {
-				initAllProjectList();
-				printAllProjectList(data);
-			},
-			error : function() {
-				alert("통신실패");
-			}
-		});
-	}
-	function openInputForm() {
-		$('#create_project_div').css('display', 'block');
-		$('#joinedProjectDiv').css('display', 'none');
-
-	}
-	function createProject() {
-		var projectName = $('#inputProjectName').val();
-		var due = $('#inputProjectDate').val();
-		if (projectName.length == 0) {
-			alert('프로젝트 명을 입력해 주세요!');
-			$('#inputProjectName').focus();
-			$('#inputProjectName').select();
-			return false;
-		}
-		if (projectName.length > 15) {
-			alert('프로젝트 명을 15자 이하로입력해 주세요!');
-			$('#inputProjectName').focus();
-			$('#inputProjectName').select();
-			return false;
-		}
-	}
+	// function createProject() {
+	// 	var projectName = $('#inputProjectName').val();
+	// 	var due = $('#inputProjectDate').val();
+	// 	if (projectName.length == 0) {
+	// 		alert('프로젝트 명을 입력해 주세요!');
+	// 		$('#inputProjectName').focus();
+	// 		$('#inputProjectName').select();
+	// 		return false;
+	// 	}
+	// 	if (projectName.length > 15) {
+	// 		alert('프로젝트 명을 15자 이하로입력해 주세요!');
+	// 		$('#inputProjectName').focus();
+	// 		$('#inputProjectName').select();
+	// 		return false;
+	// 	}
+	// }
 		function getAllProject(){
 			$.ajax({
 				url : "getProjectInfo",
@@ -483,12 +410,13 @@ body {
 		function openInputForm(){
 			$('#create_project_div').css('display', 'block');
 			$('#joinedProjectDiv').css('display', 'none');
+			$('#cloudDiv').css('display', 'none');
 			namecardload();	
 		}
 		function createProject(){
 			var projectName = $('#inputProjectName').val();
 			var due = $('#inputProjectDate').val();
-			
+			$('#cloudDiv').css('display', 'none');
 			//이메일로 아이디 검색 by 민석
 			jQuery.ajaxSettings.traditional = true;
 			var emails = [];
@@ -534,8 +462,9 @@ body {
 		function closeCreateProject(){
 		$('#create_project_div').css('display', 'none');
 		$('#joinedProjectDiv').css('display', 'block');
+		$('#cloudDiv').css('display', 'block');
 	}
-	function checkJoinedProject(allProjectList) {
+	function checkJoinedProject(allProjectList, temp) {
 		var userID = '${sessionScope.userID}';
 		
 				$.ajax({
@@ -544,14 +473,14 @@ body {
 					data : {
 						'userID' : userID
 					},
+					sync:false,
 					success : function(joinedProjectList) {
-						var temp = "";
 						for (let i = 0; i < joinedProjectList.length; i++) {
 
 					for (var j = 0; j < allProjectList.length; j++) {
 						console.log(allProjectList[j]);
 						console.log(allProjectList[i].projectName);
-						if (allProjectList[j] == allProjectList[i].projectName) {
+						if (allProjectList[j] == joinedProjectList[i].projectName) {
 							temp += '<td><button class="secessionProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">탈퇴</button></td>';
 							console.log('1');
 							$("#allTbody").append(temp);
@@ -583,51 +512,27 @@ body {
 		}
 
 	} */
-
-		function printJoinedProjectList(joinedProjectList){
-			var userID = "${sessionScope.userID}"
-			var temp = "";
-			for ( var i in joinedProjectList) {
-				temp += "<tr><td>" + i + "</td>";
-				temp += "<td>" + joinedProjectList[i].projectName + "</td>";
-				temp += "<td>" + joinedProjectList[i].due + "</td>";
-				temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
-				temp += "<td><button onclick='fileList("
-						+ joinedProjectList[i].projectSeq
-						+","+i+")'>열기</button></td></tr>";
-			}
-			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
-			temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
-								
-			$("#joinedTbody").append(temp);
-			$('#openInputFormBtn').on('click', openInputForm);
+	function printJoinedProjectList(joinedProjectList){
+		var userID = "${sessionScope.userID}"
+		var temp = "";
+		for ( var i in joinedProjectList) {
+			temp += "<tr><td>" + i + "</td>";
+			temp += "<td>" + joinedProjectList[i].projectName + "</td>";
+			temp += "<td>" + joinedProjectList[i].due + "</td>";
+			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
+			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
+					+ joinedProjectList[i].projectSeq
+					+","+i+")'>열기</button></td></tr>";
 		}
-		function initJoinedProjectList(){
-			$('#joinedProjectList').text('');
-			var printHtml ='<table class="table mb-0">';
-			printHtml += '<thead class="bg-light">';
-			printHtml += '<tr>';
-			printHtml += '<th scope="col" class="border-0">#</th>';
-			printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
-			printHtml += '<th scope="col" class="border-0">기간</th>';
-			printHtml += '<th scope="col" class="border-0">참여인원</th>';
-			printHtml += '</tr>';
-			printHtml += '</thead>';
-			printHtml += '<tbody id="joinedTbody">';
-			printHtml += '</tbody>';
-			printHtml += '</table>';
-			$('#joinedProjectList').html(printHtml);		
-		}
-		function printAllProjectList(allProjectList){
-			var temp = "";
-			
-
+		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
+		temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
+							
 		$("#joinedTbody").append(temp);
 		$('#openInputFormBtn').on('click', openInputForm);
 	}
-	function initJoinedProjectList() {
+	function initJoinedProjectList(){
 		$('#joinedProjectList').text('');
-		var printHtml = '<table class="table mb-0">';
+		var printHtml ='<table class="table mb-0">';
 		printHtml += '<thead class="bg-light">';
 		printHtml += '<tr>';
 		printHtml += '<th scope="col" class="border-0">#</th>';
@@ -639,11 +544,25 @@ body {
 		printHtml += '<tbody id="joinedTbody">';
 		printHtml += '</tbody>';
 		printHtml += '</table>';
-		$('#joinedProjectList').html(printHtml);
+		$('#joinedProjectList').html(printHtml);		
 	}
 	function printAllProjectList(allProjectList) {
 		var temp = "";
-
+		var userID = '${sessionScope.userID}';
+		var joinedProjectList = [];
+				$.ajax({
+					url : 'getProjectInfo',
+					type : 'post',
+					data : {
+						'userID' : userID
+					},
+					async:false,
+					success : function(list) {
+						joinedProjectList =  list;
+					}
+				});
+		console.log(joinedProjectList);
+		console.log(allProjectList);
 		for (let i = 0; i < allProjectList.length; i++) {
 			temp += "<tr><td>" + i + "</td>";
 			temp += "<td>" + allProjectList[i].projectName + "</td>";
@@ -652,14 +571,14 @@ body {
 			if (userID == allProjectList[i].projectMaster) {
 				temp += '<td><button class="deleteProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">삭제</button></td>';
 			} else {
-
+				for (let j = 0; j < joinedProjectList.length; j++) {
+					if(allProjectList[i].projectMaster == joinedProjectList[j].projectMaster){
+						temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
+						console.log('2');
+					}
+					
+				}
 			}
-			checkJoinedProject(allProjectList);
-
-			console.log('-1');
-			console.log(checkJoinedP);
-
-			console.log('3');
 
 		}
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
@@ -718,7 +637,7 @@ body {
 		$('#allProjectList').html(printHtml);
 	}
 	function fileList(projectSeq,i) {
-		$("#cloudDiv").css("display","block");
+		// $("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
 		var temp = document.getElementById("cloudBody");
@@ -919,7 +838,7 @@ body {
 				line += '</div>';
 			}
 			;
-			$('#nameCardTableWrap').append(line);
+			$('#nameCardTableWrap').html(line);
 			
 			$('.nameCardTable').click(nameCardMove);
 		};

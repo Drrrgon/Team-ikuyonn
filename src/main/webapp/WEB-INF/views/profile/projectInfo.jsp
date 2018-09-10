@@ -102,7 +102,7 @@
     function getJoinedProjectName(){
         var sessionID = "${sessionScope.userID}";
         $.ajax({
-            url: 'getprojectInfo',
+            url: 'getProjectInfo',
             type: 'post',
             data: {
                 'userID' : sessionID
@@ -112,7 +112,7 @@
     };
     function getAllProjectList(){
         $.ajax({
-            url: 'getprojectInfo',
+            url: 'getProjectInfo',
             type: 'post',
             success: printAllProjectList
         });
