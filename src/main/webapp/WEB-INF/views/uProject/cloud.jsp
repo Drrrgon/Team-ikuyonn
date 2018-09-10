@@ -249,6 +249,9 @@ body {
 										<option value="1" style="backgroun: red">이메일</option>
 										<option value="2">회사명</option>
 									</select>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:37px;" id="color1">
+									</button>
 								</div>
 								<div class="col-md-4" style="text-align: right;">
 									<button type="button" class="btn btn-sm btn-white" id="setAddress">선택</button>
@@ -278,12 +281,13 @@ body {
     	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
     	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily"> -->
 		<input type="hidden" id="projectSeq1" name="projectSeq1"/>
+		<input type="hidden" id="color"/>
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
 		<label>내용</label><input type="text" id="description1" name="description1"/><br />
 
-		<br/><span>색깔지정</span>
+		<!-- <br/><span>색깔지정</span>
 		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="color1">
-		</button><br/>
+		</button><br/> -->
 
 		<!-- <select name='color1' id='color1'></select>색깔 지정&nbsp;<br> -->
 
@@ -450,7 +454,7 @@ body {
 				url: 'createProject',
 				type: 'post',
 				data: {
-					'userID': sessionID, 'projectName': projectName, 'due':due, 'emails' : emails
+					'userID': sessionID, 'projectName': projectName, 'due':due, 'emails' : emails, 'color' : $('#color1').cssAsHex('background-color')
 				},
 				success: function(list){
 					getJoinedProject();
@@ -524,8 +528,10 @@ body {
 			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
 					+ joinedProjectList[i].projectSeq
-					+","+i+")'>열기</button></td></tr>";
+					+","+i+","+joinedProjectList[i].color+")'>열기</button></td></tr>";
+
 		}
+		
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
 		temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
 							
@@ -593,6 +599,7 @@ body {
 	function joinProject() {
 
 	}
+	
 	function secessionProject() {
 
 	}
@@ -638,10 +645,11 @@ body {
 		printHtml += '</table>';
 		$('#allProjectList').html(printHtml);
 	}
-	function fileList(projectSeq,i) {
+	function fileList(projectSeq,i,color) {
 		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
+		$("#color").val(color);
 		var temp = document.getElementById("cloudBody");
 		temp.style.display = "block";
 		$("#proSeq").val(projectSeq);
@@ -952,23 +960,20 @@ body {
 						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 						span.onclick = function() {
 							$('#summary1').val('');
-					    	$('#startDate1').val('');
-					    	$('#endDate2').val('');
+					    	$('#description1').val('');
 							modal.style.display = 'none';
 						}
 						
 						cancel.onclick = function() {
 							$('#summary1').val('');
-					    	$('#startDate1').val('');
-					    	$('#endDate2').val('');
+					    	$('#description1').val('');
 							modal.style.display = 'none';
 						}
 						
 						window.onclick = function(event) {
 						    if (event.target == modal) {
 						    	$('#summary1').val('');
-						    	$('#startDate1').val('');
-						    	$('#endDate2').val('');
+						    	$('#description1').val('');
 						        modal.style.display = 'none';
 						    }
 						}
@@ -1206,18 +1211,12 @@ body {
 						}
 						
 						cancel.onclick = function() {
-							$('#summary3').val('');
-					    	$('#startDate3').val('');
-					    	$('#endDate4').val('');
 							modal.style.display = 'none';
 						}
 						
 							// When the user clicks anywhere outside of the modal, close it
 						window.onclick = function(event) {
 						    if (event.target == modal) {
-						    	$('#summary3').val('');
-						    	$('#startDate3').val('');
-						    	$('#endDate4').val('');
 						        modal.style.display = 'none';
 						    }
 						}
@@ -1238,32 +1237,30 @@ body {
 			var projectSeq = $('#projectSeq1').val();
 			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
 	    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-	    	
+
 	    	// alert(startDate1.value + '\n' + endDate2.value);
 	    	/* if(endDate2.value < startDate1.value){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	} */
-	 
+	 		alert($('#color').val());
 	    	var eventData = {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
 					'description' : $('#description1').val(),
 					'startDate' : $('#startDate1').val(),
 					'endDate' : $('#endDate2').val(),
-					'color' : $('#color1').css("background-color")
+					'color' : $('#color').val()
 	    	}
 			$.ajax({
 				type : 'post',
 				url : 'insertEvents',
 				data : eventData, 
 				success : function(data){
-					alert(data);
 					if(data == '1'){
 					var modal1 = document.getElementById('insertModal');
 					modal1.style.display = 'none';
 					$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});}
-					}
 					$("#calendar").fullCalendar('refetchEvents');
 				},
 				error : function() {
