@@ -369,35 +369,28 @@ body {
 			}
 		});
 	}
-	function getAllProject() {
-		$.ajax({
-			url : "getProjectInfo",
-			type : "post",
-			success : function(data) {
-				initAllProjectList();
-				printAllProjectList(data);
-			},
-			error : function() {
-				alert("통신실패");
-			}
-		});
+	
+	function openInputForm() {
+		$('#create_project_div').css('display', 'block');
+		$('#joinedProjectDiv').css('display', 'none');
+
 	}
-	function createProject() {
-		var projectName = $('#inputProjectName').val();
-		var due = $('#inputProjectDate').val();
-		if (projectName.length == 0) {
-			alert('프로젝트 명을 입력해 주세요!');
-			$('#inputProjectName').focus();
-			$('#inputProjectName').select();
-			return false;
-		}
-		if (projectName.length > 15) {
-			alert('프로젝트 명을 15자 이하로입력해 주세요!');
-			$('#inputProjectName').focus();
-			$('#inputProjectName').select();
-			return false;
-		}
-	}
+	// function createProject() {
+	// 	var projectName = $('#inputProjectName').val();
+	// 	var due = $('#inputProjectDate').val();
+	// 	if (projectName.length == 0) {
+	// 		alert('프로젝트 명을 입력해 주세요!');
+	// 		$('#inputProjectName').focus();
+	// 		$('#inputProjectName').select();
+	// 		return false;
+	// 	}
+	// 	if (projectName.length > 15) {
+	// 		alert('프로젝트 명을 15자 이하로입력해 주세요!');
+	// 		$('#inputProjectName').focus();
+	// 		$('#inputProjectName').select();
+	// 		return false;
+	// 	}
+	// }
 		function getAllProject(){
 			$.ajax({
 				url : "getProjectInfo",
@@ -466,7 +459,7 @@ body {
 		$('#create_project_div').css('display', 'none');
 		$('#joinedProjectDiv').css('display', 'block');
 	}
-	function checkJoinedProject(allProjectList) {
+	function checkJoinedProject(allProjectList, temp) {
 		var userID = '${sessionScope.userID}';
 		
 				$.ajax({
@@ -475,14 +468,14 @@ body {
 					data : {
 						'userID' : userID
 					},
+					sync:false,
 					success : function(joinedProjectList) {
-						var temp = "";
 						for (let i = 0; i < joinedProjectList.length; i++) {
 
 					for (var j = 0; j < allProjectList.length; j++) {
 						console.log(allProjectList[j]);
 						console.log(allProjectList[i].projectName);
-						if (allProjectList[j] == allProjectList[i].projectName) {
+						if (allProjectList[j] == joinedProjectList[i].projectName) {
 							temp += '<td><button class="secessionProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">탈퇴</button></td>';
 							console.log('1');
 							$("#allTbody").append(temp);
@@ -514,51 +507,27 @@ body {
 		}
 
 	} */
-
-		function printJoinedProjectList(joinedProjectList){
-			var userID = "${sessionScope.userID}"
-			var temp = "";
-			for ( var i in joinedProjectList) {
-				temp += "<tr><td>" + i + "</td>";
-				temp += "<td>" + joinedProjectList[i].projectName + "</td>";
-				temp += "<td>" + joinedProjectList[i].due + "</td>";
-				temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
-				temp += "<td><button onclick='fileList("
-						+ joinedProjectList[i].projectSeq
-						+","+i+")'>열기</button></td></tr>";
-			}
-			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
-			temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
-								
-			$("#joinedTbody").append(temp);
-			$('#openInputFormBtn').on('click', openInputForm);
+	function printJoinedProjectList(joinedProjectList){
+		var userID = "${sessionScope.userID}"
+		var temp = "";
+		for ( var i in joinedProjectList) {
+			temp += "<tr><td>" + i + "</td>";
+			temp += "<td>" + joinedProjectList[i].projectName + "</td>";
+			temp += "<td>" + joinedProjectList[i].due + "</td>";
+			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
+			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
+					+ joinedProjectList[i].projectSeq
+					+","+i+")'>열기</button></td></tr>";
 		}
-		function initJoinedProjectList(){
-			$('#joinedProjectList').text('');
-			var printHtml ='<table class="table mb-0">';
-			printHtml += '<thead class="bg-light">';
-			printHtml += '<tr>';
-			printHtml += '<th scope="col" class="border-0">#</th>';
-			printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
-			printHtml += '<th scope="col" class="border-0">기간</th>';
-			printHtml += '<th scope="col" class="border-0">참여인원</th>';
-			printHtml += '</tr>';
-			printHtml += '</thead>';
-			printHtml += '<tbody id="joinedTbody">';
-			printHtml += '</tbody>';
-			printHtml += '</table>';
-			$('#joinedProjectList').html(printHtml);		
-		}
-		function printAllProjectList(allProjectList){
-			var temp = "";
-			
-
+		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
+		temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
+							
 		$("#joinedTbody").append(temp);
 		$('#openInputFormBtn').on('click', openInputForm);
 	}
-	function initJoinedProjectList() {
+	function initJoinedProjectList(){
 		$('#joinedProjectList').text('');
-		var printHtml = '<table class="table mb-0">';
+		var printHtml ='<table class="table mb-0">';
 		printHtml += '<thead class="bg-light">';
 		printHtml += '<tr>';
 		printHtml += '<th scope="col" class="border-0">#</th>';
@@ -570,7 +539,7 @@ body {
 		printHtml += '<tbody id="joinedTbody">';
 		printHtml += '</tbody>';
 		printHtml += '</table>';
-		$('#joinedProjectList').html(printHtml);
+		$('#joinedProjectList').html(printHtml);		
 	}
 	function printAllProjectList(allProjectList) {
 		var temp = "";
@@ -585,12 +554,8 @@ body {
 			} else {
 
 			}
-			checkJoinedProject(allProjectList);
-
+			checkJoinedProject(allProjectList, temp);
 			console.log('-1');
-			console.log(checkJoinedP);
-
-			console.log('3');
 
 		}
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
