@@ -335,7 +335,7 @@ div.hidden {
 				return false;
 			};
 			for(var i = 0; i < emailCheck.length; i++){
-				emails.push(emailCheck.val());
+				emails.push(emailCheck[i].value);
 				console.log(emails);
 			};
 
