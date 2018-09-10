@@ -602,7 +602,21 @@ body {
 	}
 	function printAllProjectList(allProjectList) {
 		var temp = "";
-
+		var userID = '${sessionScope.userID}';
+		var joinedProjectList = [];
+				$.ajax({
+					url : 'getProjectInfo',
+					type : 'post',
+					data : {
+						'userID' : userID
+					},
+					async:false,
+					success : function(list) {
+						joinedProjectList =  list;
+					}
+				});
+		console.log(joinedProjectList);
+		console.log(allProjectList);
 		for (let i = 0; i < allProjectList.length; i++) {
 			temp += "<tr><td>" + i + "</td>";
 			temp += "<td>" + allProjectList[i].projectName + "</td>";
@@ -611,10 +625,14 @@ body {
 			if (userID == allProjectList[i].projectMaster) {
 				temp += '<td><button class="deleteProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">삭제</button></td>';
 			} else {
-
+				for (let j = 0; j < joinedProjectList.length; j++) {
+					if(allProjectList[i].projectMaster == joinedProjectList[j].projectMaster){
+						temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
+						console.log('2');
+					}
+					
+				}
 			}
-			checkJoinedProject(allProjectList, temp);
-			console.log('-1');
 
 		}
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
