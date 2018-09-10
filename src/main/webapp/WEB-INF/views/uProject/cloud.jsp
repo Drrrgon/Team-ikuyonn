@@ -352,7 +352,7 @@ div.hidden {
 				return false;
 			}
 			
-			var sessionID = "${sessionScope.userID}";
+			var sessionID = "${sessionScope.userID}";.
 			$.ajax({
 				url: 'createProject',
 				type: 'post',
@@ -374,7 +374,8 @@ div.hidden {
 	}
 	function checkJoinedProject(allProjectList) {
 		var userID = '${sessionScope.userID}';
-		$.ajax({
+		
+				$.ajax({
 					url : 'getProjectInfo',
 					type : 'post',
 					data : {
@@ -679,6 +680,7 @@ div.hidden {
 			$(".aa").eq(i).css('background-color','#e6e6e6');
 			$("#delSeq").val(fileSeq);
 		}
+		
 		function downFile(fileSeq) {
 			$.ajax({
 				url : "downFile",
@@ -776,7 +778,7 @@ div.hidden {
 		});
 		
 		//테이블 검색
-		function searchfunc() {
+		function searchfunc(){
 		  	var input, filter, table, nec, span, i,j;
 		  	input = document.getElementById("searchText");
 		  	filter = input.value.toUpperCase();
@@ -790,7 +792,7 @@ div.hidden {
 		  		     } else {
 		  		    	$('#nameCardTableWrap').children().eq(i).css("display", "none");
 		  		     }
-			}
+			};
 		}
 	
 	
