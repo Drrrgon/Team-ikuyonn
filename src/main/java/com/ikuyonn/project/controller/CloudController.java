@@ -52,6 +52,7 @@ public class CloudController {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		mapper.addFile(f);
 		ArrayList<fileVO> fList = getFileList(proSeq);
+		System.out.println(fList);
 		return fList;
 	}
 	

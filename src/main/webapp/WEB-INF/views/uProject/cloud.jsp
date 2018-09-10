@@ -140,6 +140,7 @@ div.hidden {
 								name="options" value="2" autocomplete="off">클라우드
 							</label>
 						</div>
+						<div id="proName"></div>
 						<div class="hidden" id="cloudTab">
 							<div align="right">
 								<form id="FILE_FORM" method="post" enctype="multipart/form-data"
@@ -154,11 +155,10 @@ div.hidden {
 
 							<div>
 								<div class="card-body p-0 pb-3 text-center" id="cloudBody">
-									<div id="proName"></div>
+									
 									<input type="hidden" value="" id="proSeq" />
 									<table class="table mb-0" id="fileTable">
-										<tr>
-										</tr>
+										
 									</table>
 								</div>
 							</div>
@@ -352,7 +352,7 @@ div.hidden {
 				return false;
 			}
 			
-			var sessionID = "${sessionScope.userID}";.
+			var sessionID = "${sessionScope.userID}";
 			$.ajax({
 				url: 'createProject',
 				type: 'post',
@@ -406,7 +406,7 @@ div.hidden {
 				});
 
 	}
-	function printJoinedProjectList(joinedProjectList) {
+	/* function printJoinedProjectList(joinedProjectList) {
 		var userID = "${sessionScope.userID}"
 		var temp = "";
 		for ( var i in joinedProjectList) {
@@ -416,9 +416,9 @@ div.hidden {
 			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button onclick='fileList("
 					+ joinedProjectList[i].projectSeq
-					+ ")'>열기</button></td></tr>";
+					+","+i+")'>열기</button></td></tr>";
 		}
-	}
+	} */
 		function printJoinedProjectList(joinedProjectList){
 			var userID = "${sessionScope.userID}"
 			var temp = "";
@@ -429,7 +429,7 @@ div.hidden {
 				temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
 				temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
 						+ joinedProjectList[i].projectSeq
-						+ ")'>열기</button></td></tr>";
+						+","+i+")'>열기</button></td></tr>";
 			}
 			temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
 			temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
@@ -552,8 +552,10 @@ div.hidden {
 		printHtml += '</table>';
 		$('#allProjectList').html(printHtml);
 	}
-	function fileList(projectSeq) {
+	function fileList(projectSeq,i) {
 		$("#cloudDiv").css("display","block");
+		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
+		$("#proName").html(pName);
 		var temp = document.getElementById("cloudBody");
 		temp.style.display = "block";
 		$("#proSeq").val(projectSeq);
@@ -674,6 +676,7 @@ div.hidden {
 			temp += "<a href='downFile?fileSeq=" + result[i].fileSeq + "'>"
 					+ result[i].fileName + "</a></div></td>"
 		}
+		$("#fileTable").html(temp);
 	}
 		function select(i,fileSeq){
 			$('.aa').css('background-color','');
