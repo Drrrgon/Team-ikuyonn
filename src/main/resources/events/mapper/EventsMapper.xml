@@ -13,7 +13,7 @@
 	</if>
 	</insert>
 	
-	<select id="privateEvents" parameterType="String" resultType="Events">
+	<select id="privateEvents" parameterType="Events" resultType="Events">
 		select * from events where userID = #{userID} or projectSeq in (select projectSeq from joinproject where userID = #{userID})
 	</select>
 	
@@ -29,11 +29,7 @@
 		delete events where eventSeq = #{eventSeq}
 	</delete>
 	
-	<!-- <select id="projectEvents" resultType="Events">
-		select * from events where userID = #{userID} or eventSeq = (select projectSeq from joinProject where userID = #{userID})
-	</select> -->
-	
-	<select id="projectEventsList" parameterType="String" resultType="Events">
+	<select id="projectEventsList" parameterType="Events" resultType="Events">
 		select * from events where projectSeq = #{projectSeq}
 	</select>
 </mapper>

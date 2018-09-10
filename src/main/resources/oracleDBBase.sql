@@ -96,7 +96,7 @@ CREATE TABLE events (
     , projectseq number
     , color varchar2(20)
 );
-create sequence eventseq;
+create sequence eventseq start with 1 increment by 1;
 
 ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
 ALTER TABLE events ADD CONSTRAINT fk_events_projectseq FOREIGN KEY (projectseq) REFERENCES project(projectseq)on delete cascade;

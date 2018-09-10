@@ -165,17 +165,17 @@ body {
 	<button class="jscolor {valueElement:null, value:'66ccff'}" style="width:50px; height:20px;" id="color3">
 	</button><br/>
 	<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
-	<select name="year3" id="year3" onChange="setDate()"></select>년&nbsp
-	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp
-	<select name="day3" id="day3"></select>일&nbsp
-	<select name="hour3" id="hour3"></select>시&nbsp
-	<select name="minute3" id="minute3"></select>분&nbsp
+	<select name="year3" id="year3" onChange="setDate()"></select>년&nbsp;
+	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp;
+	<select name="day3" id="day3"></select>일&nbsp;
+	<select name="hour3" id="hour3"></select>시&nbsp;
+	<select name="minute3" id="minute3"></select>분&nbsp;
 	<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value=""/>
-	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp
-	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp
-	<select name="day4" id="day4"></select>일&nbsp
-	<select name="hour4" id="hour4"></select>시&nbsp
-	<select name="minute4" id="minute4"></select>분&nbsp
+	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp;
+	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp;
+	<select name="day4" id="day4"></select>일&nbsp;
+	<select name="hour4" id="hour4"></select>시&nbsp;
+	<select name="minute4" id="minute4"></select>분&nbsp;
 	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
 	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
     </form>
@@ -216,6 +216,7 @@ function setLeftSideIcon(){
 		$("#colorPicker").click(function(){
 			alert($("#colorPicker").css('background-color'));
 		});
+		
 		initThemeChooser({	
 			
 			init : function(themeSystem) {
@@ -361,7 +362,7 @@ function setLeftSideIcon(){
 							    	insertForm['month2'].options[i] = new Option(i+1, i+1);
 							    }
 							    
-							    for (var i=0; i<60; i++) {
+							    for (var i=0; i<24; i++) {
 							    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
 							    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
 							    }
@@ -500,7 +501,7 @@ function setLeftSideIcon(){
 									 eventDetail['month4'].options[i] = new Option(i+1, i+1);
 								}
 									    
-								for (var i=0; i<60; i++) {
+								for (var i=0; i<24; i++) {
 									 eventDetail['hour3'].options[i] = new Option(i+1, i+1);
 									 eventDetail['hour4'].options[i] = new Option(i+1, i+1);
 								}
@@ -644,11 +645,11 @@ function setLeftSideIcon(){
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	/* alert(startDate1.value + '\n' + endDate2.value); */
-		    	if(startDate1.value > endDate2.value){
+		    	// alert(startDate1.value + '\n' + endDate2.value);
+		    	/* if(endDate2.value < startDate1.value){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
-		    	}
+		    	} */
 		    	
 		    	var eventData = {
 		    			'userID' : $('#userID1').val(),
@@ -684,10 +685,10 @@ function setLeftSideIcon(){
 				startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
 		    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
 		    	// alert(startDate3.value + '\n' + endDate4.value);
-		    	if(startDate3.value < endDate4.value){
+		    	/* if(endDate4.value < startDate3.value){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
-		    	}
+		    	} */
 		    	
 				$.ajax({
 					type : 'post',
