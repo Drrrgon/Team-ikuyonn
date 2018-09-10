@@ -634,7 +634,7 @@ body {
 		$('#allProjectList').html(printHtml);
 	}
 	function fileList(projectSeq,i) {
-		// $("#cloudDiv").css("display","block");
+		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
 		var temp = document.getElementById("cloudBody");
