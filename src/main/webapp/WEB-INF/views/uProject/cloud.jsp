@@ -66,8 +66,6 @@ div#create_project_div {
 	display: none;
 }
 /* 탭페이지 */
-
-
 div.hidden {
 	display: none;
 }
@@ -115,101 +113,106 @@ div.hidden {
 
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="main-content-container container-fluid px-4">
-	<div class="row mt-5">
-		<div id="joinedProjectDiv" class="col">
-			<div class="card card-small mb-4">
-				<div class="card-header border-bottom">
-					<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인
-						프로젝트</h6>
-					&nbsp;&nbsp;&nbsp;
-					<h6 id="allProjectListHeader" class="projectHeader m-0">전체
-						프로젝트</h6>
-				</div>
-				<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
-
-				</div>
-				<div id="allProjectList" class="card-body p-0 pb-3 text-center">
-				</div>
-			</div>
-			<div id="cloudDiv" class="card card-small mb-4 hidden" display="none">
-				<div class="card-header border-bottom">
-				<div class="btn-group btn-group-toggle mb-3" id="ebuttons"
-						data-toggle="buttons">
-					<label class="btn btn-white active"> <input type="radio"
-						name="options" value="1" autocomplete="off" checked="">일정
-					</label> <label class="btn btn-white"> <input type="radio"
-						name="options" value="2" autocomplete="off">클라우드
-					</label>
-				</div>
-				<div class="hidden" id="cloudTab">
-					<div align="right">
-						<form id="FILE_FORM" method="post" enctype="multipart/form-data"
-							action="">
-							<input type='file' id='file' name='file' />
-						</form>
-						<button type="button" class="btn btn-white" id="upload">파일
-							등록</button>
-						<button type="button" class="btn btn-white" id="delete">삭&nbsp;제</button>
-					</div>
-				
-				
-				<div>
-				<div class="card-body p-0 pb-3 text-center" id="cloudBody">
-					<div id="proName">
-					</div>
-					<input type="hidden" value="" id="proSeq" />
-					<table class="table mb-0" id="fileTable">
-						<tr>
-						</tr>
-					</table>	
-				</div>
-				</div>
-				</div>
-				</div>
-				<div id="scheduleTab">
-				<h1>aaaa</h1>
-				</div>
-			</div>
-
-			<div>
-				<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
-			</div>
-		</div>
-		<div id="create_project_div" class="col">
-			<div class="inline card card-large mb-4">
-				<div class="card-header border-bottom">
-					<h6 class="m-0">프로젝트 생성</h6>
-				</div>
-				<div class="page1">
+		<div class="row mt-5">
+			<div id="joinedProjectDiv" class="col">
+				<div class="card card-small mb-4">
 					<div class="card-header border-bottom">
-						<div class="row">
-							<div class="input-group col-md-8">
-								<input type="text" name="searchText" class="input-sm form-control" id="searchText" onkeyup="searchfunc()" placeholder="검색">
-								<select class="form-control" id="selectGroup">
-									<option value="0" selected="">이름</option>
-									<option value="1" style="backgroun:red">이메일</option>
-									<option value="2">회사명</option>
-								</select>
+						<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인
+							프로젝트</h6>
+						&nbsp;&nbsp;&nbsp;
+						<h6 id="allProjectListHeader" class="projectHeader m-0">전체
+							프로젝트</h6>
+					</div>
+					<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
+
+					</div>
+					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
+					</div>
+				</div>
+				<div id="cloudDiv" class="card card-small mb-4 hidden"
+					display="none">
+					<div class="card-header border-bottom">
+						<div class="btn-group btn-group-toggle mb-3" id="ebuttons"
+							data-toggle="buttons">
+							<label class="btn btn-white active"> <input type="radio"
+								name="options" value="1" autocomplete="off" checked="">일정
+							</label> <label class="btn btn-white"> <input type="radio"
+								name="options" value="2" autocomplete="off">클라우드
+							</label>
+						</div>
+						<div class="hidden" id="cloudTab">
+							<div align="right">
+								<form id="FILE_FORM" method="post" enctype="multipart/form-data"
+									action="">
+									<input type='file' id='file' name='file' />
+								</form>
+								<button type="button" class="btn btn-white" id="upload">파일
+									등록</button>
+								<button type="button" class="btn btn-white" id="delete">삭&nbsp;제</button>
 							</div>
-							<div class="col-md-4" style="text-align: right;">
-								<button type="button" class="btn btn-sm btn-white" id="setAddress">선택</button>
+
+
+							<div>
+								<div class="card-body p-0 pb-3 text-center" id="cloudBody">
+									<div id="proName"></div>
+									<input type="hidden" value="" id="proSeq" />
+									<table class="table mb-0" id="fileTable">
+										<tr>
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="card-body p-0" style="overflow:scroll" id="nameCardTableWrap">
-						<!-- 명함리스트 -->		
-								
-					</div>					
+					<div id="scheduleTab">
+						<h1>aaaa</h1>
+					</div>
 				</div>
-				<div class="page2">
-					<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
-					<input type="date" id="inputProjectDate" class="form-control"><br/>
-					<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
-					<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
+
+				<div>
+					<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
 				</div>
 			</div>
-		</div>
-		<!-- <div id="all_project_div" class="col">
+			<div id="create_project_div" class="col">
+				<div class="inline card card-large mb-4">
+					<div class="card-header border-bottom">
+						<h6 class="m-0">프로젝트 생성</h6>
+					</div>
+					<div class="page1">
+						<div class="card-header border-bottom">
+							<div class="row">
+								<div class="input-group col-md-8">
+									<input type="text" name="searchText"
+										class="input-sm form-control" id="searchText"
+										onkeyup="searchfunc()" placeholder="검색"> <select
+										class="form-control" id="selectGroup">
+										<option value="0" selected="">이름</option>
+										<option value="1" style="backgroun: red">이메일</option>
+										<option value="2">회사명</option>
+									</select>
+								</div>
+								<div class="col-md-4" style="text-align: right;">
+									<button type="button" class="btn btn-sm btn-white"
+										id="setAddress">선택</button>
+								</div>
+							</div>
+						</div>
+						<div class="card-body p-0" style="overflow: scroll"
+							id="nameCardTableWrap">
+							<!-- 명함리스트 -->
+
+						</div>
+					</div>
+					<div class="page2">
+						<input type="text" id="inputProjectName" class="form-control"
+							placeholder="Project Name"><br /> <input type="date"
+							id="inputProjectDate" class="form-control"><br />
+						<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
+						<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
+					</div>
+				</div>
+			</div>
+			<!-- <div id="all_project_div" class="col">
 			<div class="inline card card-large mb-4">
 				<div class="card-header border-bottom">
 					<h6 class="m-0">프로젝트 리스트</h6>
@@ -223,7 +226,7 @@ div.hidden {
 				</div> 
 			</div>
 		</div> -->
-	</div>
+		</div>
 	</div>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -300,6 +303,7 @@ div.hidden {
 			$('#inputProjectName').select();
 			return false;
 		}
+	}
 		function getAllProject(){
 			$.ajax({
 				url : "getProjectInfo",
@@ -370,8 +374,7 @@ div.hidden {
 	}
 	function checkJoinedProject(allProjectList) {
 		var userID = '${sessionScope.userID}';
-		$
-				.ajax({
+		$.ajax({
 					url : 'getProjectInfo',
 					type : 'post',
 					data : {
@@ -414,6 +417,7 @@ div.hidden {
 					+ joinedProjectList[i].projectSeq
 					+ ")'>열기</button></td></tr>";
 		}
+	}
 		function printJoinedProjectList(joinedProjectList){
 			var userID = "${sessionScope.userID}"
 			var temp = "";
@@ -669,7 +673,7 @@ div.hidden {
 			temp += "<a href='downFile?fileSeq=" + result[i].fileSeq + "'>"
 					+ result[i].fileName + "</a></div></td>"
 		}
-		
+	}
 		function select(i,fileSeq){
 			$('.aa').css('background-color','');
 			$(".aa").eq(i).css('background-color','#e6e6e6');
@@ -788,5 +792,7 @@ div.hidden {
 		  		     }
 			}
 		}
+	
+	
 	</script>
 </html>
