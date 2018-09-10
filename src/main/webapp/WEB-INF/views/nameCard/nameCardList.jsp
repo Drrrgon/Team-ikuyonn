@@ -241,7 +241,7 @@ function setLeftSideIcon() {
 			line += '<span>'+datas.nameCardList[i].ncName+'</span>';
 			line += '</li>';
 			line += '<li>';
-			line += '<a href="#">'+datas.nameCardList[i].ncEmail+'</a>';
+			line += '<a href="hrefMail?emailAddress='+datas.nameCardList[i].ncEmail+'">'+datas.nameCardList[i].ncEmail+'</a>';
 			line += '</li>';
 			line += '<li>';
 			if(datas.nameCardList[i].ncCompany == null){
