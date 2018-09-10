@@ -11,6 +11,11 @@
 <%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <style>
+.fc-license-message{
+	display : none;
+	z-index : 0;
+}
+
 #file {
 	width: 0;
 	height: 0;
@@ -979,6 +984,7 @@ body {
 						right : 'month,agendaWeek,timelineDay,listWeek'
 					},
 					defaultView : 'month',
+					timezone : 'local',
 					events : function(start, end, timezone, callback){
 						var events = [];
 						var projectSeq = $('#projectSeq1').val();
@@ -1332,8 +1338,7 @@ body {
 					if(data == 'success'){
 					var modal1 = document.getElementById('insertModal');
 					modal1.style.display = 'none';
-					$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
-					}
+					$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});}
 				},
 				error : function() {
 					// alert("송신실패");

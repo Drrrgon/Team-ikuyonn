@@ -12,6 +12,11 @@
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
 <style>
+.fc-license-message{
+	display : none;
+	z-index : 0;
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -159,6 +164,7 @@ body {
 <div class="modal-content">
 	<h4 class="modal-title">일정입니다<span id="close3" class="close"></span></h4>
     <form id="eventDetail">
+    <!-- <input type="hidden" id="projectSeq1" name="projectSeq1"/> -->
     <label>제목</label><input type="text" id="summary3" name="summary3"/><br/>
 	<label>내용</label><input type="text" id="description3" name="description3"/><br/>
 	<br/><span>색깔지정</span>
@@ -170,14 +176,16 @@ body {
 	<select name="day3" id="day3"></select>일&nbsp;
 	<select name="hour3" id="hour3"></select>시&nbsp;
 	<select name="minute3" id="minute3"></select>분&nbsp;
-	<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value=""/>
+	<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>
 	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp;
 	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp;
 	<select name="day4" id="day4"></select>일&nbsp;
 	<select name="hour4" id="hour4"></select>시&nbsp;
 	<select name="minute4" id="minute4"></select>분&nbsp;
+	<c:if test="${sessionScope.projectSeq==null}">
 	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
 	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
+	</c:if>
     </form>
     
 	<button type="button" id="cancelButton3">취소</button>
@@ -233,6 +241,7 @@ function setLeftSideIcon(){
 						right : 'month,agendaWeek,timelineDay,listWeek'
 					},
 					defaultView : 'month',
+					timezone : 'local',
 					/* resourceLabelText : 'Rooms',
 					resources : [ {
 						id : 'a',
@@ -281,7 +290,7 @@ function setLeftSideIcon(){
   							data : {
 								'userID' : $('#userID1').val()
 							},
-							success : function(data) {				
+							success : function(data) {
 								$(data).each(function(index, item) {	
 									events.push({
 										id : item.userID,
@@ -445,7 +454,9 @@ function setLeftSideIcon(){
 							success : function(data) {
 								var newStart = new Date(data.startDate);
 								var newEnd = new Date(data.endDate);
-					
+								
+								// document.getElementById("projectSeq1").value = data.projectSeq;
+								
 								$("#summary3").val(data.summary);
 								$("#description3").val(data.description);
 								$("#startDate3").val(newStart);
@@ -618,9 +629,8 @@ function setLeftSideIcon(){
 			change : function(themeSystem) {
 				$('#calendar').fullCalendar('option', 'themeSystem', themeSystem);
 			}
-
 		});
-
+		
 		$('#insertEvents').on('click', insertEvents);
 		$('#updateEvents').on('click', updateEvents);
 		$('#deleteEvents').on('click', deleteEvents);
