@@ -535,7 +535,7 @@ dd.hidden {
 				line += '</div>';
 			}
 			;
-			$('#nameCardTableWrap').append(line);
+			$('#nameCardTableWrap').html(line);
 			/* $('input:checkbox[name=nameCardGroup]').change(checkBoxClick); */
 		};
 		
@@ -598,6 +598,7 @@ dd.hidden {
 				function() {
 					var emails = "";
 					var rows = $('input:checkbox[name=nameCardGroup]:checked');
+					
 					for (var i = 0; i < rows.length; i++) {
 						emails += "<span contenteditable=\"false\">"
 								+ nameCardList[rows[i].value].ncEmail
@@ -606,6 +607,7 @@ dd.hidden {
 					emails += "&#\8203\;";
 					$("#to").html(emails);
 					$("#insertModal").css("display", "none");
+					$("#input:checkbox[name=nameCardGroup]").attr("checked", false);
 				});
 
 		/* $('#searchBtn').on('click', function() {
