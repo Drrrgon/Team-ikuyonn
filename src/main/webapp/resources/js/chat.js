@@ -49,7 +49,6 @@ function toggleFab() {
       $('.chat_header').css('display', 'block');
       $('.chat_option').css('display', 'block');
       var chatClass = $('#prime').attr('class');
-      console.log(chatClass);
       if(chatClass == 'fab'){
             $('#selectProject').css('display', 'none');
             $('.chat_header').css('display', 'none');
