@@ -35,7 +35,7 @@ public class SocketController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/insertMessage", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	public @ResponseBody String insert(HttpSession session, Model model, Message table) {
 		int result = repo.insertContent(table);
 		Message msg = repo.getLastOneProjectContent(table.getProjectName());
@@ -43,13 +43,14 @@ public class SocketController {
 		return message;
 	}
 	
-	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
+	@RequestMapping(value = "/refreshMessage", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String projectName) {
 		ArrayList<Message> list = repo.getProjectContent(projectName);
 		ArrayList<String> messageList = new ArrayList<String>();
 		for(Message a : list) {
 			messageList.add(a.sendMessage());
 		}
+		System.out.println(messageList);
 		return messageList;
 	}
 	
@@ -112,7 +113,7 @@ public class SocketController {
 		user = um.loginUser(ur);
 		String path= "";
 		if(user.getOriginalFileName() == null) {
-			path = "./cResources/images/userProfile/default.jpg";
+			path = "./resources/images/default.jpg";
 		}
 		else {
 			path = "./cResources/images/userProfile/"+user.getOriginalFileName();

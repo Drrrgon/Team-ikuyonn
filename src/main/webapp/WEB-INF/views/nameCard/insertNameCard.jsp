@@ -273,32 +273,32 @@
 					if(data == 1){
 						alert('등록된 이메일 입니다.');
 						$('#ncEmail').focus();
-						return;
+						return false;
+					}else{
+						$.ajax({
+							url : "nameCardUplodeAction",
+							type : "post",
+							data : {
+								'ncCheck' : ncCheck,
+								'ncName' : ncName,
+								'ncMobile' : ncMobile,
+								'ncPhone' : ncPhone,
+								'ncFax' : ncFax,
+								'ncEmail' : ncEmail,
+								'ncCompany' : ncCompany,
+								'ncDepartment' : ncDepartment,
+								'ncTitle' : ncTitle,
+								'ncWebsite' : ncWebsite,
+								'ncAddress' : ncAddress,
+								'nameCardUrl' : nameCardUrl
+							},
+							success : function(data){
+								location.href = 'nameCardList';
+							}
+						});
 					}
 				}
 			});	
-			
-			$.ajax({
-				url : "nameCardUplodeAction",
-				type : "post",
-				data : {
-					'ncCheck' : ncCheck,
-					'ncName' : ncName,
-					'ncMobile' : ncMobile,
-					'ncPhone' : ncPhone,
-					'ncFax' : ncFax,
-					'ncEmail' : ncEmail,
-					'ncCompany' : ncCompany,
-					'ncDepartment' : ncDepartment,
-					'ncTitle' : ncTitle,
-					'ncWebsite' : ncWebsite,
-					'ncAddress' : ncAddress,
-					'nameCardUrl' : nameCardUrl
-				},
-				success : function(data){
-					location.href = 'nameCardList';
-				}
-			});
 		});
 		
 		//취소버튼

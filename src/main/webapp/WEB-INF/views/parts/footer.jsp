@@ -109,7 +109,7 @@
 	  }
 	  var dataForm = { "userID": userID , "userName":userName , "message": message, "projectName":currentProject };		
 		$.ajax({
-			url: "insert",
+			url: "insertMessage",
 			type: "post",
 			data: dataForm ,
 			success: function(message){
@@ -219,15 +219,15 @@
 
 	function refreshMessage(){
 	  $.ajax({
-	    url:"refresh"
+	    url:"refreshMessage"
 	    , type:'post'
 	    , data: {"projectName":currentProject}    
-	    , success: function(list){      
+	    , success: function(list){     
 	      var userID = "${sessionScope.userID}";
 
 	      $("#chat_fullscreen").text("");
 	      for (let index = 0; index < list.length; index++) {
-	        var messages = list[index].split(':#$');      
+	        var messages = list[index].split(':#$');
 	        var cutDate = messages[3].substr(0,messages[3].indexOf('#%9745332'));        
 	        var printHTML ="";
 	        var userID =  "${sessionScope.userID}";
@@ -239,29 +239,33 @@
 	          printHTML += cutDate;
 	          printHTML += "</a>";
 	          printHTML += "</span>";	          
-	          printHTML += "</div>";  
+	          // printHTML += "</div>";  
 						$("#chat_fullscreen").append(printHTML);						
 	        }     
 	        else{	
+						var userName = messages[0]+"ProfilePath";
+
+						var userProfile = "${sessionScope.userName}";
 						$.ajax({
 						url: 'getUserProfile',
 						type: 'post',
 						data: {
 							'userID': messages[0]
 						},
-						success: function(result){							
-	            printHTML += "<span class='chat_msg_item chat_msg_item_admin'>";
-	            printHTML += "<div class='chat_avatar'>";
-	            printHTML += "<img src='"+result+"'/ alt='x'>";
-							printHTML += "</div>";
-							printHTML += messages[1]+"<br/>";
-							printHTML += messages[2];
-							printHTML += "&nbsp;<a class='status'>";
-	            printHTML += cutDate;
-	            printHTML += "</a>";
-	            printHTML += "</span>";	          
-	            printHTML += "</div>";            
-	            $("#chat_fullscreen").append(printHTML);
+						async: false,
+						success: function(result){						
+									printHTML += "<span class='chat_msg_item chat_msg_item_admin'>";
+									printHTML += "<div class='chat_avatar'>";
+									printHTML += "<img src='"+result+"' alt='x'>";
+									printHTML += "</div>";
+									printHTML += messages[1]+"<br/>";
+									printHTML += messages[2];
+									printHTML += "&nbsp;<a class='status'>";
+									printHTML += cutDate;
+									printHTML += "</a>";	
+									printHTML += "</span>";	          
+									$("#chat_fullscreen").append(printHTML);											
+	            
 						}
 						});	
 	        }          

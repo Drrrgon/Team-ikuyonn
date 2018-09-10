@@ -37,7 +37,7 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/getProjectInfo", method = RequestMethod.POST)
-	public @ResponseBody List<Project> getprojectInfo(User u){
+	public @ResponseBody List<Project> getProjectInfo(User u){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
 		HashMap<String, Object> map = new HashMap<>();		
 			map.put("userID", u.getUserID());
