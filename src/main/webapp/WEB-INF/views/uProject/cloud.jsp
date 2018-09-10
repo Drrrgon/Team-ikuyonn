@@ -162,106 +162,65 @@ body {
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
 </head>
-<!-- <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>메이시</title>
-<meta name="description"
-	content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
-	href="./resources/styles/shards-dashboards.1.0.0.min.css">
-<link rel="stylesheet" href="./resources/styles/extras.1.0.0.min.css">
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="./resources/styles/custom.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js"></script> -->
-
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp"%>
-
-
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="main-content-container container-fluid px-4">
 		<div class="row mt-5">
-			<div id="joinedProjectDiv" class="col">
+			<!-- 프로젝트 리스트 -->
+			<div id="joinedProjectDiv" class="col-lg-12">
 				<div class="card card-small mb-4">
 					<div class="card-header border-bottom">
-						<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인
-							프로젝트</h6>
+						<h6 id="joinedProjectListHeader" class="projectHeader m-0">참여중인프로젝트</h6>
 						&nbsp;&nbsp;&nbsp;
-						<h6 id="allProjectListHeader" class="projectHeader m-0">전체
-							프로젝트</h6>
+						<h6 id="allProjectListHeader" class="projectHeader m-0">전체프로젝트</h6>
 					</div>
 					<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
-
 					</div>
 					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
 					</div>
 				</div>
-
-				<div id="cloudDiv" class="card card-small mb-4 hidden"
-					display="none">
+			</div>
+			<!-- 일정/클라우드 -->
+			<div id="cloudDiv" class="col-lg-12" display="none">
+				<div class="card card-small">
 					<div class="card-header border-bottom">
-						<div class="btn-group btn-group-toggle mb-3" id="ebuttons"
-							data-toggle="buttons">
-							<label class="btn btn-white active"> <input type="radio"
-								name="options" value="1" autocomplete="off" checked="">일정
-							</label> <label class="btn btn-white"> <input type="radio"
-								name="options" value="2" autocomplete="off">클라우드
+						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
+							<label class="btn btn-white active"> 
+								<input type="radio" name="options" value="1" autocomplete="off" checked="">일정
+							</label> 
+							<label class="btn btn-white"> 
+								<input type="radio" name="options" value="2" autocomplete="off">클라우드
 							</label>
 						</div>
 						<div id="proName"></div>
 						<div class="hidden" id="cloudTab">
 							<div align="right">
-								<form id="FILE_FORM" method="post" enctype="multipart/form-data"
-									action="">
+								<form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
 									<input type='file' id='file' name='file' />
 								</form>
-								<button type="button" class="btn btn-white" id="upload">파일
-									등록</button>
+								<button type="button" class="btn btn-white" id="upload">파일등록</button>
 								<button type="button" class="btn btn-white" id="delete">삭&nbsp;제</button>
 							</div>
-
-
 							<div>
 								<div class="card-body p-0 pb-3 text-center" id="cloudBody">
-									
 									<input type="hidden" value="" id="proSeq" />
 									<table class="table mb-0" id="fileTable">
-										
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div id="scheduleTab">
-					<div id='calendar'></div>
-
-				</div>
-
-				<div>
-					<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
+						<div id='calendar'></div>
+					</div>
+					<div>
+						<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
+					</div>
 				</div>
 			</div>
+			<!-- 프로젝트등록 -->
 			<div id="create_project_div" class="col">
 				<div class="inline card card-large mb-4">
 					<div class="card-header border-bottom">
@@ -281,15 +240,12 @@ body {
 									</select>
 								</div>
 								<div class="col-md-4" style="text-align: right;">
-									<button type="button" class="btn btn-sm btn-white"
-										id="setAddress">선택</button>
+									<button type="button" class="btn btn-sm btn-white" id="setAddress">선택</button>
 								</div>
 							</div>
 						</div>
-						<div class="card-body p-0" style="overflow: scroll"
-							id="nameCardTableWrap">
-							<!-- 명함리스트 -->
-
+						<div class="card-body p-0" style="overflow: scroll" id="nameCardTableWrap">
+							<!-- 명함리스트 생성 -->
 						</div>
 					</div>
 					<div class="page2">
@@ -301,22 +257,7 @@ body {
 					</div>
 				</div>
 			</div>
-			<!-- <div id="all_project_div" class="col">
-			<div class="inline card card-large mb-4">
-				<div class="card-header border-bottom">
-					<h6 class="m-0">프로젝트 리스트</h6>
-				</div> 
-				<div class="page1">userList</div>
-				<div class="page2">
-					<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br/>
-					<input type="date" id="inputProjectDate" class="form-control"><br/>
-					<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
-					<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
-				</div> 
-			</div>
-		</div> -->
 		</div>
-	</div>
 	</div>
 <!--  일정 관련 모달  -->	
 <div id="insertModal" class="modal">
