@@ -79,6 +79,7 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 50%; /* Could be more or less, depending on screen size */
+    top:0;
 }
 
 /* The Close Button */
@@ -312,6 +313,10 @@ function setLeftSideIcon(){
 						var cancel = document.getElementById('cancelButton1');
 						
 						modal.style.display = 'block';
+						$("#insertModal").css({
+							'overflow' : 'hidden',
+							'height' : '100%'
+						});
 						
 						span.onclick = function() {
 							$('#summary1').val('');

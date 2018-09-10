@@ -34,6 +34,7 @@
 	padding: 20px;
 	border: 1px solid #888;
 	width: 50%; /* Could be more or less, depending on screen size */
+	top:0;
 }
 </style>
 </head>
