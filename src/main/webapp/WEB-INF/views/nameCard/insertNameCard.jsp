@@ -328,7 +328,7 @@
 
 			var positionTest1 = /[선|주|대|과|차|부|이|상|전|부|사|부|회|디][임|리|장|사|무|회|자][장|이]{0,1}[너]{0,1}/g;
 			
-			var DepartmentTest1 = /.*[팀|부|서|실|계]/g; 
+			var DepartmentTest1 = /[가-힣]*[팀|부|서|실|계|과]/g;
 			
 			var userNameTest1 = /[가-힣]{2,4}/i;
 
