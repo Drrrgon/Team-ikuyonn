@@ -801,7 +801,7 @@
 			init : function(themeSystem) {
 		        $('#calendar').fullCalendar({
 					themeSystem : themeSystem,
-					lang : 'ko',
+					locale : 'ko',
 					eventStartEditable : false, // enable draggable events
 					eventDurationEditable : true,
 					aspectRatio : 1.8,
@@ -813,6 +813,8 @@
 					},
 					defaultView : 'month',
 					timezone : 'local',
+					timeFormat: 'h(:mm)',
+					eventLimit: 5,
 					events : function(start, end, timezone, callback){
 						var events = [];
 						var projectSeq = $('#projectSeq1').val();
