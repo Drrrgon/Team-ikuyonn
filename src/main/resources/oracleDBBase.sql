@@ -81,10 +81,10 @@ CREATE TABLE project (
 );
 CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
 ALTER TABLE project ADD CONSTRAINT fk_project_projectMaster FOREIGN KEY (projectMaster) REFERENCES userTable(userID)on delete cascade;
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team Ikuyonn', sysdate, NULL);
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team DDONG', sysdate, NULL);
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team 12', sysdate, NULL);
-INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team 34', sysdate, NULL);
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team Ikuyonn', sysdate, NULL,'66ccff');
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team DDONG', sysdate, NULL,'66ccff');
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team 12', sysdate, NULL,'66ccff');
+INSERT INTO PROJECT VALUES(project_seq.nextVal, 'qwer', 'Team 34', sysdate, NULL,'66ccff');
 
 CREATE TABLE events (
     eventSeq number PRIMARY KEY
@@ -110,7 +110,6 @@ insert into joinproject values('qwer',1);
 insert into joinproject values('asdf',1);
 insert into joinproject values('zxcv',1);
 insert into joinproject values('1234',1);
-
 
 
 ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
