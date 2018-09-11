@@ -71,8 +71,7 @@ CREATE TABLE inbox(
 );
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
-CREATE TABLE project (
-    
+CREATE TABLE project ( 
     projectSeq number PRIMARY KEY,
     projectMaster varchar2(40)
     , projectName varchar2(200)
@@ -153,11 +152,11 @@ INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,
 		VALUES(NCSEQ.NEXTVAL,'asdf','1','김뱀똥','aaa5@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem5.jpg','0');
 --회원
 INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
-		VALUES(NCSEQ.NEXTVAL,'asdf','1','신용하','ikuyong02@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','1');
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','신용하','ikuyong03@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','1');
+--INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
+--		VALUES(NCSEQ.NEXTVAL,'asdf','1','강수빈','ikuyong02@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','0');
 INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
-		VALUES(NCSEQ.NEXTVAL,'asdf','1','강수빈','ikuyong03@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');
-INSERT INTO NAMECARD(NCSEQ,USERID,NCCHECK,NCNAME,NCEMAIL,NCMOBILE,NCPHONE,NCFAX,NCCOMPANY,NCDEPARTMENT,NCTITLE,NCWEBSITE,NCADDRESS,NAMECARDURL,EMAILCHECK)
-		VALUES(NCSEQ.NEXTVAL,'asdf','1','이상운','ikuyong04@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');        
+		VALUES(NCSEQ.NEXTVAL,'asdf','1','이상운','ikuyong04@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');             
         
         
 CREATE TABLE projectEvent(
