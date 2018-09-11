@@ -78,6 +78,7 @@ CREATE TABLE project (
     , projectName varchar2(200)
     , due varchar2(100) default '------'
     , memberNum number
+    , color varchar2(20)
 );
 CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
 ALTER TABLE project ADD CONSTRAINT fk_project_projectMaster FOREIGN KEY (projectMaster) REFERENCES userTable(userID)on delete cascade;
