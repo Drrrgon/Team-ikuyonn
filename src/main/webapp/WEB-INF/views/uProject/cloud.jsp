@@ -165,7 +165,7 @@ body {
 }
 
 </style>
-<link rel="stylesheet" href="./resources/css/cloud.css">
+<link rel="stylesheet" href="./resources/cloud.css">
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
@@ -200,7 +200,7 @@ body {
 					<div class="card-header border-bottom">
 						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
 							<label class="btn btn-white active">
-								<input type="radio" name="options" value="1" autocomplete="off" checked="">일정
+								<input type="radio" name="options" value="1" autocomplete="off">일정
 							</label>
 							<label class="btn btn-white">
 								<input type="radio" name="options" value="2" autocomplete="off">클라우드
@@ -243,7 +243,7 @@ body {
 										class="input-sm form-control" id="searchText"
 										onkeyup="searchfunc()" placeholder="검색"> <select
 										class="form-control" id="selectGroup">
-										<option value="0" selected="">이름</option>
+										<option value="0">이름</option>
 										<option value="1" style="backgroun: red">이메일</option>
 										<option value="2">회사명</option>
 									</select>
@@ -432,7 +432,7 @@ body {
 				}
 			});
 		}
-	// 참가되어있는 프로젝트의 리스트를 출력하는 기능   
+	// 참가되어있는 프로젝트의 리스트를 출력하는 기능
 	function printJoinedProjectList(joinedProjectList){
 		var userID = "${sessionScope.userID}"
 		var temp = "";
@@ -445,8 +445,7 @@ body {
 			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
 					+ joinedProjectList[i].projectSeq
-					+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
-
+					+","+i+")'>열기</button></td></tr>";
 		}
 		
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
@@ -576,7 +575,6 @@ body {
 		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
-		$("#color").val(color);
 		var temp = document.getElementById("cloudBody");
 		temp.style.display = "block";
 		$("#proSeq").val(projectSeq);
@@ -1138,20 +1136,19 @@ body {
 			var projectSeq = $('#projectSeq1').val();
 			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
 	    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-
 	    	// alert(startDate1.value + '\n' + endDate2.value);
 	    	/* if(endDate2.value < startDate1.value){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	} */
-	 		
+
 	    	var eventData = {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
 					'description' : $('#description1').val(),
 					'startDate' : $('#startDate1').val(),
 					'endDate' : $('#endDate2').val(),
-					'color' : $('#color').val()
+					'color' : color
 	    	}
 			$.ajax({
 				type : 'post',
