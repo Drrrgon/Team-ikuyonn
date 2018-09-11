@@ -71,13 +71,13 @@ CREATE TABLE inbox(
 );
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
-CREATE TABLE project (
-    
+CREATE TABLE project ( 
     projectSeq number PRIMARY KEY,
     projectMaster varchar2(40)
     , projectName varchar2(200)
     , due varchar2(100) default '------'
     , memberNum number
+    , color varchar2(20)
 );
 CREATE SEQUENCE project_seq START WITH 1 INCREMENT BY 1;
 ALTER TABLE project ADD CONSTRAINT fk_project_projectMaster FOREIGN KEY (projectMaster) REFERENCES userTable(userID)on delete cascade;
