@@ -116,7 +116,7 @@ ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_userID FOREIGN KEY (userID
 ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
 
 CREATE TABLE nameCard (
-    ncSeq varchar2(20) PRIMARY KEY
+    ncSeq number PRIMARY KEY
     , userID varchar2(40)
     , ncCheck varchar2(10)
     , ncName varchar2(40)

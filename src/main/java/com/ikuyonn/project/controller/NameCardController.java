@@ -76,6 +76,7 @@ public class NameCardController {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		nameCard.setUserID((String)httpSession.getAttribute("userID"));
 		int re = mapper.selectEmailAddress(nameCard); 
+		System.out.println(nameCard);
 		if(re == 0) {
 			//등록된사람 없을때
 			nameCard.setEmailCheck("0");
