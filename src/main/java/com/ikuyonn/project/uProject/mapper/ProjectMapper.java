@@ -28,6 +28,8 @@ public interface ProjectMapper {
 
 	public ArrayList<HashMap<String, Object>> getProjectMemeber(int projectSeq);
 
+	public int secessionProjectMember(HashMap<String, Object> map);
+
 	/*이민석추가*/
 	
 }

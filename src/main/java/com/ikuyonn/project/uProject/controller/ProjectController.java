@@ -81,7 +81,7 @@ public class ProjectController {
 			int res = um.joinProject(parameters);
 		}
 		userMap = um.getCountOfProjectMember(pro.getProjectSeq());
-		userMap.put("PROJECTSEQ", pro.getProjectSeq());
+		userMap.put("projectSeq", pro.getProjectSeq());
 		um.updateCountOfProjectMember(userMap);
 		List<Project> project = um.getUserProjectList(userMap);		
 		
@@ -111,5 +111,18 @@ public class ProjectController {
 			returnList.add((String) temp.get("USERID"));
 		}
 		return returnList;
+	}
+	@RequestMapping(value = "/secessionProjectMember", method = RequestMethod.POST)
+	public @ResponseBody int secessionProjectMember(String projectSeq, String userID){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		int pjSeq = Integer.parseInt(projectSeq);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("projectSeq", pjSeq);
+		map.put("userID", userID);
+		int re = um.secessionProjectMember(map);
+		map = um.getCountOfProjectMember(pjSeq);
+		map.put("projectSeq", pjSeq);
+		um.updateCountOfProjectMember(map);
+		return re;
 	}
 }

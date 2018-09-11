@@ -94,7 +94,7 @@
 						</div>
 							<!-- 채팅방 최하단 -->
 							<div class="fab_field">
-								<a id="fab_camera" class="fab"><i class="zmdi zmdi-camera"></i></a>
+								<!-- <a id="fab_camera" class="fab"><i class="zmdi zmdi-camera"></i></a> -->
 								<a id="fab_send" class="fab"><i class="zmdi zmdi-mail-send"></i></a>
 								<textarea id="chatSend" name="chat_message" placeholder="Send a message" class="chat_field chat_message"></textarea>
 							</div>
