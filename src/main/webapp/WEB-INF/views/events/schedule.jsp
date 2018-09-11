@@ -658,11 +658,11 @@ function setLeftSideIcon(){
     				alert('일정 입력이 잘못되었습니다!');
 		    		return false;
     			}
-    			/* var startDate0 = document.getElementById('startDate1');
-    			var endDate0 = document.getElementById('endDate2'); */
-				var startDate = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
-		    	var endDate = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	if(endDate < startDate){
+    			/* var startDate1 = document.getElementById('startDate1');
+    			var endDate2 = document.getElementById('endDate2'); */
+				var sd = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
+		    	var ed = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+		    	if(ed < sd){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
 		    	}
@@ -671,8 +671,8 @@ function setLeftSideIcon(){
 		    			'userID' : $('#userID1').val(),
 						'summary' : $('#summary1').val(),
 						'description' : $('#description1').val(),
-						'startDate' : startDate,
-						'endDate' : endDate,
+						'startDate' : sd,
+						'endDate' : ed,
 						'color' : $('#color1').css("background-color")
 		    	}
 		    	

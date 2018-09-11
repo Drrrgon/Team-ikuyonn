@@ -442,9 +442,7 @@ body {
 			temp += "data-pjName='"+joinedProjectList[i].projectName+"'>" + joinedProjectList[i].projectName + "</td>";
 			temp += "<td class='joinedProjectListDue' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].due + "</td>";
 			temp += "<td class='joinedProjectListMember' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].memberNum + "</td>";
-			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
-					+ joinedProjectList[i].projectSeq
-					+","+i+")'>열기</button></td></tr>";
+			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("+ joinedProjectList[i].projectSeq+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
 		}
 		
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
@@ -636,6 +634,7 @@ body {
 	
 	function fileList(projectSeq,i,color) {
 		$("#cloudDiv").css("display","block");
+		$('#color').val(color);
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
 		var temp = document.getElementById("cloudBody");
@@ -780,7 +779,6 @@ body {
 		/* 네임카드리스트(회원만) 출력 by 민석 */
 		var nameCardList;
 		function namecardOutput(datas) {
-			alert(data);
 			var line = '';
 			nameCardList = datas;
 			for ( var i in datas) {
@@ -949,7 +947,7 @@ body {
 							    var day = dayC;
 							    var hour = new Date().getHours();
 							    var minute = new Date().getMinutes();
-							    var color = $('#color1').val();
+							    var color = $('#color').val();
 
 							    var startYear = year - 80;
 							    for(var i=0; i<100; i++) {
@@ -1207,9 +1205,9 @@ body {
 			var projectSeq = $('#projectSeq1').val();
 			/* var startDate1 = document.getElementById('startDate1');
 			var endDate2 = document.getElementById('endDate2'); */
-			var startDate = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
-	    	var endDate = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-	    	if(endDate < startDate){
+			var sd = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
+			var ed = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+			if(ed < sd){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	}
@@ -1218,8 +1216,8 @@ body {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
 					'description' : $('#description1').val(),
-					'startDate' : startDate,
-					'endDate' : endDate,
+					'startDate' : sd,
+					'endDate' : ed,
 					'color' : $('#color').val()
 	    	}
 			$.ajax({
@@ -1249,9 +1247,9 @@ body {
 			}
 			/* var startDate3 = document.getElementById('startDate3');
 			var endDate4 = document.getElementById('endDate4'); */
-			startDate0 = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
-	    	endDate0 = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-	    	if(endDate0 < startDate0){
+			var sd = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
+			var ed = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
+			if(ed < sd){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	}
@@ -1260,7 +1258,7 @@ body {
 				type : 'post',
 				url : 'updateEvents',
 				data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-						'startDate' : startDate0, 'endDate' : endDate0},
+						'startDate' : sd, 'endDate' : ed},
 				success : function(data){
 					if(data == '1'){
 					var modal2 = document.getElementById('eventModal');
