@@ -10,7 +10,7 @@
 <!-- header -->
 <%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
-<link rel="stylesheet" href="./resources/cloud.css">
+<link rel="stylesheet" href="./resources/css/cloud.css">
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
@@ -34,9 +34,11 @@
 					</div>
 					
 					<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
+						
 					</div>
 					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
 					</div>
+					<div id="joinedProjectMember">ddddddd</div>
 				</div>
 			</div>
 			<!-- 일정/클라우드 -->
@@ -195,7 +197,7 @@
 	<%@ include file="../parts/footer.jsp"%>
 </body>
 <script>
-	
+	var originalName;
 	//참가한 프로젝트 리스트 를 얻어와서 초기화 및 화면 표기
 	function getJoinedProject() {
 		var userID = $("#userID").val();
@@ -278,12 +280,11 @@
 		var userID = "${sessionScope.userID}"
 		var temp = "";
 		for ( var i in joinedProjectList) {
-			console.log(joinedProjectList[i].projectSeq);
 			temp += "<tr><td>" + i + "</td>";
 			temp += "<td class='joinedProjectListName' data-seq='"+joinedProjectList[i].projectSeq+"'";
 			temp += "data-pjName='"+joinedProjectList[i].projectName+"'>" + joinedProjectList[i].projectName + "</td>";
-			temp += "<td>" + joinedProjectList[i].due + "</td>";
-			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
+			temp += "<td class='joinedProjectListDue' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].due + "</td>";
+			temp += "<td class='joinedProjectListMember' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
 					+ joinedProjectList[i].projectSeq
 					+","+i+")'>열기</button></td></tr>";
@@ -293,33 +294,97 @@
 
 		$("#joinedTbody").append(temp);
 		$('.joinedProjectListName').on('click', modifyProjectName);
+		$('.joinedProjectListMember').on('click', clickProjectMemeber);
+		$('.joinedProjectListDue').on('click', modifyProjectDue);
 		$('#openInputFormBtn').on('click', openInputForm);
 	}
 	// 프로젝트의 이름 변경 기능
 	function modifyProjectName(){
 		var userID = "${sessionScope.userID}";
-		var seq = $(this).attr('data-seq');
-		var seq = $(this).attr('data-pjName');
-
+		var pjSeq = $(this).attr('data-seq');
+		var pjName = $(this).attr('data-pjName');
 		var projectMasterArray = [];
-		console.log(seq);
 		$.ajax({
 			url : 'getProjectInfo',
 			type : 'post',
 			data : {
 				'userID' : userID
 			},
-			async:false,
+			async: false,
 			success : function(list) {
-				for (let i = 0; i < list.length; i++) {
-					if(list[i].projectMaster == userID){
-						projectMasterArray.push(list[i].projectName);
-					}
-				}
+				projectMasterArray = list;
 			}
 		});
-
+		for (let i = 0; i < projectMasterArray.length; i++) {
+			if(projectMasterArray[i].projectMaster == userID){
+				if(pjName == projectMasterArray[i].projectName){
+					var flag = 0;
+					originalName = $(this).html();
+					var print = '<input id="modifyProjectName" type="text" style="width:120px;">';
+					$(this).html(print);
+					$('#modifyProjectName').focus();
+					$('#modifyProjectName').focusout(function(){
+						if($('#modifyProjectName').val().length == 0 ){
+							alert('이름이 부적절 합니다.');
+							$('#modifyProjectName').closest('td').html(originalName);
+						}else{
+							var newName = $('#modifyProjectName').val();
+							$('#modifyProjectName').closest('td').attr('data-pjName', newName);
+							$('#modifyProjectName').closest('td').text(newName);
+							$.ajax({
+								url: 'modifyProjectName',
+								type: 'post',
+								data: {
+									'projectSeq':pjSeq, 'newName':newName
+								},
+								success: function(result){
+									if(result == 0 ){
+										alert('변경실패');
+									}else{
+										alert('변경성공!');
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
 	}
+	function clickProjectMemeber(){
+		var pjSeq = $(this).attr('data-seq');
+		var userList;
+		var userListProfile = [];
+		$.ajax({
+			url: 'getProjectMemeber',
+			type: 'post',
+			data: {
+				'projectSeq':pjSeq
+			},
+			async: false,
+			success: function(list){
+				userList = list;
+			}
+		});
+		for (let i = 0; i < userList.length; i++) {
+			$.ajax({
+				url: 'getUserProfile',
+				type: 'post',
+				data: {
+					'userID':userList[i]
+				},
+				async: false,
+				success: function(path){
+					userListProfile.push(path);
+				}
+			});
+		}
+		console.log(userListProfile);
+		
+	}
+	function modifyProjectDue(){
+
+	}	
 	// 모든 프로젝트의 리스트를 출력하는 기능
 	function printAllProjectList(allProjectList) {
 		var temp = "";

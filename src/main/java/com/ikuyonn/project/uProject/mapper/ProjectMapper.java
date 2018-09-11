@@ -1,5 +1,6 @@
 package com.ikuyonn.project.uProject.mapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +23,10 @@ public interface ProjectMapper {
 	public HashMap<String, Object> getCountOfProjectMember(int projectSeq);
 
 	public void updateCountOfProjectMember(HashMap<String, Object> userMap);
+
+	public int updateProjectName(HashMap<String, Object> map);
+
+	public ArrayList<HashMap<String, Object>> getProjectMemeber(int projectSeq);
 
 	/*이민석추가*/
 	

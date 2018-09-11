@@ -81,9 +81,19 @@
 		WHERE PROJECTSEQ = #{VALUE}
 	</select>
 	
+	<select id="getProjectMemeber" parameterType="int" resultType="map">
+		SELECT userid FROM joinproject WHERE projectseq = #{value}
+	</select>
+	
 	<update id="updateCountOfProjectMember" parameterType="map">
 		UPDATE PROJECT
 		SET MEMBERNUM = #{MEMBERNUM}
 		WHERE PROJECTSEQ = #{PROJECTSEQ}
+	</update>
+	
+	<update id="updateProjectName" parameterType="map">
+		UPDATE PROJECT
+		SET PROJECTNAME = #{projectName}
+		WHERE PROJECTSEQ = #{projectSeq}
 	</update>
 </mapper>
