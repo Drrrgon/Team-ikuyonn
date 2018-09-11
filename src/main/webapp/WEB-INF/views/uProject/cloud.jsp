@@ -11,10 +11,6 @@
 <%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
 <style>
-#cloudDiv{
-	display:none;
-}
-
 #file {
 	width: 0;
 	height: 0;
@@ -672,6 +668,7 @@ body {
 			getAllProject();
 		});
 	}
+	
 	$(function() {
 		btnFunction();
 		setLeftSideIcon();
