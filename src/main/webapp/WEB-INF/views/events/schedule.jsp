@@ -12,6 +12,11 @@
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
 <style>
+.fc-license-message{
+	display : none;
+	z-index : 0;
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -150,7 +155,7 @@ body {
 		<select name='hour2' id='hour2'></select>시&nbsp;
 		<select name='minute2' id='minute2'></select>분&nbsp; 
 	</form>
-	<button type="button" id="insertEvents" onclick="location.reload()">일정 입력</button>
+	<button type="button" id="insertEvents">일정 입력</button>
 	<button type="button" id="cancelButton1">취소</button>
 </div>
 </div>
@@ -159,6 +164,7 @@ body {
 <div class="modal-content">
 	<h4 class="modal-title">일정입니다<span id="close3" class="close"></span></h4>
     <form id="eventDetail">
+    <!-- <input type="hidden" id="projectSeq1" name="projectSeq1"/> -->
     <label>제목</label><input type="text" id="summary3" name="summary3"/><br/>
 	<label>내용</label><input type="text" id="description3" name="description3"/><br/>
 	<br/><span>색깔지정</span>
@@ -170,7 +176,7 @@ body {
 	<select name="day3" id="day3"></select>일&nbsp;
 	<select name="hour3" id="hour3"></select>시&nbsp;
 	<select name="minute3" id="minute3"></select>분&nbsp;
-	<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value=""/>
+	<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>
 	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp;
 	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp;
 	<select name="day4" id="day4"></select>일&nbsp;
@@ -233,6 +239,7 @@ function setLeftSideIcon(){
 						right : 'month,agendaWeek,timelineDay,listWeek'
 					},
 					defaultView : 'month',
+					timezone : 'local',
 					/* resourceLabelText : 'Rooms',
 					resources : [ {
 						id : 'a',
@@ -281,7 +288,7 @@ function setLeftSideIcon(){
   							data : {
 								'userID' : $('#userID1').val()
 							},
-							success : function(data) {				
+							success : function(data) {
 								$(data).each(function(index, item) {	
 									events.push({
 										id : item.userID,
@@ -321,23 +328,20 @@ function setLeftSideIcon(){
 						
 						span.onclick = function() {
 							$('#summary1').val('');
-					    	$('#startDate1').val('');
-					    	$('#endDate2').val('');
+					    	$('#description1').val('');
 							modal.style.display = 'none';
 						}
 						
 						cancel.onclick = function() {
 							$('#summary1').val('');
-					    	$('#startDate1').val('');
-					    	$('#endDate2').val('');
+					    	$('#description1').val('');
 							modal.style.display = 'none';
 						}
 						
 						window.onclick = function(event) {
 						    if (event.target == modal) {
 						    	$('#summary1').val('');
-						    	$('#startDate1').val('');
-						    	$('#endDate2').val('');
+						    	$('#description1').val('');
 						        modal.style.display = 'none';
 						    }
 						}
@@ -445,7 +449,9 @@ function setLeftSideIcon(){
 							success : function(data) {
 								var newStart = new Date(data.startDate);
 								var newEnd = new Date(data.endDate);
-					
+								
+								// document.getElementById("projectSeq1").value = data.projectSeq;
+								
 								$("#summary3").val(data.summary);
 								$("#description3").val(data.description);
 								$("#startDate3").val(newStart);
@@ -577,6 +583,13 @@ function setLeftSideIcon(){
 								}
 								/* $("input:button.updateEvents").click(updateEvents);
 								$("input:button.deleteEvents").click(deleteEvents); */
+								if(data.userID != $('#userID1').val()){
+									$('#updateEvents').attr("disabled", true);
+									$('#deleteEvents').attr("disabled", true);
+								} else{
+									$('#updateEvents').attr("disabled", false);
+									$('#deleteEvents').attr("disabled", false);
+								}
 							},
 							error : function() {
 								alert("수신실패");
@@ -590,24 +603,18 @@ function setLeftSideIcon(){
 						// When the user clicks on the button, open the modal 
 						modal.style.display = 'block';
 						
-
+						
 						span.onclick = function() {
 							modal.style.display = 'none';
 						}
 						
 						cancel.onclick = function() {
-							$('#summary3').val('');
-					    	$('#startDate3').val('');
-					    	$('#endDate4').val('');
 							modal.style.display = 'none';
 						}
 						
  						// When the user clicks anywhere outside of the modal, close it
 						window.onclick = function(event) {
 						    if (event.target == modal) {
-						    	$('#summary3').val('');
-						    	$('#startDate3').val('');
-						    	$('#endDate4').val('');
 						        modal.style.display = 'none';
 						    }
 						}
@@ -618,9 +625,8 @@ function setLeftSideIcon(){
 			change : function(themeSystem) {
 				$('#calendar').fullCalendar('option', 'themeSystem', themeSystem);
 			}
-
 		});
-
+		
 		$('#insertEvents').on('click', insertEvents);
 		$('#updateEvents').on('click', updateEvents);
 		$('#deleteEvents').on('click', deleteEvents);
@@ -665,11 +671,11 @@ function setLeftSideIcon(){
 					url : 'insertEvents',
 					data : eventData, 
 					success : function(data){
-						if(data == 'success'){
+						if(data == '1'){
 						var modal1 = document.getElementById('insertModal');
 						modal1.style.display = 'none';
 						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
-						}
+						$("#calendar").fullCalendar('refetchEvents');}
 					},
 					error : function() {
 						// alert("송신실패");
@@ -696,10 +702,10 @@ function setLeftSideIcon(){
 					data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
 							'startDate' : startDate3.value, 'endDate' : endDate4.value, 'color' : color3},
 					success : function(data){
-						if(data == 'success'){
+						if(data == '1'){
 						var modal2 = document.getElementById('eventModal');
-						modal2.style.display = 'none';}
-						location.reload();
+						modal2.style.display = 'none';
+						$("#calendar").fullCalendar('refetchEvents');}
 					},
 					error : function() {
 						// alert("송신실패");
@@ -714,10 +720,10 @@ function setLeftSideIcon(){
 					url : 'deleteEvents',
 					data : {'eventSeq' : eventSeq},
 					success : function(data){
-						if(data == 'success'){
+						if(data == '1'){
 						var modal3 = document.getElementById('eventModal');
-						modal3.style.display = 'none';}
-						location.reload();
+						modal3.style.display = 'none';
+						$("#calendar").fullCalendar('refetchEvents');}
 					},	
 					error : function() {
 						// alert("송신실패");
