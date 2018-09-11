@@ -56,8 +56,14 @@ public class CloudController {
 	}
 	
 	@RequestMapping(value = "/delFile", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<fileVO> delFile(int fileSeq,int proSeq) {
+	public @ResponseBody ArrayList<fileVO> delFile(int fileSeq,int proSeq,HttpServletRequest request) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
+		fileVO vo = mapper.getFile(fileSeq);
+		ServletContext cotx = request.getSession().getServletContext();
+		UPLOADPATH = cotx.getRealPath("/resources/cloud/");	
+		String fullPath = UPLOADPATH+vo.getSaveFileName();
+		File file = new File(fullPath);
+		file.delete();
 		mapper.delFile(fileSeq);
 		ArrayList<fileVO> fList = getFileList(proSeq);
 		return fList;

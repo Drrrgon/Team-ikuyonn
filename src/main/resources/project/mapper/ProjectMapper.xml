@@ -19,7 +19,7 @@
 	<select id="getUserProjectList" parameterType="map" resultType="Project">		
 		<if test="userID != null">
 		SELECT DISTINCT 
-			p.projectName, p.projectseq, p.memberNum memberNum, p.due, p.projectMaster
+			p.projectName, p.projectseq, p.memberNum memberNum, p.due, p.projectMaster, p.color
 		FROM 
 			project p, joinproject jp, usertable ut 
 		WHERE 
@@ -59,7 +59,8 @@
 			#{projectMaster},
 			#{projectName},
 			#{due},
-			null
+			null,
+			#{color}
 			)
 		<selectKey keyProperty="projectSeq" resultType="Integer" order="AFTER">
 

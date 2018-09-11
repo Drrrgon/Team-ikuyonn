@@ -161,7 +161,7 @@ public class NameCardController {
 	//파일업로드
 	public String fileService(HttpServletRequest request,MultipartFile uploadFile) {
 		ServletContext cotx= request.getSession().getServletContext();
-		String path = cotx.getRealPath("/cResources/images/nameCard/");
+		String path = cotx.getRealPath("/resources/images/nameCard/");
 		UPLOADPATH = path;
 		File f = new File(UPLOADPATH);
 		if(f.isDirectory() == false) {

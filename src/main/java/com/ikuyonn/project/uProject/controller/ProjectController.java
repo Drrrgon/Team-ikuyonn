@@ -53,9 +53,10 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/createProject", method = RequestMethod.POST)
-	public @ResponseBody List<Project> createProject(User u, String projectName, String due,String[] emails){
+	public @ResponseBody List<Project> createProject(User u, String projectName, String due,String[] emails, String color){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
 		Project pro = new Project();
+		pro.setColor(color);
 		pro.setProjectMaster(u.getUserID());
 		pro.setProjectName(projectName);
 		HashMap <String, Object> userMap = new HashMap<String, Object>();

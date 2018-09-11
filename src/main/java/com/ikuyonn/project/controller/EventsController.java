@@ -2,6 +2,8 @@ package com.ikuyonn.project.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,16 +31,17 @@ public class EventsController {
 	@RequestMapping(value = "/privateEvents", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<Events> privateEvents(Events e) {
 		EventsMapper em = session.getMapper(EventsMapper.class);
-		ArrayList<Events> ae = em.privateEvents(e);
+		ArrayList<Events> ae = em.privateEvents(e);		
 		
 		return ae;
 	}
 	
 	@RequestMapping(value = "/oneEvents", method = RequestMethod.POST)
-	public @ResponseBody Events oneEvents(Events e) {
+	public @ResponseBody Events oneEvents(HttpSession hs, Events e) {
 		EventsMapper em = session.getMapper(EventsMapper.class);
-		Events es = em.oneEvents(e);	
-		
+		Events es = em.oneEvents(e);
+		hs.setAttribute("projectSeq", es.getProjectSeq());
+		System.out.println(es.getProjectSeq());
 		return es;
 	}
 	
