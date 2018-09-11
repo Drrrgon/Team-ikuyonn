@@ -26,8 +26,10 @@ public class FileManager {
 	
 	public FileManager(String path) {
 		UPLOADPATH = path;
+		System.out.println(path);
 //		System.out.println(UPLOADPATH);
 		File f = new File(UPLOADPATH);
+		System.out.println(f.isDirectory());
 		if(f.isDirectory() == false) {
 			f.mkdirs();
 		}
