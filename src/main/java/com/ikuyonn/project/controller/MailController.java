@@ -4,10 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.UUID;
@@ -30,6 +32,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -219,7 +222,7 @@ public class MailController {
 			e.printStackTrace();
 		}
 		file2.delete();
-		return "mail/writeMail";
+		return "mail/mailFinish";
 	}
 
 	@RequestMapping(value = "/mailList", method = RequestMethod.POST)
@@ -267,8 +270,8 @@ public class MailController {
 					for (int i = 0; i < mmp.getCount(); i++) {
 						MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
 							if (mbp.getFileName() != null) {
-								content2 += "<div>-첨부파일-<br/><a href =\"#\" onclick=\"down('" + m.getMessageNumber() + "','"
-										+ email.getEmailAddress() + "')\">" + MimeUtility.decodeText(mbp.getFileName())
+								content2 += "<div>-첨부파일-<br/><a href ='mailDown?msgNum="+m.getMessageNumber()+""
+										+ "&emailAddress="+email.getEmailAddress()+"'>" + MimeUtility.decodeText(mbp.getFileName())
 										+ "</a><div>(다운로드 파일은 C:\\\\download\\\\에 저장됩니다.)</div></div>";
 							}
 					}
@@ -344,15 +347,14 @@ public class MailController {
 		return content;
 	}
 	
-	@RequestMapping(value = "/downfile", method = RequestMethod.POST)
-	public @ResponseBody String downfile(int msgNum, String emailAddress) {
+	@RequestMapping(value = "/mailDown", method = RequestMethod.GET)
+	public void mailDown(int msgNum, String emailAddress, HttpServletResponse response) {
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		email e = mapper.getAddress(emailAddress);
 		String host = e.getHost();
 		String emailID = e.getEmailId();
 		String emailPassword = e.getEmailPassword();
 		IMAPAgent mailagent = new IMAPAgent(host, emailID, emailPassword);
-
 		try {
 			mailagent.open();
 			Folder folder = mailagent.getFolder("inbox");
@@ -360,16 +362,14 @@ public class MailController {
 			MimeMultipart mmp = (MimeMultipart) m.getContent();
 			for (int i = 0; i < mmp.getCount(); i++) {
 				MimeBodyPart mbp = (MimeBodyPart) mmp.getBodyPart(i);
-				
 				if (mbp.getFileName() != null) {
-					String path = "c:\\\\download\\\\";
-					File file = new File(path);
-					if(!file.exists()) {
-						file.mkdirs();
-						}
+					response.setContentType("application/octet-stream");
+					response.setHeader("Content-Disposition", "attachment; fileName=" 
+					+ URLEncoder.encode(MimeUtility.decodeText(mbp.getFileName()), "UTF-8"));
 					BufferedOutputStream out = null; 
 					BufferedInputStream in = null;
-					out = new BufferedOutputStream(new FileOutputStream(new File(path,MimeUtility.decodeText(mbp.getFileName())))); 
+					
+					out = new BufferedOutputStream(response.getOutputStream()); 
 					in = new BufferedInputStream(mbp.getInputStream()); 
 					int k; 
 					while ((k = in.read()) != -1) 
@@ -384,7 +384,6 @@ public class MailController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return "";
 	}
 
 	private String fileSize(String name) {

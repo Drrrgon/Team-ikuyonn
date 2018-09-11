@@ -52,10 +52,6 @@ public class HomeController {
 	public String writeMail() {
 		return "/mail/writeMail";
 	}
-	@RequestMapping(value = "/mailBox", method = RequestMethod.GET)
-	public String mailBox() {
-		return "/mail/mailBox";
-	}
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
 	public String schedule() {
 		return "/events/schedule";
