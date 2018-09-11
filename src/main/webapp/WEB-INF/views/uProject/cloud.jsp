@@ -554,10 +554,10 @@ body {
 			});
 		}
 	};
-
-		// });
-		$('#allProjectList').text('');
-		var printHtml = '<table class="table mb-0">';
+	
+	function initJoinedProjectList(){
+		$('#joinedProjectList').text('');
+		var printHtml ='<table class="table mb-0">';
 		printHtml += '<thead class="bg-light">';
 		printHtml += '<tr>';
 		printHtml += '<th scope="col" class="border-0">#</th>';
@@ -566,14 +566,13 @@ body {
 		printHtml += '<th scope="col" class="border-0">참여인원</th>';
 		printHtml += '</tr>';
 		printHtml += '</thead>';
-		printHtml += '<tbody id="allTbody">';
+		printHtml += '<tbody id="joinedTbody">';
 		printHtml += '</tbody>';
 		printHtml += '</table>';
-		$('#allProjectList').html(printHtml);
+		$('#joinedProjectList').html(printHtml);		
 	}
+	
 	function fileList(projectSeq,i,color) {
-
-	function fileList(projectSeq,i) {
 		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
