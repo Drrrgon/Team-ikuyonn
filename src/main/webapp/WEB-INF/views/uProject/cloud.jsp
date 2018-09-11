@@ -165,7 +165,7 @@ body {
 }
 
 </style>
-<link rel="stylesheet" href="./resources/cloud.css">
+<link rel="stylesheet" href="./resources/css/cloud.css">
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
@@ -423,7 +423,7 @@ body {
 				url: 'createProject',
 				type: 'post',
 				data: {
-					'userID': sessionID, 'projectName': projectName, 'due':due, 'emails' : emails, 'color' : $('#color1').cssAsHex('background-color')
+					'userID': sessionID, 'projectName': projectName, 'due':due, 'emails' : emails, 'color' : $('#color1').css('background-color')
 				},
 				success: function(list){
 					getJoinedProject();
@@ -432,7 +432,7 @@ body {
 				}
 			});
 		}
-	// 참가되어있는 프로젝트의 리스트를 출력하는 기능
+	// 참가되어있는 프로젝트의 리스트를 출력하는 기능   
 	function printJoinedProjectList(joinedProjectList){
 		var userID = "${sessionScope.userID}"
 		var temp = "";
@@ -445,7 +445,7 @@ body {
 			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
 					+ joinedProjectList[i].projectSeq
-					+","+i+","+joinedProjectList[i].color+")'>열기</button></td></tr>";
+					+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
 
 		}
 		
@@ -1144,8 +1144,7 @@ body {
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	} */
-	 		alert($('#color').val());
-
+	 		
 	    	var eventData = {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
