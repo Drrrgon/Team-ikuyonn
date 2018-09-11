@@ -202,7 +202,7 @@ body {
 					<div class="card-header border-bottom">
 						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
 							<label class="btn btn-white active">
-								<input type="radio" name="options" value="1" autocomplete="off" checked="">일정
+								<input type="radio" name="options" value="1" autocomplete="off">일정
 							</label>
 							<label class="btn btn-white">
 								<input type="radio" name="options" value="2" autocomplete="off">클라우드
@@ -245,7 +245,7 @@ body {
 										class="input-sm form-control" id="searchText"
 										onkeyup="searchfunc()" placeholder="검색"> <select
 										class="form-control" id="selectGroup">
-										<option value="0" selected="">이름</option>
+										<option value="0">이름</option>
 										<option value="1" style="backgroun: red">이메일</option>
 										<option value="2">회사명</option>
 									</select>
@@ -315,9 +315,6 @@ body {
     <form id="eventDetail">
     <label>제목</label><input type="text" id="summary3" name="summary3"/><br/>
 	<label>내용</label><input type="text" id="description3" name="description3"/><br/>
-	<br/><span>색깔지정</span>
-	<button class="jscolor {valueElement:null, value:'66ccff'}" style="width:50px; height:20px;" id="color3">
-	</button><br/>
 	<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
 	<select name="year3" id="year3" onChange="setDate()"></select>년&nbsp;
 	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp;
@@ -435,7 +432,7 @@ body {
 				}
 			});
 		}
-	// 참가되어있는 프로젝트의 리스트를 출력하는 기능   
+	// 참가되어있는 프로젝트의 리스트를 출력하는 기능
 	function printJoinedProjectList(joinedProjectList){
 		var userID = "${sessionScope.userID}"
 		var temp = "";
@@ -447,8 +444,7 @@ body {
 			temp += "<td class='joinedProjectListMember' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
 					+ joinedProjectList[i].projectSeq
-					+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
-
+					+","+i+")'>열기</button></td></tr>";
 		}
 		
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
@@ -642,7 +638,6 @@ body {
 		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
-		$("#color").val(color);
 		var temp = document.getElementById("cloudBody");
 		temp.style.display = "block";
 		$("#proSeq").val(projectSeq);
@@ -1202,16 +1197,21 @@ body {
 		$('#deleteEvents').on('click', deleteEvents);
 
 		function insertEvents(){
+			if($('#summary1').val() == '' || $('#description1').val() == ''){
+				alert('일정 입력이 잘못되었습니다!');
+	    		return false;
+			}
+			
 			var projectSeq = $('#projectSeq1').val();
+			var startDate1 = document.getElementById('startDate1');
+			var endDate2 = document.getElementById('endDate2');
 			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
 	    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-
-	    	// alert(startDate1.value + '\n' + endDate2.value);
-	    	/* if(endDate2.value < startDate1.value){
+	    	if(endDate2.value < startDate1.value){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
-	    	} */
-	 		
+	    	}
+
 	    	var eventData = {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
@@ -1241,20 +1241,24 @@ body {
 			var eventSeq = $(this).attr("data-uno");
 			var summary3 = $('#summary3').val();
 			var description3 = $('#description3').val();
-			var color3 = $('#color3').css("background-color");
+			if(summary3 == '' || description3 == ''){
+				alert('일정 입력이 잘못되었습니다!');
+	    		return false;
+			}
+			var startDate3 = document.getElementById('startDate3');
+			var endDate4 = document.getElementById('endDate4');
 			startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
 	    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-	    	// alert(startDate3.value + '\n' + endDate4.value);
-	    	/* if(endDate4.value < startDate3.value){
+	    	if(endDate4.value < startDate3.value){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
-	    	} */
+	    	}
 
 			$.ajax({
 				type : 'post',
 				url : 'updateEvents',
 				data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-						'startDate' : startDate3.value, 'endDate' : endDate4.value, 'color' : color3},
+						'startDate' : startDate3.value, 'endDate' : endDate4.value},
 				success : function(data){
 					if(data == '1'){
 					var modal2 = document.getElementById('eventModal');
