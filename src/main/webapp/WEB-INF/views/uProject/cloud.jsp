@@ -10,155 +10,11 @@
 <!-- header -->
 <%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
-<style>
-#file {
-	width: 0;
-	height: 0;
-	opacity: 0;
-	position: relative;
-}
-
-#cloudBody {
-	display: none;
-}
-
-.td {
-	width: 70;
-}
-
-.projectAddBtnTd {
-	text-align: right;
-}
-
-div.aa:hover {
-	background-color: #e6e6e6;
-}
-
-div#create_project_div {
-	display: none;
-}
-
-.page1 {
-	width: 50%;
-	float: left;
-}
-
-.page2 {
-	width: 50%;
-	float: left;
-}
-
-.inline {
-	display: flow-root;
-}
-
-.createbtn {
-	float: right;
-}
-
-.projectHeader {
-	display: inline;
-	cursor: pointer;
-	margin: 20px;
-}
-
-.all_project_div {
-	display: none;
-}
-/* 탭페이지 */
-div.hidden {
-	display: none;
-}
-
-body {
-	margin: 0;
-	padding: 0;
-	font-size: 14px;
-}
-
-#top, #calendar.fc-unthemed {
-	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-}
-
-#top {
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	padding: 0 10px;
-	line-height: 40px;
-	font-size: 12px;
-	color: #000;
-}
-
-#top .selector {
-	display: inline-block;
-	margin-right: 10px;
-}
-
-#top select {
-	font: inherit; /* mock what Boostrap does, don't compete  */
-}
-
-.left {
-	float: left
-}
-
-.right {
-	float: right
-}
-
-.clear {
-	clear: both
-}
-
-#calendar {
-	max-width: 900px;
-	margin: 40px auto;
-	padding: 0 10px;
-}
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1070; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    margin-top: 10%;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 21px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-</style>
+<link rel="stylesheet" href="./resources/cloud.css">
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
-<!-- load first js 
+<!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
 </head>
@@ -176,6 +32,7 @@ body {
 						&nbsp;&nbsp;&nbsp;
 						<h6 id="allProjectListHeader" class="projectHeader m-0">전체프로젝트</h6>
 					</div>
+					
 					<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
 					</div>
 					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
@@ -187,10 +44,10 @@ body {
 				<div class="card card-small">
 					<div class="card-header border-bottom">
 						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
-							<label class="btn btn-white active"> 
+							<label class="btn btn-white active">
 								<input type="radio" name="options" value="1" autocomplete="off" checked="">일정
-							</label> 
-							<label class="btn btn-white"> 
+							</label>
+							<label class="btn btn-white">
 								<input type="radio" name="options" value="2" autocomplete="off">클라우드
 							</label>
 						</div>
@@ -214,9 +71,6 @@ body {
 					</div>
 					<div id="scheduleTab">
 						<div id='calendar'></div>
-					</div>
-					<div>
-						<a><button id="modifyProjectBtn" class="btn btn-accent">프로젝트관리</button></a>
 					</div>
 				</div>
 			</div>
@@ -259,7 +113,7 @@ body {
 			</div>
 		</div>
 	</div>
-<!--  일정 관련 모달  -->	
+<!--  일정 관련 모달  -->
 <div id="insertModal" class="modal">
 <div class="modal-content">
 	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close"></span></h4>
@@ -281,15 +135,15 @@ body {
     	<select name='month1' id='month1' onChange='setDate()'></select>월&nbsp;
     	<select name='day1' id='day1'></select>일&nbsp;
 		<select name='hour1' id='hour1'></select>시&nbsp;
-		<select name='minute1' id='minute1'></select>분&nbsp;<br>           
+		<select name='minute1' id='minute1'></select>분&nbsp;<br>
 		<label>마감</label><input type="hidden" id="endDate2" name="endDate2"/>
     	<select name='year2' id='year2' onChange='setDate()'></select>년&nbsp;
     	<select name='month2' id='month2' onChange='setDate()'></select>월&nbsp;
     	<select name='day2' id='day2'></select>일&nbsp;
 		<select name='hour2' id='hour2'></select>시&nbsp;
-		<select name='minute2' id='minute2'></select>분&nbsp; 
+		<select name='minute2' id='minute2'></select>분&nbsp;
 	</form>
-	<button type="button" id="insertEvents" onclick="location.reload()">일정 입력</button>
+	<button type="button" id="insertEvents">일정 입력</button>
 	<button type="button" id="cancelButton1">취소</button>
 </div>
 </div>
@@ -318,11 +172,11 @@ body {
 	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
 	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
     </form>
-    
+
 	<button type="button" id="cancelButton3">취소</button>
 </div>
 </div>
-	
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -336,22 +190,13 @@ body {
 <script src='./resources/scripts/scheduler.min.js'></script>
 <script src='./resources/scripts/theme-chooser.js'></script>
 <script src="./resources/js/jscolor.js"></script>
+<script src="./resources/js/cloud.js"></script>
 	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 	<%@ include file="../parts/footer.jsp"%>
 </body>
 <script>
-	var checkJoinedP;
-	function setLeftSideIcon() {
-		$('#navbar').children().eq(0).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(1).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(2).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(3).children().eq(0).attr('class',
-				'nav-link ');
-		$('#navbar').children().eq(3).children().eq(0).addClass('active');
-	}
+	
+	//참가한 프로젝트 리스트 를 얻어와서 초기화 및 화면 표기
 	function getJoinedProject() {
 		var userID = $("#userID").val();
 		$.ajax({
@@ -369,23 +214,8 @@ body {
 			}
 		});
 	}
-	// function createProject() {
-	// 	var projectName = $('#inputProjectName').val();
-	// 	var due = $('#inputProjectDate').val();
-	// 	if (projectName.length == 0) {
-	// 		alert('프로젝트 명을 입력해 주세요!');
-	// 		$('#inputProjectName').focus();
-	// 		$('#inputProjectName').select();
-	// 		return false;
-	// 	}
-	// 	if (projectName.length > 15) {
-	// 		alert('프로젝트 명을 15자 이하로입력해 주세요!');
-	// 		$('#inputProjectName').focus();
-	// 		$('#inputProjectName').select();
-	// 		return false;
-	// 	}
-	// }
-		function getAllProject(){
+	//모든 프로젝트를 가져와서 초기화 및 모든 프로젝트 div에 출력
+	function getAllProject(){
 			$.ajax({
 				url : "getProjectInfo",
 				type : "post",
@@ -398,13 +228,8 @@ body {
 				}
 			});
 		}
-		function openInputForm(){
-			$('#create_project_div').css('display', 'block');
-			$('#joinedProjectDiv').css('display', 'none');
-			$('#cloudDiv').css('display', 'none');
-			namecardload();	
-		}
-		function createProject(){
+	// 프로젝트 생성
+	function createProject(){
 			var projectName = $('#inputProjectName').val();
 			var due = $('#inputProjectDate').val();
 			$('#cloudDiv').css('display', 'none');
@@ -433,7 +258,7 @@ body {
 				$('#inputProjectName').select();
 				return false;
 			}
-			
+
 			var sessionID = "${sessionScope.userID}";
 			$.ajax({
 				url: 'createProject',
@@ -447,68 +272,16 @@ body {
 					closeCreateProject();
 				}
 			});
-			
-			
-    	}
-		function closeCreateProject(){
-		$('#create_project_div').css('display', 'none');
-		$('#joinedProjectDiv').css('display', 'block');
-		$('#cloudDiv').css('display', 'block');
-	}
-	function checkJoinedProject(allProjectList, temp) {
-		var userID = '${sessionScope.userID}';
-		
-				$.ajax({
-					url : 'getProjectInfo',
-					type : 'post',
-					data : {
-						'userID' : userID
-					},
-					sync:false,
-					success : function(joinedProjectList) {
-						for (let i = 0; i < joinedProjectList.length; i++) {
-
-					for (var j = 0; j < allProjectList.length; j++) {
-						console.log(allProjectList[j]);
-						console.log(allProjectList[i].projectName);
-						if (allProjectList[j] == joinedProjectList[i].projectName) {
-							temp += '<td><button class="secessionProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">탈퇴</button></td>';
-							console.log('1');
-							$("#allTbody").append(temp);
-							return;
-						} else {
-							temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
-							console.log('2');
-							$("#allTbody").append(temp);
-							return;
-						}
-					}
-				}
-
-			}
-		});
-
-	}
-	/* function printJoinedProjectList(joinedProjectList) {
-		var userID = "${sessionScope.userID}"
-		var temp = "";
-		for ( var i in joinedProjectList) {
-			temp += "<tr><td>" + i + "</td>";
-			temp += "<td>" + joinedProjectList[i].projectName + "</td>";
-			temp += "<td>" + joinedProjectList[i].due + "</td>";
-			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
-			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
-					+ joinedProjectList[i].projectSeq
-					+","+i+")'>열기</button></td></tr>";
 		}
-
-	} */
+	// 참가되어있는 프로젝트의 리스트를 출력하는 기능
 	function printJoinedProjectList(joinedProjectList){
 		var userID = "${sessionScope.userID}"
 		var temp = "";
 		for ( var i in joinedProjectList) {
+			console.log(joinedProjectList[i].projectSeq);
 			temp += "<tr><td>" + i + "</td>";
-			temp += "<td>" + joinedProjectList[i].projectName + "</td>";
+			temp += "<td class='joinedProjectListName' data-seq='"+joinedProjectList[i].projectSeq+"'";
+			temp += "data-pjName='"+joinedProjectList[i].projectName+"'>" + joinedProjectList[i].projectName + "</td>";
 			temp += "<td>" + joinedProjectList[i].due + "</td>";
 			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
 			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("
@@ -517,26 +290,37 @@ body {
 		}
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
 		temp +='<td><button id="openInputFormBtn" class="btn btn-accent"><i class="zmdi zmdi-plus"></i></button></td>';
-							
+
 		$("#joinedTbody").append(temp);
+		$('.joinedProjectListName').on('click', modifyProjectName);
 		$('#openInputFormBtn').on('click', openInputForm);
 	}
-	function initJoinedProjectList(){
-		$('#joinedProjectList').text('');
-		var printHtml ='<table class="table mb-0">';
-		printHtml += '<thead class="bg-light">';
-		printHtml += '<tr>';
-		printHtml += '<th scope="col" class="border-0">#</th>';
-		printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
-		printHtml += '<th scope="col" class="border-0">기간</th>';
-		printHtml += '<th scope="col" class="border-0">참여인원</th>';
-		printHtml += '</tr>';
-		printHtml += '</thead>';
-		printHtml += '<tbody id="joinedTbody">';
-		printHtml += '</tbody>';
-		printHtml += '</table>';
-		$('#joinedProjectList').html(printHtml);		
+	// 프로젝트의 이름 변경 기능
+	function modifyProjectName(){
+		var userID = "${sessionScope.userID}";
+		var seq = $(this).attr('data-seq');
+		var seq = $(this).attr('data-pjName');
+
+		var projectMasterArray = [];
+		console.log(seq);
+		$.ajax({
+			url : 'getProjectInfo',
+			type : 'post',
+			data : {
+				'userID' : userID
+			},
+			async:false,
+			success : function(list) {
+				for (let i = 0; i < list.length; i++) {
+					if(list[i].projectMaster == userID){
+						projectMasterArray.push(list[i].projectName);
+					}
+				}
+			}
+		});
+
 	}
+	// 모든 프로젝트의 리스트를 출력하는 기능
 	function printAllProjectList(allProjectList) {
 		var temp = "";
 		var userID = '${sessionScope.userID}';
@@ -552,8 +336,6 @@ body {
 						joinedProjectList =  list;
 					}
 				});
-		console.log(joinedProjectList);
-		console.log(allProjectList);
 		for (let i = 0; i < allProjectList.length; i++) {
 			temp += "<tr><td>" + i + "</td>";
 			temp += "<td>" + allProjectList[i].projectName + "</td>";
@@ -567,7 +349,7 @@ body {
 						temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
 						console.log('2');
 					}
-					
+
 				}
 			}
 
@@ -579,17 +361,20 @@ body {
 		$('.secessionProjectBtn').on('click', secessionProject);
 		// $('#openInputFormBtn').on('click', openInputForm);
 	}
+	// 프로젝트 참가
 	function joinProject() {
 
 	}
+	// 프로젝트 탈퇴
 	function secessionProject() {
 
 	}
+	// 프로젝트 삭제
 	function deleteProject() {
 		var sessionID = "${sessionScope.userID}";
+		// using projectseq
 		var projectSeq = $(this).attr('data-project-seq');
-		console.log(projectSeq);
-		var flag = confirm('정말로 삭제하시겠습니까?');
+		var flag = confirm('本当に削除してもよろしいでしょうか?');
 		if (flag) {
 			$.ajax({
 				url : 'deleteProject',
@@ -599,36 +384,18 @@ body {
 					'projectSeq' : projectSeq
 				},
 				success : function(allProjectList) {
+					// init
 					initAllProjectList();
+					// print
 					printAllProjectList(allProjectList);
 				}
 			});
 		}
 	};
-	function initAllProjectList() {
-		// $.ajax({
-		// 	url: 'getProjectInfo',
-		// 	type: 'post',
-		// 	success: 
 
-		// });
-		$('#allProjectList').text('');
-		var printHtml = '<table class="table mb-0">';
-		printHtml += '<thead class="bg-light">';
-		printHtml += '<tr>';
-		printHtml += '<th scope="col" class="border-0">#</th>';
-		printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
-		printHtml += '<th scope="col" class="border-0">기간</th>';
-		printHtml += '<th scope="col" class="border-0">참여인원</th>';
-		printHtml += '</tr>';
-		printHtml += '</thead>';
-		printHtml += '<tbody id="allTbody">';
-		printHtml += '</tbody>';
-		printHtml += '</table>';
-		$('#allProjectList').html(printHtml);
-	}
+
 	function fileList(projectSeq,i) {
-		// $("#cloudDiv").css("display","block");
+		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
 		var temp = document.getElementById("cloudBody");
@@ -642,37 +409,21 @@ body {
 			type : 'POST',
 			success : function(result) {
 				makeFile(result);
+				aaa();
 			},
 			error : function() {
 				alert("통신실패");
 			}
 		});
-		
+
 		document.getElementById("projectSeq1").value = projectSeq;
-		
-		initThemeChooser;
-	}
-	function btnFunction() {
-		$('#createProjectBtn').on('click', createProject);
-		$('#modifyProjectBtn').on("click", openProjectWindow);
-		$('#backBtn').on('click', closeCreateProject);
-		$('#joinedProjectListHeader').on('click', function() {
-			$('#allProjectList').css('display', 'none');
-			$('#joinedProjectList').css('display', 'block');
-			$('#cloudDiv').css('display', 'block');
-		});
-		$('#allProjectListHeader').on('click', function() {
-			$('#allProjectList').css('display', 'block');
-			$('#joinedProjectList').css('display', 'none');
-			$('#cloudDiv').css('display', 'none');
-			getAllProject();
-		});
+
 	}
 	
 	$(function() {
-		btnFunction();
-		setLeftSideIcon();
-		getJoinedProject();
+		btnFunction();// 버튼 펑션
+		setLeftSideIcon(); // 왼쪽 사이드 아이콘 설정기능
+		getJoinedProject();// 프로젝트 가져와서 초기화
 
 		$('input:radio[name=options]').change(function(){
 			var tab = $('input:radio[name=options]:checked').val();
@@ -684,7 +435,7 @@ body {
 				$("#cloudTab").removeClass('hidden');
 			}
 		});
-		
+
 		var projectSeq = "";
 		$("#upload").click(function(e) {
 			e.preventDefault();
@@ -707,6 +458,7 @@ body {
 				}
 			});
 		});
+		
 	});
 
 		$("#file").change(function() {
@@ -730,18 +482,6 @@ body {
 			}
 		});
 
-	function openProjectWindow() {
-		var projectWindow = window
-				.open(
-						"openProjectInfo",
-						"WindowName",
-						"width=460, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no");
-		projectWindow.resizeTo(460, 800);
-		projectWindow.resizeBy(-10, -10);
-
-		projectWindow.focus();
-	};
-
 	function makeFile(result) {
 		var temp = "<tr><input type='hidden' value='' id='delSeq'/>"
 		for ( var i in result) {
@@ -764,7 +504,7 @@ body {
 			$(".aa").eq(i).css('background-color','#e6e6e6');
 			$("#delSeq").val(fileSeq);
 		}
-		
+
 		function downFile(fileSeq) {
 			$.ajax({
 				url : "downFile",
@@ -780,7 +520,7 @@ body {
 				}
 			});
 		}
-		
+
 		/* 네임카드리스트(회원만) 가져오기 by 민석 */
 		function namecardload() {
 			var emailCheck = 1;
@@ -796,7 +536,7 @@ body {
 				}
 			});
 		};
-		
+
 		/* 네임카드리스트(회원만) 출력 by 민석 */
 		var nameCardList;
 		function namecardOutput(datas) {
@@ -831,16 +571,16 @@ body {
 			}
 			;
 			$('#nameCardTableWrap').html(line);
-			
+
 			$('.nameCardTable').click(nameCardMove);
 		};
-		
+
 		//네임카드 항목이동 by 민석
 		function nameCardMove(){
 			$('.nameCardTable').attr('class','nameCardTable');
-			$(this).attr('class','nameCardTable active');	
+			$(this).attr('class','nameCardTable active');
 		};
-		
+
 		$('#searchBtn').on('click',function(){
 			var emailCheck = $('input:radio[name=options]:checked').val();
 			console.log(emailCheck);
@@ -861,7 +601,7 @@ body {
 			});
 		});
 
-		
+
 		//테이블 검색
 		function searchfunc(){
 		  	var input, filter, table, nec, span, i,j;
@@ -879,7 +619,7 @@ body {
 		  		     }
 			};
 		}
-	
+	function aaa(){
 		initThemeChooser({			
 			init : function(themeSystem) {
 		        $('#calendar').fullCalendar({
@@ -904,8 +644,8 @@ body {
 							data : {
 								'projectSeq' : projectSeq
 							},
-							success : function(data) {				
-								$(data).each(function(index, item) {	
+							success : function(data) {
+								$(data).each(function(index, item) {
 									events.push({
 										id : item.projectSeq,
 										title : item.summary,
@@ -931,27 +671,27 @@ body {
 							monthC = dateC.substring(6, 7);
 						if(dayC<10)
 							dayC = dateC.substring(9, 10);
-						
+
 						var modal = document.getElementById('insertModal');
 						var span = document.getElementById('close1');
 						var cancel = document.getElementById('cancelButton1');
-						
+
 						modal.style.display = 'block';
-						
+						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 						span.onclick = function() {
 							$('#summary1').val('');
 					    	$('#startDate1').val('');
 					    	$('#endDate2').val('');
 							modal.style.display = 'none';
 						}
-						
+
 						cancel.onclick = function() {
 							$('#summary1').val('');
 					    	$('#startDate1').val('');
 					    	$('#endDate2').val('');
 							modal.style.display = 'none';
 						}
-						
+
 						window.onclick = function(event) {
 						    if (event.target == modal) {
 						    	$('#summary1').val('');
@@ -960,16 +700,16 @@ body {
 						        modal.style.display = 'none';
 						    }
 						}
-						
+
 						var insertForm = document.getElementById('insertForm');
-						
+
 							    var year = yearC;
 							    var month = monthC;
 							    var day = dayC;
 							    var hour = new Date().getHours();
 							    var minute = new Date().getMinutes();
 							    var color = $('#color1').val();
-							    
+
 							    var startYear = year - 80;
 							    for(var i=0; i<100; i++) {
 							    	insertForm['year1'].options[i] = new Option(startYear+i, startYear+i);
@@ -980,17 +720,17 @@ body {
 							    	insertForm['month1'].options[i] = new Option(i+1, i+1);
 							    	insertForm['month2'].options[i] = new Option(i+1, i+1);
 							    }
-							    
+
 							    for (var i=0; i<24; i++) {
 							    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
 							    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
 							    }
-							    
+
 							    for (var i=0; i<60; i++) {
 							    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
 							    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
 							    }
-							    
+
 							    insertForm['year1'].value = year;
 							    insertForm['year2'].value = year;
 							    insertForm['month1'].value = month;
@@ -1003,16 +743,16 @@ body {
 							    insertForm['hour2'].value = hour;
 							    insertForm['minute1'].value = minute;
 							    insertForm['minute2'].value = minute;
-						
+
 				 		function setDate() {
 							var insertForm = document.getElementById('insertForm');
-							
+
 							var year = insertForm['year1'].value;
 						    var month = insertForm['month1'].value;
 						    var day = insertForm['day1'].value;
 						    var dayInsert1 = insertForm['day1'];
 						    var dayInsert2 = insertForm['day2'];
-						    
+
 						    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 						    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
@@ -1022,7 +762,7 @@ body {
 						    for(var i = dayInsert1.length; i>0; i--) {
 						    	dayInsert1.remove(dayInsert1.selectedIndex);
 						    }
-						        
+
 						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
 						    	dayInsert1.options[i-1] = new Option(i, i);
 						    }
@@ -1034,11 +774,11 @@ body {
 						        	dayInsert1.options.selectedIndex = day-1;
 						        }
 						    }
-						    
+
 						    for(var i = dayInsert2.length; i>0; i--) {
 						    	dayInsert2.remove(dayInsert2.selectedIndex);
 						    }
-						        
+
 						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
 						    	dayInsert2.options[i-1] = new Option(i, i);
 						    }
@@ -1054,7 +794,7 @@ body {
 					},
 					eventClick : function(event, jsEvent, view){
 						var eventSeq = event.num;
-						
+
 						$.ajax({
 							type : 'post',
 							url : 'oneEvents',
@@ -1064,7 +804,7 @@ body {
 							success : function(data) {
 								var newStart = new Date(data.startDate);
 								var newEnd = new Date(data.endDate);
-					
+
 								$("#summary3").val(data.summary);
 								$("#description3").val(data.description);
 								$("#startDate3").val(newStart);
@@ -1072,7 +812,7 @@ body {
 								$("#endDate4").val(newEnd);
 								$("#updateEvents").attr('data-uno', data.eventSeq);
 								$("#deleteEvents").attr('data-dno', data.eventSeq);
-									
+
 								var eventDetail = document.getElementById('eventDetail');
 								var startDate3 = new Date(document.getElementById('startDate3').value);
 								var endDate4 = new Date(document.getElementById('endDate4').value);
@@ -1087,7 +827,7 @@ body {
 								var day4 = endDate4.getDate();
 								var hour4 = endDate4.getHours();
 								var minute4 = endDate4.getMinutes();
-									    
+
 								var startYear = year - 80;
 								for(var i=0; i<100; i++) {
 									eventDetail['year3'].options[i] = new Option(startYear+i, startYear+i);
@@ -1098,17 +838,17 @@ body {
 									 eventDetail['month3'].options[i] = new Option(i+1, i+1);
 									 eventDetail['month4'].options[i] = new Option(i+1, i+1);
 								}
-									    
+
 								for (var i=0; i<24; i++) {
 									 eventDetail['hour3'].options[i] = new Option(i+1, i+1);
 									 eventDetail['hour4'].options[i] = new Option(i+1, i+1);
 								}
-									    
+
 								for (var i=0; i<60; i++) {
 									 eventDetail['minute3'].options[i] = new Option(i+1, i+1);
 									 eventDetail['minute4'].options[i] = new Option(i+1, i+1);
 								}
-								
+
 								setDate0();
 								eventDetail['year3'].value = year3;
 								setDate0();
@@ -1128,23 +868,23 @@ body {
 
 								function setDate0() {
 									var eventDetail = document.getElementById('eventDetail');
-										
+
 									var year = eventDetail['year3'].value;
 									var month = eventDetail['month3'].value;
 									var day = eventDetail['day3'].value;
 									var dayInsert3 = eventDetail['day3'];
 									var dayInsert4 = eventDetail['day4'];
-									    
+
 									var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 									if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 									   arrayMonth[1] = 29;
 									}
-									
+
 									for(var i = dayInsert3.length; i>0; i--) {
 								    	dayInsert3.remove(dayInsert3.selectedIndex);
 								    }
-								        
+
 								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
 								    	dayInsert3.options[i-1] = new Option(i, i);
 								    }
@@ -1156,11 +896,11 @@ body {
 								        	dayInsert3.options.selectedIndex = day-1;
 								        }
 								    }
-								    
+
 								    for(var i = dayInsert4.length; i>0; i--) {
 								    	dayInsert4.remove(dayInsert4.selectedIndex);
 								    }
-								        
+
 								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
 								    	dayInsert4.options[i-1] = new Option(i, i);
 								    }
@@ -1179,26 +919,28 @@ body {
 								alert("수신실패");
 							}
 						});
-						
+
 						var modal = document.getElementById('eventModal');
 						var span = document.getElementById('close3');
 						var cancel = document.getElementById('cancelButton3');
-						
-						// When the user clicks on the button, open the modal 
+
+						// When the user clicks on the button, open the modal
 						modal.style.display = 'block';
+						$("#eventModal").css({'overflow': 'hidden', 'height': '100%'});
 						
+
 
 						span.onclick = function() {
 							modal.style.display = 'none';
 						}
-						
+
 						cancel.onclick = function() {
 							$('#summary3').val('');
 					    	$('#startDate3').val('');
 					    	$('#endDate4').val('');
 							modal.style.display = 'none';
 						}
-						
+
 							// When the user clicks anywhere outside of the modal, close it
 						window.onclick = function(event) {
 						    if (event.target == modal) {
@@ -1216,21 +958,22 @@ body {
 				$('#calendar').fullCalendar('option', 'themeSystem', themeSystem);
 			}
 		});
-		
+	}
 		$('#insertEvents').on('click', insertEvents);
 		$('#updateEvents').on('click', updateEvents);
 		$('#deleteEvents').on('click', deleteEvents);
-		
+
 		function insertEvents(){
 			var projectSeq = $('#projectSeq1').val();
-			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
+			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
 	    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+	    	
 	    	// alert(startDate1.value + '\n' + endDate2.value);
 	    	/* if(endDate2.value < startDate1.value){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	} */
-	 
+
 	    	var eventData = {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
@@ -1239,17 +982,17 @@ body {
 					'endDate' : $('#endDate2').val(),
 					'color' : $('#color1').css("background-color")
 	    	}
-	    	
 			$.ajax({
 				type : 'post',
 				url : 'insertEvents',
-				data : eventData, 
+				data : eventData,
 				success : function(data){
-					if(data == 'success'){
+					alert(data);
+					if(data == '1'){
 					var modal1 = document.getElementById('insertModal');
 					modal1.style.display = 'none';
-					$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 					}
+					$("#calendar").fullCalendar('refetchEvents');
 				},
 				error : function() {
 					// alert("송신실패");
@@ -1269,17 +1012,17 @@ body {
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	} */
-	    	
+
 			$.ajax({
 				type : 'post',
 				url : 'updateEvents',
 				data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
 						'startDate' : startDate3.value, 'endDate' : endDate4.value, 'color' : color3},
 				success : function(data){
-					if(data == 'success'){
+					if(data == '1'){
 					var modal2 = document.getElementById('eventModal');
 					modal2.style.display = 'none';}
-					location.reload();
+					$("#calendar").fullCalendar('refetchEvents');
 				},
 				error : function() {
 					// alert("송신실패");
@@ -1288,16 +1031,16 @@ body {
 		}
 
 	function deleteEvents(){
-		var eventSeq = $(this).attr("data-dno");	
+		var eventSeq = $(this).attr("data-dno");
 			$.ajax({
 				type : 'get',
 				url : 'deleteEvents',
 				data : {'eventSeq' : eventSeq},
 				success : function(data){
-					if(data == 'success'){
+					if(data == '1'){
 					var modal3 = document.getElementById('eventModal');
 					modal3.style.display = 'none';}
-					location.reload();
+					$("#calendar").fullCalendar('refetchEvents');
 				},	
 				error : function() {
 					// alert("송신실패");
