@@ -32,6 +32,7 @@
 						&nbsp;&nbsp;&nbsp;
 						<h6 id="allProjectListHeader" class="projectHeader m-0">전체프로젝트</h6>
 					</div>
+					
 					<div id="joinedProjectList" class="card-body p-0 pb-3 text-center">
 					</div>
 					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
@@ -142,7 +143,7 @@
 		<select name='hour2' id='hour2'></select>시&nbsp;
 		<select name='minute2' id='minute2'></select>분&nbsp;
 	</form>
-	<button type="button" id="insertEvents" onclick="location.reload()">일정 입력</button>
+	<button type="button" id="insertEvents">일정 입력</button>
 	<button type="button" id="cancelButton1">취소</button>
 </div>
 </div>
@@ -394,6 +395,7 @@
 
 
 	function fileList(projectSeq,i) {
+		$("#cloudDiv").css("display","block");
 		var pName= $("#joinedTbody").children().eq(i).children().eq(1).html();
 		$("#proName").html(pName);
 		var temp = document.getElementById("cloudBody");
@@ -407,6 +409,7 @@
 			type : 'POST',
 			success : function(result) {
 				makeFile(result);
+				aaa();
 			},
 			error : function() {
 				alert("통신실패");
@@ -455,6 +458,7 @@
 				}
 			});
 		});
+		
 	});
 
 		$("#file").change(function() {
@@ -615,8 +619,8 @@
 		  		     }
 			};
 		}
-
-		initThemeChooser({
+	function aaa(){
+		initThemeChooser({			
 			init : function(themeSystem) {
 		        $('#calendar').fullCalendar({
 					themeSystem : themeSystem,
@@ -673,7 +677,7 @@
 						var cancel = document.getElementById('cancelButton1');
 
 						modal.style.display = 'block';
-
+						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 						span.onclick = function() {
 							$('#summary1').val('');
 					    	$('#startDate1').val('');
@@ -922,6 +926,8 @@
 
 						// When the user clicks on the button, open the modal
 						modal.style.display = 'block';
+						$("#eventModal").css({'overflow': 'hidden', 'height': '100%'});
+						
 
 
 						span.onclick = function() {
@@ -952,7 +958,7 @@
 				$('#calendar').fullCalendar('option', 'themeSystem', themeSystem);
 			}
 		});
-
+	}
 		$('#insertEvents').on('click', insertEvents);
 		$('#updateEvents').on('click', updateEvents);
 		$('#deleteEvents').on('click', deleteEvents);
@@ -961,6 +967,7 @@
 			var projectSeq = $('#projectSeq1').val();
 			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
 	    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+	    	
 	    	// alert(startDate1.value + '\n' + endDate2.value);
 	    	/* if(endDate2.value < startDate1.value){
 	    		alert('날짜 입력이 잘못되었습니다!');
@@ -975,17 +982,17 @@
 					'endDate' : $('#endDate2').val(),
 					'color' : $('#color1').css("background-color")
 	    	}
-
 			$.ajax({
 				type : 'post',
 				url : 'insertEvents',
 				data : eventData,
 				success : function(data){
-					if(data == 'success'){
+					alert(data);
+					if(data == '1'){
 					var modal1 = document.getElementById('insertModal');
 					modal1.style.display = 'none';
-					$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 					}
+					$("#calendar").fullCalendar('refetchEvents');
 				},
 				error : function() {
 					// alert("송신실패");
@@ -1012,10 +1019,10 @@
 				data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
 						'startDate' : startDate3.value, 'endDate' : endDate4.value, 'color' : color3},
 				success : function(data){
-					if(data == 'success'){
+					if(data == '1'){
 					var modal2 = document.getElementById('eventModal');
 					modal2.style.display = 'none';}
-					location.reload();
+					$("#calendar").fullCalendar('refetchEvents');
 				},
 				error : function() {
 					// alert("송신실패");
@@ -1030,11 +1037,11 @@
 				url : 'deleteEvents',
 				data : {'eventSeq' : eventSeq},
 				success : function(data){
-					if(data == 'success'){
+					if(data == '1'){
 					var modal3 = document.getElementById('eventModal');
 					modal3.style.display = 'none';}
-					location.reload();
-				},
+					$("#calendar").fullCalendar('refetchEvents');
+				},	
 				error : function() {
 					// alert("송신실패");
 				}
