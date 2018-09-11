@@ -801,7 +801,7 @@
 			init : function(themeSystem) {
 		        $('#calendar').fullCalendar({
 					themeSystem : themeSystem,
-					lang : 'ko',
+					locale : 'ko',
 					eventStartEditable : false, // enable draggable events
 					eventDurationEditable : true,
 					aspectRatio : 1.8,
