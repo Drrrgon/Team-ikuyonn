@@ -175,7 +175,7 @@ body {
 	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp;
 	<select name="day3" id="day3"></select>일&nbsp;
 	<select name="hour3" id="hour3"></select>시&nbsp;
-	<select name="minute3" id="minute3"></select>분&nbsp;
+	<select name="minute3" id="minute3"></select>분&nbsp;<br>
 	<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>
 	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp;
 	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp;
@@ -240,6 +240,8 @@ function setLeftSideIcon(){
 					},
 					defaultView : 'month',
 					timezone : 'local',
+					timeFormat: 'h(:mm)',
+					eventLimit: 5,
 					/* resourceLabelText : 'Rooms',
 					resources : [ {
 						id : 'a',
@@ -656,11 +658,11 @@ function setLeftSideIcon(){
     				alert('일정 입력이 잘못되었습니다!');
 		    		return false;
     			}
-    			var startDate1 = document.getElementById('startDate1');
-    			var endDate2 = document.getElementById('endDate2');
-				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
-		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	if(endDate2.value < startDate1.value){
+    			/* var startDate0 = document.getElementById('startDate1');
+    			var endDate0 = document.getElementById('endDate2'); */
+				var startDate = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
+		    	var endDate = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+		    	if(endDate < startDate){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
 		    	}
@@ -669,8 +671,8 @@ function setLeftSideIcon(){
 		    			'userID' : $('#userID1').val(),
 						'summary' : $('#summary1').val(),
 						'description' : $('#description1').val(),
-						'startDate' : $('#startDate1').val(),
-						'endDate' : $('#endDate2').val(),
+						'startDate' : startDate,
+						'endDate' : endDate,
 						'color' : $('#color1').css("background-color")
 		    	}
 		    	
@@ -698,14 +700,16 @@ function setLeftSideIcon(){
    				var eventSeq = $(this).attr("data-uno");
 				var summary3 = $('#summary3').val();
 				var description3 = $('#description3').val();
+				var startDate = document.getElementById('startDate3');
+    			var endDate = document.getElementById('endDate4');
 				if(summary3 == '' || description3 == ''){
     				alert('일정 입력이 잘못되었습니다!');
 		    		return false;
     			}
 				var color3 = $('#color3').css("background-color");
-				var startDate = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
-		    	var endDate = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-		    	if(endDate < startDate){
+				var startDate0 = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
+		    	var endDate0 = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
+		    	if(endDate0 < startDate0){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
 		    	}
@@ -714,7 +718,7 @@ function setLeftSideIcon(){
 					type : 'post',
 					url : 'updateEvents',
 					data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-							'startDate' : startDate, 'endDate' : endDate, 'color' : color3},
+							'startDate' : startDate0, 'endDate' : endDate0, 'color' : color3},
 					success : function(data){
 						if(data == '1'){
 						var modal2 = document.getElementById('eventModal');

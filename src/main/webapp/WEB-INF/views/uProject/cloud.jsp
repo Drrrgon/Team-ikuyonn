@@ -877,6 +877,8 @@ body {
 					},
 					defaultView : 'month',
 					timezone : 'local',
+					timeFormat: 'h(:mm)',
+					eventLimit: 5,
 					events : function(start, end, timezone, callback){
 						var events = [];
 						var projectSeq = $('#projectSeq1').val();
@@ -1203,11 +1205,11 @@ body {
 			}
 			
 			var projectSeq = $('#projectSeq1').val();
-			var startDate1 = document.getElementById('startDate1');
-			var endDate2 = document.getElementById('endDate2');
-			startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
-	    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-	    	if(endDate2.value < startDate1.value){
+			/* var startDate1 = document.getElementById('startDate1');
+			var endDate2 = document.getElementById('endDate2'); */
+			var startDate = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);
+	    	var endDate = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
+	    	if(endDate < startDate){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	}
@@ -1216,8 +1218,8 @@ body {
 	    			'projectSeq' : projectSeq,
 					'summary' : $('#summary1').val(),
 					'description' : $('#description1').val(),
-					'startDate' : $('#startDate1').val(),
-					'endDate' : $('#endDate2').val(),
+					'startDate' : startDate,
+					'endDate' : endDate,
 					'color' : $('#color').val()
 	    	}
 			$.ajax({
@@ -1245,11 +1247,11 @@ body {
 				alert('일정 입력이 잘못되었습니다!');
 	    		return false;
 			}
-			var startDate3 = document.getElementById('startDate3');
-			var endDate4 = document.getElementById('endDate4');
-			startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
-	    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-	    	if(endDate4.value < startDate3.value){
+			/* var startDate3 = document.getElementById('startDate3');
+			var endDate4 = document.getElementById('endDate4'); */
+			startDate0 = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
+	    	endDate0 = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
+	    	if(endDate0 < startDate0){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	}
@@ -1258,7 +1260,7 @@ body {
 				type : 'post',
 				url : 'updateEvents',
 				data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-						'startDate' : startDate3.value, 'endDate' : endDate4.value},
+						'startDate' : startDate0, 'endDate' : endDate0},
 				success : function(data){
 					if(data == '1'){
 					var modal2 = document.getElementById('eventModal');
