@@ -698,25 +698,23 @@ function setLeftSideIcon(){
    				var eventSeq = $(this).attr("data-uno");
 				var summary3 = $('#summary3').val();
 				var description3 = $('#description3').val();
-				/* var startDate3 = document.getElementById('startDate3');
-				var endDate4 = document.getElementById('endDate4'); */
 				if(summary3 == '' || description3 == ''){
     				alert('일정 입력이 잘못되었습니다!');
 		    		return false;
     			}
 				var color3 = $('#color3').css("background-color");
-				startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
-		    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-		    	/* if(endDate4.value < startDate3.value){
+				var startDate = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
+		    	var endDate = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
+		    	if(endDate < startDate){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
-		    	} */
+		    	}
 		    	
 				$.ajax({
 					type : 'post',
 					url : 'updateEvents',
 					data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-							'startDate' : startDate3.value, 'endDate' : endDate4.value, 'color' : color3},
+							'startDate' : startDate, 'endDate' : endDate, 'color' : color3},
 					success : function(data){
 						if(data == '1'){
 						var modal2 = document.getElementById('eventModal');
