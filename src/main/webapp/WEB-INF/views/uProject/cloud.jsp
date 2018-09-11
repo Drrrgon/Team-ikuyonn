@@ -10,161 +10,6 @@
 <!-- header -->
 <%@ include file="../parts/header.jsp"%>
 <link rel="stylesheet" href="./resources/mail/jquery.dataTables.min.css">
-<style>
-.fc-license-message{
-	display : none;
-	z-index : 0;
-}
-
-#cloudDiv{
-	display:none;
-}
-
-#file {
-	width: 0;
-	height: 0;
-	opacity: 0;
-	position: relative;
-}
-
-#cloudBody {
-	display: none;
-}
-
-.td {
-	width: 70;
-}
-
-.projectAddBtnTd {
-	text-align: right;
-}
-
-div.aa:hover {
-	background-color: #e6e6e6;
-}
-
-div#create_project_div {
-	display: none;
-}
-
-.page1 {
-	width: 50%;
-	float: left;
-}
-
-.page2 {
-	width: 50%;
-	float: left;
-}
-
-.inline {
-	display: flow-root;
-}
-
-.createbtn {
-	float: right;
-}
-
-.projectHeader {
-	display: inline;
-	cursor: pointer;
-	margin: 20px;
-}
-
-.all_project_div {
-	display: none;
-}
-/* 탭페이지 */
-div.hidden {
-	display: none;
-}
-
-body {
-	margin: 0;
-	padding: 0;
-	font-size: 14px;
-}
-
-#top, #calendar.fc-unthemed {
-	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-}
-
-#top {
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	padding: 0 10px;
-	line-height: 40px;
-	font-size: 12px;
-	color: #000;
-}
-
-#top .selector {
-	display: inline-block;
-	margin-right: 10px;
-}
-
-#top select {
-	font: inherit; /* mock what Boostrap does, don't compete  */
-}
-
-.left {
-	float: left
-}
-
-.right {
-	float: right
-}
-
-.clear {
-	clear: both
-}
-
-#calendar {
-	max-width: 900px;
-	margin: 40px auto;
-	padding: 0 10px;
-}
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1070; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    margin-top: 10%;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-    top:0;
-}
-
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 21px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-</style>
 <link rel="stylesheet" href="./resources/css/cloud.css">
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
@@ -176,6 +21,7 @@ body {
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp"%>
+	<div id="joinedProjectMemberBackground"></div>
 	<input type="hidden" value="${sessionScope.userID}" id="userID" />
 	<div class="main-content-container container-fluid px-4">
 		<div class="row mt-5">
@@ -193,7 +39,8 @@ body {
 					</div>
 					<div id="allProjectList" class="card-body p-0 pb-3 text-center">
 					</div>
-					<div id="joinedProjectMember">ddddddd</div>
+					<div id="joinedProjectMember"></div>
+					
 				</div>
 			</div>
 			<!-- 일정/클라우드 -->
@@ -478,7 +325,7 @@ body {
 				if(pjName == projectMasterArray[i].projectName){
 					var flag = 0;
 					originalName = $(this).html();
-					var print = '<input id="modifyProjectName" type="text" style="width:120px;">';
+					var print = '<input id="modifyProjectName" type="text" style="width:120px; height:30px;">';
 					$(this).html(print);
 					$('#modifyProjectName').focus();
 					$('#modifyProjectName').focusout(function(){
@@ -509,7 +356,64 @@ body {
 			}
 		}
 	}
+	function refreshProjectMember(seq){
+		var pjSeq = seq;
+		var userList;
+		var userListProfile = [];
+		$.ajax({
+			url: 'getProjectMemeber',
+			type: 'post',
+			data: {
+				'projectSeq':pjSeq
+			},
+			async: false,
+			success: function(list){
+				userList = list;
+			}
+		});
+		for (let i = 0; i < userList.length; i++) {
+			$.ajax({
+				url: 'getUserProfile',
+				type: 'post',
+				data: {
+					'userID':userList[i]
+				},
+				async: false,
+				success: function(path){
+					userListProfile.push(path);
+				}
+			});
+		}
+		$('#joinedProjectMember').html();
+		var printHtml = "";
+		printHtml += '<table>';
+		printHtml += '<tbody id="joinedProjectMemberTbody">';
+		$('#joinedProjectMember').html(printHtml);
+		printHtml = "";		
+		for (let j = 0; j < userList.length; j++) {	
+			printHtml += '<tr>';			
+			printHtml += '<td width="10px">';
+			printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j]+'"  width="30px" height="30px">';
+			printHtml += '</td>';
+			printHtml += '<td width="160px">';
+			printHtml += userList[j];
+			printHtml += '</td>';
+			printHtml += '<td>';
+			printHtml += '<button class="secessionProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userList[j]+'"> 퇴장</button>';
+			printHtml += '</td>';
+			printHtml += '</tr>';
+			printHtml += '';
+			printHtml += '';
+			printHtml += '';
+			printHtml += '';
+		}
+		$('#joinedProjectMemberTbody').append(printHtml);
+		$('.secessionProjectBtn').on('click', secessionProject);
+		$('#joinedProjectMember').css('display', 'block');
+		$('#joinedProjectMemberBackground').css('display', 'block');
+	}
 	function clickProjectMemeber(){
+		var userID = "${sessionScope.userID}"
 		var pjSeq = $(this).attr('data-seq');
 		var userList;
 		var userListProfile = [];
@@ -537,7 +441,36 @@ body {
 				}
 			});
 		}
-		console.log(userListProfile);
+		$('#joinedProjectMember').html();
+		var printHtml = "";
+		printHtml += '<table>';
+		printHtml += '<tr>';
+		printHtml += '<td colspan="3" width="160px">';
+		printHtml += '참여중인 인원';
+		printHtml += '</td><td></td><td></td>';
+		printHtml += '</tr>';
+		printHtml += '<tbody id="joinedProjectMemberTbody">';
+		$('#joinedProjectMember').html(printHtml);
+		printHtml = "";		
+		for (let j = 0; j < userList.length; j++) {
+			if(userList[j] != userID){
+				printHtml += '<tr>';			
+				printHtml += '<td width="10px">';
+				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j]+'"  width="30px" height="30px">';
+				printHtml += '</td>';
+				printHtml += '<td width="160px">';
+				printHtml += userList[j];
+				printHtml += '</td>';
+				printHtml += '<td>';
+				printHtml += '<button class="secessionProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userList[j]+'"> 퇴장</button>';
+				printHtml += '</td>';
+				printHtml += '</tr>';
+			}	
+		}
+		$('#joinedProjectMemberTbody').append(printHtml);
+		$('.secessionProjectBtn').on('click', secessionProject);
+		$('#joinedProjectMember').css('display', 'block');
+		$('#joinedProjectMemberBackground').css('display', 'block');
 		
 	}
 	function modifyProjectDue(){
@@ -570,7 +503,6 @@ body {
 				for (let j = 0; j < joinedProjectList.length; j++) {
 					if(allProjectList[i].projectMaster == joinedProjectList[j].projectMaster){
 						temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
-						console.log('2');
 					}
 
 				}
@@ -591,7 +523,30 @@ body {
 	
 	// 프로젝트 탈퇴
 	function secessionProject() {
-
+		var pjSeq = $(this).attr('data-seq');
+		var userID = $(this).attr('data-userID');
+		var flag = confirm('本当によろしいでしょうか');
+		
+		if(flag == true){
+			$.ajax({
+				url: 'secessionProjectMember',
+				type: 'post',
+				data: {
+					'projectSeq': pjSeq, 'userID':userID
+				},
+				success: function(flag){
+					if(flag == 0){
+						alert('失敗しました');
+					}else{
+						alert('完了');
+						refreshProjectMember(pjSeq);
+						getJoinedProject();
+					}					
+				}
+			});
+		}else{
+			return;
+		}
 	}
 	// 프로젝트 삭제
 	function deleteProject() {
@@ -616,23 +571,6 @@ body {
 			});
 		}
 	};
-	
-	function initJoinedProjectList(){
-		$('#joinedProjectList').text('');
-		var printHtml ='<table class="table mb-0">';
-		printHtml += '<thead class="bg-light">';
-		printHtml += '<tr>';
-		printHtml += '<th scope="col" class="border-0">#</th>';
-		printHtml += '<th scope="col" class="border-0">프로젝트 명</th>';
-		printHtml += '<th scope="col" class="border-0">기간</th>';
-		printHtml += '<th scope="col" class="border-0">참여인원</th>';
-		printHtml += '</tr>';
-		printHtml += '</thead>';
-		printHtml += '<tbody id="joinedTbody">';
-		printHtml += '</tbody>';
-		printHtml += '</table>';
-		$('#joinedProjectList').html(printHtml);		
-	}
 	
 	function fileList(projectSeq,i,color) {
 		$("#cloudDiv").css("display","block");
@@ -780,7 +718,7 @@ body {
 		/* 네임카드리스트(회원만) 출력 by 민석 */
 		var nameCardList;
 		function namecardOutput(datas) {
-			alert(data);
+			alert(datas);
 			var line = '';
 			nameCardList = datas;
 			for ( var i in datas) {

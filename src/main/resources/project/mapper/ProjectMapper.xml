@@ -89,7 +89,7 @@
 	<update id="updateCountOfProjectMember" parameterType="map">
 		UPDATE PROJECT
 		SET MEMBERNUM = #{MEMBERNUM}
-		WHERE PROJECTSEQ = #{PROJECTSEQ}
+		WHERE PROJECTSEQ = #{projectSeq}
 	</update>
 	
 	<update id="updateProjectName" parameterType="map">
@@ -97,4 +97,12 @@
 		SET PROJECTNAME = #{projectName}
 		WHERE PROJECTSEQ = #{projectSeq}
 	</update>
+	
+	<delete id="secessionProjectMember" parameterType="map">
+		DELETE FROM JOINPROJECT
+		WHERE 
+			PROJECTSEQ = #{projectSeq}
+			AND
+			USERID = #{userID}
+	</delete>
 </mapper>
