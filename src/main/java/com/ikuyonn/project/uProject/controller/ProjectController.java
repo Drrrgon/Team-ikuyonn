@@ -1,15 +1,8 @@
 package com.ikuyonn.project.uProject.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.Project;
@@ -93,8 +85,31 @@ public class ProjectController {
 		um.updateCountOfProjectMember(userMap);
 		List<Project> project = um.getUserProjectList(userMap);		
 		
-		
 		return project;
 	}
 	
+	@RequestMapping(value = "/modifyProjectName", method = RequestMethod.POST)
+	public @ResponseBody int modifyProjectName(String newName, String projectSeq){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		HashMap<String, Object> map = new HashMap<>();		
+		// project 값이 null 이 아닌 경우 삭제
+		int pjSeq = Integer.parseInt(projectSeq);
+		map.put("projectName", newName);
+		map.put("projectSeq", pjSeq);
+		int re = um.updateProjectName(map);
+		return re;
+	}
+	
+	@RequestMapping(value = "/getProjectMemeber", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String> getProjectMemeber(String projectSeq){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		int pjSeq = Integer.parseInt(projectSeq);
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+		list = um.getProjectMemeber(pjSeq);
+		ArrayList<String> returnList = new ArrayList<>();
+		for (HashMap<String, Object> temp : list) {
+			returnList.add((String) temp.get("USERID"));
+		}
+		return returnList;
+	}
 }

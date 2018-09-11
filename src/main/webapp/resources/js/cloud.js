@@ -64,7 +64,7 @@ function btnFunction() {
     $('#joinedProjectListHeader').on('click', function() {// 참가중인 프로젝트 문자열 버튼
         $('#allProjectList').css('display', 'none');
         $('#joinedProjectList').css('display', 'block');
-        $('#cloudDiv').css('display', 'block');
+        $('#cloudDiv').css('display', 'none');
     });
     $('#allProjectListHeader').on('click', function() {// 전체 프로젝트 문자열 버튼
         $('#allProjectList').css('display', 'block');
