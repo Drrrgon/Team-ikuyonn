@@ -665,7 +665,7 @@ body {
 		$('#joinedProjectListHeader').on('click', function() {
 			$('#allProjectList').css('display', 'none');
 			$('#joinedProjectList').css('display', 'block');
-			$('#cloudDiv').css('display', 'block');
+			/* $('#cloudDiv').css('display', 'block'); */
 		});
 		$('#allProjectListHeader').on('click', function() {
 			$('#allProjectList').css('display', 'block');
