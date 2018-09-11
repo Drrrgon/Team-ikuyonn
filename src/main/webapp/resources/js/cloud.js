@@ -72,4 +72,8 @@ function btnFunction() {
         $('#cloudDiv').css('display', 'none');
         getAllProject();
     });
+    $('#joinedProjectMemberBackground').on('click',function(){
+        $('#joinedProjectMember').css('display', 'none');
+		$('#joinedProjectMemberBackground').css('display', 'none');
+    });
 }
