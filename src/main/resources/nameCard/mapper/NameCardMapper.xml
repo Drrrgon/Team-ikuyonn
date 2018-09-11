@@ -129,7 +129,7 @@
 			NCEMAIL = #{ncEmail} AND USERID = #{userID}
 	</update>
 	<select id="selectEmailAddress" parameterType="NameCard" resultType="int">
-		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail} AND USERID = #{userID}
+		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
 	</select>
 	<select id="getAllNC" parameterType="String" resultType="NameCard">
 		SELECT
