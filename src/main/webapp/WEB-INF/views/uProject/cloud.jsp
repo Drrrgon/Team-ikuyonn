@@ -718,6 +718,7 @@ body {
 		/* 네임카드리스트(회원만) 출력 by 민석 */
 		var nameCardList;
 		function namecardOutput(datas) {
+			alert(data);
 			var line = '';
 			nameCardList = datas;
 			for ( var i in datas) {
