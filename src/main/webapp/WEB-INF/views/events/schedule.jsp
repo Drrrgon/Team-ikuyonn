@@ -329,12 +329,14 @@ function setLeftSideIcon(){
 						span.onclick = function() {
 							$('#summary1').val('');
 					    	$('#description1').val('');
+					    	$('#color1').val('');
 							modal.style.display = 'none';
 						}
 						
 						cancel.onclick = function() {
 							$('#summary1').val('');
 					    	$('#description1').val('');
+					    	$('#color1').val('');
 							modal.style.display = 'none';
 						}
 						
@@ -342,6 +344,7 @@ function setLeftSideIcon(){
 						    if (event.target == modal) {
 						    	$('#summary1').val('');
 						    	$('#description1').val('');
+						    	$('#color1').val('');
 						        modal.style.display = 'none';
 						    }
 						}
@@ -651,11 +654,10 @@ function setLeftSideIcon(){
 	function insertEvents(){
 				startDate1.value = new Date(year1.value, month1.value-1, day1.value, hour1.value, minute1.value);	
 		    	endDate2.value = new Date(year2.value, month2.value-1, day2.value, hour2.value, minute2.value);
-		    	// alert(startDate1.value + '\n' + endDate2.value);
-		    	/* if(endDate2.value < startDate1.value){
+		    	if(endDate2 < startDate1){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
-		    	} */
+		    	}
 		    	
 		    	var eventData = {
 		    			'userID' : $('#userID1').val(),
@@ -676,6 +678,9 @@ function setLeftSideIcon(){
 						modal1.style.display = 'none';
 						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 						$("#calendar").fullCalendar('refetchEvents');}
+						$('#summary1').val('');
+				    	$('#description1').val('');
+				    	$('#color1').val('');
 					},
 					error : function() {
 						// alert("송신실패");
@@ -690,11 +695,10 @@ function setLeftSideIcon(){
 				var color3 = $('#color3').css("background-color");
 				startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
 		    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-		    	// alert(startDate3.value + '\n' + endDate4.value);
-		    	/* if(endDate4.value < startDate3.value){
+		    	if(endDate4 < startDate3){
 		    		alert('날짜 입력이 잘못되었습니다!');
 		    		return false;
-		    	} */
+		    	}
 		    	
 				$.ajax({
 					type : 'post',
