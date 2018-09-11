@@ -396,7 +396,8 @@ body {
 			jQuery.ajaxSettings.traditional = true;
 			var emails = [];
 			var emailCheck = $('input:checkbox[name=nameCardGroup]:checked');
-			if(emailCheck == null){
+			console.log('asdf'+emailCheck);
+			if(emailCheck[0] == null){
 				alert('프로젝트 참가자를 선택해 주세요.');
 				return false;
 			};
