@@ -300,11 +300,11 @@ dd.hidden {
 					success : function(data) {
 						var ext = "";
 						ext += "<table class=\"display\"String id=\"example\"String style=\"width: 100%;\"String>";
-						ext += "<thead><tr><th>번호</th><th>보낸사람</th><th>제목</th><th>받은 날짜</th></tr></thead><tbody>";
+						ext += "<thead><tr><th><input type='checkbox' id='checkAll'/></th><th>번호</th><th>보낸사람</th><th>제목</th><th>받은 날짜</th></tr></thead><tbody>";
 
 						if (data.length != 0 && data != null) {
 							for ( var index in data) {
-								ext += "<tr>";
+								ext += "<tr><td><input name='mailCheck' type='checkbox' value='"+data[index].msgNum+"'/></td>";
 								ext += "<td>" + data[index].msgNum + "</td>";
 								ext += "<td>" + data[index].sentaddress
 										+ "</td>";
@@ -324,6 +324,7 @@ dd.hidden {
 						$('#example').DataTable({
 							"order" : [ [ 0, "desc" ] ]
 						});
+						
 						$("#content").html("");
 					},
 					error : function() {
