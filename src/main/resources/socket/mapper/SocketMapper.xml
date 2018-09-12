@@ -17,15 +17,15 @@
 	</select>
 	
 	<select id="getLastOneProjectContent" parameterType="string" resultType="message">
-		select userID, userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
+		<!-- select userID, userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate
 		from message
-		where projectName = #{projectName}
-	 	<!-- AND
-				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD') -->
+		where projectName = #{projectName}	 	
 		AND
 		rownum = 1
-		order by messageSeq DESC
-		
+		order by messageSeq DESC -->
+		SELECT * FROM (SELECT userID, userName, message, to_char(messageDate, 'YY-MM-DD HH24:MI:SS') messageDate 
+		FROM message 
+		where projectName = #{projectName}  ORDER BY messageSeq DESC)  WHERE ROWNUM = 1
 	</select>
 	<insert id="insertContent" parameterType="message" >
 		INSERT INTO message

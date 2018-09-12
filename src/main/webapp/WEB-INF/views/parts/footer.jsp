@@ -302,6 +302,7 @@
 					$.ajax({
 						url: 'getUserProfile',
 						type: 'post',
+						async: false,
 						data: {
 							'userID': checkReduplicated[k]
 						},
