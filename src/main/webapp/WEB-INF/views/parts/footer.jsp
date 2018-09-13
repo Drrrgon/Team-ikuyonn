@@ -189,6 +189,7 @@
 						$.ajax({
 						url: 'getUserProfile',
 						type: 'post',
+						async: false,
 						data: {
 							'userID': messages[0]
 						},
@@ -302,6 +303,7 @@
 					$.ajax({
 						url: 'getUserProfile',
 						type: 'post',
+						async: false,
 						data: {
 							'userID': checkReduplicated[k]
 						},
