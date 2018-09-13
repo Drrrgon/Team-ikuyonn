@@ -36,7 +36,7 @@ delete inbox
 </delete>
 
 <select id = "getInbox"  parameterType ="Inbox" resultType = "Inbox">
-select * from inbox where emailAddress = #{emailAddress} order by to_number(msgnum) desc
+select emailAddress,(ROW_NUMBER() OVER (ORDER BY to_number(msgNum) asc)) msgNum,title,content,sentdate,sentaddress from inbox where emailAddress = #{emailAddress} order by to_number(msgnum) desc
 </select>
 
 <select id = "getmail" parameterType = "Inbox" resultType = "Inbox">
@@ -64,6 +64,10 @@ select * from cloudFile where fileSeq=#{fileSeq}
 
 <delete id="delInbox" parameterType="Email">
 delete from inbox where emailAddress=#{emailAddress}
+</delete>
+
+<delete id="delMail" parameterType="inbox">
+delete from inbox where emailAddress=#{emailAddress} and msgNum=#{msgNum}
 </delete>
 
 <delete id="delFile" parameterType="int">

@@ -282,6 +282,84 @@ dd.hidden {
 					}
 				});
 	}
+	
+	function delMail(address){
+		var aa=document.getElementsByName("mailCheck");
+		var msgNum="";
+		for(var i in aa){
+			if(aa[i].checked){
+				msgNum+=aa[i].value+",";
+			}
+		}
+		$.ajax({
+			url : "delMail",
+			type : "post",
+			data : {
+				"emailAddress": address,
+				"msgNum" : msgNum
+			},
+			success : function(data) {
+				alert("삭제되었습니다.");
+				makeList(address);
+			},
+			error : function() {
+				alert("통신실패");
+				
+			}
+		});
+	}
+	
+	function makeList(address){
+		$.ajax({
+			url : "getInbox",
+			type : "post",
+			data : {
+				"emailAddress" : address
+			},
+			success : function(data) {
+				var ext = "";
+				ext += "<table class=\"display\"String id=\"example\"String style=\"width: 100%;\"String>";
+				ext += "<thead><tr><th><input type='checkbox' id='checkAll'/></th><th>번호</th><th>보낸사람</th><th>제목</th><th>받은 날짜</th></tr></thead><tbody>";
+
+				if (data.length != 0 && data != null) {
+					for ( var index in data) {
+						ext += "<tr><td><input name='mailCheck' type='checkbox' value='"+data[index].msgNum+"'/></td>";
+						ext += "<td>" + data[index].msgNum + "</td>";
+						ext += "<td>" + data[index].sentaddress
+								+ "</td>";
+						ext += "<td><a href=\"#\" onclick=\"getContent(\'"
+								+ data[index].msgNum
+								+ "','"
+								+ address
+								+ "')\">"
+								+ data[index].title
+								+ "</a></td>";
+						ext += "<td>" + data[index].sentdate + "</td>";
+						ext += "</tr>";
+					}
+					ext += "</tbody></table>";
+				}
+				$('#mailList').html(ext);
+				$('#example').DataTable({
+					"order" : [ [ 0, "desc" ] ]
+				});
+				var delbutton="<br/><button class='btn btn-sm btn-white' onclick='delMail(\""+address+"\")'>삭제</button>";
+				$("#example_length").append(delbutton);
+				$("#content").html("");
+				/* $('input:checkbox[name=mailCheck]').change(function(){
+					var aa=document.getElementsByName("mailCheck");
+					for(var i in aa){
+						if(aa[i].checked){
+							alert(aa[i].value);
+						}
+					}
+				}); */
+				},
+			error : function() {
+				alert("통신실패");
+			}
+		});
+	}
 	function setlist(evt, address) {
 		var tablinks = document
 				.getElementsByClassName("btn btn-sm btn-outline-accent");
@@ -290,48 +368,9 @@ dd.hidden {
 					.replace(" active", "");
 		}
 		evt.currentTarget.className += " active";
-		$
-				.ajax({
-					url : "getInbox",
-					type : "post",
-					data : {
-						"emailAddress" : address
-					},
-					success : function(data) {
-						var ext = "";
-						ext += "<table class=\"display\"String id=\"example\"String style=\"width: 100%;\"String>";
-						ext += "<thead><tr><th><input type='checkbox' id='checkAll'/></th><th>번호</th><th>보낸사람</th><th>제목</th><th>받은 날짜</th></tr></thead><tbody>";
-
-						if (data.length != 0 && data != null) {
-							for ( var index in data) {
-								ext += "<tr><td><input name='mailCheck' type='checkbox' value='"+data[index].msgNum+"'/></td>";
-								ext += "<td>" + data[index].msgNum + "</td>";
-								ext += "<td>" + data[index].sentaddress
-										+ "</td>";
-								ext += "<td><a href=\"#\" onclick=\"getContent(\'"
-										+ data[index].msgNum
-										+ "','"
-										+ address
-										+ "')\">"
-										+ data[index].title
-										+ "</a></td>";
-								ext += "<td>" + data[index].sentdate + "</td>";
-								ext += "</tr>";
-							}
-							ext += "</tbody></table>";
-						}
-						$('#mailList').html(ext);
-						$('#example').DataTable({
-							"order" : [ [ 0, "desc" ] ]
-						});
-						
-						$("#content").html("");
-					},
-					error : function() {
-						alert("통신실패");
-					}
-				});
+		makeList(address);
 	}
+	
 	function getContent(msgNum, address) {
 		var userID = $("#userID").val();
 		var sentaddress = "";
@@ -415,7 +454,7 @@ dd.hidden {
 		setLeftSideIcon();
 		refresh();
 		$('.modal').css('z-index', 99999);
-
+		var delnum="";
 		//메일 등록창 열기
 		$("#list2").on('click', function() {
 			$("#insertModal").show();
@@ -491,6 +530,8 @@ dd.hidden {
 			}
 		});
 		
+		
+		
 		$("#selectGroup").change(function() {
 			$("#searchText").val("");
 			searchfunc();
@@ -504,11 +545,7 @@ dd.hidden {
 			var line = '';
 			nameCardList = datas;
 			for ( var i in datas) {
-			/* 	if (i == 0) {
-					line += '<div class="nameCardTable active" data-rownum="'+i+'">';
-				} else { */
-					line += '<div class="nameCardTable" id="nct'+i+'">';
-				/* } */
+				line += '<div class="nameCardTable" id="nct'+i+'">';
 				line += '<div class="nec">';
 				line += '<ul>';
 				line += '<li>';
@@ -537,7 +574,6 @@ dd.hidden {
 			}
 			;
 			$('#nameCardTableWrap').html(line);
-			/* $('input:checkbox[name=nameCardGroup]').change(checkBoxClick); */
 		};
 		
 
@@ -582,21 +618,8 @@ dd.hidden {
 			;
 		});
 
-		/* function checkBoxClick() {
-			$('#selectGroup').css('display', '');
-			$('#setAddress').css('display', 'none');
-			var checkBoxGroup = $('input:checkbox[name=nameCardGroup]:checked').length;
-			if (checkBoxGroup > 0) {
-				$('#selectGroup').css('display', 'none');
-				$('#setAddress').css('display', '');
-			}
-		}
-		; */
-
 		//이게 일괄로
-		$('#setAddress').on(
-				'click',
-				function() {
+		$('#setAddress').on('click',function() {
 					var emails = "";
 					var rows = $('input:checkbox[name=nameCardGroup]:checked');
 					
@@ -610,27 +633,6 @@ dd.hidden {
 					$("#insertModal").css("display", "none");
 					$("#input:checkbox[name=nameCardGroup]").attr("checked", false);
 				});
-
-		/* $('#searchBtn').on('click', function() {
-			var emailCheck = $('input:radio[name=options]:checked').val();
-			console.log(emailCheck);
-			var page = $('.paging > .active > a').attr('page');
-			var type = $('.form-control option:selected').val();
-			console.log(type);
-			var searchText = $('#searchText').val();
-			console.log(searchText)
-			$.ajax({
-				url : 'selectNameCardList',
-				type : 'get',
-				data : {
-					'page' : page,
-					'searchText' : searchText,
-					'emailCheck' : emailCheck,
-					'type' : type
-				},
-				success : outPut
-			});
-		}); */
 
 		function setLeftSideIcon() {
 			$('#navbar').children().eq(0).children().eq(0).attr('class',
