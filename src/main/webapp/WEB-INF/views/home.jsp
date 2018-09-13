@@ -267,7 +267,7 @@ a{color:inherit;text-decoration:none}
 	max-width:525px;
 	min-height:670px;
 	position:relative;
-	background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;
+	background:url(./resources/images/1.jpg) no-repeat center;
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
 .login-html{
@@ -400,6 +400,20 @@ a{color:inherit;text-decoration:none}
 .foot-lnk{
 	text-align:center;
 }
+
+select{
+	width:25%;
+	color:#fff;
+	border:none;
+	padding:15px 20px;
+	border-radius:25px;
+	background:rgba(255,255,255,.1);
+}
+
+option{
+	color:black;
+}
+
 </style>
 	<title>Home</title>
 </head>
@@ -422,17 +436,18 @@ a{color:inherit;text-decoration:none}
 					<div id="loginPWR"></div>
 				</div>
 				<div class="group">
-					<input id="check" type="checkbox" class="check" checked>
-					<label for="check"><span class="icon"></span> Keep me Signed in</label>
+				<br>
+					<!-- <input id="check" type="checkbox" class="check" checked>
+					<label for="check"><span class="icon"></span> Keep me Signed in</label> -->
 				</div>
 				<div class="group">
 					<button type="button" class="button" id="loginButton" name="loginButton" onclick="loginCheck()">로그인</button>
 				</div>
 			</form>
-				<div class="hr"></div>
+				<!-- <div class="hr"></div>
 				<div class="foot-lnk">
 					<a href="#forgot">Forgot Password?</a>
-				</div>
+				</div> -->
 			</div>
 			
 			<div class="sign-up-htm">		
@@ -453,9 +468,9 @@ a{color:inherit;text-decoration:none}
  				<div class="group">
     				<label for="pass" class="label">생년월일</label>
 					<input type="hidden" class="input" id="userBirth" name="userBirth"/>
-    				<select name='birthYear' id='birthYear' onChange='setDate()'></select>년&nbsp;
-    				<select name='birthMonth' id='birthMonth' onChange='setDate()'></select>월&nbsp;
-    				<select name='birthDay' id='birthDay'></select>일&nbsp;
+    				<select name='birthYear' id='birthYear' onChange='setDate()'></select>&nbsp;년&nbsp;
+    				<select name='birthMonth' id='birthMonth' onChange='setDate()'></select>&nbsp;월&nbsp;
+    				<select name='birthDay' id='birthDay'></select>&nbsp;일&nbsp;
 				</div>
 				<div class="group">
 				<label for="pass" class="label">전화번호</label>
@@ -465,10 +480,10 @@ a{color:inherit;text-decoration:none}
 					<button type="button" class="button" onclick="joinConfirm()">회원가입</button>
 				</div>
 				</form>
-				<div class="hr"></div>
+				<!-- <div class="hr"></div>
 				<div class="foot-lnk">
 					<label for="tab-1">Already Member?</label>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

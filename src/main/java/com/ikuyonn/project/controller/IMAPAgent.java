@@ -37,6 +37,10 @@ public class IMAPAgent extends MailAgent{
 		setFlags(message, Flags.Flag.SEEN, true);
 	}
 	
+	public void setDelFlag(Message message) throws MessagingException{
+		setFlags(message, Flags.Flag.DELETED, true);
+	}
+	
 	public void setUnSeenFlag(Message message) throws MessagingException{
 		setFlags(message, Flags.Flag.SEEN, false);
 	}

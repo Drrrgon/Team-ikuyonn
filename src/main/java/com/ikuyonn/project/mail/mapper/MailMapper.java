@@ -50,6 +50,8 @@ public interface MailMapper {
 	
 	public void delFile(int fileSeq);
 	
+	public void delMail(inbox inbox);
+	
 	public void fixNameCard1(email email);
 	public void fixNameCard0(email email);
 	
