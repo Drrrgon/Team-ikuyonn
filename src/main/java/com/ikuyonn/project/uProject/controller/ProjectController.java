@@ -112,6 +112,7 @@ public class ProjectController {
 		}
 		return returnList;
 	}
+	
 	@RequestMapping(value = "/secessionProjectMember", method = RequestMethod.POST)
 	public @ResponseBody int secessionProjectMember(String projectSeq, String userID){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
@@ -123,6 +124,16 @@ public class ProjectController {
 		map = um.getCountOfProjectMember(pjSeq);
 		map.put("projectSeq", pjSeq);
 		um.updateCountOfProjectMember(map);
+		return re;
+	}
+	
+	@RequestMapping(value = "/checkProjectMaster", method = RequestMethod.POST)
+	public @ResponseBody String checkProjectMaster(String projectSeq){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		int pjSeq = Integer.parseInt(projectSeq);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("projectSeq", pjSeq);
+		String re = um.checkProjectMaster(map);
 		return re;
 	}
 }

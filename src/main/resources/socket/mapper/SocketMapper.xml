@@ -47,7 +47,7 @@
 	</select>
 	
 	<select id="getUserByProjectName" parameterType="string" resultType="message">
-		SELECT 
+		SELECT Distinct
 			u.userID userID
 			, u.userName
 			, u.userPW

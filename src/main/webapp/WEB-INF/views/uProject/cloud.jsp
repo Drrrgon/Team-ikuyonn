@@ -289,7 +289,7 @@
 			temp += "data-pjName='"+joinedProjectList[i].projectName+"'>" + joinedProjectList[i].projectName + "</td>";
 			temp += "<td class='joinedProjectListDue' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].due + "</td>";
 			temp += "<td class='joinedProjectListMember' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].memberNum + "</td>";
-			temp += "<td><button data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("+ joinedProjectList[i].projectSeq+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
+			temp += "<td><button class='btn btn-accent' data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("+ joinedProjectList[i].projectSeq+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
 		}
 		
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
@@ -326,6 +326,27 @@
 					var print = '<input id="modifyProjectName" type="text" style="width:120px; height:30px;">';
 					$(this).html(print);
 					$('#modifyProjectName').focus();
+					$('#modifyProjectName').keyup(function(e){
+						if(e.keyCode == 13){
+							var newName = $('#modifyProjectName').val();
+							$('#modifyProjectName').closest('td').attr('data-pjName', newName);
+							$('#modifyProjectName').closest('td').text(newName);
+							$.ajax({
+								url: 'modifyProjectName',
+								type: 'post',
+								data: {
+									'projectSeq':pjSeq, 'newName':newName
+								},
+								success: function(result){
+									if(result == 0 ){
+										alert('변경실패');
+									}else{
+										alert('변경성공!');
+									}
+								}
+							});
+						};
+					});
 					$('#modifyProjectName').focusout(function(){
 						if($('#modifyProjectName').val().length == 0 ){
 							alert('이름이 부적절 합니다.');
@@ -354,8 +375,29 @@
 			}
 		}
 	}
+	function checkProjectMaster(userID, seq){
+		// if flag == 1 is Master
+		var flag = 0;
+		$.ajax({
+			url: 'checkProjectMaster',
+			type: 'post',
+			async: false,
+			data: {
+				'userID': userID, 'projectSeq':seq
+			},
+			success: function(result){
+				console.log(result);
+				if(userID == result){
+					flag = 1;
+				}
+			}
+		});
+		return flag;
+	}
 	function refreshProjectMember(seq){
+		var userID = "${sessionScope.userID}"
 		var pjSeq = seq;
+		var flag = checkProjectMaster(userID, pjSeq);
 		var userList;
 		var userListProfile = [];
 		$.ajax({
@@ -385,34 +427,46 @@
 		$('#joinedProjectMember').html();
 		var printHtml = "";
 		printHtml += '<table>';
+		printHtml += '<tr>';
+		printHtml += '<td colspan="3" width="160px">';
+		printHtml += '참여중인 인원';
+		printHtml += '</td><td></td><td></td>';
+		printHtml += '</tr>';
 		printHtml += '<tbody id="joinedProjectMemberTbody">';
 		$('#joinedProjectMember').html(printHtml);
 		printHtml = "";		
 		for (let j = 0; j < userList.length; j++) {	
-			printHtml += '<tr>';			
-			printHtml += '<td width="10px">';
-			printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j]+'"  width="30px" height="30px">';
-			printHtml += '</td>';
-			printHtml += '<td width="160px">';
-			printHtml += userList[j];
-			printHtml += '</td>';
-			printHtml += '<td>';
-			printHtml += '<button class="secessionProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userList[j]+'"> 퇴장</button>';
-			printHtml += '</td>';
-			printHtml += '</tr>';
-			printHtml += '';
-			printHtml += '';
-			printHtml += '';
-			printHtml += '';
+			if(userList[j] != userID){
+				printHtml += '<tr>';			
+				printHtml += '<td width="10px">';
+				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
+				printHtml += '</td>';
+				printHtml += '<td width="160px">';
+				printHtml += '이름 :'+userListProfile[j][0]+'('+userList[j]+')';
+				printHtml += '</td>';
+				printHtml += '<td>';
+				if(flag == 1){
+					printHtml += '<button class="secessionProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userList[j]+'"> 퇴장</button>';
+				}				
+				printHtml += '</td>';
+				printHtml += '</tr>';
+			}
 		}
 		$('#joinedProjectMemberTbody').append(printHtml);
+		printHtml ='';
+		printHtml += '<span id="addProjectMemberSpan"><button id="addProjectMemberBtn" class="btn btn-accent">인원</button></span>';
+		$('#joinedProjectMember').append(printHtml);
 		$('.secessionProjectBtn').on('click', secessionProject);
+		$('#addProjectMemberBtn').on('click', function(){
+			printAddProjectMemeberPlace(pjSeq);
+		});
 		$('#joinedProjectMember').css('display', 'block');
 		$('#joinedProjectMemberBackground').css('display', 'block');
 	}
 	function clickProjectMemeber(){
 		var userID = "${sessionScope.userID}"
 		var pjSeq = $(this).attr('data-seq');
+		var flag = checkProjectMaster(userID, pjSeq);
 		var userList;
 		var userListProfile = [];
 		$.ajax({
@@ -454,22 +508,112 @@
 			if(userList[j] != userID){
 				printHtml += '<tr>';			
 				printHtml += '<td width="10px">';
-				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j]+'"  width="30px" height="30px">';
+				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
 				printHtml += '</td>';
 				printHtml += '<td width="160px">';
-				printHtml += userList[j];
+				printHtml += '이름 :'+userListProfile[j][0]+'('+userList[j]+')';
 				printHtml += '</td>';
 				printHtml += '<td>';
-				printHtml += '<button class="secessionProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userList[j]+'"> 퇴장</button>';
+				if(flag == 1){
+					printHtml += '<button class="secessionProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userList[j]+'"> 퇴장</button>';
+				}
 				printHtml += '</td>';
 				printHtml += '</tr>';
 			}	
 		}
 		$('#joinedProjectMemberTbody').append(printHtml);
+		printHtml ='';
+		printHtml += '<span id="addProjectMemberSpan"><button id="addProjectMemberBtn" class="btn btn-accent">인원</button></span>';
+		$('#joinedProjectMember').append(printHtml);
 		$('.secessionProjectBtn').on('click', secessionProject);
+		$('#addProjectMemberBtn').on('click', function(){
+			printAddProjectMemeberPlace(pjSeq);
+		});
 		$('#joinedProjectMember').css('display', 'block');
 		$('#joinedProjectMemberBackground').css('display', 'block');
-		
+	}
+	function printAddProjectMemeberPlace(seq){
+		var pjSeq = seq;
+		var emailCheck = 1;
+		var userArray;
+			$.ajax({
+				url : 'getMember',
+				async: false,
+				data : {
+					'emailCheck' : emailCheck
+				},
+				type : 'post',
+				success : function(data){
+					// ncName
+					userArray = data;
+				},
+				error : function(){
+					alert("통신 실패");
+				}
+			});
+		console.log(userArray);
+		var userList;
+		var userListProfile = [];
+		// $.ajax({
+		// 	url: 'getProjectMemeber',
+		// 	type: 'post',
+		// 	data: {
+		// 		'projectSeq':pjSeq
+		// 	},
+		// 	async: false,
+		// 	success: function(list){
+		// 		userList = list;
+		// 	}
+		// });
+		for (let i = 0; i < userArray.length; i++) {
+			$.ajax({
+				url: 'getUserProfile',
+				type: 'post',
+				data: {
+					'userID':userArray[i].userID
+				},
+				async: false,
+				success: function(path){
+					userListProfile.push(path);
+				}
+			});
+		}
+			//namecard
+		$('#joinedProjectMember').html();
+		var printHtml = "";
+		printHtml += '<table>';
+		printHtml += '<tr>';
+		printHtml += '<td colspan="3" width="160px">';
+		printHtml += '추가할 인원';
+		printHtml += '</td><td></td><td></td>';
+		printHtml += '</tr>';
+		printHtml += '<tbody id="joinedProjectMemberTbody">';
+		$('#joinedProjectMember').html(printHtml);
+		printHtml = "";		
+		for (let j = 0; j < userArray.length; j++) {
+				printHtml += '<tr>';			
+				printHtml += '<td width="10px">';
+				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
+				printHtml += '</td>';
+				printHtml += '<td width="160px">';
+				printHtml += '이름 :'+userListProfile[j][0]+'('+userArray[j].userID+')';
+				printHtml += '</td>';
+				printHtml += '<td>';
+				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j].userID+'"> 추가</button>';
+				printHtml += '</td>';
+				printHtml += '</tr>';
+		}
+		$('#joinedProjectMemberTbody').append(printHtml);
+		printHtml ='';
+		printHtml += '<span id="addProjectMemberSpan"><button id="addProjectMemberBackBtn" class="btn btn-accent">돌아가기</button></span>';
+		$('#joinedProjectMember').append(printHtml);
+		$('.addMemberProjectBtn').on('click', secessionProject);
+		$('#addProjectMemberBackBtn').on('click', function(){
+			addProjectMemberBack(pjSeq);
+		});
+	}
+	function addProjectMemberBack(pjSeq){
+		refreshProjectMember(pjSeq);
 	}
 	function modifyProjectDue(){
 
@@ -490,20 +634,15 @@
 						joinedProjectList =  list;
 					}
 				});
-		for (let i = 0; i < allProjectList.length; i++) {
+		for (let i = 0; i < joinedProjectList.length; i++) {
 			temp += "<tr><td>" + i + "</td>";
-			temp += "<td>" + allProjectList[i].projectName + "</td>";
-			temp += "<td>" + allProjectList[i].due + "</td>";
-			temp += "<td>" + allProjectList[i].memberNum + "</td>";
-			if (userID == allProjectList[i].projectMaster) {
+			temp += "<td>" + joinedProjectList[i].projectName + "</td>";
+			temp += "<td>" + joinedProjectList[i].due + "</td>";
+			temp += "<td>" + joinedProjectList[i].memberNum + "</td>";
+			if (userID == joinedProjectList[i].projectMaster) {
 				temp += '<td><button class="deleteProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">삭제</button></td>';
 			} else {
-				for (let j = 0; j < joinedProjectList.length; j++) {
-					if(allProjectList[i].projectMaster == joinedProjectList[j].projectMaster){
-						temp += '<td><button class="joinProjectBtn btn btn-accent" data-project-seq="'+allProjectList[i].projectSeq+'">참가</button></td>';
-					}
-
-				}
+				temp += '<td></td>';
 			}
 
 		}

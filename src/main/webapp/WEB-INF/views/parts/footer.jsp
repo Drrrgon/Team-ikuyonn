@@ -285,17 +285,17 @@
 	    , type: "post"
 	    , data: {"projectName":currentProject}
 	    , success: function(list){
-	      var totalUsers = list[0];
-	      var onlineUsers = list[1];
-	      checkReduplicated = [];
-	      for (let i = 0; i < onlineUsers.length; i++) {
-	        for (let j = 0; j < totalUsers.length; j++) {
-	          if(onlineUsers[i] == totalUsers[j]){
-	            checkReduplicated.push(onlineUsers[i]);
-	          }
-	        }
-	      }
-				$('#onlineList').text("");
+					var totalUsers = list[0];
+					var onlineUsers = list[1];
+					checkReduplicated = [];
+					for (let i = 0; i < onlineUsers.length; i++) {
+						for (let j = 0; j < totalUsers.length; j++) {
+							if(onlineUsers[i] == totalUsers[j]){
+								checkReduplicated.push(onlineUsers[i]);
+							}
+						}
+					}
+					$('#onlineList').text("");
 				var userText = "";
 				userText += '<div><h2 id="connectedUserList"><p id="connectedUserListLabel"class="bg-primary">현재 접속중인 유저</p></h2></div><br/><br/>';
 				$('#onlineList').append(userText);
@@ -311,10 +311,10 @@
 							userText = "";
 							userText += "<span class='user-space'>";
 							userText += "<img class='user-avatar rounded-circle mr-2'";
-							userText += "src='"+result+"'";
+							userText += "src='"+result[1]+"'";
 							userText += "alt='User Avatar' width='30px' height='30px'>";
 							userText += "<span class='d-none d-md-inline-block'>";
-							userText += checkReduplicated[k];
+							userText += '이름 :'+result[0]+'('+checkReduplicated[k]+')';
 							userText += "</span>";
 							userText += "</span><br/><br/>";      
 							$('#onlineList').append(userText);

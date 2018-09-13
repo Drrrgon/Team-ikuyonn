@@ -30,6 +30,8 @@ public interface ProjectMapper {
 
 	public int secessionProjectMember(HashMap<String, Object> map);
 
+	public String checkProjectMaster(HashMap<String, Object> map);
+
 	/*이민석추가*/
 	
 }
