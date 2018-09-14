@@ -328,3 +328,8 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
+#addProjectMemberSpan{
+	position: relative;
+    top: 150px;
+    right: -70%;
+}

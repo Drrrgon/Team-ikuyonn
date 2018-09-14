@@ -36,6 +36,17 @@
 	width: 50%; /* Could be more or less, depending on screen size */
 	top:0; 
 }
+
+.form-control {
+	display:inline-block;
+}
+
+.birthWord{
+	margin-left:2px;
+	margin-right:25px;
+	margin-top:10px;
+}
+
 </style>
 </head>
 <body class="h-100">
@@ -85,39 +96,41 @@
 							<div class="row">
 								<div class="col">
 									<form action="updateUser" method="post" id="updateForm">
-										<div class="form-row">
-											<div class="form-group col-md-6">
+										<div class="formBox">
+											<div class="form-group col-md-5">
 												<input type="hidden" name="userID" id="userID"
 													value="${sessionScope.userID}"> <label
 													for="feFirstName">이름</label> <input type="text"
 													class="form-control" name="userName" id="userName"
 													value="${sessionScope.userName}" readonly="readonly">
 											</div>
-											<!--    <div class="form-group col-md-6">
-                                <label for="feLastName">Last Name</label>
-                                <input type="text" class="form-control" id="feLastName" placeholder="Last Name" value="Brooks"> </div>
-                            </div> -->
-											<div class="form-row">
-												<div class="form-group col-md-6">
-													<label for="feEmailAddress">비밀번호</label> <input
-														type="password" class="form-control" name="userPW"
-														id="userPW">
+												<div class="form-group col-md-5">
+													<label for="feEmailAddress">비밀번호</label>
+													<input type="password" class="form-control" name="userPW" id="userPW">
 												</div>
-												<div class="form-group col-md-6">
-													<label for="fePassword">생년월일</label> <input type="hidden"
-														class="input" id="userBirth" name="userBirth"
-														value="${sessionScope.userBirth}" /> <select
-														class="form-control" name='birthYear' id='birthYear'
-														onChange='setDate()'></select>년&nbsp; <select
-														class="form-control" name='birthMonth' id='birthMonth'
-														onChange='setDate()'></select>월&nbsp; <select
-														class="form-control" name='birthDay' id='birthDay'></select>일&nbsp;
-												</div>
-											</div>
-											<div class="form-group">
+												<div class="form-group col-md-5">
 												<label for="feInputAddress">전화번호</label> <input type="text"
 													class="form-control" id="userPhone" name="userPhone"
-													size="11" maxlength="11" value="${sessionScope.userPhone}" />
+													size="12" maxlength="11" value="${sessionScope.userPhone}" />
+												</div>
+												<div class="form-group col-md-7">
+													<label for="fePassword">생년월일</label><br>
+													<div class="row">
+													<input type="hidden" class="input" id="userBirth" name="userBirth" value="${sessionScope.userBirth}" /> 
+														<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+														<span class="form-group">
+														<select	class="form-control" name='birthYear' id='birthYear' onChange='setDate()'></select> 
+														</span>
+														<span class="birthWord">&nbsp;&nbsp;년&nbsp;&nbsp;</span>
+														<span class="form-group">
+														<select class="form-control" name='birthMonth' id='birthMonth' onChange='setDate()'></select> 
+														</span>
+														<span class="birthWord">&nbsp;&nbsp;월&nbsp;&nbsp;</span>
+														<span class="form-group">
+														<select class="form-control" name='birthDay' id='birthDay'></select>
+														</span>
+														<span class="birthWord">&nbsp;&nbsp;일&nbsp;&nbsp;</span>
+												</div>
 											</div>
 										</div>
 										<div>
@@ -126,8 +139,7 @@
 											</ul>
 											<br />
 										</div>
-										<input type="submit" class="btn btn-accent" value="회원정보 수정"
-											onclick="return updateForm()">
+										<input type="submit" class="btn btn-accent" value="회원정보 수정" onclick="return updateForm()">
 									</form>
 								</div>
 

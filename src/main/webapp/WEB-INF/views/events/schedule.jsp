@@ -229,7 +229,6 @@ function setLeftSideIcon(){
 			init : function(themeSystem) {
 		        $('#calendar').fullCalendar({
 					themeSystem : themeSystem,
-					locale : 'ko',
 					eventStartEditable : false, // enable draggable events
 					eventDurationEditable : true,
 					aspectRatio : 1.8,
@@ -237,7 +236,7 @@ function setLeftSideIcon(){
 					header : {
 						left : 'today prev,next',
 						center : 'title',
-						right : 'month,agendaWeek,timelineDay,listWeek'
+						right : 'month,listWeek'
 					},
 					defaultView : 'month',
 					timezone : 'local',
@@ -751,6 +750,7 @@ function setLeftSideIcon(){
 			}
 </script>
 <script src="./resources/js/jscolor.js"></script>
+<script src="./resources/js/ja.js"></script>
 <!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/footer.jsp" %>
 </body>

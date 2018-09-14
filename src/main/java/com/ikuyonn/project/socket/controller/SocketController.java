@@ -107,7 +107,7 @@ public class SocketController {
 	}
 	
 	@RequestMapping(value = "/getUserProfile", method = RequestMethod.POST)
-	public @ResponseBody String getUserProfile(HttpSession session, Model model, User ur) {
+	public @ResponseBody ArrayList<String> getUserProfile(HttpSession session, Model model, User ur) {
 		UserMapper um = sqlSession.getMapper(UserMapper.class);
 		User user = new User();
 		user = um.loginUser(ur);
@@ -118,6 +118,9 @@ public class SocketController {
 		else {
 			path = "./cResources/images/userProfile/"+user.getOriginalFileName();
 		}
-		return path;
+		ArrayList<String> re = new ArrayList<>();
+		re.add(user.getUserName());
+		re.add(path);
+		return re;
 	}
 }

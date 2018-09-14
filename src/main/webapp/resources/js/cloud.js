@@ -76,4 +76,5 @@ function btnFunction() {
         $('#joinedProjectMember').css('display', 'none');
 		$('#joinedProjectMemberBackground').css('display', 'none');
     });
+   
 }

@@ -105,4 +105,8 @@
 			AND
 			USERID = #{userID}
 	</delete>
+	
+	<select id="checkProjectMaster" parameterType="map" resultType="string">
+		SELECT PROJECTMASTER FROM PROJECT WHERE PROJECTSEQ = #{projectSeq}
+	</select>
 </mapper>

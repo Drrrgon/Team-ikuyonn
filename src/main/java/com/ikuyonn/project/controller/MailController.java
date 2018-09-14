@@ -393,4 +393,33 @@ public class MailController {
 		}
 		return name;
 	}
+	
+	@RequestMapping(value = "/delMail", method = RequestMethod.POST)
+	public @ResponseBody void delMail(String emailAddress,String msgNum) {
+		MailMapper mapper = session.getMapper(MailMapper.class);
+		
+		email e = mapper.getAddress(emailAddress);
+		String host = e.getHost();
+		String emailID = e.getEmailId();
+		String emailPassword = e.getEmailPassword();
+		IMAPAgent mailagent = new IMAPAgent(host, emailID, emailPassword);
+		int[] msg = new int[msgNum.split(",").length];
+		inbox ee= new inbox();
+		for(int i=0;i<msgNum.split(",").length;i++) {
+			msg[i]=Integer.parseInt(msgNum.split(",")[i]);
+			ee.setEmailAddress(emailAddress);
+			ee.setMsgNum(Integer.parseInt(msgNum.split(",")[i]));
+			mapper.delMail(ee);
+		}
+		try {
+			mailagent.open();
+			Folder folder = mailagent.getFolder("inbox");
+			for(int j=0;j<msg.length;j++) {
+				mailagent.setDelFlag(mailagent.getMessage(msg[j]));
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 }
