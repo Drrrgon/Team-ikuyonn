@@ -75,14 +75,15 @@ public class NameCardController {
 	public @ResponseBody int nameCardUplodeAction(NameCard nameCard,HttpSession httpSession) {
 		NameCardMapper mapper = session.getMapper(NameCardMapper.class);
 		nameCard.setUserID((String)httpSession.getAttribute("userID"));
-		int re = mapper.selectEmailAddress(nameCard); 
+		String hUserID = mapper.selectEmailAddress(nameCard); 
 		System.out.println(nameCard);
-		if(re == 0) {
+		if(hUserID == null) {
 			//등록된사람 없을때
 			nameCard.setEmailCheck("0");
 		}else {
 			//등록된사람 있을때
 			nameCard.setEmailCheck("1");
+			nameCard.sethUserID(hUserID);
 		}
 		int result = mapper.insertNameCard(nameCard);
 		

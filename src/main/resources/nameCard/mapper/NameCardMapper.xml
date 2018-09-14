@@ -11,6 +11,7 @@
 			NCCHECK,
 			NCNAME,
 			NCEMAIL,
+			HUSERID,
 			NCMOBILE,
 			NCPHONE,
 			NCFAX,
@@ -28,6 +29,7 @@
 			#{ncCheck},
 			#{ncName},
 			#{ncEmail},
+			#{hUserID, jdbcType=VARCHAR},
 			#{ncMobile, jdbcType=VARCHAR},	
 			#{ncPhone, jdbcType=VARCHAR},
 			#{ncFax, jdbcType=VARCHAR},	
@@ -128,8 +130,8 @@
 		WHERE
 			NCEMAIL = #{ncEmail} AND USERID = #{userID}
 	</update>
-	<select id="selectEmailAddress" parameterType="NameCard" resultType="int">
-		SELECT COUNT(EMAILADDRESS) FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
+	<select id="selectEmailAddress" parameterType="NameCard" resultType="String">
+		SELECT USERID FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
 	</select>
 	<select id="getAllNC" parameterType="String" resultType="NameCard">
 		SELECT

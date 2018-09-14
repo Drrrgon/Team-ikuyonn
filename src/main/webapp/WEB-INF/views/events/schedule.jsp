@@ -59,7 +59,7 @@ body {
 
 #calendar {
 	max-width: 900px;
-	margin: 40px auto;
+	margin: 15px auto;
 	padding: 0 10px;
 }
 
@@ -109,11 +109,12 @@ body {
 <body class="h-100">
 	<!-- sidebar -->
 	<%@ include file="../parts/sidebar.jsp" %>
-		<div class="col-lg-10">
+	<div class="main-content-container container-fluid px-4">
+		<div class="col-lg-12 mt-4">
 			<div class="card card-small mb-4">
-				<div class="card-header border-bottom">
+				<!-- <div class="card-header border-bottom">
 					<h3 class="m-0">일정표</h3>
-				</div>
+				</div> -->
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item p-3">
 						<div class="row">
@@ -125,7 +126,7 @@ body {
 				</ul>
 			</div>
 		</div>
-	
+	</div>
 <div id="insertModal" class="modal">
 <div class="modal-content">
 	<h4 class="modal-title">일정을 입력해주세요<span id="close1" class="close"></span></h4>
