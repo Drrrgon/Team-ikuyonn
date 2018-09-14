@@ -167,15 +167,17 @@
 	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp;
 	<select name="day3" id="day3"></select>일&nbsp;
 	<select name="hour3" id="hour3"></select>시&nbsp;
-	<select name="minute3" id="minute3"></select>분&nbsp;
+	<select name="minute3" id="minute3"></select>분&nbsp;<br/>
 	<label>마감</label><input type="hidden" id="endDate4" name="endDate4" value=""/>
 	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp;
 	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp;
 	<select name="day4" id="day4"></select>일&nbsp;
 	<select name="hour4" id="hour4"></select>시&nbsp;
 	<select name="minute4" id="minute4"></select>분&nbsp;
+	<center>
 	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
 	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
+    </center>
     </form>
 
 	<button type="button" id="cancelButton3">취소</button>
@@ -1038,13 +1040,13 @@
 							    }
 
 							    for (var i=0; i<24; i++) {
-							    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
-							    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
+							    	insertForm['hour1'].options[i] = new Option(i, i);
+							    	insertForm['hour2'].options[i] = new Option(i, i);
 							    }
 
 							    for (var i=0; i<60; i++) {
-							    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
-							    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+							    	insertForm['minute1'].options[i] = new Option(i, i);
+							    	insertForm['minute2'].options[i] = new Option(i, i);
 							    }
 
 							    insertForm['year1'].value = year;
@@ -1156,13 +1158,13 @@
 								}
 
 								for (var i=0; i<24; i++) {
-									 eventDetail['hour3'].options[i] = new Option(i+1, i+1);
-									 eventDetail['hour4'].options[i] = new Option(i+1, i+1);
+									 eventDetail['hour3'].options[i] = new Option(i, i);
+									 eventDetail['hour4'].options[i] = new Option(i, i);
 								}
 
 								for (var i=0; i<60; i++) {
-									 eventDetail['minute3'].options[i] = new Option(i+1, i+1);
-									 eventDetail['minute4'].options[i] = new Option(i+1, i+1);
+									 eventDetail['minute3'].options[i] = new Option(i, i);
+									 eventDetail['minute4'].options[i] = new Option(i, i);
 								}
 
 								setDate0();

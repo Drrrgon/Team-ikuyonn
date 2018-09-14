@@ -79,12 +79,12 @@ body {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    margin-top: 10%;
-    padding: 20px;
+    margin: 10% auto; /* 15% from the top and centered */
+    margin-top: 6%;
+    padding: 30px;
     border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-    top:0;
+	width: 40%; /* Could be more or less, depending on screen size */
+	top :0;
 }
 
 /* The Close Button */
@@ -100,6 +100,11 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.btn{
+	margin: auto;
+	width: 40%;
 }
 </style>
 <!-- load first js 
@@ -156,8 +161,7 @@ body {
 		<select name='hour2' id='hour2'></select>시&nbsp;
 		<select name='minute2' id='minute2'></select>분&nbsp; 
 	</form>
-	<button type="button" id="insertEvents">일정 입력</button>
-	<button type="button" id="cancelButton1">취소</button>
+	<button type="button" class="btn btn-sm btn-white" id="insertEvents">일정 입력</button>
 </div>
 </div>
 
@@ -170,24 +174,24 @@ body {
 	<label>내용</label><input type="text" id="description3" name="description3"/><br/>
 	<br/><span>색깔지정</span>
 	<button class="jscolor {valueElement:null, value:'66ccff'}" style="width:50px; height:20px;" id="color3">
-	</button><br/>
+	</button><br/><br/>
 	<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
 	<select name="year3" id="year3" onChange="setDate()"></select>년&nbsp;
 	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp;
 	<select name="day3" id="day3"></select>일&nbsp;
 	<select name="hour3" id="hour3"></select>시&nbsp;
-	<select name="minute3" id="minute3"></select>분&nbsp;<br>
+	<select name="minute3" id="minute3"></select>분&nbsp;<br/>
 	<label>마감</label><input type="hidden" id="endDate4" name="endDate4"/>
 	<select name="year4" id="year4" onChange="setDate()"></select>년&nbsp;
 	<select name="month4" id="month4" onChange="setDate()"></select>월&nbsp;
 	<select name="day4" id="day4"></select>일&nbsp;
 	<select name="hour4" id="hour4"></select>시&nbsp;
 	<select name="minute4" id="minute4"></select>분&nbsp;
-	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
-	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
+	<center>
+	<input data-uno="updateEvents" class="btn btn-sm btn-white" type="button" id="updateEvents" value="수정"/>
+	<input data-dno="deleteEvents" class="btn btn-sm btn-white" type="button" id="deleteEvents" value="삭제"/>
+	</center>
     </form>
-    
-	<button type="button" id="cancelButton3">취소</button>
 </div>
 </div>
   
@@ -232,7 +236,7 @@ function setLeftSideIcon(){
 					eventStartEditable : false, // enable draggable events
 					eventDurationEditable : true,
 					aspectRatio : 1.8,
-					scrollTime : '00:00', // undo default 6am scrollTime
+					scrollTime : '00:00',
 					header : {
 						left : 'today prev,next',
 						center : 'title',
@@ -242,45 +246,6 @@ function setLeftSideIcon(){
 					timezone : 'local',
 					timeFormat: 'h(:mm)',
 					eventLimit: 5,
-					/* resourceLabelText : 'Rooms',
-					resources : [ {
-						id : 'a',
-						title : 'Auditorium A'
-					}, {
-						id : 'b',
-						title : 'Auditorium B',
-						eventColor : 'green'
-					}, {
-						id : 'c',
-						title : 'Auditorium C',
-						eventColor : 'orange'
-					}, {
-						id : 'd',
-						title : 'Auditorium D',
-						children : [ {
-							id : 'd1',
-							title : 'Room D1'
-						}, {
-							id : 'd2',
-							title : 'Room D2'
-						} ]
-					}, {
-						id : 'e',
-						title : 'Auditorium E'
-					}, {
-						id : 'f',
-						title : 'Auditorium F',
-						eventColor : 'red'
-					}, {
-						id : 'g',
-						title : 'Auditorium G'
-					}, {
-						id : 'h',
-						title : 'Auditorium H'
-					}, {
-						id : 'i',
-						title : 'Auditorium I'
-					} ], */
 					events : function(start, end, timezone, callback){
 						var events = [];
 						
@@ -320,7 +285,6 @@ function setLeftSideIcon(){
 						
 						var modal = document.getElementById('insertModal');
 						var span = document.getElementById('close1');
-						var cancel = document.getElementById('cancelButton1');
 						
 						modal.style.display = 'block';
 						$("#insertModal").css({
@@ -329,13 +293,6 @@ function setLeftSideIcon(){
 						});
 						
 						span.onclick = function() {
-							$('#summary1').val('');
-					    	$('#description1').val('');
-					    	$('#color1').val('');
-							modal.style.display = 'none';
-						}
-						
-						cancel.onclick = function() {
 							$('#summary1').val('');
 					    	$('#description1').val('');
 					    	$('#color1').val('');
@@ -372,13 +329,13 @@ function setLeftSideIcon(){
 							    }
 							    
 							    for (var i=0; i<24; i++) {
-							    	insertForm['hour1'].options[i] = new Option(i+1, i+1);
-							    	insertForm['hour2'].options[i] = new Option(i+1, i+1);
+							    	insertForm['hour1'].options[i] = new Option(i, i);
+							    	insertForm['hour2'].options[i] = new Option(i, i);
 							    }
 							    
 							    for (var i=0; i<60; i++) {
-							    	insertForm['minute1'].options[i] = new Option(i+1, i+1);
-							    	insertForm['minute2'].options[i] = new Option(i+1, i+1);
+							    	insertForm['minute1'].options[i] = new Option(i, i);
+							    	insertForm['minute2'].options[i] = new Option(i, i);
 							    }
 							    
 							    insertForm['year1'].value = year;
@@ -513,13 +470,13 @@ function setLeftSideIcon(){
 								}
 									    
 								for (var i=0; i<24; i++) {
-									 eventDetail['hour3'].options[i] = new Option(i+1, i+1);
-									 eventDetail['hour4'].options[i] = new Option(i+1, i+1);
+									 eventDetail['hour3'].options[i] = new Option(i, i);
+									 eventDetail['hour4'].options[i] = new Option(i, i);
 								}
 									    
 								for (var i=0; i<60; i++) {
-									 eventDetail['minute3'].options[i] = new Option(i+1, i+1);
-									 eventDetail['minute4'].options[i] = new Option(i+1, i+1);
+									 eventDetail['minute3'].options[i] = new Option(i, i);
+									 eventDetail['minute4'].options[i] = new Option(i, i);
 								}
 								
 								setDate0();
@@ -603,7 +560,6 @@ function setLeftSideIcon(){
 						
 						var modal = document.getElementById('eventModal');
 						var span = document.getElementById('close3');
-						var cancel = document.getElementById('cancelButton3');
 						
 						// When the user clicks on the button, open the modal 
 						modal.style.display = 'block';
@@ -612,11 +568,7 @@ function setLeftSideIcon(){
 						span.onclick = function() {
 							modal.style.display = 'none';
 						}
-						
-						cancel.onclick = function() {
-							modal.style.display = 'none';
-						}
-						
+												
  						// When the user clicks anywhere outside of the modal, close it
 						window.onclick = function(event) {
 						    if (event.target == modal) {

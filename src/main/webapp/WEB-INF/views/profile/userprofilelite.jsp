@@ -139,7 +139,7 @@
 											</ul>
 											<br />
 										</div>
-										<input type="submit" class="btn btn-accent" value="회원정보 수정" onclick="return updateForm()">
+										<input type="submit" class="btn btn-accent" id="userUpdateButton" value="회원정보 수정" onclick="return updateForm()">
 									</form>
 								</div>
 
@@ -150,7 +150,7 @@
 			</div>
 		</div>
 		<a href="deleteUser?userID=${sessionScope.userID}">
-			<button class="btn btn-accent">회원탈퇴</button>
+			<button id="userDeleteButton" class="btn btn-accent">회원탈퇴</button>
 		</a>
 	</div>
 	<div id="insertModal" class="modal">
@@ -470,5 +470,18 @@
 			}
 		}
 	}
+	
+	$('#userUpdateButton').on('click', function() {
+		alert('회원정보가 수정되었습니다'+'\n'+'다시 로그인 하세요');
+	});
+	
+	$('#userDeleteButton').on('click', function() {
+		var deleteCheck = confirm('회원탈퇴 하시겠습니까?');
+		if(deleteCheck == true){
+			return true;
+		} else{
+			return false;
+		}
+	});
 </script>
 </html>
