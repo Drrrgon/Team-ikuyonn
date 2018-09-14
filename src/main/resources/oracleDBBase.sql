@@ -121,6 +121,7 @@ CREATE TABLE nameCard (
     , ncCheck varchar2(10)
     , ncName varchar2(40)
     , ncEmail varchar2(100) NOT NULL
+    , huserID varchar2(40)
     , ncMobile varchar2(60)
     , ncPhone varchar2(60)
     , ncFax varchar2(60)
