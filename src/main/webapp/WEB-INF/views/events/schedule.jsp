@@ -652,8 +652,8 @@ function setLeftSideIcon(){
    				var eventSeq = $(this).attr("data-uno");
 				var updateSummary = $('#updateSummary').val();
 				var updateDescription = $('#updateDescription').val();
-				var startDate = document.getElementById('updateStartDate');
-    			var endDate = document.getElementById('updateEndDate');
+				/* var startDate = document.getElementById('updateStartDate');
+    			var endDate = document.getElementById('updateEndDate'); */
 				if(updateSummary == '' || updateDescription == ''){
     				alert('일정 입력이 잘못되었습니다!');
 		    		return false;
