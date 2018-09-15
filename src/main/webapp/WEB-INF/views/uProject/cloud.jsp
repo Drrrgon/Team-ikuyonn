@@ -14,6 +14,12 @@
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
+<style>
+.btn{
+	margin: auto;
+	width: 40%;
+}
+</style>
 <!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
@@ -130,7 +136,7 @@
 		<input type="hidden" id="projectSeq1" name="projectSeq1"/>
 		<input type="hidden" id="color"/>
 		<label>제목</label><input type="text" id="summary1" name="summary1" /><br />
-		<label>내용</label><input type="text" id="description1" name="description1"/><br />
+		<label>내용</label><input type="text" id="description1" name="description1"/><br /><br>
 
 		<!-- <br/><span>색깔지정</span>
 		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="color1">
@@ -151,8 +157,7 @@
 		<select name='hour2' id='hour2'></select>시&nbsp;
 		<select name='minute2' id='minute2'></select>분&nbsp;
 	</form>
-	<button type="button" id="insertEvents">일정 입력</button>
-	<button type="button" id="cancelButton1">취소</button>
+	<button type="button" class="btn btn-sm btn-white" id="insertEvents">일정 입력</button>
 </div>
 </div>
 
@@ -161,7 +166,7 @@
 	<h4 class="modal-title">일정입니다<span id="close3" class="close"></span></h4>
     <form id="eventDetail">
     <label>제목</label><input type="text" id="summary3" name="summary3"/><br/>
-	<label>내용</label><input type="text" id="description3" name="description3"/><br/>
+	<label>내용</label><input type="text" id="description3" name="description3"/><br/><br>
 	<label>시작</label><input type="hidden" id="startDate3" name="startDate3"/>
 	<select name="year3" id="year3" onChange="setDate()"></select>년&nbsp;
 	<select name="month3" id="month3" onChange="setDate()"></select>월&nbsp;
@@ -175,12 +180,11 @@
 	<select name="hour4" id="hour4"></select>시&nbsp;
 	<select name="minute4" id="minute4"></select>분&nbsp;
 	<center>
-	<input data-uno="updateEvents" type="button" id="updateEvents" value="수정"/>
-	<input data-dno="deleteEvents" type="button" id="deleteEvents" value="삭제"/>
+	<input data-uno="updateEvents" class="btn btn-sm btn-white" type="button" id="updateEvents" value="수정"/>
+	<input data-dno="deleteEvents" class="btn btn-sm btn-white" type="button" id="deleteEvents" value="삭제"/>
     </center>
     </form>
 
-	<button type="button" id="cancelButton3">취소</button>
 </div>
 </div>
 
@@ -995,17 +999,10 @@
 
 						var modal = document.getElementById('insertModal');
 						var span = document.getElementById('close1');
-						var cancel = document.getElementById('cancelButton1');
 
 						modal.style.display = 'block';
 						$("#insertModal").css({'overflow': 'hidden', 'height': '100%'});
 						span.onclick = function() {
-							$('#summary1').val('');
-					    	$('#description1').val('');
-							modal.style.display = 'none';
-						}
-
-						cancel.onclick = function() {
 							$('#summary1').val('');
 					    	$('#description1').val('');
 							modal.style.display = 'none';
@@ -1240,7 +1237,6 @@
 
 						var modal = document.getElementById('eventModal');
 						var span = document.getElementById('close3');
-						var cancel = document.getElementById('cancelButton3');
 
 						// When the user clicks on the button, open the modal
 						modal.style.display = 'block';
@@ -1249,10 +1245,6 @@
 
 
 						span.onclick = function() {
-							modal.style.display = 'none';
-						}
-
-						cancel.onclick = function() {
 							modal.style.display = 'none';
 						}
 
@@ -1326,9 +1318,9 @@
 			}
 			var startDate3 = document.getElementById('startDate3');
 			var endDate4 = document.getElementById('endDate4');
-			startDate3.value = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
-	    	endDate4.value = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
-	    	if(endDate4.value < startDate3.value){
+			var startDate0 = new Date(year3.value, month3.value-1, day3.value, hour3.value, minute3.value);
+	    	var endDate0 = new Date(year4.value, month4.value-1, day4.value, hour4.value, minute4.value);
+	    	if(endDate0 < startDate0){
 	    		alert('날짜 입력이 잘못되었습니다!');
 	    		return false;
 	    	}
@@ -1337,7 +1329,7 @@
 				type : 'post',
 				url : 'updateEvents',
 				data : {'eventSeq' : eventSeq, 'summary' : summary3, 'description' : description3,
-						'startDate' : sd, 'endDate' : ed},
+						'startDate' : startDate0, 'endDate' : endDate0},
 				success : function(data){
 					if(data == '1'){
 					var modal2 = document.getElementById('eventModal');
