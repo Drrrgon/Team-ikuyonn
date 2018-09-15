@@ -1065,8 +1065,8 @@
 							var year = insertForm['insertStartYear'].value;
 						    var month = insertForm['insertStartMonth'].value;
 						    var day = insertForm['insertStartDay'].value;
-						    var dayInsert1 = insertForm['insertStartDay'];
-						    var dayInsert2 = insertForm['insertEndDay'];
+						    var dayInsertStart = insertForm['insertStartDay'];
+						    var dayInsertEnd = insertForm['insertEndDay'];
 
 						    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -1074,35 +1074,35 @@
 						        arrayMonth[1] = 29;
 						    }
 
-						    for(var i = dayInsert1.length; i>0; i--) {
-						    	dayInsert1.remove(dayInsert1.selectedIndex);
+						    for(var i = dayInsertStart.length; i>0; i--) {
+						    	dayInsertStart.remove(dayInsertStart.selectedIndex);
 						    }
 
 						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-						    	dayInsert1.options[i-1] = new Option(i, i);
+						    	dayInsertStart.options[i-1] = new Option(i, i);
 						    }
 
 						    if(day != null || day != '') {
 						        if(day > arrayMonth[month-1]) {
-						        	dayInsert1.options.selectedIndex = arrayMonth[month-1]-1;
+						        	dayInsertStart.options.selectedIndex = arrayMonth[month-1]-1;
 						        } else {
-						        	dayInsert1.options.selectedIndex = day-1;
+						        	dayInsertStart.options.selectedIndex = day-1;
 						        }
 						    }
 
-						    for(var i = dayInsert2.length; i>0; i--) {
-						    	dayInsert2.remove(dayInsert2.selectedIndex);
+						    for(var i = dayInsertEnd.length; i>0; i--) {
+						    	dayInsertEnd.remove(dayInsertEnd.selectedIndex);
 						    }
 
 						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-						    	dayInsert2.options[i-1] = new Option(i, i);
+						    	dayInsertEnd.options[i-1] = new Option(i, i);
 						    }
 
 						    if(day != null || day != '') {
 						        if(day > arrayMonth[month-1]) {
-						        	dayInsert2.options.selectedIndex = arrayMonth[month-1]-1;
+						        	dayInsertEnd.options.selectedIndex = arrayMonth[month-1]-1;
 						        } else {
-						        	dayInsert2.options.selectedIndex = day-1;
+						        	dayInsertEnd.options.selectedIndex = day-1;
 						        }
 						    }
 					}
@@ -1187,8 +1187,8 @@
 									var year = eventDetail['updateStartYear'].value;
 									var month = eventDetail['updateStartMonth'].value;
 									var day = eventDetail['updateStartDay'].value;
-									var dayInsert3 = eventDetail['updateStartDay'];
-									var dayInsert4 = eventDetail['updateEndDay'];
+									var dayUpdateStart = eventDetail['updateStartDay'];
+									var dayUpdateEnd = eventDetail['updateEndDay'];
 
 									var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -1196,35 +1196,35 @@
 									   arrayMonth[1] = 29;
 									}
 
-									for(var i = dayInsert3.length; i>0; i--) {
-								    	dayInsert3.remove(dayInsert3.selectedIndex);
+									for(var i = dayUpdateStart.length; i>0; i--) {
+								    	dayUpdateStart.remove(dayUpdateStart.selectedIndex);
 								    }
 
 								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-								    	dayInsert3.options[i-1] = new Option(i, i);
+								    	dayUpdateStart.options[i-1] = new Option(i, i);
 								    }
 
 								    if(day != null || day != '') {
 								        if(day > arrayMonth[month-1]) {
-								        	dayInsert3.options.selectedIndex = arrayMonth[month-1]-1;
+								        	dayUpdateStart.options.selectedIndex = arrayMonth[month-1]-1;
 								        } else {
-								        	dayInsert3.options.selectedIndex = day-1;
+								        	dayUpdateStart.options.selectedIndex = day-1;
 								        }
 								    }
 
-								    for(var i = dayInsert4.length; i>0; i--) {
-								    	dayInsert4.remove(dayInsert4.selectedIndex);
+								    for(var i = dayUpdateEnd.length; i>0; i--) {
+								    	dayUpdateEnd.remove(dayUpdateEnd.selectedIndex);
 								    }
 
 								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-								    	dayInsert4.options[i-1] = new Option(i, i);
+								    	dayUpdateEnd.options[i-1] = new Option(i, i);
 								    }
 
 								    if(day != null || day != '') {
 								        if(day > arrayMonth[month-1]) {
-								        	dayInsert4.options.selectedIndex = arrayMonth[month-1]-1;
+								        	dayUpdateEnd.options.selectedIndex = arrayMonth[month-1]-1;
 								        } else {
-								        	dayInsert4.options.selectedIndex = day-1;
+								        	dayUpdateEnd.options.selectedIndex = day-1;
 								        }
 								    }
 								}
