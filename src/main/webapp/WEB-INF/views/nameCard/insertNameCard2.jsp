@@ -38,7 +38,7 @@
 							<img src="./resources/images/nameCard/sem5.jpg">
 						</div>
 						<div class="owl-list">
-							<img src="./resources/images/nameCard/sem1.jpg">
+							<img src="./resources/images/nameCard/sem6.jpg">
 						</div>
 					</div>
 				</div>
@@ -294,7 +294,7 @@
 			$('#navbar').children().eq(3).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(4).children().eq(0).attr('class','nav-link ');
 			$('#navbar').children().eq(5).children().eq(0).attr('class','nav-link ');
-			$('#navbar').children().eq(0).children().eq(0).addClass('active');
+			$('#navbar').children().eq(1).children().eq(0).addClass('active');
 		}
 	});
 </script>
