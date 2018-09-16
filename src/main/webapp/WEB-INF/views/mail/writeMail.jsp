@@ -16,6 +16,7 @@
 <%@ include file="../parts/loadFirst-js.jsp"%>
 <style type="text/css">
 dl {
+	padding-top:40px;
 	position: relative;
 }
 
@@ -36,9 +37,8 @@ dl {
 }
 
 dd {
-	position: absolute;
-	padding-top: 70px;
-	background-color: #f3f3f3;
+	position: absolute;/* 
+	padding-top:20px; */
 	width: 100%;
 	height: 100%;
 }
@@ -98,6 +98,10 @@ dd.hidden {
         display:none;
     }
     
+    .panel-heading{
+    float:right;
+    }
+    
 </style>
 </head>
 <body class="h-100">
@@ -111,9 +115,14 @@ dd.hidden {
 		<div id="page-wrapper">
 			<div id="page-inner">
 				<dl>
-					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_1">메일
-						쓰기</button>
-
+				<div class="btn-group btn-group-toggle mb-3" id="tabButton"
+						data-toggle="buttons" padding-top="20px">
+						<label class="btn btn-white active"> <input type="radio"
+							name="tabs" value="1" autocomplete="off" checked="">메일쓰기
+						</label> <label class="btn btn-white"> <input type="radio"
+							name="tabs" value="0" autocomplete="off">메일함
+						</label>
+						</div>
 					<dd>
 						<div class="row">
 							<div class="col-md-12">
@@ -122,6 +131,7 @@ dd.hidden {
 										id="sendEmail" onsubmit="naming()"
 										enctype="multipart/form-data">
 										<div class="form-group">
+										<br/>
 											<a>보내는 사람 : </a> <select class="form-control" name="from"
 												id="from"></select>
 										</div>
@@ -149,29 +159,29 @@ dd.hidden {
 											<label>내용</label>
 											<textarea class="form-control" rows="10" name="content"></textarea>
 										</div>
-										<button type="submit" class="btn btn-default" width="500px"
+										<button type="submit" class="btn btn-primary" width="500px"
 											id="submit">전송</button>
-										<button type="reset" class="btn btn-primary" id="reset">다시쓰기</button>
+										<button type="reset" class="btn btn-default" id="reset">다시쓰기</button>
 									</form>
 								</div>
 							</div>
 						</div>
 					</dd>
 
-					<button class="tab_button btn btn-sm btn-outline-accent" id="tab_2">메일함</button>
+					<!-- <button class="tab_button btn btn-sm btn-outline-accent" id="tab_2">메일함</button> -->
 
 					<dd class="hidden">
+						
+						<br />
+						<a class="tab" id="pills"></a>
 						<div class="panel-heading">
-							<button type="button" class="btn btn-sm btn-outline-accent"
-								id="reload">새로고침</button>
-							<button type="button" class="btn btn-sm btn-outline-accent"
-								id="list">목록보기</button>
-
+							<button type="button" class="btn btn-white"
+								id="reload"><img src='./resources/images/refresh.png' width='13px'></button>
+							<button type="button" class="btn btn-white"
+								id="list">목록</button>
 						</div>
-						<br />
-						<div class="tab" id="pills"></div>
-
-						<br />
+						<br/>
+						<br/>
 						<div id="content"></div>
 						<div id="mailList"></div>
 					</dd>
@@ -235,7 +245,6 @@ dd.hidden {
 	<br />
 	<br />
 	<br />
-
 	<script src="./resources/mail/index.js"></script>
 
 
@@ -304,8 +313,13 @@ dd.hidden {
 			},
 			error : function() {
 				alert("통신실패");
-				
 			}
+			,beforeSend:function(){
+		        $('.wrap-loading').removeClass('display-none');
+		    }
+		    ,complete:function(){
+		        $('.wrap-loading').addClass('display-none');
+		    }
 		});
 	}
 	
@@ -341,11 +355,23 @@ dd.hidden {
 				}
 				$('#mailList').html(ext);
 				$('#example').DataTable({
-					"order" : [ [ 0, "desc" ] ]
+					"order" : [ [ 1, "desc" ] ]
 				});
+				$('#checkAll').css('width','15');
 				var delbutton="<br/><button class='btn btn-sm btn-white' onclick='delMail(\""+address+"\")'>삭제</button>";
 				$("#example_length").append(delbutton);
 				$("#content").html("");
+				$('#checkAll').click(function(){
+					if($("#checkAll").prop('checked')){
+						$("input[type=checkbox]").prop("checked",true);
+					}else{
+						$("input[type=checkbox]").prop("checked",false);
+					}
+				});
+				$(".paginate_button").click(function(){
+					alert('1');
+					$("input[type=checkbox]").prop("checked",false);
+				});
 				/* $('input:checkbox[name=mailCheck]').change(function(){
 					var aa=document.getElementsByName("mailCheck");
 					for(var i in aa){
@@ -617,7 +643,13 @@ dd.hidden {
 			}
 			;
 		});
-
+	
+		//탭 라디오
+		$('input:radio[name=tabs]').change(function() {
+			var tabCheck = $('input:radio[name=tabs]:checked').val();
+			$('dd').removeClass();
+			$('dd').eq(tabCheck).addClass('hidden');
+		});
 		//이게 일괄로
 		$('#setAddress').on('click',function() {
 					var emails = "";

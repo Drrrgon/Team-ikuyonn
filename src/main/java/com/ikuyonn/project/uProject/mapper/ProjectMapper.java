@@ -27,6 +27,10 @@ public interface ProjectMapper {
 	public int updateProjectName(HashMap<String, Object> map);
 
 	public ArrayList<HashMap<String, Object>> getProjectMemeber(int projectSeq);
+	
+	public void accept(HashMap<String, Object> map);
+	
+	public void reject(HashMap<String, Object> map);
 
 	public int secessionProjectMember(HashMap<String, Object> map);
 

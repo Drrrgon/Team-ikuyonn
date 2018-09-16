@@ -8,12 +8,14 @@ public class Project {
 	private int memberNum;
 	private String due;
 	private String color;
+	private int status;
 	
 	public Project() {
 		super();
 	}
-		
-	public Project(int projectSeq, String projectMaster, String projectName, int memberNum, String due, String color) {
+
+	public Project(int projectSeq, String projectMaster, String projectName, int memberNum, String due, String color,
+			int status) {
 		super();
 		this.projectSeq = projectSeq;
 		this.projectMaster = projectMaster;
@@ -21,6 +23,7 @@ public class Project {
 		this.memberNum = memberNum;
 		this.due = due;
 		this.color = color;
+		this.status = status;
 	}
 
 	public int getProjectSeq() {
@@ -80,10 +83,20 @@ public class Project {
 		this.color = color;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Project [projectSeq=" + projectSeq + ", projectMaster=" + projectMaster + ", projectName=" + projectName
-				+ ", memberNum=" + memberNum + ", due=" + due + ", color=" + color + "]";
+				+ ", memberNum=" + memberNum + ", due=" + due + ", color=" + color + ", status=" + status + "]";
 	}
+
+	
 		
 }

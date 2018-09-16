@@ -19,7 +19,7 @@
 	<select id="getUserProjectList" parameterType="map" resultType="Project">		
 		<if test="userID != null">
 		SELECT DISTINCT 
-			p.projectName, p.projectseq, p.memberNum memberNum, p.due, p.projectMaster, p.color
+			p.projectName projectName, p.projectseq projectseq, p.memberNum memberNum, p.due due, p.projectMaster projectMaster, p.color color,jp.status status
 		FROM 
 			project p, joinproject jp, usertable ut 
 		WHERE 
@@ -73,13 +73,14 @@
 		INSERT INTO JOINPROJECT
 		VALUES
 			(#{userID},
-			#{projectSeq}
+			#{projectSeq},
+			#{status}
 			)
 	</insert>
 	<select id="getCountOfProjectMember" parameterType="int" resultType="map">
 		SELECT COUNT(USERID) memberNum 
 		FROM JOINPROJECT 
-		WHERE PROJECTSEQ = #{VALUE}
+		WHERE PROJECTSEQ = #{VALUE} and status=1
 	</select>
 	
 	<select id="getProjectMemeber" parameterType="int" resultType="map">
@@ -109,4 +110,12 @@
 	<select id="checkProjectMaster" parameterType="map" resultType="string">
 		SELECT PROJECTMASTER FROM PROJECT WHERE PROJECTSEQ = #{projectSeq}
 	</select>
+	
+	<update id="accept" parameterType="map">
+	update joinProject set status=1 where userId=#{userID} and projectSeq=#{projectSeq}
+	</update>
+	
+	<delete id="reject" parameterType="map">
+	delete joinProject where userId=#{userID} and projectSeq=#{projectSeq}
+	</delete>
 </mapper>
