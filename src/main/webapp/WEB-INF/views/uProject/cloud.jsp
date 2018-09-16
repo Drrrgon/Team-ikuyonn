@@ -61,7 +61,8 @@
 								<form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
 									<input type='file' id='file' name='file' />
 								</form>
-								<button type="button" class="btn btn-white" id="upload">파일등록</button>
+								<button type="button" class="btn btn-primary" id="upload">파일등록</button>
+								<button type="button" class="btn btn-white" id="down">다운로드</button>
 								<button type="button" class="btn btn-white" id="delete">삭&nbsp;제</button>
 							</div>
 							<div>
@@ -284,13 +285,18 @@
 	function printJoinedProjectList(joinedProjectList){
 		var userID = "${sessionScope.userID}"
 		var temp = "";
+		
 		for ( var i in joinedProjectList) {
 			temp += "<tr><td>" + i + "</td>";
 			temp += "<td class='joinedProjectListName' data-seq='"+joinedProjectList[i].projectSeq+"'";
 			temp += "data-pjName='"+joinedProjectList[i].projectName+"'>" + joinedProjectList[i].projectName + "</td>";
 			temp += "<td class='joinedProjectListDue' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].due + "</td>";
 			temp += "<td class='joinedProjectListMember' data-seq='"+joinedProjectList[i].projectSeq+"'>" + joinedProjectList[i].memberNum + "</td>";
+			if(joinedProjectList[i].status==0){
+				temp += "<td><button class='btn btn-accent' data-seq='"+joinedProjectList[i].projectSeq+"' onclick='accept("+ joinedProjectList[i].projectSeq+")'>수락</button><button class='btn btn-accent' data-seq='"+joinedProjectList[i].projectSeq+"' onclick='reject("+ joinedProjectList[i].projectSeq+")'>거절</button></td></tr>";
+			}else{
 			temp += "<td><button class='btn btn-accent' data-seq='"+joinedProjectList[i].projectSeq+"' onclick='fileList("+ joinedProjectList[i].projectSeq+","+i+",\""+joinedProjectList[i].color+"\")'>열기</button></td></tr>";
+			}
 		}
 		
 		temp += '<tr><td class="projectAddBtnTd" colspan="4"></td>';
@@ -302,6 +308,47 @@
 		$('.joinedProjectListDue').on('click', modifyProjectDue);
 		$('#openInputFormBtn').on('click', openInputForm);
 	}
+	
+	//프로젝트 수락
+	function accept(projectSeq){
+		var userID = "${sessionScope.userID}";
+		$.ajax({
+			url : 'accept',
+			type : 'post',
+			data : {
+				'userID' : userID,
+				'pjSeq':projectSeq
+			},
+			success : function() {
+				alert("프로젝트를 시작합니다.");
+				getJoinedProject();
+			},
+			error : function(){
+				alert("통신실패");
+			}
+		});
+	}
+	
+	//프로젝트 거절
+	function reject(projectSeq){
+		var userID = "${sessionScope.userID}";
+		$.ajax({
+			url : 'reject',
+			type : 'post',
+			data : {
+				'userID' : userID,
+				'pjSeq':projectSeq
+			},
+			success : function() {
+				alert("프로젝트를 거절했습니다.");
+				getJoinedProject();
+			},
+			error : function(){
+				alert("통신실패");
+			}
+		});
+	}
+	
 	// 프로젝트의 이름 변경 기능
 	function modifyProjectName(){
 		var userID = "${sessionScope.userID}";
@@ -760,20 +807,26 @@
 		});
 
 		$("#delete").click(function() {
+			var seq=$("#delSeq").val();
+			if(seq!=""){
 			$.ajax({
 				url : "delFile",
 				data : {
-					"fileSeq" : $("#delSeq").val(),
+					"fileSeq" : seq,
 					"proSeq" : $("#proSeq").val()
 				},
 				type : 'POST',
 				success : function(result) {
+					$("#delSeq").val("");
 					makeFile(result);
 				},
 				error : function() {
 					alert("통신실패");
 				}
 			});
+			}else{
+				alert("파일을 선택해 주세요.");
+			}
 		});
 		
 	});
@@ -805,39 +858,35 @@
 			if (i != 0 && i % 6 == 0) {
 				temp += "</tr><tr>"
 			}
-			temp += "<td width='10px' style='word-break:break-all' onclick='select("
+			temp += "<td id='fileName' width='10px' style='word-break:break-all' onclick='select("
 					+ i
 					+ ","
 					+ result[i].fileSeq
-					+ ")'><div class='aa'><img src='./resources/images/fileIcon/"+result[i].fileType+".jpg' height='42' width='42' onerror=\"this.src='./resources/images/fileIcon/ccc.jpg'\"><br />"
-			temp += "<a href='downFile?fileSeq=" + result[i].fileSeq + "'>"
-					+ result[i].fileName + "</a></div></td>"
+					+ ")'><div class='aa' width='80px'><img src='./resources/images/fileIcon/"+result[i].fileType+".jpg' height='42' width='42' onerror=\"this.src='./resources/images/fileIcon/ccc.jpg'\"><br />"
+			temp += "<a>"+ result[i].fileName + "</a></div></td>"
 		}
 
 		$("#fileTable").html(temp);
+		$('.aa').css('width','90px');
+		$("#fileName").css('cursor','pointer');
 	}
+	
 		function select(i,fileSeq){
 			$('.aa').css('background-color','');
 			$(".aa").eq(i).css('background-color','#e6e6e6');
 			$("#delSeq").val(fileSeq);
 		}
-
-		function downFile(fileSeq) {
-			$.ajax({
-				url : "downFile",
-				type : "post",
-				data : {
-					"fileSeq" : fileSeq
-				},
-				success : function(result) {
-					alert("success");
-				},
-				error : function() {
-					alert("통신실패");
+	
+		//다운로드
+		$("#down").click(function() {
+				var fileSeq=$("#delSeq").val();
+				if(fileSeq!=''){
+				location.href="downFile?fileSeq="+fileSeq+"";
+				}else{
+					alert("파일을 선택해 주세요.");
 				}
-			});
-		}
-
+		});
+		
 		/* 네임카드리스트(회원만) 가져오기 by 민석 */
 		function namecardload() {
 			var emailCheck = 1;

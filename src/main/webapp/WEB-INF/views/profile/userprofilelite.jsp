@@ -134,7 +134,7 @@
 											</div>
 										</div>
 										<div>
-											<div>등록된 이메일</div>
+											<div>등록된 이메일&emsp;&emsp;<button type='button' class = 'btn btn-accent' id ='add'>메일 등록</button></div>
 											<ul id="mailList">
 											</ul>
 											<br />
@@ -224,13 +224,18 @@
 							for ( var index in data) {
 								ext += "<li>"
 										+ data[index].emailAddress
-										+ "&emsp;<button type ='button' onclick=\"delMail('"
+										+ "<button class='ex' type ='button' onclick=\"delMail('"
 										+ data[index].emailAddress
-										+ "')\">삭제</button></li>";
+										+ "')\"><img class='btn-img' src='./resources/images/x.png'></button></li>";
 							}
 						}
-						ext += "<button type='button' class = 'btn btn-sm btn-outline-accent' id ='add'>메일 등록</button>"
 						$('#mailList').html(ext);
+						$(".ex").css('border','none');
+						$(".ex").css('background-color','white');
+						$(".ex").css('cursor','pointer');
+						$(".btn-img").css('border','1');
+						$(".btn-img").css('width','21');
+						$(".btn-img").css('height','19');
 						//메일 등록창 열기
 						$("#add").on('click', function() {
 							$("#insertModal").show();

@@ -104,12 +104,13 @@ ALTER TABLE events ADD CONSTRAINT fk_events_projectseq FOREIGN KEY (projectseq) 
 CREATE TABLE joinProject (
     userID varchar2(40)
     , projectSeq number
+    , status number
 );
 
-insert into joinproject values('qwer',1);
-insert into joinproject values('asdf',1);
-insert into joinproject values('zxcv',1);
-insert into joinproject values('1234',1);
+insert into joinproject values('qwer',1,1);
+insert into joinproject values('asdf',1,1);
+insert into joinproject values('zxcv',1,1);
+insert into joinproject values('1234',1,1);
 
 
 ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_userID FOREIGN KEY (userID) REFERENCES usertable(userID)on delete cascade;
