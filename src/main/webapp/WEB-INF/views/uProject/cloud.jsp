@@ -14,6 +14,23 @@
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
+<style>
+#left{
+    width: 49%;
+    margin-left: 1%;
+    display: inline-block;
+    padding: 1%;
+    margin-top: 1%;
+}
+#right{
+    width: 48%;
+    float: right;
+    margin-right: 1%;
+    display: inline-block;
+    padding: 2%;
+    margin-top: 1%;
+}
+</style>
 <!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
@@ -78,10 +95,8 @@
 			<!-- 프로젝트등록 -->
 			<div id="create_project_div" class="col">
 				<div class="inline card card-large mb-4">
-					<div class="card-header border-bottom">
-						<h6 class="m-0">프로젝트 생성</h6>
-					</div>
-					<div class="page1">
+					
+					<div id='left' class="inline card card-small mb-4">
 						<div class="card-header border-bottom">
 							<div class="row">
 								<div class="input-group col-md-8">
@@ -94,8 +109,7 @@
 										<option value="2">회사명</option>
 									</select>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:37px;" id="color1">
-									</button>
+									
 								</div>
 								<div class="col-md-4" style="text-align: right;">
 									<button type="button" class="btn btn-sm btn-white" id="setAddress">선택</button>
@@ -106,12 +120,20 @@
 							<!-- 명함리스트 생성 -->
 						</div>
 					</div>
-					<div class="page2">
-						<input type="text" id="inputProjectName" class="form-control"
-							placeholder="Project Name"><br /> <input type="date"
-							id="inputProjectDate" class="form-control"><br />
+					<div id='right' class="inline card card-small mb-4">
+					<div class="card-header border-bottom">
+						<h2 class="m-0">프로젝트 생성</h2>
+					</div>
+					<br/>
+						<div>프로젝트 명:</div>
+						<input type="text" id="inputProjectName" class="form-control" placeholder="Project Name"><br /> 
+						<a>프로젝트 색깔:</a><button class="jscolor {valueElement:null,value:'66ccff'}" style="margin-left:2%; width:50px; height:20px;" id="color1">
+						</button><br/><br/>
+						<div>종료 일자:</div>
+						<input type="date" id="inputProjectDate" class="form-control"><br />
+						<button id="backBtn" class="createbtn btn btn-default">뒤로가기</button>
 						<button id="createProjectBtn" class="createbtn btn btn-accent">생성</button>
-						<button id="backBtn" class="createbtn btn btn-accent">뒤로가기</button>
+						
 					</div>
 				</div>
 			</div>

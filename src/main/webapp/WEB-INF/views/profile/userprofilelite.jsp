@@ -260,6 +260,7 @@ text-align:center;
 							$("#host").val("");
 							$("#smtp").val("");
 							$("#mailCheck").html("");
+							$("#emailAddress").removeClass(" is-invalid");
 							$("#insertModal").css("display", "none");
 						});
 						$("#close1").on('click', function() {
@@ -270,6 +271,7 @@ text-align:center;
 							$("#host").val("");
 							$("#smtp").val("");
 							$("#mailCheck").html("");
+							$("#emailAddress").removeClass(" is-invalid");
 							$("#insertModal").css("display", "none");
 						});
 					},
