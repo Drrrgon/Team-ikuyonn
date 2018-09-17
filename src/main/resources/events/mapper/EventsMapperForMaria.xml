@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ikuyonn.project.events.mapper.EventsMapper">
+	<insert parameterType="Events" id="insertEvents">
+	<if test="projectSeq==null">
+		insert into events(eventSeq, userID, summary, description, startDate, endDate, color) 
+		values(null, #{userID}, #{summary}, #{description}, #{startDate}, #{endDate}, #{color})
+	</if>
+	<if test="userID==null">
+		insert into events(eventSeq, projectSeq, summary, description, startDate, endDate, color) 
+		values(null, #{projectSeq}, #{summary}, #{description}, #{startDate}, #{endDate}, #{color})
+	</if>
+	</insert>
+	
+	<select id="privateEvents" parameterType="Events" resultType="Events">
+		select * from events where userID = #{userID} or projectSeq in (select projectSeq from joinProject where userID = #{userID})
+	</select>
+	
+	<select id="oneEvents" parameterType="Events" resultType="Events">
+		select * from events where eventSeq = #{eventSeq}
+	</select>
+	
+ 	<update id="updateEvents" parameterType="Events">
+		update events set
+		<if test="color!=null">
+		color = #{color},
+		</if>
+		summary = #{summary}, startDate = #{startDate}, endDate = #{endDate} where eventSeq = #{eventSeq}
+	</update>
+	
+	<delete id="deleteEvents" parameterType="Events">
+		delete events where eventSeq = #{eventSeq}
+	</delete>
+	
+	<select id="projectEventsList" parameterType="Events" resultType="Events">
+		select * from events where projectSeq = #{projectSeq}
+	</select>
+</mapper>

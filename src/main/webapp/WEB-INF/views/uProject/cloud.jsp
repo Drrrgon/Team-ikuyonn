@@ -468,6 +468,7 @@
 		var userID = "${sessionScope.userID}"
 		var pjSeq = $(this).attr('data-seq');
 		var flag = checkProjectMaster(userID, pjSeq);
+		console.log(pjSeq);
 		var userList;
 		var userListProfile = [];
 		$.ajax({
@@ -481,6 +482,7 @@
 				userList = list;
 			}
 		});
+		console.log(userList);
 		for (let i = 0; i < userList.length; i++) {
 			$.ajax({
 				url: 'getUserProfile',

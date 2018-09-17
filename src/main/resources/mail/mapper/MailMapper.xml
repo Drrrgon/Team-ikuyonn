@@ -51,7 +51,7 @@ and u.userID=#{userID}
 
 <insert id = "addFile" parameterType = "fileVO">
 insert into cloudFile(fileSeq,fileName,saveFileName,fileType,projectSeq)
-values(fileSeq.nextval,#{fileName},#{saveFileName},#{fileType},#{projectSeq})
+values(fileSeq.nextVal,#{fileName},#{saveFileName},#{fileType},#{projectSeq})
 </insert>
 
 <select id = "getFileList" parameterType = "int" resultType = "fileVO">

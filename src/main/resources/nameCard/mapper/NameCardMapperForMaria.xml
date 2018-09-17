@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ikuyonn.project.nameCard.mapper.NameCardMapper">
+	<insert id="insertNameCard" parameterType="NameCard">
+		INSERT INTO nameCard(	
+			ncSeq,
+			userID,
+			ncCheck,
+			ncName,
+			ncEmail,
+			huserID,
+			ncMobile,
+			ncPhone,
+			ncFax,
+			ncCompany,
+			ncDepartment,
+			ncTitle,
+			ncWebsite,
+			ncAddress,
+			nameCardUrl,
+			emailCheck
+		)
+		VALUES(
+			null,
+			#{userID},			
+			#{ncCheck},
+			#{ncName},
+			#{ncEmail},
+			#{huserID, jdbcType=VARCHAR},
+			#{ncMobile, jdbcType=VARCHAR},	
+			#{ncPhone, jdbcType=VARCHAR},
+			#{ncFax, jdbcType=VARCHAR},	
+			#{ncCompany, jdbcType=VARCHAR},
+			#{ncDepartment, jdbcType=VARCHAR},
+			#{ncTitle, jdbcType=VARCHAR},
+			#{ncWebsite, jdbcType=VARCHAR},
+			#{ncAddress, jdbcType=VARCHAR},
+			#{nameCardUrl, jdbcType=VARCHAR},
+			#{emailCheck, jdbcType=VARCHAR}
+		)
+	</insert>
+	<select id="selectNameCard" parameterType="NameCard" resultType="NameCard">
+		SELECT * FROM nameCard WHERE ncEmail = #{ncEmail} AND userID = #{userID}
+	</select>
+	<select id="getTotal" parameterType="map" resultType="int">
+		SELECT COUNT(ncSeq) from nameCard
+		WHERE
+			userID = #{userID}
+		<if test="emailCheck != null and type == null">
+			AND emailCheck = #{emailCheck}	
+		</if>
+		<if test="type == 'ncName' and emailCheck == 2">
+			AND ncName LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncEmail' and emailCheck == 2">
+			AND ncEmail LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncCompany' and emailCheck == 2">
+			AND ncCompany LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
+			AND emailCheck = #{emailCheck} AND ncName LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
+			AND emailCheck = #{emailCheck} AND ncEmail LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
+			AND emailCheck = #{emailCheck} AND ncCompany LIKE '%' || #{searchText} || '%'
+		</if>
+	</select>
+	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
+		SELECT
+			userID,
+			ncCheck,
+			ncName,
+			ncEmail,
+			ncMobile,
+			ncPhone,
+			ncFax,
+			ncCompany,
+			ncDepartment,
+			ncTitle,
+			ncWebsite,
+			ncAddress,
+			nameCardUrl
+		FROM nameCard
+		WHERE userID = #{userID}
+		<if test="emailCheck != null and type == null">
+			AND	emailCheck = #{emailCheck}	
+		</if>
+		<if test="type == 'ncName' and emailCheck == 2">
+			AND	ncName LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncEmail' and emailCheck == 2">
+			AND	ncEmail LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncCompany' and emailCheck == 2">
+			AND	ncCompany LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
+			AND	emailCheck = #{emailCheck} AND ncName LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
+			AND	emailCheck = #{emailCheck} AND ncEmail LIKE '%' || #{searchText} || '%'
+		</if>
+		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
+			AND	emailCheck = #{emailCheck} AND ncCompany LIKE '%' || #{searchText} || '%'
+		</if>
+		ORDER BY ncSeq DESC
+	</select>
+	<delete id="deleteNameCard" parameterType="NameCard">
+		DELETE FROM nameCard WHERE ncEmail = #{ncEmail} AND userID = #{userID}
+	</delete>
+	<update id="upDateNameCard" parameterType="NameCard">
+		UPDATE nameCard SET 
+			ncCompany = #{ncCompany},
+			ncWebsite = #{ncWebsite},
+			ncName = #{ncName},
+			ncTitle = #{ncTitle},
+			ncDepartment = #{ncDepartment},
+			ncAddress = #{ncAddress},
+			ncEmail = #{ncEmail},
+			ncMobile = #{ncMobile},
+			ncPhone = #{ncPhone},
+			ncFax = #{ncFax},
+			nameCardUrl = #{nameCardUrl}
+		WHERE
+			ncEmail = #{ncEmail} AND userID = #{userID}
+	</update>
+	<select id="selectEmailAddress" parameterType="NameCard" resultType="String">
+		SELECT userID FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
+	</select>
+	<select id="getAllNC" parameterType="String" resultType="NameCard">
+		SELECT
+			userID,
+			ncCheck,
+			ncName,
+			ncEmail,
+			ncMobile,
+			ncPhone,
+			ncFax,
+			ncCompany,
+			ncDepartment,
+			ncTitle,
+			ncWebsite,
+			ncAddress,
+			nameCardUrl,
+			emailCheck
+		FROM nameCard
+		WHERE userID=#{userID} 
+		ORDER BY ncSeq DESC
+	</select>
+	<select id="getMember" parameterType="NameCard" resultType="NameCard">
+		SELECT
+			userID,
+			ncCheck,
+			ncName,
+			ncEmail,
+			ncMobile,
+			ncPhone,
+			ncFax,
+			ncCompany,
+			ncDepartment,
+			ncTitle,
+			ncWebsite,
+			ncAddress,
+			nameCardUrl,
+			emailCheck
+		FROM nameCard
+		WHERE userID=#{userID} and emailCheck=#{emailCheck}
+		ORDER BY ncSeq DESC
+	</select>
+</mapper>

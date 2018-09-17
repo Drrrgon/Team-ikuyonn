@@ -110,6 +110,7 @@ public class SocketController {
 	public @ResponseBody ArrayList<String> getUserProfile(HttpSession session, Model model, User ur) {
 		UserMapper um = sqlSession.getMapper(UserMapper.class);
 		User user = new User();
+		System.out.println(ur);
 		user = um.loginUser(ur);
 		String path= "";
 		if(user.getOriginalFileName() == null) {

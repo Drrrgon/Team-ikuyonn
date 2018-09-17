@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ikuyonn.project.mail.mapper.MailMapper">
+
+<select id = "mailList" parameterType = "String" resultType = "Email">
+select * from email where userID =#{userID}
+</select>
+
+<select id = "getAddress" parameterType = "String" resultType = "Email">
+select * from email where emailAddress =#{emailAddress}
+</select>
+
+<insert id="addAddress" parameterType = "Email">
+insert into email(userID,emailAddress,emailId,emailPassword,host,smtp)
+values(#{userID},#{emailAddress},#{emailId},#{emailPassword},#{host},#{smtp})
+</insert>
+
+<select id = "checkEmail" parameterType = "Email" resultType = "int">
+select count(*) from email where emailAddress=#{emailAddress}
+</select>
+
+<delete id = "delAddress" parameterType = "Email">
+delete email where userID = #{userID} and emailAddress=#{emailAddress}
+</delete>
+
+<insert id="addInbox" parameterType = "Inbox">
+insert into inbox(emailAddress,msgNum,title,content,sentdate,sentaddress)
+values(#{emailAddress},#{msgNum},#{title},#{content},#{sentdate},#{sentaddress})
+</insert>
+
+<delete id = "clearInbox" >
+delete from inbox
+</delete>
+
+<select id = "getInbox"  parameterType ="Inbox" resultType = "Inbox">
+select emailAddress,(ROW_NUMBER() OVER (ORDER BY CAST(msgNum as unsigned) asc)) msgNum,title,content,sentdate,sentaddress from inbox where emailAddress = #{emailAddress} order by CAST(msgnum as unsigned) desc
+</select> 
+
+<select id = "getMail" parameterType = "Inbox" resultType = "Inbox">
+select * from inbox where emailAddress = #{emailAddress} and msgNum = #{msgNum}
+</select>
+
+<!-- <select id = "getProject" parameterType = "String" resultType ="Project">
+select p.projectSeq projectSeq,p.projectName projectName,p.memberNum memberNum
+from userTable u,project p,joinProject j where u.userID=j.userID and j.projectSeq=p.projectSeq 
+and u.userID=#{userID}
+</select> -->
+
+<insert id = "addFile" parameterType = "fileVO">
+insert into cloudFile(fileSeq,fileName,saveFileName,fileType,projectSeq)
+values(null,#{fileName},#{saveFileName},#{fileType},#{projectSeq})
+</insert>
+
+<select id = "getFileList" parameterType = "int" resultType = "fileVO">
+select * from cloudFile where projectSeq=#{value}
+</select>
+
+<select id = "getFile" parameterType = "int" resultType ="fileVO">
+select * from cloudFile where fileSeq=#{fileSeq}
+</select>
+
+<delete id="delInbox" parameterType="Email">
+delete from inbox where emailAddress=#{emailAddress}
+</delete>
+
+<delete id="delMail" parameterType="inbox">
+delete from inbox where emailAddress=#{emailAddress} and msgNum=#{msgNum}
+</delete>
+
+<delete id="delFile" parameterType="int">
+delete from cloudFile where fileSeq=#{fileSeq}
+</delete>
+
+<update id="fixNameCard1" parameterType="Email">
+update nameCard set emailCheck=1 where ncEmail=#{emailAddress}
+</update>
+<update id="fixNameCard0" parameterType="Email">
+update nameCard set emailCheck=0 where ncEmail=#{emailAddress}
+</update>
+
+<!-- 이메일주소로 아이디검색 by 이민석 -->
+<select id="selectUserID" parameterType="String" resultType="String">
+SELECT userID FROM email WHERE emailAddress = #{email} 
+</select>
+</mapper>

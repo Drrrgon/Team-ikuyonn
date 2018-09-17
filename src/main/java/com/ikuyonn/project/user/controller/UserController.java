@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ikuyonn.project.controller.HomeController;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.user.mapper.UserMapper;
 import com.ikuyonn.project.util.FileManager;
 
 @Controller
 public class UserController {
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Autowired
 	SqlSession session;
@@ -90,7 +94,7 @@ public class UserController {
 		UserMapper um = session.getMapper(UserMapper.class);
 		ServletContext cotx = req.getSession().getServletContext();
 		String path = cotx.getRealPath("/resources/images/userProfile");
-		System.out.println(path);
+		logger.info("path {}.", path);
 		FileManager fm = new FileManager(path);
 		
 		// 기존유저의 얼굴 정보를 초기화 시킴
