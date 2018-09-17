@@ -22,22 +22,22 @@
 			<div class="card card-small mb-4">
 				<div class="carousel-wrap">
 					<div class="owl-carousel carousel-main">
-						<div class="owl-list imgActive">
+						<div id="sem1" class="owl-list imgActive">
 							<img src="./resources/images/nameCard/sem1.jpg">
 						</div>
-						<div class="owl-list">
+						<div id="sem2" class="owl-list">
 							<img src="./resources/images/nameCard/sem2.jpg">
 						</div>
-						<div class="owl-list">
+						<div id="sem3" class="owl-list">
 							<img src="./resources/images/nameCard/sem3.jpg">
 						</div>
-						<div class="owl-list">
+						<div id="sem4" class="owl-list">
 							<img src="./resources/images/nameCard/sem4.jpg">
 						</div>
-						<div class="owl-list">
+						<div id="sem5" class="owl-list">
 							<img src="./resources/images/nameCard/sem5.jpg">
 						</div>
-						<div class="owl-list">
+						<div id="sem6" class="owl-list">
 							<img src="./resources/images/nameCard/sem6.jpg">
 						</div>
 					</div>
@@ -133,6 +133,50 @@
 	$(function() {
 		//메뉴 포커스
 		setLeftSideIcon();
+		
+		if('${nameCard}' != ''){
+			//인풋 데이터
+			var sumCheck = /sem[0-9]/;
+			var bsum = sumCheck.exec('${nameCard.nameCardUrl}');
+			$('.owl-list').removeClass('imgActive');
+			$('#'+bsum[0]).addClass('imgActive');
+			
+			
+			$('.leftNameCard').attr('style','background:url(${nameCard.nameCardUrl}); background-size: cover;');
+			$('#ncName').val('${nameCard.ncName}');
+			$('#ncMobile').val('${nameCard.ncMobile}');
+			$('#ncPhone').val('${nameCard.ncPhone}');
+			$('#ncFax').val('${nameCard.ncFax}');
+			$('#ncEmail').val('${nameCard.ncEmail}');
+			$('#ncCompany').val('${nameCard.ncCompany}');
+			$('#ncDepartment').val('${nameCard.ncDepartment}');
+			$('#ncTitle').val('${nameCard.ncTitle}');
+			$('#ncWebsite').val('${nameCard.ncWebsite}');
+			$('#ncAddress').val('${nameCard.ncAddress}');
+			
+			//디테일
+			$('#company').text('${nameCard.ncCompany}');
+			$('#website').text('${nameCard.ncWebsite}');
+			$('#name').text('${nameCard.ncName}');
+			$('#title').text('${nameCard.ncTitle}');
+			$('#department').text('${nameCard.ncDepartment}');
+			$('#address').text('${nameCard.ncAddress}');
+			if('${nameCard.ncEmail}' != ''){
+				$('#email').text('E ' + '${nameCard.ncEmail}');
+			};
+			if('${nameCard.ncMobile}' != ''){
+				$('#mobile').text('M ' + '${nameCard.ncMobile}');
+			};
+			if('${nameCard.ncPhone}' != ''){
+				$('#phone').text('P ' + '${nameCard.ncPhone}');
+			};
+			if('${nameCard.ncFax}' != ''){
+				$('#fax').text('F ' + '${nameCard.ncFax}');
+			};
+			
+			$('#nameCardSubmit').html('수정');
+			$('#ncEmail').attr('disabled','true');
+		};
 		
 		//썸네일리스트
 		$('.carousel-main').owlCarousel({
@@ -246,6 +290,32 @@
 			var imgPt = /re.*jpg/g;
 			var backgroundUrl = imgPt.exec($('.leftNameCard').css('background'));		
 			var nameCardUrl = './'+backgroundUrl;
+			
+			//수정시
+			if('${nameCard}' != ''){
+				$.ajax({
+					url : "updateNameCardAction",
+					type : "post",
+					data : {
+						'ncCheck' : ncCheck,
+						'ncName' : ncName,
+						'ncMobile' : ncMobile,
+						'ncPhone' : ncPhone,
+						'ncFax' : ncFax,
+						'ncEmail' : ncEmail,
+						'ncCompany' : ncCompany,
+						'ncDepartment' : ncDepartment,
+						'ncTitle' : ncTitle,
+						'ncWebsite' : ncWebsite,
+						'ncAddress' : ncAddress,
+						'nameCardUrl' : nameCardUrl
+					},
+					success : function(data){
+						location.href = 'nameCardList';
+					}
+				});
+				return;
+			};
 			
 			//유효성 이메일
 			$.ajax({

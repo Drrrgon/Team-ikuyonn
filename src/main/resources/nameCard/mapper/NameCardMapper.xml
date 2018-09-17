@@ -122,7 +122,6 @@
 			NCTITLE = #{ncTitle},
 			NCDEPARTMENT = #{ncDepartment},
 			NCADDRESS = #{ncAddress},
-			NCEMAIL = #{ncEmail},
 			NCMOBILE = #{ncMobile},
 			NCPHONE = #{ncPhone},
 			NCFAX = #{ncFax},

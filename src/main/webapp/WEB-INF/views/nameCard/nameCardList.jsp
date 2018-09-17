@@ -341,10 +341,14 @@ function setLeftSideIcon() {
 	function checkBoxClick(){
 		$('#selectGroup').css('display','');
 		$('#deleteList').css('display','none');	
+		$('#update').removeAttr('disabled');
+		$('#delete').removeAttr('disabled');
 		var checkBoxGroup = $('input:checkbox[name=nameCardGroup]:checked').length;
 		if(checkBoxGroup > 0){
 			$('#selectGroup').css('display','none');
 			$('#deleteList').css('display','');	
+			$('#update').attr('disabled','true');
+			$('#delete').attr('disabled','true');
 		}
 	};
 	
