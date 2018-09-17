@@ -14,12 +14,6 @@
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
-<style>
-.btn{
-	margin: auto;
-	width: 40%;
-}
-</style>
 <!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
@@ -54,12 +48,8 @@
 				<div class="card card-small">
 					<div class="card-header border-bottom">
 						<div class="btn-group btn-group-toggle mb-3" id="ebuttons" data-toggle="buttons">
-							<label class="btn btn-white active">
-								<input type="radio" name="options" value="1" autocomplete="off">일정
-							</label>
-							<label class="btn btn-white">
-								<input type="radio" name="options" value="2" autocomplete="off">클라우드
-							</label>
+							<label class="btn btn-white active"><input type="radio" name="options" value="1" autocomplete="off">일정</label>
+							<label class="btn btn-white"><input type="radio" name="options" value="2" autocomplete="off">클라우드</label>
 						</div>
 						<div id="proName"></div>
 						<div class="hidden" id="cloudTab">
