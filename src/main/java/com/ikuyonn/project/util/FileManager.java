@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +23,6 @@ public class FileManager {
 	
 	public FileManager(String path) {
 		UPLOADPATH = path;
-		System.out.println(path);
-//		System.out.println(UPLOADPATH);
 		File f = new File(UPLOADPATH);
 		System.out.println(f.isDirectory());
 		if(f.isDirectory() == false) {

@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
+<script src="./resources/js/jquery-3.3.1.min.js"></script>
 <script>
  	function loginCheck(){
 		var loginID = $('#loginID').val();
@@ -49,21 +50,6 @@ $(function(){
 			$('#loginIDR').html('');
 		}
 	});
-	$("#userID2").keyup(function(){
-		var userID= $("#userID2").val();
-		var chk_num = userID.search(/[0-9]/g); 
-	    var chk_eng = userID.search(/[a-z]/ig);
-	    
-
-	    if(chk_num < 0 || chk_eng < 0||userID.length<4||userID.length>11)
-	    { 
-	    	var message="아이디는 영문,숫자 혼합 4~11자 입니다.";
-	    	$("#temp").html(message);
-	        return false;
-	    }else{
-	    	$("#temp").html("");
-	    }
-	});
 	
 	$('#loginPW').on('keyup', function() {
 		var loginPW = $('#loginPW').val();
@@ -72,7 +58,6 @@ $(function(){
 			
 		if(loginPW.length<4 || loginPW.length>10){
 			$('#loginPWR').html(outp);
-			// return false;
 		}else{
 			$('#loginPWR').html('');
 		}
@@ -165,11 +150,11 @@ function joinConfirm(){
         return false;
     }
     
-    var idReg = /^.*(?=.{4,12})(?=.*[0-9])(?=.*[a-zA-Z]).*$/g;
+    var idReg = /^.*(?=.{4,7})(?=.*[0-9])(?=.*[a-zA-Z]).*$/g;
 
     //아이디 길이 체크 (4~12자)
     if (!idReg.test(userID)) {
-        alert('아이디를 4~12자, 영문과 숫자를 혼합해주세요.');
+        alert('아이디를 4~7자, 영문과 숫자를 혼합해주세요.');
         userID.focus();
         userID.select();
         return false;
@@ -458,7 +443,7 @@ option{
 				</div>
 				<div class="group">
 					<label for="pass" class="label">아이디</label>
-					<input type="text" class="input" id="userID2" name="userID"/>
+					<input type="text" class="input" id="userID" name="userID"/>
 					<div id="temp"></div>
 				</div>
 				<div class="group">
@@ -475,6 +460,7 @@ option{
 				<div class="group">
 				<label for="pass" class="label">전화번호</label>
 					<input type="text" class="input" id="userPhone" size="11" maxlength="11" name="userPhone"/>
+					<div>전화번호는 (-) 없이 입력해주세요!</div>
 				</div>
 				<div class="group">
 					<button type="button" class="button" onclick="joinConfirm()">회원가입</button>

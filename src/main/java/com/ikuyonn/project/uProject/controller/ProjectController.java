@@ -37,6 +37,30 @@ public class ProjectController {
 		return projectList;
 	}
 	
+	@RequestMapping(value = "/accept", method = RequestMethod.POST)
+	public @ResponseBody void accept(String userID, String pjSeq){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		HashMap<String, Object> map = new HashMap<>();		
+			map.put("userID", userID);
+			map.put("projectSeq",pjSeq);
+		um.accept(map);
+		map = um.getCountOfProjectMember(Integer.parseInt(pjSeq));
+		map.put("projectSeq", Integer.parseInt(pjSeq));
+		um.updateCountOfProjectMember(map);
+	}
+	
+	@RequestMapping(value = "/reject", method = RequestMethod.POST)
+	public @ResponseBody void reject(String userID, String pjSeq){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		HashMap<String, Object> map = new HashMap<>();		
+			map.put("userID", userID);
+			map.put("projectSeq",pjSeq);
+		um.reject(map);
+		map = um.getCountOfProjectMember(Integer.parseInt(pjSeq));
+		map.put("projectSeq", Integer.parseInt(pjSeq));
+		um.updateCountOfProjectMember(map);
+	}
+	
 	@RequestMapping(value = "/deleteProject", method = RequestMethod.POST)
 	public @ResponseBody List<Project> deleteProject(User u, String projectSeq){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
@@ -72,11 +96,13 @@ public class ProjectController {
 		/*이민석 추가*/
 		System.out.println("emails[0] : " + emails[0]);
 		MailMapper mailMapper = session.getMapper(MailMapper.class);
+		userMap.put("status", 1);
 		um.joinProject(userMap);
 		HashMap<String, Object> parameters = new HashMap<>();	
 		for(String s : emails) {
 			parameters.put("userID", mailMapper.selectUserID(s));
 			parameters.put("projectSeq",pro.getProjectSeq());
+			parameters.put("status",0);
 			System.out.println("userid : "+parameters.get("userID")+" projectSEQ : "+parameters.get("projectSEQ"));
 			int res = um.joinProject(parameters);
 		}
@@ -103,12 +129,13 @@ public class ProjectController {
 	@RequestMapping(value = "/getProjectMemeber", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> getProjectMemeber(String projectSeq){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		System.out.println(projectSeq);
 		int pjSeq = Integer.parseInt(projectSeq);
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		list = um.getProjectMemeber(pjSeq);
 		ArrayList<String> returnList = new ArrayList<>();
 		for (HashMap<String, Object> temp : list) {
-			returnList.add((String) temp.get("USERID"));
+			returnList.add((String) temp.get("userID"));
 		}
 		return returnList;
 	}

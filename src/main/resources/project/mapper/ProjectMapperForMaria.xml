@@ -7,45 +7,45 @@
 
 <mapper namespace="com.ikuyonn.project.uProject.mapper.ProjectMapper">
 	<delete id="deleteProject" parameterType="int">
-		delete project where projectseq = #{value}
+		delete from project where projectSeq = #{value}
 	</delete>
 	
 	<delete id="deleteJoinProject" parameterType="map">
-		delete joinproject 
+		delete from joinProject 
 			where 
-			projectseq = #{projectSeq}				
+			projectSeq = #{projectSeq}				
 	</delete>
 	
 	<select id="getUserProjectList" parameterType="map" resultType="Project">		
 		<if test="userID != null">
 		SELECT DISTINCT 
-			p.projectName projectName, p.projectseq projectseq, p.memberNum memberNum, p.due due, p.projectMaster projectMaster, p.color color,jp.status status
+			p.projectName, p.projectSeq, p.memberNum memberNum, p.due, p.projectMaster, p.color
 		FROM 
-			project p, joinproject jp, usertable ut 
+			project p, joinProject jp, userTable ut 
 		WHERE 
-			#{userID} = jp.userid 
+			#{userID} = jp.userID 
 			AND 
-			jp.PROJECTSEQ = p.PROJECTSEQ
-		ORDER BY p.PROJECTSEQ
+			jp.projectSeq = p.projectSeq
+		ORDER BY p.projectSeq
 		</if>			
 		<if test="userID == null">
 			SELECT * FROM project
-			ORDER BY PROJECTSEQ
+			ORDER BY projectSeq
 		</if>	
 	</select>
 	
-	<!-- <select id="getProjectList" parameterType="map" resultType="Project">		
+	<!-- <select id="getprojectList" parameterType="map" resultType="project">		
 		<if test="userID != null">
 		SELECT DISTINCT 
-			p.projectName, p.projectseq, p.due 
+			p.projectName, p.projectSeq, p.due 
 		FROM 
-			project p, joinproject jp, usertable ut 
+			project p, joinProject jp, usertable ut 
 		WHERE 
-			#{userID} = jp.userid 
+			#{userID} = jp.userID 
 			AND 
-			jp.PROJECTNAME = p.PROJECTNAME
+			jp.projectName = p.projectName
 			AND
-			#{projectName} = p.PROJECTNAME
+			#{projectName} = p.projectName
 		</if>			
 		<if test="userID == null">
 			SELECT * FROM project
@@ -53,9 +53,9 @@
 	</select> -->
 	
 	<insert id="createProject" parameterType="Project">
-		INSERT INTO PROJECT
+		INSERT INTO project
 		VALUES
-			(PROJECT_SEQ.nextVal,
+			(null,
 			#{projectMaster},
 			#{projectName},
 			#{due},
@@ -64,58 +64,49 @@
 			)
 		<selectKey keyProperty="projectSeq" resultType="Integer" order="AFTER">
 
-		SELECT PROJECT_SEQ.currVal FROM dual
+		SELECT LAST_INSERT_ID() FROM dual
 
 		</selectKey>
 	</insert>
 	
 	<insert id="joinProject" parameterType="map">
-		INSERT INTO JOINPROJECT
+		INSERT INTO joinProject
 		VALUES
 			(#{userID},
-			#{projectSeq},
-			#{status}
+			#{projectSeq}
 			)
 	</insert>
 	<select id="getCountOfProjectMember" parameterType="int" resultType="map">
-		SELECT COUNT(USERID) memberNum 
-		FROM JOINPROJECT 
-		WHERE PROJECTSEQ = #{VALUE} and status=1
+		SELECT COUNT(userID) memberNum 
+		FROM joinProject 
+		WHERE projectSeq = #{VALUE}
 	</select>
 	
 	<select id="getProjectMemeber" parameterType="int" resultType="map">
-		SELECT userid FROM joinproject WHERE projectseq = #{value}
+		SELECT userID FROM joinProject WHERE projectSeq = #{VALUE}
 	</select>
 	
 	<update id="updateCountOfProjectMember" parameterType="map">
-		UPDATE PROJECT
-		SET MEMBERNUM = #{MEMBERNUM}
-		WHERE PROJECTSEQ = #{projectSeq}
+		UPDATE project
+		SET memberNum = #{memberNum}
+		WHERE projectSeq = #{projectSeq}
 	</update>
 	
 	<update id="updateProjectName" parameterType="map">
-		UPDATE PROJECT
-		SET PROJECTNAME = #{projectName}
-		WHERE PROJECTSEQ = #{projectSeq}
+		UPDATE project
+		SET projectName = #{projectName}
+		WHERE projectSeq = #{projectSeq}
 	</update>
 	
 	<delete id="secessionProjectMember" parameterType="map">
-		DELETE FROM JOINPROJECT
+		DELETE FROM joinProject
 		WHERE 
-			PROJECTSEQ = #{projectSeq}
+			projectSeq = #{projectSeq}
 			AND
-			USERID = #{userID}
+			userID = #{userID}
 	</delete>
 	
 	<select id="checkProjectMaster" parameterType="map" resultType="string">
-		SELECT PROJECTMASTER FROM PROJECT WHERE PROJECTSEQ = #{projectSeq}
+		SELECT projectMaster FROM project WHERE projectSeq = #{projectSeq}
 	</select>
-	
-	<update id="accept" parameterType="map">
-	update joinProject set status=1 where userId=#{userID} and projectSeq=#{projectSeq}
-	</update>
-	
-	<delete id="reject" parameterType="map">
-	delete joinProject where userId=#{userID} and projectSeq=#{projectSeq}
-	</delete>
 </mapper>

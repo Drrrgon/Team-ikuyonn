@@ -13,7 +13,7 @@
 	var projectName ="";
 	var currentProject ="";
 	var checkReduplicated = [];
-	var sock = new SockJS('/project/echo');
+	var sock = new SockJS("<c:url value='/echo'/>");
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	// console.log("<c:url value='/echo'/>");

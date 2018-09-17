@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.ikuyonn.project.socket.mapper.Mapper">
+<!--  for maria db -->
+	<!-- <select id="getRoomContent" parameterType="string" resultType="table">
+		select id, message, date_format(date, "%Y-%m-%d %H:%i:%S") date
+		from message
+		where roomNum = #{roomNum} AND
+				date_format(date, "%d") = date_format(now(), "%d")
+		order by seq desc
+		limit 125
+	</select>
+	
+	<insert id="insertContent" parameterType="table" >
+		INSERT INTO message
+			VALUES( null
+					, #{message}
+					, #{id}
+					, #{roomnum}
+					, now())
+	</insert> -->
+	<select id="getProjectContent" parameterType="string" resultType="message">
+		select userID, userName, message, date_format(messageDate, "%Y-%m-%d %H:%i:%S") messageDate
+		from message
+		where projectName = #{projectName}
+	 	<!-- AND
+				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD') -->
+		order by messageSeq
+		
+	</select>
+	
+	<select id="getLastOneProjectContent" parameterType="string" resultType="message">
+		select userID, userName, message, date_format(messageDate, "%Y-%m-%d %H:%i:%S") messageDate
+		from message
+		where projectName = #{projectName} 	
+		order by messageSeq DESC 
+		limit 1
+		
+	</select>
+	<insert id="insertContent" parameterType="message" >
+		INSERT INTO message
+			VALUES( null
+					, #{userID}
+					, #{userName}
+					, #{message}
+					, now()
+					, #{projectName})
+	</insert>
+	
+	<select id="searchByDate" parameterType="map" resultType="message">
+		SELECT userID, userName, message, date_format(messageDate, "%Y-%m-%d %H:%i:%S") messageDate
+		FROM message
+		WHERE projectName = #{projectName}
+	 	AND
+				 date_format(messageDate, "%Y-%m-%d"") = #{date}
+		order by messageSeq 	
+	</select>
+	
+	<select id="getUserByProjectName" parameterType="string" resultType="message">
+		SELECT Distinct
+			u.userID userID
+			, u.userName
+			, u.userPW
+			, u.userBirth
+			, u.userPhone
+			, p.projectName 
+		FROM
+			userTable u 
+			, project p 
+			, joinProject jp
+		WHERE
+			u.userID = jp.userID 
+		AND 
+			p.projectSeq = jp.projectSeq
+		AND
+			#{value} = p.projectName
+		
+	</select>
+	
+	
+	
+	<select id="searchUserProjectName" parameterType="string" resultType="string">
+		SELECT DISTINCT p.projectName 
+			FROM joinProject jp , userTable u , project p
+		WHERE #{VALUE} = jp.userID
+			AND
+		p.projectSeq = jp.projectSeq
+	</select>
+
+</mapper>

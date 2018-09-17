@@ -41,7 +41,7 @@ public class EventsController {
 		EventsMapper em = session.getMapper(EventsMapper.class);
 		Events es = em.oneEvents(e);
 		hs.setAttribute("projectSeq", es.getProjectSeq());
-		System.out.println(es.getProjectSeq());
+		
 		return es;
 	}
 	
