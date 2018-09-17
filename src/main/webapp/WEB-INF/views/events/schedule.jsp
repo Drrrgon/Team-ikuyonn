@@ -134,8 +134,8 @@ body {
     	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
     	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily"> -->
 		<input type="hidden" id="insertUserID" value="${sessionScope.userID}" />
-		<label>제목</label><input type="text" id="insertSummary" name="insertSummary" /><br />
-		<label>내용</label><input type="text" id="insertDescription" name="insertDescription"/><br />
+		<label>제목</label><input type="text" class='form-control' id="insertSummary" name="insertSummary" />
+		<label>내용</label><input type="text" class='form-control' id="insertDescription" name="insertDescription"/>
 
 		<br/><span>색깔지정</span>
 		<button class="jscolor {valueElement:null,value:'66ccff'}" style="width:50px; height:20px;" id="insertColor">
