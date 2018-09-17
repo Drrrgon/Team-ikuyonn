@@ -101,11 +101,6 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
-
-.btn{
-	margin: auto;
-	width: 40%;
-}
 </style>
 <!-- load first js 
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
@@ -161,7 +156,7 @@ body {
 		<select name='insertEndHour' id='insertEndHour'></select>시&nbsp;
 		<select name='insertEndMinute' id='insertEndMinute'></select>분&nbsp; 
 	</form>
-	<button type="button" class="btn btn-sm btn-white" id="insertEvents">일정 입력</button>
+	<button type="button" class="btn btn-sm btn-white" id="insertEvents" style="width:200px; margin:auto;">일정 입력</button>
 </div>
 </div>
 
@@ -188,8 +183,8 @@ body {
 	<select name="updateEndHour" id="updateEndHour"></select>시&nbsp;
 	<select name="updateEndMinute" id="updateEndMinute"></select>분&nbsp;
 	<center>
-	<input data-uno="updateEvents" class="btn btn-sm btn-white" type="button" id="updateEvents" value="수정"/>
-	<input data-dno="deleteEvents" class="btn btn-sm btn-white" type="button" id="deleteEvents" value="삭제"/>
+	<input data-uno="updateEvents" class="btn btn-sm btn-white" type="button" id="updateEvents" style="width:200px" value="수정"/>
+	<input data-dno="deleteEvents" class="btn btn-sm btn-white" type="button" id="deleteEvents" style="width:200px" value="삭제"/>
 	</center>
     </form>
 </div>
