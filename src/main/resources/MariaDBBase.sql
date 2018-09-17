@@ -57,12 +57,12 @@ CREATE TABLE `ikuyonn`.`events` ( `eventSeq` INT NOT NULL AUTO_INCREMENT , `user
 ALTER TABLE events ADD CONSTRAINT fk_events_userID FOREIGN KEY (userID) REFERENCES userTable(userID)on delete cascade;
 ALTER TABLE events ADD CONSTRAINT fk_events_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;
 
-CREATE TABLE `ikuyonn`.`joinProject` ( `userID` VARCHAR(40) NOT NULL , `projectSeq` INT NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+CREATE TABLE `ikuyonn`.`joinProject` ( `userID` VARCHAR(40) NOT NULL , `projectSeq` INT NOT NULL, `status` INT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
-insert into joinProject values('qwer',1);
-insert into joinProject values('asdf',1);
-insert into joinProject values('zxcv',1);
-insert into joinProject values('1234',1);
+insert into joinProject values('qwer',1,1);
+insert into joinProject values('asdf',1,1);
+insert into joinProject values('zxcv',1,1);
+insert into joinProject values('1234',1,1);
 
 
 ALTER TABLE joinProject ADD CONSTRAINT fk_joinProject_userID FOREIGN KEY (userID) REFERENCES userTable(userID)on delete cascade;

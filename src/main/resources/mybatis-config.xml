@@ -15,18 +15,18 @@
 	</typeAliases>
 		
 	<mappers>
-		<!-- <mapper resource="socket/mapper/SocketMapper.xml"/>		
+		<mapper resource="socket/mapper/SocketMapper.xml"/>		
 		<mapper resource="project/mapper/ProjectMapper.xml"/>	
 		<mapper resource="mail/mapper/MailMapper.xml"/>
 		<mapper resource="user/mapper/UserMapper.xml"/>
 		<mapper resource="events/mapper/EventsMapper.xml"/>	
-		<mapper resource="nameCard/mapper/NameCardMapper.xml"/>	 -->
+		<mapper resource="nameCard/mapper/NameCardMapper.xml"/>	
 		
-		<mapper resource="socket/mapper/SocketMapperForMaria.xml"/>		
+		<!-- <mapper resource="socket/mapper/SocketMapperForMaria.xml"/>		
 		<mapper resource="project/mapper/ProjectMapperForMaria.xml"/>	
 		<mapper resource="mail/mapper/MailMapperForMaria.xml"/>
 		<mapper resource="user/mapper/UserMapperForMaria.xml"/>
 		<mapper resource="events/mapper/EventsMapperForMaria.xml"/>	
-		<mapper resource="nameCard/mapper/NameCardMapperForMaria.xml"/>	
+		<mapper resource="nameCard/mapper/NameCardMapperForMaria.xml"/>	 -->
 	</mappers>
 </configuration>
