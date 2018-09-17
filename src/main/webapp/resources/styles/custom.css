@@ -202,7 +202,7 @@ a{
 }
 
 .owl-prev span, .owl-next span {
-	color: #FFF;
+	color: #c9e3ff;
 }
 
 .owl-prev span:hover, 
@@ -225,11 +225,13 @@ a{
 }
 
 .owl-list{
-	background:#000;
+	margin: 3px;
+    background: #000;
 }
 
 .owl-list > img{
-	opacity: 0.6;
+	border: 1px solid #dfdfdf;
+	opacity: 0.5;
 	transition: 0.3s;
 }
 
