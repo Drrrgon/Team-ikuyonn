@@ -46,7 +46,13 @@
 	margin-right:25px;
 	margin-top:10px;
 }
-
+.mailbtn{
+	width:200px;
+	float:center;
+}
+#addBtn{
+text-align:center;
+}
 </style>
 </head>
 <body class="h-100">
@@ -134,12 +140,12 @@
 											</div>
 										</div>
 										<div>
-											<div>등록된 이메일</div>
+											<div>등록된 이메일&emsp;&emsp;<button type='button' class = 'btn btn-accent' id ='add'>메일 등록</button></div>
 											<ul id="mailList">
 											</ul>
 											<br />
 										</div>
-										<input type="submit" class="btn btn-accent" value="회원정보 수정" onclick="return updateForm()">
+										<input type="submit" class="btn btn-accent" id="userUpdateButton" value="회원정보 수정" onclick="return updateForm()">
 									</form>
 								</div>
 
@@ -150,7 +156,7 @@
 			</div>
 		</div>
 		<a href="deleteUser?userID=${sessionScope.userID}">
-			<button class="btn btn-accent">회원탈퇴</button>
+			<button id="userDeleteButton" class="btn btn-accent">회원탈퇴</button>
 		</a>
 	</div>
 	<div id="insertModal" class="modal">
@@ -159,21 +165,24 @@
 				메일 등록<span id="close1" class="close"></span>
 			</h4>
 			<form id="mailForm" action="addAddress" method="post">
-				<input type="hidden" id="userID1" value="${sessionScope.userID}"
+				<input type="hidden" class="form-control" id="userID1" value="${sessionScope.userID}"
 					name="userID" /> <a>메일 주소</a><br />
-				<input type="text" id="emailAddress" name="emailAddress" />
+				<input type="text" class="form-control" id="emailAddress" name="emailAddress" />
 				<div id="mailCheck"></div>
 				<a>메일 계정(ID)</a><br />
-				<input type="text" id="emailId" name="emailId" /><br /> <a>메일
+				<input type="text" class="form-control" id="emailId" name="emailId" /><br /> <a>메일
 					비밀번호</a><br />
-				<input type="password" id="emailPassword" name="emailPassword" /><br />
+				<input type="password" class="form-control" id="emailPassword" name="emailPassword" /><br />
 				<a>IMAP주소</a><br />
-				<input type="text" id="host" name="host" /> <br /> <a>SMTP주소</a><br />
-				<input type="text" id="smtp" name="smtp" /> <br /> <span>※IMAP/SMTP주소는
+				<input type="text" class="form-control" id="host" name="host" /> <br /> <a>SMTP주소</a><br />
+				<input type="text" class="form-control" id="smtp" name="smtp" /> <br /> <span>※IMAP/SMTP주소는
 					해당 계정 메일->외부 메일 설정에서 확인하실 수 있습니다.</span>
 			</form>
-			<button type="button" id="addMail" onclick="addMail()">메일 등록</button>
-			<button type="button" id="cancelButton1">취소</button>
+			<br/>
+			<div id="addBtn">
+			<button type="button" width="150px" class ="mailbtn btn btn-primary" id="addMail" onclick="addMail()">메일 등록</button>
+			<button type="button" width="150px" class ="mailbtn btn btn-default" id="cancelButton1">취소</button>
+			</div>
 		</div>
 	</div>
 
@@ -197,14 +206,12 @@
 <script>
 	//메일 등록
 	function addMail() {
-		$("#mailForm").submit();
-		/* $("#emailAddress").val("");
-		$("#emailId").val("");
-		$("#emailPassword").val("");
-		$("#host").val("");
-		$("#smtp").val("");
-		$("#insertModal").css("display","none");
-		getList(); */
+		if($("#userID1").val()!=""&&$("#emailAddress").val()!=""&&$("#emailId").val()!=""&&$("#emailPassword").val()!=""&&$("#host").val()!=""&&$("#smtp").val()!="")
+		{
+			$("#mailForm").submit();
+		}else{
+			alert("입력하지 않은 항목이 있습니다.");
+		}
 	}
 	//등록된 이메일 출력
 	function getList() {
@@ -224,13 +231,18 @@
 							for ( var index in data) {
 								ext += "<li>"
 										+ data[index].emailAddress
-										+ "&emsp;<button type ='button' onclick=\"delMail('"
+										+ "<button class='ex' type ='button' onclick=\"delMail('"
 										+ data[index].emailAddress
-										+ "')\">삭제</button></li>";
+										+ "')\"><img class='btn-img' src='./resources/images/x.png'></button></li>";
 							}
 						}
-						ext += "<button type='button' class = 'btn btn-sm btn-outline-accent' id ='add'>메일 등록</button>"
 						$('#mailList').html(ext);
+						$(".ex").css('border','none');
+						$(".ex").css('background-color','white');
+						$(".ex").css('cursor','pointer');
+						$(".btn-img").css('border','1');
+						$(".btn-img").css('width','21');
+						$(".btn-img").css('height','19');
 						//메일 등록창 열기
 						$("#add").on('click', function() {
 							$("#insertModal").show();
@@ -241,9 +253,25 @@
 						});
 						//modal cancle button
 						$("#cancelButton1").on('click', function() {
+							$("#userID1").val("");
+							$("#emailAddress").val("");
+							$("#emailId").val("");
+							$("#emailPassword").val("");
+							$("#host").val("");
+							$("#smtp").val("");
+							$("#mailCheck").html("");
+							$("#emailAddress").removeClass(" is-invalid");
 							$("#insertModal").css("display", "none");
 						});
 						$("#close1").on('click', function() {
+							$("#userID1").val("");
+							$("#emailAddress").val("");
+							$("#emailId").val("");
+							$("#emailPassword").val("");
+							$("#host").val("");
+							$("#smtp").val("");
+							$("#mailCheck").html("");
+							$("#emailAddress").removeClass(" is-invalid");
 							$("#insertModal").css("display", "none");
 						});
 					},
@@ -289,6 +317,7 @@
 				var temp = "잘못된 이메일 형식입니다.";
 				$("#mailCheck").html(temp);
 				$("#addMail").attr('disabled', true);
+				$("#emailAddress").addClass(" is-invalid");
 			} else {
 				$.ajax({
 					url : "mailCheck",
@@ -301,10 +330,12 @@
 							var temp = "등록가능한 주소입니다.";
 							$("#mailCheck").html(temp);
 							$("#addMail").attr('disabled', false);
+							$("#emailAddress").removeClass(" is-invalid");
 						} else {
 							var temp = "이미 등록된 주소입니다.";
 							$("#mailCheck").html(temp);
 							$("#addMail").attr('disabled', true);
+							$("#emailAddress").addClass(" is-invalid");
 						}
 					},
 					error : function() {
@@ -470,5 +501,18 @@
 			}
 		}
 	}
+	
+	$('#userUpdateButton').on('click', function() {
+		alert('회원정보가 수정되었습니다'+'\n'+'다시 로그인 하세요');
+	});
+	
+	$('#userDeleteButton').on('click', function() {
+		var deleteCheck = confirm('회원탈퇴 하시겠습니까?');
+		if(deleteCheck == true){
+			return true;
+		} else{
+			return false;
+		}
+	});
 </script>
 </html>
