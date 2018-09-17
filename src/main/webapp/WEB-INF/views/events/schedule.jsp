@@ -129,12 +129,12 @@ body {
 	</div>
 <div id="insertModal" class="modal">
 <div class="modal-content">
-	<h4 class="modal-title">일정을 입력해주세요<span id="insertClose" class="close"></span></h4>
+	<h4 class="modal-title">일정을 입력해주세요<span id="insertClose" class="close"></span></h4><br>
     <form id="insertForm">
     	<!-- <span>기간 반복</span><input type="radio" id="repeatTerm" name="repeatCode" value="repeatTerm">
     	<span>매일 반복</span><input type="radio" id="repeatDaily" name="repeatCode" value="repeatDaily"> -->
 		<input type="hidden" id="insertUserID" value="${sessionScope.userID}" />
-		<label>제목</label><input type="text" class='form-control' id="insertSummary" name="insertSummary" />
+		<label>제목</label><input type="text" class='form-control' id="insertSummary" name="insertSummary" /><br>
 		<label>내용</label><input type="text" class='form-control' id="insertDescription" name="insertDescription"/>
 
 		<br/><span>색깔지정</span>
@@ -154,19 +154,19 @@ body {
     	<select name='insertEndMonth' id='insertEndMonth' onChange='setDate()'></select>월&nbsp;
     	<select name='insertEndDay' id='insertEndDay'></select>일&nbsp;
 		<select name='insertEndHour' id='insertEndHour'></select>시&nbsp;
-		<select name='insertEndMinute' id='insertEndMinute'></select>분&nbsp; 
+		<select name='insertEndMinute' id='insertEndMinute'></select>분&nbsp; <br>
 	</form>
-	<button type="button" class="btn btn-sm btn-white" id="insertEvents" style="width:200px; margin:auto;">일정 입력</button>
+	<button type="button" class="btn btn-primary" id="insertEvents" style="width:200px; margin:auto;">일정 입력</button>
 </div>
 </div>
 
 <div id="eventModal" class="modal">
 <div class="modal-content">
-	<h4 class="modal-title">일정입니다<span id="updateClose" class="close"></span></h4>
+	<h4 class="modal-title">일정입니다<span id="updateClose" class="close"></span></h4><br>
     <form id="eventDetail">
     <!-- <input type="hidden" id="projectSeq1" name="projectSeq1"/> -->
-    <label>제목</label><input type="text" id="updateSummary" name="updateSummary"/><br/>
-	<label>내용</label><input type="text" id="updateDescription" name="updateDescription"/><br/>
+    <label>제목</label><input type="text" id="updateSummary" name="updateSummary" class='form-control' /><br>
+	<label>내용</label><input type="text" id="updateDescription" name="updateDescription" class='form-control' />
 	<br/><span>색깔지정</span>
 	<button class="jscolor {valueElement:null, value:'66ccff'}" style="width:50px; height:20px;" id="updateColor">
 	</button><br/><br/>
@@ -181,10 +181,10 @@ body {
 	<select name="updateEndMonth" id="updateEndMonth" onChange="setDate()"></select>월&nbsp;
 	<select name="updateEndDay" id="updateEndDay"></select>일&nbsp;
 	<select name="updateEndHour" id="updateEndHour"></select>시&nbsp;
-	<select name="updateEndMinute" id="updateEndMinute"></select>분&nbsp;
+	<select name="updateEndMinute" id="updateEndMinute"></select>분&nbsp;<br>
 	<center>
-	<input data-uno="updateEvents" class="btn btn-sm btn-white" type="button" id="updateEvents" style="width:200px" value="수정"/>
-	<input data-dno="deleteEvents" class="btn btn-sm btn-white" type="button" id="deleteEvents" style="width:200px" value="삭제"/>
+	<input data-uno="updateEvents" class="btn btn-primary" type="button" id="updateEvents" style="width:200px" value="수정"/>
+	<input data-dno="deleteEvents" class="btn btn-primary" type="button" id="deleteEvents" style="width:200px" value="삭제"/>
 	</center>
     </form>
 </div>
