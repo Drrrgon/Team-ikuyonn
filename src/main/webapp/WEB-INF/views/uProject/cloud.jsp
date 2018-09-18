@@ -30,6 +30,7 @@
     padding: 2%;
     margin-top: 1%;
 }
+
 </style>
 <!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
