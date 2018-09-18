@@ -114,7 +114,7 @@ text-align:center;
 								</form>
 							</div>
 							<div class="col-md-6">
-								<div class="card card-small mb-4 pt-3">
+								<div class="card card-small pt-5 pb-4">
 									<div class="text-center">
 										<div class="mb-3 mx-auto">
 											<img id="userProfileScreen" class="rounded-circle"
