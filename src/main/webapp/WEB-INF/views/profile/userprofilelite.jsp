@@ -62,102 +62,99 @@ text-align:center;
 	<!-- Default Light Table -->
 	<div class="main-content-container container-fluid px-4">
 		<div class="row mt-5">
-			<div class="col-lg-4">
-				<div class="card card-small mb-4 pt-3">
-					<div class="card-header border-bottom text-center">
-						<div class="mb-3 mx-auto">
-							<img id="userProfileScreen" class="rounded-circle"
-								src=${sessionScope.userProfilePath } alt="User Avatar"
-								width="110">
-						</div>
-						<h4 class="mb-0">${sessionScope.userID}</h4>
-						<span class="text-muted d-block mb-2">Project Manager</span>
-						<form action="ProfilefileUplodeAction" method="post"
-							enctype="multipart/form-data">
-							<div id="uploadPicture">
-								<img id="image" alt="" src=""> <input type="file"
-									name="fileUplode" id="fileUplode" accept="img/*" multiple>
-							</div>
-							<div id="imgIcon">
-								<img src="">
-								<div id="ajaxLoading">
-									<img src="./resources/images/loading.gif">
-								</div>
-							</div>
-						</form>
-						<button type="button"
-							class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
-							<i class="zmdi zmdi-camera"></i>Upload Picture
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-8">
+			<div class="col-lg-12">
 				<div class="card card-small mb-4">
 					<div class="card-header border-bottom">
 						<h6 class="m-0">Account Details</h6>
 					</div>
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item p-3">
-							<div class="row">
-								<div class="col">
-									<form action="updateUser" method="post" id="updateForm">
-										<div class="formBox">
-											<div class="form-group col-md-5">
-												<input type="hidden" name="userID" id="userID"
-													value="${sessionScope.userID}"> <label
-													for="feFirstName">이름</label> <input type="text"
-													class="form-control" name="userName" id="userName"
-													value="${sessionScope.userName}" readonly="readonly">
-											</div>
-												<div class="form-group col-md-5">
-													<label for="feEmailAddress">비밀번호</label>
-													<input type="password" class="form-control" name="userPW" id="userPW">
+							<div class="center row col-md-10">
+							<div class="col-md-6">
+								<form action="updateUser" method="post" id="updateForm">
+									<div class="formBox">
+										<div class="form-group">
+											<input type="hidden" name="userID" id="userID"
+												value="${sessionScope.userID}"> <label
+												for="feFirstName">이름</label> <input type="text"
+												class="form-control" name="userName" id="userName"
+												value="${sessionScope.userName}" readonly="readonly">
+										</div>
+										<div class="form-group">
+											<label for="feEmailAddress">비밀번호</label>
+											<input type="password" class="form-control" name="userPW" id="userPW">
+										</div>
+										<div class="form-group">
+										<label for="feInputAddress">전화번호</label> <input type="text"
+											class="form-control" id="userPhone" name="userPhone"
+											size="12" maxlength="11" value="${sessionScope.userPhone}" />
+										</div>
+										<div class="form-group">
+											<label for="fePassword">생년월일</label><br>
+											<div class="row">
+												<input type="hidden" class="input" id="userBirth" name="userBirth" value="${sessionScope.userBirth}" /> 
+												<div class="form-group col-md-4">
+													<select	class="form-control" name='birthYear' id='birthYear' onChange='setDate()'></select> 
 												</div>
-												<div class="form-group col-md-5">
-												<label for="feInputAddress">전화번호</label> <input type="text"
-													class="form-control" id="userPhone" name="userPhone"
-													size="12" maxlength="11" value="${sessionScope.userPhone}" />
+												<div class="form-group col-md-4">
+													<select class="form-control" name='birthMonth' id='birthMonth' onChange='setDate()'></select> 
 												</div>
-												<div class="form-group col-md-7">
-													<label for="fePassword">생년월일</label><br>
-													<div class="row">
-													<input type="hidden" class="input" id="userBirth" name="userBirth" value="${sessionScope.userBirth}" /> 
-														<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-														<span class="form-group">
-														<select	class="form-control" name='birthYear' id='birthYear' onChange='setDate()'></select> 
-														</span>
-														<span class="birthWord">&nbsp;&nbsp;년&nbsp;&nbsp;</span>
-														<span class="form-group">
-														<select class="form-control" name='birthMonth' id='birthMonth' onChange='setDate()'></select> 
-														</span>
-														<span class="birthWord">&nbsp;&nbsp;월&nbsp;&nbsp;</span>
-														<span class="form-group">
-														<select class="form-control" name='birthDay' id='birthDay'></select>
-														</span>
-														<span class="birthWord">&nbsp;&nbsp;일&nbsp;&nbsp;</span>
-												</div>
+												<div class="form-group col-md-4">
+													<select class="form-control" name='birthDay' id='birthDay'></select>
+												</div>	
 											</div>
 										</div>
-										<div>
-											<div>등록된 이메일&emsp;&emsp;<button type='button' class = 'btn btn-accent' id ='add'>메일 등록</button></div>
-											<ul id="mailList">
-											</ul>
-											<br />
+									</div>
+									<div>
+										<div>등록된 이메일&emsp;&emsp;<button type='button' class = 'btn btn-accent' id ='add'>메일 등록</button></div>
+										<ul id="mailList">
+										</ul>
+										<br />
+									</div>
+								</form>
+							</div>
+							<div class="col-md-6">
+								<div class="card card-small mb-4 pt-3">
+									<div class="text-center">
+										<div class="mb-3 mx-auto">
+											<img id="userProfileScreen" class="rounded-circle"
+												src=${sessionScope.userProfilePath } alt="User Avatar"
+												width="110">
 										</div>
-										<input type="submit" class="btn btn-accent" id="userUpdateButton" value="회원정보 수정" onclick="return updateForm()">
-									</form>
+										<h4 class="mb-0">${sessionScope.userID}</h4>
+										<span class="text-muted d-block mb-2">Project Manager</span>
+										<form action="ProfilefileUplodeAction" method="post"
+											enctype="multipart/form-data">
+											<div id="uploadPicture">
+												<img id="image" alt="" src=""> <input type="file"
+													name="fileUplode" id="fileUplode" accept="img/*" multiple>
+											</div>
+											<div id="imgIcon">
+												<img src="">
+												<div id="ajaxLoading">
+													<img src="./resources/images/loading.gif">
+												</div>
+											</div>
+										</form>
+										<button type="button"
+											class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
+											<i class="zmdi zmdi-camera"></i>Upload Picture
+										</button>
+									</div>
 								</div>
-
+							</div>
+							</div>
+							<div style="text-align: center;">
+								<input type="submit" class="btn btn-primary" id="userUpdateButton" value="회원정보 수정" onclick="return updateForm()" style="width:123px;">
+								<a href="deleteUser?userID=${sessionScope.userID}">
+									<button id="userDeleteButton" class="btn btn-default" style="width: 123px;">회원탈퇴</button>
+								</a>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<a href="deleteUser?userID=${sessionScope.userID}">
-			<button id="userDeleteButton" class="btn btn-accent">회원탈퇴</button>
-		</a>
 	</div>
 	<div id="insertModal" class="modal">
 		<div class="modal-content">

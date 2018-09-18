@@ -453,3 +453,12 @@ button:focus, button:active {
 .namecardPlus > a:hover{
 	color: #42a5f5;
 }
+.form-group{
+	margin-bottom: 10px;
+}
+.form-group > label{
+	margin-bottom: 5px;
+    color: #636363;
+}
+
+
