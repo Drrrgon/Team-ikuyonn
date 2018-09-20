@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "polynomial-park-211107",
+  "private_key_id": "4f199f7c169ed859634c45b810bf43eee10ce01b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDF/69A2wKpOYXk\nDMqwgOZuRdJof/dH5F4PQ2zbxAv88Y5L7Y6Z+IdThOMiLLwqGgnl7LSct9rubOVk\nfOBiiZvh1e4D6RJL2JcJMZFPMLHQyWbkQW42xpaaVJP8W3gvpU4+8c5g+dYzIj/G\nlwIzmdX0vLbrvs8qsseoQLz1Z9G89GiCBFHh8+7kIVQgFT8chRGeWfOVx6PLiJvt\nrQGscYjPtDm/A7Khkjrg4jHlcfa617NI7nxxbtd17ygCOH2aY+rAFTPt+VmS0l2c\n2uGO+4AOmhVahRIDZzxTyC9OkY1XR/PFiSfOznkEq1JJWsWzOIe8TdD5hUqPcrEm\nk967GnlPAgMBAAECggEAFSqWM5q2GB0cIRr0+BVvjM5OBfnYF4lkPMF6e6vjlDDG\ng3tryS32WYlVNqwNmXqbIEdDr5VABEkD5NAstJv9XBEglq5t1EndK5Bu9kZAXA+L\nvk74V0a3htwPzeSBXqaPTM9QvrE2otTAeJxgEeAaLUWXUHBfeTMPgP8atClbFJXj\nvGaj2+7p1RXwl1UxnWvIsr1uxs72XEt9wqoXvPmX39gSsvGWeAL+M+SLpjS9h3pV\nvAvPVs7HyJCPCDmIVHtzJFWEpmoXEoMMZhpm71/cg+fQOPGQnnGIlGvW9rR9DKnh\nLuCaZlZJZjLl20j8fDVbQ/TYxycXHp0WDA+BI5aU0QKBgQD8GxCPKqxY1iV3Tx9O\ndyGKCwQ51b19+snoh7gEsJ8mKDeQ41Ftmb/YHOgpFHz/r5cT+knmjp9lWlkZvHjB\nelniixZbKE6L7pX3ps4kZNZHX8AeDqsnZ5h52BhEoo12Oet9dqHxBoTo1yY7OSNn\nKNXKl2UpRNgMv5Gam9nwax8wuwKBgQDJDqhVExz9K7xeHyoVrN1sTCZjJCtIjj9R\n51B4TdeduT9TUTLpjHtpmksrkzCbr4qua77YAEHeJO2MKTofu6KQb7pVqy9jue+0\nMB6IVfbkgMyDupNWQWbgFRE1fHX1Tz2zct3QJLVwcXk/wyiwRg+9K1X0zi/AtaLM\nsGEFgxMqfQKBgGab1WeP5MnbjzA6QfG7xyjaRwQLHK8Tze4Ynys5f+0V3VfZTaEg\nPNcHHO7radzfaMw2yLFQR0wHM9CnxzZoSAFOvvCnPSDzIJLFj418hUJTlGwnaD4H\niiW9cFMvHgiKlnBgQpVJI/to5iSgouov0qQ8bm4XmR/HMMoOuOuDjhRVAoGAfeBu\nZW0k/iCOu4LZb16d9nqqofF4I+HjJN0klV1u+/GKAxjYPj5U2eXe4DYz/ZTmx5Lv\nlf57PqByFQmOuWVZPwKkb5RQhChaOb7SrtrbS26UHHkIW71wsiSedJUqqN3mrF3j\nH7iL3A0/Mzt1Uv9aRT5Hf5BDd2yAs5RN+gx5SGUCgYEAo/2gWAZR8BeciXUwJnr4\njrk4NV/NBiODo38FCqiaAcW+XE3ajzN2XzqtBtEkRbl6pW5P618x1aowwoOMsTNI\nR1CXo9F8ST7BJ3C4xK1qeUq3b9u2nD/2Oo+O4x5XpfbBQ5Dqy5JesquB2TMZ+Vcq\nB8f+OQq0bkz5HN1CT9qm7SY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "sphinx67@polynomial-park-211107.iam.gserviceaccount.com",
+  "client_id": "105317822804397061912",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sphinx67%40polynomial-park-211107.iam.gserviceaccount.com"
+}
