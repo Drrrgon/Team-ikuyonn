@@ -158,6 +158,7 @@
 			NCCHECK,
 			NCNAME,
 			NCEMAIL,
+			hUserID,
 			NCMOBILE,
 			NCPHONE,
 			NCFAX,
