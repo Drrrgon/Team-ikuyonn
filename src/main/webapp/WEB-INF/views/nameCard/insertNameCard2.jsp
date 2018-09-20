@@ -86,40 +86,50 @@
 				<div class="col-md-12">
 					<div id="formBox">
 						<div class="form-group">
+							<label>이름</label>
 							<input class="form-control" type="text" id="ncName" name="ncName" placeholder="이름">
 						</div>
 						<div class="form-group">
+							<label>휴대전화</label>
 							<input class="form-control" type="text" id="ncMobile" name="ncMobile" placeholder="휴대전화">
 						</div>
 						<div class="form-group">
+							<label>직장정화</label>
 							<input class="form-control" type="text" id="ncPhone" name="ncPhone" placeholder="직장전화">
 						</div>
 						<div class="form-group">
-							<input class="form-control" type="text" id="ncFax" name="ncFax" placeholder="펙스번호">
+							<label>팩스번호</label>
+							<input class="form-control" type="text" id="ncFax" name="ncFax" placeholder="팩스번호">
 						</div>
 						<div class="form-group">
+							<label>이메일</label>
 							<input class="form-control" type="text" id="ncEmail" name="ncEmail" placeholder="이메일">
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-4">
+								<label>회사명</label>
 								<input class="form-control" type="text" id="ncCompany" name="ncCompany" placeholder="회사명"> 
 							</div>
-							<div class="form-group col-md-4">					
+							<div class="form-group col-md-4">	
+								<label>부서명</label>				
 								<input class="form-control" type="text" id="ncDepartment"name="ncDepartment" placeholder="부서명"> 
 							</div>
 							<div class="form-group col-md-4">
+								<label>직책</label>
 								<input class="form-control" type="text" id="ncTitle" name="ncTitle" placeholder="직책">
 							</div>
 						</div>
 						<div class="form-group">
+							<label>웹사이트</label>
 							<input class="form-control" type="text" id="ncWebsite" name="ncWebsite" placeholder="웹사이트">
 						</div>
 						<div class="form-group">
+							<label>주소</label>
 							<input class="form-control" type="text" id="ncAddress" name="ncAddress" placeholder="주소">
 						</div>
 						<div class="form-group">
-							<button type="button" id="nameCardSubmit" class="btn btn-accent">등록</button>
-							<button type="button" id="nameCardCancel" class="btn btn-accent">취소</button>
+							<button type="button" id="nameCardCancel" class="btn btn-default">취소</button>
+							<button type="button" id="nameCardSubmit" class="btn btn-primary">등록</button>
 						</div>
 					</div>
 				</div>	
