@@ -657,6 +657,7 @@
 		printHtml += '</tr>';
 		printHtml += '<tbody id="joinedProjectMemberTbody">';
 		$('#joinedProjectMember').html(printHtml);
+		console.log(userArray);
 		printHtml = "";		
 		for (let j = 0; j < userArray.length; j++) {
 				printHtml += '<tr>';			

@@ -129,13 +129,13 @@ public class ProjectController {
 	@RequestMapping(value = "/getProjectMemeber", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> getProjectMemeber(String projectSeq){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
-		System.out.println(projectSeq);
 		int pjSeq = Integer.parseInt(projectSeq);
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		list = um.getProjectMemeber(pjSeq);
 		ArrayList<String> returnList = new ArrayList<>();
 		for (HashMap<String, Object> temp : list) {
-			returnList.add((String) temp.get("userID"));
+//			returnList.add((String) temp.get("userID"));//for maria
+			returnList.add((String) temp.get("USERID"));//for oracle
 		}
 		return returnList;
 	}
