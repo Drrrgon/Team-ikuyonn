@@ -534,7 +534,6 @@
 		var userID = "${sessionScope.userID}"
 		var pjSeq = $(this).attr('data-seq');
 		var flag = checkProjectMaster(userID, pjSeq);
-		console.log(pjSeq);
 		var userList;
 		var userListProfile = [];
 		$.ajax({
@@ -548,7 +547,6 @@
 				userList = list;
 			}
 		});
-		console.log(userList);
 		for (let i = 0; i < userList.length; i++) {
 			$.ajax({
 				url: 'getUserProfile',
@@ -603,17 +601,16 @@
 	}
 	function printAddProjectMemeberPlace(seq){
 		var pjSeq = seq;
-		var emailCheck = 1;
+		var userID = "${sessionScope.userID}"
 		var userArray;
 			$.ajax({
-				url : 'getMember',
+				url : 'getNotJoinedProjectID',
 				async: false,
 				data : {
-					'emailCheck' : emailCheck
+					'projectSeq' : pjSeq, 'userID': userID
 				},
 				type : 'post',
 				success : function(data){
-					// ncName
 					userArray = data;
 				},
 				error : function(){
@@ -639,7 +636,7 @@
 				url: 'getUserProfile',
 				type: 'post',
 				data: {
-					'userID':userArray[i].userID
+					'userID':userArray[i]
 				},
 				async: false,
 				success: function(path){
@@ -659,7 +656,7 @@
 		printHtml += '<tbody id="joinedProjectMemberTbody">';
 		$('#joinedProjectMember').html(printHtml);
 		userNameArr = [];
-		console.log(userArray);
+		console.log(userArray[0]);
 		printHtml = "";		
 		for (let j = 0; j < userArray.length; j++) {
 			$.ajax({
@@ -667,21 +664,22 @@
 				type: 'post',
 				async: false,
 				data: {
-					'userID':userArray[j].hUserID 
+					'userID':userArray[j] 	
 				},
 				success: function(data){
 					userNameArr.push(data);
 				}
 			});
+			console.log(userNameArr);
 				printHtml += '<tr>';			
 				printHtml += '<td width="10px">';
-				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userNameArr[j]+'"  width="30px" height="30px">';
+				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
 				printHtml += '</td>';
 				printHtml += '<td width="160px">';
-				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j].hUserID+')';
+				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j]+')';
 				printHtml += '</td>';
 				printHtml += '<td>';
-				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j].userID+'"> 추가</button>';
+				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j]+'"> 추가</button>';
 				printHtml += '</td>';
 				printHtml += '</tr>';
 		}

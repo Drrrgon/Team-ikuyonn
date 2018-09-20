@@ -163,4 +163,26 @@ public class ProjectController {
 		String re = um.checkProjectMaster(map);
 		return re;
 	}
+	
+	@RequestMapping(value = "/getNotJoinedProjectID", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String> getNotJoinedProjectID(String projectSeq, String userID){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		System.out.println(projectSeq);
+		System.out.println(userID);
+		int pjSeq = Integer.parseInt(projectSeq);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("projectSeq", pjSeq);
+		String re = um.checkProjectMaster(map);
+		System.out.println(re);
+		ArrayList<String> list = null;
+		if(re.equals(userID)) {
+			map.put("userID",userID);
+			System.out.println(map);
+			list = um.getNotJoinedProjectID(map);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
 }

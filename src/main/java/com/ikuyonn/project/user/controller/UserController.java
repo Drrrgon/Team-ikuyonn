@@ -76,10 +76,11 @@ public class UserController {
 		return 0+"";
 	}
 	
-	@RequestMapping(value = "/getUserNameByID", method = RequestMethod.POST)
+	@RequestMapping(value = "/getUserNameByID", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	public @ResponseBody String getUserNameByID(User u){
 		UserMapper um = session.getMapper(UserMapper.class);
-		User ur = um.loginUser(u);		
+		User ur = um.loginUser(u);
+		System.out.println(ur.getUserName());
 		return ur.getUserName();
 	}
 	

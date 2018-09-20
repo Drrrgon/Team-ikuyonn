@@ -36,6 +36,8 @@ public interface ProjectMapper {
 
 	public String checkProjectMaster(HashMap<String, Object> map);
 
+	public ArrayList<String> getNotJoinedProjectID(HashMap<String, Object> map);
+
 	/*이민석추가*/
 	
 }
