@@ -76,6 +76,13 @@ public class UserController {
 		return 0+"";
 	}
 	
+	@RequestMapping(value = "/getUserNameByID", method = RequestMethod.POST)
+	public @ResponseBody String getUserNameByID(User u){
+		UserMapper um = session.getMapper(UserMapper.class);
+		User ur = um.loginUser(u);		
+		return ur.getUserName();
+	}
+	
 	@RequestMapping(value = "/userIDCheck", method = RequestMethod.POST)
 	public @ResponseBody String userIDCheck(User u){
 		UserMapper um = session.getMapper(UserMapper.class);

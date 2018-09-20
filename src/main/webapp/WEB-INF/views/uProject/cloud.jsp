@@ -657,15 +657,27 @@
 		printHtml += '</tr>';
 		printHtml += '<tbody id="joinedProjectMemberTbody">';
 		$('#joinedProjectMember').html(printHtml);
+		userNameArr = [];
 		console.log(userArray);
 		printHtml = "";		
 		for (let j = 0; j < userArray.length; j++) {
+			$.ajax({
+				url: 'getUserNameByID',
+				type: 'post',
+				async: false,
+				data: {
+					'userID':userArray[j].hUserID 
+				},
+				success: function(data){
+					userNameArr.push(data);
+				}
+			});
 				printHtml += '<tr>';			
 				printHtml += '<td width="10px">';
-				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
+				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userNameArr[j]+'"  width="30px" height="30px">';
 				printHtml += '</td>';
 				printHtml += '<td width="160px">';
-				printHtml += '이름 :'+userListProfile[j][0]+'('+userArray[j].userID+')';
+				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j].hUserID+')';
 				printHtml += '</td>';
 				printHtml += '<td>';
 				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j].userID+'"> 추가</button>';
