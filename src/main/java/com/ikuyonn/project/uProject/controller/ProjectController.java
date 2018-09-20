@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.Project;
+import com.ikuyonn.project.mail.vo.email;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.uProject.mapper.ProjectMapper;
 
@@ -92,6 +93,7 @@ public class ProjectController {
 		pro.setDue("기간 미정");
 		int re = um.createProject(pro);
 		userMap.put("projectSeq", pro.getProjectSeq());
+		System.out.println(userMap);
 		
 		/*이민석 추가*/
 		System.out.println("emails[0] : " + emails[0]);
@@ -134,8 +136,8 @@ public class ProjectController {
 		list = um.getProjectMemeber(pjSeq);
 		ArrayList<String> returnList = new ArrayList<>();
 		for (HashMap<String, Object> temp : list) {
-//			returnList.add((String) temp.get("userID"));//for maria
-			returnList.add((String) temp.get("USERID"));//for oracle
+			returnList.add((String) temp.get("userID"));//for maria
+//			returnList.add((String) temp.get("USERID"));//for oracle
 		}
 		return returnList;
 	}
@@ -167,22 +169,46 @@ public class ProjectController {
 	@RequestMapping(value = "/getNotJoinedProjectID", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> getNotJoinedProjectID(String projectSeq, String userID){
 		ProjectMapper um = session.getMapper(ProjectMapper.class);
-		System.out.println(projectSeq);
-		System.out.println(userID);
 		int pjSeq = Integer.parseInt(projectSeq);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("projectSeq", pjSeq);
 		String re = um.checkProjectMaster(map);
-		System.out.println(re);
 		ArrayList<String> list = null;
 		if(re.equals(userID)) {
 			map.put("userID",userID);
-			System.out.println(map);
 			list = um.getNotJoinedProjectID(map);
 		}
-		System.out.println(list);
+		return list;
+	}
+	@RequestMapping(value = "/getEmailAddress", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String> getEamilAddress(String userID){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		MailMapper mailMapper = session.getMapper(MailMapper.class);
+		ArrayList<email> tempMail = mailMapper.mailList(userID);
+		ArrayList<String> list = new ArrayList<>();
+		for(email each : tempMail) {
+			list.add(each.getEmailAddress());
+		}
 		return list;
 	}
 	
-	
+	@RequestMapping(value = "/joinProject", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String> joinProject(String email, String projectSeq){
+		ProjectMapper um = session.getMapper(ProjectMapper.class);
+		MailMapper mailMapper = session.getMapper(MailMapper.class);
+		int projectSeqC = Integer.parseInt(projectSeq);
+		HashMap<String, Object> parameters = new HashMap<>();	
+		parameters.put("userID", mailMapper.selectUserID(email));
+		parameters.put("projectSeq",projectSeqC);
+		parameters.put("status",0);
+		System.out.println("userid : "+parameters.get("userID")+" projectSEQ : "+parameters.get("projectSEQ"));
+		int res = um.joinProject(parameters);
+		HashMap <String, Object> userMap = new HashMap<String, Object>();
+		
+		userMap = um.getCountOfProjectMember(projectSeqC);
+		userMap.put("projectSeq", projectSeqC);
+		um.updateCountOfProjectMember(userMap);
+		
+		return null;
+	}
 }
