@@ -53,6 +53,19 @@
 #addBtn{
 text-align:center;
 }
+#mailList{
+	margin-top:2%;
+}
+#mailList > li{
+	margin:1%;
+	padding-left:o;
+}
+#add{
+	padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
 </style>
 </head>
 <body class="h-100">
@@ -106,7 +119,7 @@ text-align:center;
 										</div>
 									</div>
 									<div>
-										<div>등록된 이메일&emsp;&emsp;<button type='button' class = 'btn btn-accent' id ='add'>메일 등록</button></div>
+										<div>등록된 이메일&emsp;<button type='button' class = 'btn btn-primary' id ='add'>추가</button></div>
 										<ul id="mailList">
 										</ul>
 										<br />

@@ -30,6 +30,7 @@
     padding: 2%;
     margin-top: 1%;
 }
+
 </style>
 <!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
@@ -158,14 +159,14 @@
 		<!-- <select name='color1' id='color1'></select>색깔 지정&nbsp;<br> -->
 
 		<label>시작</label><input type="hidden" id="insertStartDate" name="insertStartDate"/>
-    	<select name='insertStartYear' id='insertStartYear' onChange='setDate()'></select>년&nbsp;
-    	<select name='insertStartMonth' id='insertStartMonth' onChange='setDate()'></select>월&nbsp;
+    	<select name='insertStartYear' id='insertStartYear' onChange='setDate1()'></select>년&nbsp;
+    	<select name='insertStartMonth' id='insertStartMonth' onChange='setDate1()'></select>월&nbsp;
     	<select name='insertStartDay' id='insertStartDay'></select>일&nbsp;
 		<select name='insertStartHour' id='insertStartHour'></select>시&nbsp;
 		<select name='insertStartMinute' id='insertStartMinute'></select>분&nbsp;<br>
 		<label>마감</label><input type="hidden" id="insertEndDate" name="insertEndDate"/>
-    	<select name='insertEndYear' id='insertEndYear' onChange='setDate()'></select>년&nbsp;
-    	<select name='insertEndMonth' id='insertEndMonth' onChange='setDate()'></select>월&nbsp;
+    	<select name='insertEndYear' id='insertEndYear' onChange='setDate2()'></select>년&nbsp;
+    	<select name='insertEndMonth' id='insertEndMonth' onChange='setDate2()'></select>월&nbsp;
     	<select name='insertEndDay' id='insertEndDay'></select>일&nbsp;
 		<select name='insertEndHour' id='insertEndHour'></select>시&nbsp;
 		<select name='insertEndMinute' id='insertEndMinute'></select>분&nbsp;<br>
@@ -181,14 +182,14 @@
     <label>제목</label><input type="text" id="updateSummary" name="updateSummary" class='form-control'/><br/>
 	<label>내용</label><input type="text" id="updateDescription" name="updateDescription" class='form-control'/><br>
 	<label>시작</label><input type="hidden" id="updateStartDate" name="updateStartDate"/>
-	<select name="updateStartYear" id="updateStartYear" onChange="setDate()"></select>년&nbsp;
-	<select name="updateStartMonth" id="updateStartMonth" onChange="setDate()"></select>월&nbsp;
+	<select name="updateStartYear" id="updateStartYear" onChange="setDate3()"></select>년&nbsp;
+	<select name="updateStartMonth" id="updateStartMonth" onChange="setDate3()"></select>월&nbsp;
 	<select name="updateStartDay" id="updateStartDay"></select>일&nbsp;
 	<select name="updateStartHour" id="updateStartHour"></select>시&nbsp;
 	<select name="updateStartMinute" id="updateStartMinute"></select>분&nbsp;<br/>
 	<label>마감</label><input type="hidden" id="updateEndDate" name="updateEndDate" value=""/>
-	<select name="updateEndYear" id="updateEndYear" onChange="setDate()"></select>년&nbsp;
-	<select name="updateEndMonth" id="updateEndMonth" onChange="setDate()"></select>월&nbsp;
+	<select name="updateEndYear" id="updateEndYear" onChange="setDate4()"></select>년&nbsp;
+	<select name="updateEndMonth" id="updateEndMonth" onChange="setDate4()"></select>월&nbsp;
 	<select name="updateEndDay" id="updateEndDay"></select>일&nbsp;
 	<select name="updateEndHour" id="updateEndHour"></select>시&nbsp;
 	<select name="updateEndMinute" id="updateEndMinute"></select>분&nbsp;<br>
@@ -533,7 +534,6 @@
 		var userID = "${sessionScope.userID}"
 		var pjSeq = $(this).attr('data-seq');
 		var flag = checkProjectMaster(userID, pjSeq);
-		console.log(pjSeq);
 		var userList;
 		var userListProfile = [];
 		$.ajax({
@@ -547,7 +547,6 @@
 				userList = list;
 			}
 		});
-		console.log(userList);
 		for (let i = 0; i < userList.length; i++) {
 			$.ajax({
 				url: 'getUserProfile',
@@ -602,17 +601,16 @@
 	}
 	function printAddProjectMemeberPlace(seq){
 		var pjSeq = seq;
-		var emailCheck = 1;
+		var userID = "${sessionScope.userID}"
 		var userArray;
 			$.ajax({
-				url : 'getMember',
+				url : 'getNotJoinedProjectID',
 				async: false,
 				data : {
-					'emailCheck' : emailCheck
+					'projectSeq' : pjSeq, 'userID': userID
 				},
 				type : 'post',
 				success : function(data){
-					// ncName
 					userArray = data;
 				},
 				error : function(){
@@ -638,7 +636,7 @@
 				url: 'getUserProfile',
 				type: 'post',
 				data: {
-					'userID':userArray[i].userID
+					'userID':userArray[i]
 				},
 				async: false,
 				success: function(path){
@@ -657,17 +655,31 @@
 		printHtml += '</tr>';
 		printHtml += '<tbody id="joinedProjectMemberTbody">';
 		$('#joinedProjectMember').html(printHtml);
+		userNameArr = [];
+		console.log(userArray[0]);
 		printHtml = "";		
 		for (let j = 0; j < userArray.length; j++) {
+			$.ajax({
+				url: 'getUserNameByID',
+				type: 'post',
+				async: false,
+				data: {
+					'userID':userArray[j] 	
+				},
+				success: function(data){
+					userNameArr.push(data);
+				}
+			});
+			console.log(userNameArr);
 				printHtml += '<tr>';			
 				printHtml += '<td width="10px">';
 				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
 				printHtml += '</td>';
 				printHtml += '<td width="160px">';
-				printHtml += '이름 :'+userListProfile[j][0]+'('+userArray[j].userID+')';
+				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j]+')';
 				printHtml += '</td>';
 				printHtml += '<td>';
-				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j].userID+'"> 추가</button>';
+				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j]+'"> 추가</button>';
 				printHtml += '</td>';
 				printHtml += '</tr>';
 		}
@@ -1113,62 +1125,15 @@
 							    insertForm['insertEndYear'].value = year;
 							    insertForm['insertStartMonth'].value = month;
 							    insertForm['insertEndMonth'].value = month;
-							    setDate();
+							    setDate1();
 							    insertForm['insertStartDay'].value = day;
-							    setDate();
+							    setDate2();
 							    insertForm['insertEndDay'].value = day;
 							    insertForm['insertStartHour'].value = hour;
 							    insertForm['insertEndHour'].value = hour;
 							    insertForm['insertStartMinute'].value = minute;
 							    insertForm['insertEndMinute'].value = minute;
 
-				 		function setDate() {
-							var insertForm = document.getElementById('insertForm');
-
-							var year = insertForm['insertStartYear'].value;
-						    var month = insertForm['insertStartMonth'].value;
-						    var day = insertForm['insertStartDay'].value;
-						    var dayInsertStart = insertForm['insertStartDay'];
-						    var dayInsertEnd = insertForm['insertEndDay'];
-
-						    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-
-						    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-						        arrayMonth[1] = 29;
-						    }
-
-						    for(var i = dayInsertStart.length; i>0; i--) {
-						    	dayInsertStart.remove(dayInsertStart.selectedIndex);
-						    }
-
-						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-						    	dayInsertStart.options[i-1] = new Option(i, i);
-						    }
-
-						    if(day != null || day != '') {
-						        if(day > arrayMonth[month-1]) {
-						        	dayInsertStart.options.selectedIndex = arrayMonth[month-1]-1;
-						        } else {
-						        	dayInsertStart.options.selectedIndex = day-1;
-						        }
-						    }
-
-						    for(var i = dayInsertEnd.length; i>0; i--) {
-						    	dayInsertEnd.remove(dayInsertEnd.selectedIndex);
-						    }
-
-						    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-						    	dayInsertEnd.options[i-1] = new Option(i, i);
-						    }
-
-						    if(day != null || day != '') {
-						        if(day > arrayMonth[month-1]) {
-						        	dayInsertEnd.options.selectedIndex = arrayMonth[month-1]-1;
-						        } else {
-						        	dayInsertEnd.options.selectedIndex = day-1;
-						        }
-						    }
-					}
 					},
 					eventClick : function(event, jsEvent, view){
 						var eventSeq = event.num;
@@ -1227,70 +1192,22 @@
 									 eventDetail['updateEndMinute'].options[i] = new Option(i, i);
 								}
 
-								setDate0();
+								setDate3();
 								eventDetail['updateStartYear'].value = updateStartYear;
-								setDate0();
+								setDate4();
 								eventDetail['updateEndYear'].value = updateEndYear;
-								setDate0();
+								setDate3();
 								eventDetail['updateStartMonth'].value = updateStartMonth;
-								setDate0();
+								setDate4();
 								eventDetail['updateEndMonth'].value = updateEndMonth;
-								setDate0();
+								setDate3();
 								eventDetail['updateStartDay'].value = updateStartDay;
-								setDate0();
+								setDate4();
 								eventDetail['updateEndDay'].value = updateEndDay;
 								eventDetail['updateStartHour'].value = updateStartHour;
 								eventDetail['updateEndHour'].value = updateEndHour;
 								eventDetail['updateStartMinute'].value = updateStartMinute;
 								eventDetail['updateEndMinute'].value = updateEndMinute;
-
-								function setDate0() {
-									var eventDetail = document.getElementById('eventDetail');
-
-									var year = eventDetail['updateStartYear'].value;
-									var month = eventDetail['updateStartMonth'].value;
-									var day = eventDetail['updateStartDay'].value;
-									var dayUpdateStart = eventDetail['updateStartDay'];
-									var dayUpdateEnd = eventDetail['updateEndDay'];
-
-									var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-
-									if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-									   arrayMonth[1] = 29;
-									}
-
-									for(var i = dayUpdateStart.length; i>0; i--) {
-								    	dayUpdateStart.remove(dayUpdateStart.selectedIndex);
-								    }
-
-								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-								    	dayUpdateStart.options[i-1] = new Option(i, i);
-								    }
-
-								    if(day != null || day != '') {
-								        if(day > arrayMonth[month-1]) {
-								        	dayUpdateStart.options.selectedIndex = arrayMonth[month-1]-1;
-								        } else {
-								        	dayUpdateStart.options.selectedIndex = day-1;
-								        }
-								    }
-
-								    for(var i = dayUpdateEnd.length; i>0; i--) {
-								    	dayUpdateEnd.remove(dayUpdateEnd.selectedIndex);
-								    }
-
-								    for (var i = 1; i<=arrayMonth[month-1]; i++) {
-								    	dayUpdateEnd.options[i-1] = new Option(i, i);
-								    }
-
-								    if(day != null || day != '') {
-								        if(day > arrayMonth[month-1]) {
-								        	dayUpdateEnd.options.selectedIndex = arrayMonth[month-1]-1;
-								        } else {
-								        	dayUpdateEnd.options.selectedIndex = day-1;
-								        }
-								    }
-								}
 
 							},
 							error : function() {
@@ -1422,6 +1339,132 @@
 				}
 			});
 		}
+	
+	function setDate1() {
+		var insertForm = document.getElementById('insertForm');
+
+		var year = insertForm['insertStartYear'].value;
+	    var month = insertForm['insertStartMonth'].value;
+	    var day = insertForm['insertStartDay'].value;
+	    var dayInsertStart = insertForm['insertStartDay'];
+
+	    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+	    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+	        arrayMonth[1] = 29;
+	    }
+
+	    for(var i = dayInsertStart.length; i>0; i--) {
+	    	dayInsertStart.remove(dayInsertStart.selectedIndex);
+	    }
+
+	    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+	    	dayInsertStart.options[i-1] = new Option(i, i);
+	    }
+
+	    if(day != null || day != '') {
+	        if(day > arrayMonth[month-1]) {
+	        	dayInsertStart.options.selectedIndex = arrayMonth[month-1]-1;
+	        } else {
+	        	dayInsertStart.options.selectedIndex = day-1;
+	        }
+	    }
+
+}
+	
+	function setDate2() {
+		var insertForm = document.getElementById('insertForm');
+
+		var year = insertForm['insertStartYear'].value;
+	    var month = insertForm['insertStartMonth'].value;
+	    var day = insertForm['insertStartDay'].value;
+	    var dayInsertEnd = insertForm['insertEndDay'];
+
+	    var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+	    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+	        arrayMonth[1] = 29;
+	    }
+
+	    for(var i = dayInsertEnd.length; i>0; i--) {
+	    	dayInsertEnd.remove(dayInsertEnd.selectedIndex);
+	    }
+
+	    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+	    	dayInsertEnd.options[i-1] = new Option(i, i);
+	    }
+
+	    if(day != null || day != '') {
+	        if(day > arrayMonth[month-1]) {
+	        	dayInsertEnd.options.selectedIndex = arrayMonth[month-1]-1;
+	        } else {
+	        	dayInsertEnd.options.selectedIndex = day-1;
+	        }
+	    }
+}
+	
+	function setDate3() {
+		var eventDetail = document.getElementById('eventDetail');
+
+		var year = eventDetail['updateStartYear'].value;
+		var month = eventDetail['updateStartMonth'].value;
+		var day = eventDetail['updateStartDay'].value;
+		var dayUpdateStart = eventDetail['updateStartDay'];
+
+		var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		   arrayMonth[1] = 29;
+		}
+
+		for(var i = dayUpdateStart.length; i>0; i--) {
+	    	dayUpdateStart.remove(dayUpdateStart.selectedIndex);
+	    }
+
+	    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+	    	dayUpdateStart.options[i-1] = new Option(i, i);
+	    }
+
+	    if(day != null || day != '') {
+	        if(day > arrayMonth[month-1]) {
+	        	dayUpdateStart.options.selectedIndex = arrayMonth[month-1]-1;
+	        } else {
+	        	dayUpdateStart.options.selectedIndex = day-1;
+	        }
+	    }
+	    
+	}
+	
+	function setDate4() {
+		var eventDetail = document.getElementById('eventDetail');
+
+		var year = eventDetail['updateEndYear'].value;
+		var month = eventDetail['updateEndMonth'].value;
+		var day = eventDetail['updateEndDay'].value;
+		var dayUpdateEnd = eventDetail['updateEndDay'];
+
+		var arrayMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+	    
+	    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+			   arrayMonth[1] = 29;
+			}
+
+	    for(var i = dayUpdateEnd.length; i>0; i--) {
+	    	dayUpdateEnd.remove(dayUpdateEnd.selectedIndex);
+	    }
+
+	    for (var i = 1; i<=arrayMonth[month-1]; i++) {
+	    	dayUpdateEnd.options[i-1] = new Option(i, i);
+	    }
+
+	    if(day != null || day != '') {
+	        if(day > arrayMonth[month-1]) {
+	        	dayUpdateEnd.options.selectedIndex = arrayMonth[month-1]-1;
+	        } else {
+	        	dayUpdateEnd.options.selectedIndex = day-1;
+	        }
+	    }
+	}
 	</script>
 
 </html>

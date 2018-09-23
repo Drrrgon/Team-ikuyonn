@@ -109,4 +109,11 @@
 	<select id="checkProjectMaster" parameterType="map" resultType="string">
 		SELECT projectMaster FROM project WHERE projectSeq = #{projectSeq}
 	</select>
+	
+	<select id="getNotJoinedProjectID" parameterType="map" resultType="string">
+		select hUserID from nameCard where hUserID not in 
+			(select hUserID from nameCard where hUserID in 
+			(select hUserID from nameCard where emailcheck = 1 and userID = #{userID} ) 
+			and hUserID in (select userID from joinProject where projectSeq = #{projectSeq}))
+	</select>
 </mapper>
