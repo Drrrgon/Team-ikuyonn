@@ -35,6 +35,7 @@ import com.google.protobuf.ByteString;
 import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.nameCard.vo.NameCard;
 import com.ikuyonn.project.pagenavi.PageNavigator;
+import com.ikuyonn.project.util.Auth;
 
 @Controller
 public class NameCardController {
