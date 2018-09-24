@@ -40,4 +40,17 @@
   		<websocket:sockjs />
  	</websocket:handlers>
  <!-- <mvc:default-servlet-handler /> -->
+ 	<beans:bean id="loginCheck" class="com.ikuyonn.project.controller.Interceptor"/>
+ 	<interceptors>
+ 		<interceptor>
+ 			<mapping path="/nameCardList"/>
+ 			<mapping path="/userprofilelite"/>
+ 			<mapping path="/schedule"/>
+ 			<mapping path="/writeMail"/>
+ 			<mapping path="/cloud"/>
+ 			
+ 			<beans:ref bean="loginCheck"/>
+ 		</interceptor>
+ 	</interceptors>
+ 
 </beans:beans>
