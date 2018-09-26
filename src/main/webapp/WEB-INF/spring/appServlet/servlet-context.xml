@@ -40,4 +40,5 @@
   		<websocket:sockjs />
  	</websocket:handlers>
  <!-- <mvc:default-servlet-handler /> -->
+ 
 </beans:beans>
