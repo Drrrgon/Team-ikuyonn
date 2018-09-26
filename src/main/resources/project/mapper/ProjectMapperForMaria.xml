@@ -89,7 +89,7 @@
 	
 	<update id="updateCountOfProjectMember" parameterType="map">
 		UPDATE project
-		SET memberNum = #{MEMBERNUM}
+		SET memberNum = #{memberNum}
 		WHERE projectSeq = #{projectSeq}
 	</update>
 	

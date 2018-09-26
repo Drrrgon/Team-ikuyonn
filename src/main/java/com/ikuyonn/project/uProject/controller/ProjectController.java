@@ -87,13 +87,17 @@ public class ProjectController {
 		HashMap <String, Object> userMap = new HashMap<String, Object>();
 		userMap.put("userID", u.getUserID());
 		userMap.put("projectName", projectName);
+		System.out.println(due);
 		if(due.contains("-")) {
 			pro.setDue(due);
+			int re = um.createProject(pro);
 		}
-		pro.setDue("기간 미정");
-		int re = um.createProject(pro);
+		else {
+			pro.setDue("기간 미정");
+			int re = um.createProject(pro);
+		}
+		
 		userMap.put("projectSeq", pro.getProjectSeq());
-		System.out.println(userMap);
 		
 		/*이민석 추가*/
 		System.out.println("emails[0] : " + emails[0]);

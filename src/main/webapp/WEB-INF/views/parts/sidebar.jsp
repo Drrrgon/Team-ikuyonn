@@ -114,7 +114,7 @@
 						</div> -->
 					</form>
 					<ul class="navbar-nav border-left flex-row ">
-						<li class="nav-item border-right dropdown notifications">
+						<!-- <li class="nav-item border-right dropdown notifications">
 							<a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<div class="nav-link-icon__wrapper">
 									<i class="material-icons">&#xE7F4;</i> 
@@ -154,7 +154,7 @@
 									View all Notifications 
 								</a>
 							</div>
-						</li>
+						</li> -->
 
 						<!-- 드롭다운메뉴 로그아웃 회원정보 수정 등 -->
 						<li class="nav-item dropdown">
@@ -182,7 +182,7 @@
 									회원정보
 								</a> -->
 								<a class="dropdown-item text-danger" href="logoutUser"> 
-									<i lass="material-icons text-danger">&#xE879;</i> 
+									<i class="material-icons text-danger">&#xE879;</i> 
 									Logout
 								</a>
 							</div>

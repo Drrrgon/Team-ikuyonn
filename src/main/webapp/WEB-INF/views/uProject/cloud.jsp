@@ -802,8 +802,10 @@
 					initAllProjectList();
 					// print
 					printAllProjectList(allProjectList);
+					getJoinedProject();
 				}
 			});
+			
 		}
 	};
 	
