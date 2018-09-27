@@ -301,6 +301,12 @@
 			var backgroundUrl = imgPt.exec($('.leftNameCard').css('background'));		
 			var nameCardUrl = './'+backgroundUrl;
 			
+			
+			if(ncEmail == ''){
+					alert('이메일을 입력해 주세요.');
+					return;
+			}
+			
 			//수정시
 			if('${nameCard}' != ''){
 				$.ajax({
