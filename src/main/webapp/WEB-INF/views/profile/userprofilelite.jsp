@@ -158,7 +158,7 @@ text-align:center;
 							</div>
 							</div>
 							<div style="text-align: center;">
-								<input type="submit" class="btn btn-primary" id="userUpdateButton" value="회원정보 수정" onclick="return updateForm()" style="width:123px;">
+								<button type="submit" class="btn btn-primary" id="userUpdateButton" onclick="return updateForm()" style="width:123px;">회원정보 수정</button>
 								<a href="deleteUser?userID=${sessionScope.userID}">
 									<button id="userDeleteButton" class="btn btn-default" style="width: 123px;">회원탈퇴</button>
 								</a>
@@ -463,11 +463,6 @@ text-align:center;
 	}
 
 	function updateForm() {
-		var userBirth = $('#userBirth').val('');
-		var birthYear = $('#birthYear').val();
-		var birthMonth = $('#birthMonth').val();
-		var birthDay = $('#birthDay').val();
-
 		if ($('#userPhone').val() == "") {
 			alert("전화번호를 입력하지 않았습니다.");
 			return false;
@@ -476,9 +471,15 @@ text-align:center;
 			alert('전화번호 입력이 잘못되었습니다!');
 			return false;
 		}
+		
+		var userBirth = $('#userBirth').val('');
+		var birthYear = $('#birthYear').val();
+		var birthMonth = $('#birthMonth').val();
+		var birthDay = $('#birthDay').val();
 
 		userBirth = new Date(birthYear, birthMonth - 1, birthDay);
 		$("#userBirth").val(userBirth);
+		$('#updateForm').submit();
 	}
 
 	function setDate() {
