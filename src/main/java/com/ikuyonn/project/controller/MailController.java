@@ -2,13 +2,8 @@ package com.ikuyonn.project.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -23,16 +18,12 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Store;
 import javax.mail.Transport;
-import javax.mail.UIDFolder;
-import javax.mail.URLName;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,7 +32,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.interceptor.CacheOperationInvoker.ThrowableWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +43,6 @@ import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.email;
 import com.ikuyonn.project.mail.vo.inbox;
 import com.ikuyonn.project.socket.vo.User;
-import com.sun.mail.pop3.POP3SSLStore;
 
 /**
  * Handles requests for the application home page.
@@ -142,7 +131,7 @@ public class MailController {
 		final String content = request.getParameter("content") == null ? "" : request.getParameter("content");
 		UUID uuid = UUID.randomUUID();
 		String saveFileName = uuid+"_"+file.getOriginalFilename();
-		File file2 = new File("c:\\\\upload_temp\\\\",saveFileName);
+		File file2 = new File("/var/lib/tomcat8/ikuyonn",saveFileName);
 		if(!file2.exists()) {
 			   file2.mkdirs();
 			}
@@ -246,7 +235,6 @@ public class MailController {
 		try {
 			mailagent.open();
 			Folder folder = mailagent.getFolder("inbox");
-			String filePath = "c:/inbox/";
 			msg = mailagent.getMessage();
 			for (Message m : msg) {
 				String content = "";

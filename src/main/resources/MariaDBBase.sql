@@ -41,7 +41,7 @@ insert into email values('ikuyong02@gmail.com','ikuyong02@gmail.com','aaa','imap
 insert into email values('ikuyong03@gmail.com','ikuyong03@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','qwer');
 insert into email values('ikuyong04@gmail.com','ikuyong04@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','1234');
 
-CREATE TABLE `ikuyonn`.`inbox` ( `msgNum` VARCHAR(20) NULL , `emailAddress` VARCHAR(100) NULL , `title` VARCHAR(300) NOT NULL , `content` TEXT NOT NULL , `sentdate` VARCHAR(40) NOT NULL , `sentaddress` VARCHAR(200) NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+CREATE TABLE `ikuyonn`.`inbox` ( `msgNum` VARCHAR(20) NULL , `emailAddress` VARCHAR(100) NULL , `title` VARCHAR(300) NOT NULL , `content` LONGTEXT NOT NULL , `sentdate` VARCHAR(40) NOT NULL , `sentaddress` VARCHAR(200) NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
 CREATE TABLE `ikuyonn`.`project` ( `projectSeq` INT NOT NULL AUTO_INCREMENT , `projectMaster` VARCHAR(40) NOT NULL , `projectName` VARCHAR(200) NULL , `due` VARCHAR(100) NULL DEFAULT '------' , `memberNum` INT NULL , `color` VARCHAR(20) NULL , PRIMARY KEY (`projectSeq`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
@@ -83,7 +83,6 @@ INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,
 --회원
 INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','신용하','ikuyong03@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','1');
 INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','이상운','ikuyong04@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');             
---INSERT INTO NAMECARD(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','강수빈','ikuyong02@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','0');        
 CREATE TABLE `ikuyonn`.`projectEvent` ( `projectSeq` INT NOT NULL , `eventSeq` INT NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;

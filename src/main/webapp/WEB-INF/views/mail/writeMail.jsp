@@ -368,18 +368,7 @@ dd.hidden {
 						$("input[type=checkbox]").prop("checked",false);
 					}
 				});
-				$(".paginate_button").click(function(){
-					alert('1');
-					$("input[type=checkbox]").prop("checked",false);
-				});
-				/* $('input:checkbox[name=mailCheck]').change(function(){
-					var aa=document.getElementsByName("mailCheck");
-					for(var i in aa){
-						if(aa[i].checked){
-							alert(aa[i].value);
-						}
-					}
-				}); */
+				
 				},
 			error : function() {
 				alert("통신실패");
