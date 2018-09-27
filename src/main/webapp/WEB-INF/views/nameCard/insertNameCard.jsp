@@ -272,6 +272,11 @@
 			var backgroundUrl = imgPt.exec($('.leftNameCard').css('background'));		
 			var nameCardUrl = './'+backgroundUrl;
 			
+			if(ncEmail == ''){
+				alert('이메일을 입력해 주세요.');
+				return;
+			}
+			
 			//유효성 이메일
 			$.ajax({
 				url : "selectNameCard",
