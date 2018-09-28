@@ -36,7 +36,7 @@ delete from inbox
 </delete>
 
 <select id = "getInbox"  parameterType ="Inbox" resultType = "Inbox">
-select emailAddress,(ROW_NUMBER() OVER (ORDER BY CAST(msgNum as unsigned) asc)) msgNum,title,content,sentdate,sentaddress from inbox where emailAddress = #{emailAddress} order by CAST(msgnum as unsigned) desc
+select emailAddress,(ROW_NUMBER() OVER (ORDER BY CAST(msgNum as unsigned) asc)) AS msgNum,title,content,sentdate,sentaddress from inbox where emailAddress = #{emailAddress} order by CAST(msgNum as unsigned) desc
 </select> 
 
 <select id = "getMail" parameterType = "Inbox" resultType = "Inbox">

@@ -31,7 +31,7 @@
 	</update>
 	
 	<delete id="deleteUser" parameterType="User">
-		delete userTable where userID = #{userID}
+		delete from userTable where userID = #{userID}
 	</delete>
 	
 </mapper>

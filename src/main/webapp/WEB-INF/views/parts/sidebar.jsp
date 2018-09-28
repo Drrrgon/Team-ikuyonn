@@ -142,7 +142,7 @@
 									회원정보
 								</a> -->
 								<a class="dropdown-item text-danger" href="logoutUser"> 
-									<i lass="material-icons text-danger">&#xE879;</i> 
+									<i class="material-icons text-danger">&#xE879;</i> 
 									Logout
 								</a>
 							</div>
