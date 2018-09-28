@@ -246,8 +246,6 @@ dd.hidden {
 	<br />
 	<br />
 	<script src="./resources/mail/index.js"></script>
-
-
 	<script src="./resources/mail/jquery.dataTables.min.js"></script>
 
 	<!-- footer 추가적인 js는 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
@@ -318,7 +316,9 @@ dd.hidden {
 		        $('.wrap-loading').removeClass('display-none');
 		    }
 		    ,complete:function(){
-		        $('.wrap-loading').addClass('display-none');
+				var loadingPage = $('.wrap-loading');
+				
+				loadingPage.classList.add( ' display-none' );
 		    }
 		});
 	}
@@ -511,7 +511,8 @@ dd.hidden {
 			        $('.wrap-loading').removeClass('display-none');
 			    }
 			    ,complete:function(){
-			        $('.wrap-loading').addClass('display-none');
+					var reload = $('.wrap-loading');
+					reload.addClass('display-none');
 			    }
 			});
 		});

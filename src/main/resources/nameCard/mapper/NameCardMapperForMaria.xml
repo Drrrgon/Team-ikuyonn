@@ -131,7 +131,7 @@
 			ncEmail = #{ncEmail} AND userID = #{userID}
 	</update>
 	<select id="selectEmailAddress" parameterType="NameCard" resultType="String">
-		SELECT userID FROM EMAIL WHERE EMAILADDRESS = #{ncEmail}
+		SELECT userID FROM email WHERE emailAddress = #{ncEmail}
 	</select>
 	<select id="getAllNC" parameterType="String" resultType="NameCard">
 		SELECT

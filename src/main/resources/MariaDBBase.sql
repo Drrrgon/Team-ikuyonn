@@ -41,7 +41,7 @@ insert into email values('ikuyong02@gmail.com','ikuyong02@gmail.com','aaa','imap
 insert into email values('ikuyong03@gmail.com','ikuyong03@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','qwer');
 insert into email values('ikuyong04@gmail.com','ikuyong04@gmail.com','aaa','imap.gmail.com','smtp.gmail.com','1234');
 
-CREATE TABLE `ikuyonn`.`inbox` ( `msgNum` VARCHAR(20) NULL , `emailAddress` VARCHAR(100) NULL , `title` VARCHAR(300) NOT NULL , `content` LONGTEXT NOT NULL , `sentdate` VARCHAR(40) NOT NULL , `sentaddress` VARCHAR(200) NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+CREATE TABLE `ikuyonn`.`inbox` ( `msgNum` VARCHAR(20) NULL , `emailAddress` VARCHAR(100) NULL , `title` BLOB NOT NULL , `content` LONGBLOB NOT NULL , `sentdate` VARCHAR(40) NOT NULL , `sentaddress` VARCHAR(200) NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 ALTER TABLE inbox ADD CONSTRAINT fk_inbox_emailAddress FOREIGN KEY (emailAddress) REFERENCES email(emailAddress)on delete cascade;
 
 CREATE TABLE `ikuyonn`.`project` ( `projectSeq` INT NOT NULL AUTO_INCREMENT , `projectMaster` VARCHAR(40) NOT NULL , `projectName` VARCHAR(200) NULL , `due` VARCHAR(100) NULL DEFAULT '------' , `memberNum` INT NULL , `color` VARCHAR(20) NULL , PRIMARY KEY (`projectSeq`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;

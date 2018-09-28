@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +41,7 @@ import com.ikuyonn.project.util.Auth;
 
 @Controller
 public class NameCardController {
-	
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Autowired
 	SqlSession session;
 	
@@ -85,7 +87,6 @@ public class NameCardController {
 			nameCard.setEmailCheck("1");
 			nameCard.sethUserID(hUserID);
 		}
-		System.out.println(nameCard);
 		int result = mapper.insertNameCard(nameCard);
 		
 		return result;
