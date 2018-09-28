@@ -140,8 +140,8 @@ public class ProjectController {
 		list = um.getProjectMemeber(pjSeq);
 		ArrayList<String> returnList = new ArrayList<>();
 		for (HashMap<String, Object> temp : list) {
-			returnList.add((String) temp.get("userID"));//for maria
-//			returnList.add((String) temp.get("USERID"));//for oracle
+//			returnList.add((String) temp.get("userID"));//for maria
+			returnList.add((String) temp.get("USERID"));//for oracle
 		}
 		return returnList;
 	}
