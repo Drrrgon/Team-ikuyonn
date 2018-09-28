@@ -222,8 +222,11 @@ public class MailController {
 
 	@RequestMapping(value = "/getmail", method = RequestMethod.POST)
 	public @ResponseBody inbox getmail(inbox inbox) {
+		System.out.println(1);
+		System.out.println(inbox);
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		inbox temp = mapper.getmail(inbox);
+		System.out.println(temp);
 		return temp;
 	}
 
@@ -260,7 +263,7 @@ public class MailController {
 							if (mbp.getFileName() != null) {
 								content2 += "<div>-첨부파일-<br/><a href ='mailDown?msgNum="+m.getMessageNumber()+""
 										+ "&emailAddress="+email.getEmailAddress()+"'>" + MimeUtility.decodeText(mbp.getFileName())
-										+ "</a><div>(다운로드 파일은 C:\\\\download\\\\에 저장됩니다.)</div></div>";
+										+ "</a></div>";
 							}
 					}
 					if(content!=null&&content!="") {
@@ -282,7 +285,6 @@ public class MailController {
 					address = address.split("<")[0] + " " + address.split("<")[1].split(">")[0];
 				}
 				temp.setSentaddress(address);
-				temp.setUserID(email.getUserID());
 				temp.setEmailAddress(email.getEmailAddress());
 				mapper.addInbox(temp);
 			}

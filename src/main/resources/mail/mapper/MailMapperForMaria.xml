@@ -39,7 +39,7 @@ delete from inbox
 select emailAddress,(ROW_NUMBER() OVER (ORDER BY CAST(msgNum as unsigned) asc)) AS msgNum,title,content,sentdate,sentaddress from inbox where emailAddress = #{emailAddress} order by CAST(msgNum as unsigned) desc
 </select> 
 
-<select id = "getMail" parameterType = "Inbox" resultType = "Inbox">
+<select id = "getmail" parameterType = "Inbox" resultType = "Inbox">
 select * from inbox where emailAddress = #{emailAddress} and msgNum = #{msgNum}
 </select>
 

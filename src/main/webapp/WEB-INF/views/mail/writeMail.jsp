@@ -396,7 +396,6 @@ dd.hidden {
 			url : "getmail",
 			type : "post",
 			data : {
-				"userID" : userID,
 				"emailAddress" : address,
 				"msgNum" : msgNum
 			},
