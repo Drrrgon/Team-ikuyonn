@@ -5,7 +5,7 @@
 <head>
 <!-- meta -->
 <%@ include file="../parts/meta.jsp" %> 
-<title>일정표</title>
+<title>메이시</title>
 <!-- header -->
 <%@ include file="../parts/header.jsp" %>
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />

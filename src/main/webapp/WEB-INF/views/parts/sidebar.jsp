@@ -114,47 +114,7 @@
 						</div> -->
 					</form>
 					<ul class="navbar-nav border-left flex-row ">
-						<li class="nav-item border-right dropdown notifications">
-							<a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<div class="nav-link-icon__wrapper">
-									<i class="material-icons">&#xE7F4;</i> 
-									<span class="badge badge-pill badge-danger">2</span>
-								</div>
-							</a>
-							<div class="dropdown-menu dropdown-menu-small" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" href="#">
-									<div class="notification__icon-wrapper">
-										<div class="notification__icon">
-											<i class="material-icons">&#xE6E1;</i>
-										</div>
-									</div>
-									<div class="notification__content">
-										<span class="notification__category">1</span>
-										<p>
-										
-										<span class="text-success text-semibold">2</span> 
-										
-										</p>
-									</div>
-								</a> 
-								<a class="dropdown-item" href="#">
-									<div class="notification__icon-wrapper">
-										<div class="notification__icon">
-											<i class="material-icons">&#xE8D1;</i>
-										</div>
-									</div>
-									<div class="notification__content">
-										<span class="notification__category">3</span>
-										<p>
-											<span class="text-danger text-semibold">4</span>
-										</p>
-									</div>
-								</a> 
-								<a class="dropdown-item notification__all text-center" href="#">
-									View all Notifications 
-								</a>
-							</div>
-						</li>
+						
 
 						<!-- 드롭다운메뉴 로그아웃 회원정보 수정 등 -->
 						<li class="nav-item dropdown">
