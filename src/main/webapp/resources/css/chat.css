@@ -1,5 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic);
-@import url(https://zavoloklom.github.io/material-design-iconic-font/css/docs.md-iconic-font.min.css);
+/* @import url();
+@import url();  */
 
 ul li{
   list-style: none;
@@ -193,7 +193,7 @@ html.open {
   position: absolute;
   right: 0px;
   top: 0px;
-  background-image: url("http://s1.daumcdn.net/cfs.tistory/custom/blog/204/2048858/skin/images/close.png");
+  background-image: url("../images/chatImages/close.png");
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;

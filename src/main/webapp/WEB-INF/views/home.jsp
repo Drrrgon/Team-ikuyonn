@@ -38,7 +38,10 @@
 }
 
 $(function(){
-	$('#loginID').on('keyup', function() {
+	$('#loginID').on('keyup', function(e) {
+		if (e.keyCode == 13){
+			loginCheck();
+		}  
 		var loginID = $('#loginID').val();
 		
 		var outi = '<span id="idCheck">길이는 4~7 사이입니다</span>';
@@ -51,7 +54,10 @@ $(function(){
 		}
 	});
 	
-	$('#loginPW').on('keyup', function() {
+	$('#loginPW').on('keyup', function(e) {
+		if (e.keyCode == 13){
+			loginCheck();
+		}
 		var loginPW = $('#loginPW').val();
 		
 		var outp = '<span id="pwCheck">길이는 4~10 사이입니다</span>';

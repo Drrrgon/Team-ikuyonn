@@ -12,7 +12,7 @@
 			<value>classpath:db.properties</value>
 		</property>
 	</bean>
-
+	
 	<!-- db.properties의 설정 값을 읽어서 setting -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

@@ -43,8 +43,9 @@ function toggleFab() {
       $('.prime').toggleClass('is-visible');
       $('#prime').toggleClass('is-float');
       $('.chat').toggleClass('is-visible');
-      $('.fab').toggleClass('is-visible');  
-
+      $('.fab').toggleClass('is-visible'); 
+      
+      $('.chat').css('display', 'block');
       $('#selectProject').css('display', 'block');
       $('.chat_header').css('display', 'block');
       $('.chat_option').css('display', 'block');
@@ -53,6 +54,7 @@ function toggleFab() {
             $('#selectProject').css('display', 'none');
             $('.chat_header').css('display', 'none');
             $('.chat_option').css('display', 'none');
+            $('.chat').css('display', 'none');
       }
     }
 function hideChat(hide) {
@@ -67,48 +69,8 @@ function hideChat(hide) {
             $('#selectProject').css('display', 'none');
             $('.chat_header').css('display', 'none');
             $('.chat_option').css('display', 'none');
-
-            // $('.chat').css('z-index', '-1');
-            // $('#chat_converse').css('z-index', '-1');
-            // $('#chat_body').css('z-index', '-1');
-            // $('#chat_form').css('z-index', '-1');
-            // $('.chat_fullscreen_loader').css('z-index', '-1');
-            // $('#chat_fullscreen').css('z-index', '-1');
-            // $('.chat .chat_converse .chat_msg_item ').css('z-index', '-1');
-            // $('.chat .chat_converse .chat_msg_item.chat_msg_item_admin:before').css('z-index', '-1');
-            // $('#onlineList').css('z-index', '-1');
-            // $('.page_cover').css('z-index', '-1');
-            // $('.fab_field2').css('z-index', '-1');
+            $('.chat').css('display', 'none');
             break;
-      // case 1:
-      //       $('#chat_converse').css('display', 'block');
-      //       $('#chat_body').css('display', 'none');
-      //       $('#chat_form').css('display', 'none');
-      //       $('.chat_login').css('display', 'none');
-      //       $('.chat_fullscreen_loader').css('display', 'block');
-      //       break;
-      // case 2:
-      //       $('#chat_converse').css('display', 'none');
-      //       $('#chat_body').css('display', 'block');
-      //       $('#chat_form').css('display', 'none');
-      //       $('.chat_login').css('display', 'none');
-      //       $('.chat_fullscreen_loader').css('display', 'block');
-      //       break;
-      // case 3:
-      //       $('#chat_converse').css('display', 'none');
-      //       $('#chat_body').css('display', 'none');
-      //       $('#chat_form').css('display', 'block');
-      //       $('.chat_login').css('display', 'none');
-      //       $('.chat_fullscreen_loader').css('display', 'block');
-      //       break;
-      // case 4:
-      //       $('#chat_converse').css('display', 'none');
-      //       $('#chat_body').css('display', 'none');
-      //       $('#chat_form').css('display', 'none');
-      //       $('.chat_login').css('display', 'none');
-      //       $('.chat_fullscreen_loader').css('display', 'block');
-      //       $('#chat_fullscreen').css('display', 'block');
-      //       break;
     }
 }
 

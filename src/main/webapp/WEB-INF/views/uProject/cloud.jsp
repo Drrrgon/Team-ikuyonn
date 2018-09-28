@@ -617,20 +617,11 @@
 					alert("통신 실패");
 				}
 			});
+			
 		console.log(userArray);
 		var userList;
 		var userListProfile = [];
-		// $.ajax({
-		// 	url: 'getProjectMemeber',
-		// 	type: 'post',
-		// 	data: {
-		// 		'projectSeq':pjSeq
-		// 	},
-		// 	async: false,
-		// 	success: function(list){
-		// 		userList = list;
-		// 	}
-		// });
+		var emailArr= [];
 		for (let i = 0; i < userArray.length; i++) {
 			$.ajax({
 				url: 'getUserProfile',
@@ -643,6 +634,20 @@
 					userListProfile.push(path);
 				}
 			});
+			$.ajax({
+				url : 'getEmailAddress',
+				async: false,
+				data : {
+					'userID':userArray[i]
+				},
+				type : 'post',
+				success : function(data){
+					emailArr.push(data);
+				},
+				error : function(){
+					alert("통신 실패");
+				}
+			});	
 		}
 			//namecard
 		$('#joinedProjectMember').html();
@@ -676,10 +681,10 @@
 				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
 				printHtml += '</td>';
 				printHtml += '<td width="160px">';
-				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j]+')';
+				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j]+' E-mail: '+emailArr[j]+')';
 				printHtml += '</td>';
 				printHtml += '<td>';
-				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j]+'"> 추가</button>';
+				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j]+'" data-email="'+emailArr[j]+'"> 추가</button>';
 				printHtml += '</td>';
 				printHtml += '</tr>';
 		}
@@ -687,9 +692,25 @@
 		printHtml ='';
 		printHtml += '<span id="addProjectMemberSpan"><button id="addProjectMemberBackBtn" class="btn btn-accent">돌아가기</button></span>';
 		$('#joinedProjectMember').append(printHtml);
-		$('.addMemberProjectBtn').on('click', secessionProject);
+		$('.addMemberProjectBtn').on('click', joinProject);
 		$('#addProjectMemberBackBtn').on('click', function(){
 			addProjectMemberBack(pjSeq);
+		});
+	}
+	// 프로젝트 참가
+	function joinProject() {
+		var userID = $(this).attr('data-userUD');
+		var email = $(this).attr('data-email');
+		var pjSeq = $(this).attr('data-seq');
+		$.ajax({
+			url: 'joinProject',
+			type: 'post',
+			data: {
+				'email': email, 'projectSeq':pjSeq
+			},
+			success: function(){
+				alert('신청완료!');
+			}
 		});
 	}
 	function addProjectMemberBack(pjSeq){
@@ -733,10 +754,7 @@
 		$('.secessionProjectBtn').on('click', secessionProject);
 		// $('#openInputFormBtn').on('click', openInputForm);
 	}
-	// 프로젝트 참가
-	function joinProject() {
-
-	}
+	
 	
 	// 프로젝트 탈퇴
 	function secessionProject() {
@@ -784,8 +802,10 @@
 					initAllProjectList();
 					// print
 					printAllProjectList(allProjectList);
+					getJoinedProject();
 				}
 			});
+			
 		}
 	};
 	
