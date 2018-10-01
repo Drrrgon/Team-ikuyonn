@@ -84,9 +84,7 @@ public class MailController {
 	
 	@RequestMapping(value = "/hrefMail", method = RequestMethod.GET)
 	public String hrefMail(String emailAddress,Model model ) {
-		System.out.println(emailAddress);
 		model.addAttribute("hrefMail", emailAddress);
-		System.out.println(model.containsAttribute("hrefMail"));
 		return "mail/writeMail";
 	}
 	
@@ -222,11 +220,8 @@ public class MailController {
 
 	@RequestMapping(value = "/getmail", method = RequestMethod.POST)
 	public @ResponseBody inbox getmail(inbox inbox) {
-		System.out.println(1);
-		System.out.println(inbox);
 		MailMapper mapper = session.getMapper(MailMapper.class);
 		inbox temp = mapper.getmail(inbox);
-		System.out.println(temp);
 		return temp;
 	}
 
@@ -244,7 +239,6 @@ public class MailController {
 				String fileName = "" + System.currentTimeMillis();
 				inbox temp = new inbox();
 				temp.setMsgNum(m.getMessageNumber());
-				System.out.println(MimeUtility.decodeText(m.getSubject()));
 				if(MimeUtility.decodeText(m.getSubject()).equals(null)||MimeUtility.decodeText(m.getSubject()).equals("")) {
 					temp.setTitle("(제목 없음)");
 				}else {

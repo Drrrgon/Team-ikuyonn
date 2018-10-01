@@ -48,7 +48,6 @@
  			<mapping path="/schedule"/>
  			<mapping path="/writeMail"/>
  			<mapping path="/cloud"/>
- 			
  			<beans:ref bean="loginCheck"/>
  		</interceptor>
  	</interceptors>

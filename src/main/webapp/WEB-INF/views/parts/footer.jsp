@@ -16,7 +16,6 @@
 	var sock = new SockJS("<c:url value='/echo'/>");
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
-	// console.log("<c:url value='/echo'/>");
 
 	function chatInitiation(){
 		currentProject = $(this).attr("data-pjName");		
@@ -196,7 +195,7 @@
 						success: function(result){							
 	            printHTML += "<span class='chat_msg_item chat_msg_item_admin'>";
 	            printHTML += "<div class='chat_avatar'>";
-	            printHTML += "<img src='"+result+"'/ alt='x'>";
+	            printHTML += "<img src='"+result[1]+"'/ alt='x'>";
 							printHTML += "</div>";
 							printHTML += messages[1]+"<br/>";
 							printHTML += messages[2];
@@ -257,7 +256,7 @@
 						success: function(result){						
 									printHTML += "<span class='chat_msg_item chat_msg_item_admin'>";
 									printHTML += "<div class='chat_avatar'>";
-									printHTML += "<img src='"+result+"' alt='x'>";
+									printHTML += "<img src='"+result[1]+"' alt='x'>";
 									printHTML += "</div>";
 									printHTML += messages[1]+"<br/>";
 									printHTML += messages[2];

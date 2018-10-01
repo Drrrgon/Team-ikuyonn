@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.Project;
 import com.ikuyonn.project.mail.vo.email;
+import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.uProject.mapper.ProjectMapper;
 
@@ -87,7 +88,6 @@ public class ProjectController {
 		HashMap <String, Object> userMap = new HashMap<String, Object>();
 		userMap.put("userID", u.getUserID());
 		userMap.put("projectName", projectName);
-		System.out.println(due);
 		if(due.contains("-")) {
 			pro.setDue(due);
 			int re = um.createProject(pro);
@@ -100,7 +100,6 @@ public class ProjectController {
 		userMap.put("projectSeq", pro.getProjectSeq());
 		
 		/*이민석 추가*/
-		System.out.println("emails[0] : " + emails[0]);
 		MailMapper mailMapper = session.getMapper(MailMapper.class);
 		userMap.put("status", 1);
 		um.joinProject(userMap);
@@ -109,7 +108,6 @@ public class ProjectController {
 			parameters.put("userID", mailMapper.selectUserID(s));
 			parameters.put("projectSeq",pro.getProjectSeq());
 			parameters.put("status",0);
-			System.out.println("userid : "+parameters.get("userID")+" projectSEQ : "+parameters.get("projectSEQ"));
 			int res = um.joinProject(parameters);
 		}
 		userMap = um.getCountOfProjectMember(pro.getProjectSeq());
@@ -177,22 +175,23 @@ public class ProjectController {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("projectSeq", pjSeq);
 		String re = um.checkProjectMaster(map);
-		ArrayList<String> list = null;
+		ArrayList<String> tempList = null;
+		ArrayList<String> returnList = new ArrayList<>();
 		if(re.equals(userID)) {
 			map.put("userID",userID);
-			list = um.getNotJoinedProjectID(map);
+			tempList = um.getNotJoinedProjectID(map);
 		}
-		return list;
+		for(String checkedUserID : tempList ) {
+			if(checkedUserID != null) {
+				returnList.add(checkedUserID);
+			}
+		}
+		return returnList;
 	}
 	@RequestMapping(value = "/getEmailAddress", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String> getEamilAddress(String userID){
-		ProjectMapper um = session.getMapper(ProjectMapper.class);
-		MailMapper mailMapper = session.getMapper(MailMapper.class);
-		ArrayList<email> tempMail = mailMapper.mailList(userID);
-		ArrayList<String> list = new ArrayList<>();
-		for(email each : tempMail) {
-			list.add(each.getEmailAddress());
-		}
+		NameCardMapper cardMapper = session.getMapper(NameCardMapper.class);
+		ArrayList<String> list = cardMapper.getMailByhUserID(userID);
 		return list;
 	}
 	
@@ -205,7 +204,6 @@ public class ProjectController {
 		parameters.put("userID", mailMapper.selectUserID(email));
 		parameters.put("projectSeq",projectSeqC);
 		parameters.put("status",0);
-		System.out.println("userid : "+parameters.get("userID")+" projectSEQ : "+parameters.get("projectSEQ"));
 		int res = um.joinProject(parameters);
 		HashMap <String, Object> userMap = new HashMap<String, Object>();
 		

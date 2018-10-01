@@ -195,15 +195,6 @@ text-align:center;
 			</div>
 		</div>
 	</div>
-
-	<!-- <script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script> -->
-	<!-- <script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script> -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
@@ -393,18 +384,6 @@ text-align:center;
 						$('#userProfileDropDown').attr('src', tempPath);
 						$('#userProfileTopbar').attr('src', tempPath);
 					},
-					// beforeSend : function() {
-					// 	// $('#uploadBox').css('display','none');
-					// 	// $('#imgIcon').css('display','block');
-					// 	// $('#userProfileScreen').attr('src',e.target.result);
-					// 	// console.log('로딩중...');
-					// },
-					// complete : function(path) {
-					// 	$('#userProfileScreen').attr('src',path);
-					// 	// $('#row1').css('display','none');
-					// 	// $('#row2').css('display','');
-					// 	// console.log('완료');
-					// },
 					error : function() {
 						console.log('통신실패');
 					}

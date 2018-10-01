@@ -1,0 +1,85 @@
+HomeController{
+	userprofilelite
+	insertNameCard
+	insertNameCard2
+	writeMail
+	schedule
+	projectFileCloud
+	cloud
+	nameCardList
+}
+CloudController{
+	addFile
+	delFile
+	fileList
+	downFile
+	downFile
+}
+EventsController{
+	insertEvents
+	privateEvents
+	oneEvents
+	updateEvents
+	deleteEvents
+	projectEventsList
+}
+MailController{
+	reload
+	addAddress
+	hrefMail
+	mailCheck
+	getInbox
+	delAddress
+	check
+	sendEmail
+	mailList
+	getmail
+	mailDown
+	delMail
+}
+NameCardController{
+	fileUplodeAction
+	selectNameCard
+	nameCardUplodeAction
+	selectNameCardList
+	getAllNC
+	getMember
+	updateNameCard
+	updateNameCardAction
+}
+SocketController{
+	insertMessage
+	refreshMessage
+	searchbydate
+	getUserByProjectName
+	searchUserProjectName
+	setSocket
+	getUserProfile
+}
+ProjectController{
+	openProjectInfo
+	getProjectInfo
+	accept
+	reject
+	deleteProject
+	createProject
+	modifyProjectName
+	getProjectMemeber
+	secessionProjectMember
+	checkProjectMaster
+	getNotJoinedProjectID
+	getEmailAddress
+	joinProject
+}
+UserController{
+	joinPage
+	logoutUser
+	loginUser
+	loginUserCheck
+	getUserNameByID
+	userIDCheck
+	ProfilefileUplodeAction
+	joinUser
+	updateUser
+	deleteUser
+	}

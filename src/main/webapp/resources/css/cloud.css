@@ -146,6 +146,9 @@ body {
 .joinedProjectListName:hover{
     background-color: royalblue; opacity:0.5;   
 }
+.joinedProjectListMembere:hover{
+    background-color: royalblue; opacity:0.5;   
+}
 .joinedProjectListMember{
     cursor: pointer;
 }
@@ -332,4 +335,19 @@ body {
 	position: relative;
     top: 150px;
     right: -70%;
+}
+#left{
+    width: 49%;
+    margin-left: 1%;
+    display: inline-block;
+    padding: 1%;
+    margin-top: 1%;
+}
+#right{
+    width: 48%;
+    float: right;
+    margin-right: 1%;
+    display: inline-block;
+    padding: 2%;
+    margin-top: 1%;
 }

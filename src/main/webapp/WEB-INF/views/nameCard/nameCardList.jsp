@@ -181,7 +181,6 @@ function setLeftSideIcon() {
 
 	function outPut(datas){
 		nameCardList = datas.nameCardList;
-		console.log(datas);
 		$('#nameCardTableWrap').html(''); 
 		$('.pagingWrap').html(''); 
 		$('.r-wrap').css('display',''); 
@@ -380,7 +379,6 @@ function setLeftSideIcon() {
 		var nameCard = nameCardList[$('#nameCardTableWrap > .active').attr('data-rownum')];
 		var page = $('.paging > .active > a').attr('page');
 		var ncEmail = nameCard.ncEmail;
-		console.log(email);
 		if (confirm('삭제하시겠습니까?')) {
 			$.ajax({
 				url : 'selectNameCardList',
@@ -423,12 +421,9 @@ function setLeftSideIcon() {
 	
 	$('#searchBtn').on('click',function(){
 		var emailCheck = $('input:radio[name=options]:checked').val();
-		console.log(emailCheck);
 		var page = $('.paging > .active > a').attr('page');
 		var type = $('.form-control option:selected').val();
-		console.log(type);
 		var searchText = $('#searchText').val();
-		console.log(searchText)
 		$.ajax({
 			url : 'selectNameCardList',
 			type : 'get',

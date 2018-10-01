@@ -80,7 +80,6 @@ public class UserController {
 	public @ResponseBody String getUserNameByID(User u){
 		UserMapper um = session.getMapper(UserMapper.class);
 		User ur = um.loginUser(u);
-		System.out.println(ur.getUserName());
 		return ur.getUserName();
 	}
 	
@@ -132,7 +131,6 @@ public class UserController {
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
 	public String updateUser(HttpSession hs, User u) {
 		UserMapper um = session.getMapper(UserMapper.class);
-		System.out.println(u);
 		um.updateUser(u);
 		hs.invalidate();	
 		
@@ -142,7 +140,6 @@ public class UserController {
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
 	public String deleteUser(User u) {
 		UserMapper um = session.getMapper(UserMapper.class);
-		System.out.println(u);
 		um.deleteUser(u);
 		
 		return "redirect:/";

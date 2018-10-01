@@ -17,4 +17,5 @@ public interface NameCardMapper {
 	public String selectEmailAddress(NameCard nameCard);
 	public ArrayList<NameCard> getAllNC(String userID);
 	public ArrayList<NameCard> getMember(NameCard nc);
+	public ArrayList<String> getMailByhUserID(String userID);
 }

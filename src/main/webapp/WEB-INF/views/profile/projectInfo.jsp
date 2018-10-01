@@ -180,7 +180,6 @@
     function joinProject(){
         var sessionID = "${sessionScope.userID}";
         var projectSeq = $(this).attr('data-project-seq');
-        console.log(projectSeq);
         var flag = confirm('정말로 삭제하시겠습니까?');
         if(flag){
             $.ajax({
@@ -247,7 +246,6 @@
     function deleteProject(){
         var sessionID = "${sessionScope.userID}";
         var projectSeq = $(this).attr('data-project-seq');
-        console.log(projectSeq);
         var flag = confirm('정말로 삭제하시겠습니까?');
         if(flag){
             $.ajax({

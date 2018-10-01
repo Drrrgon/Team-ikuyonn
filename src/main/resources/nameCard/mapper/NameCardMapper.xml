@@ -173,4 +173,8 @@
 		WHERE USERID=#{userID} and EMAILCHECK=#{emailCheck}
 		ORDER BY NCSEQ DESC
 	</select>
+	
+	<select id="getMailByhUserID" parameterType="string" resultType="string">
+		select ncEmail from nameCard where emailCheck = 1 and hUserID = #{value} 
+	</select>
 </mapper>

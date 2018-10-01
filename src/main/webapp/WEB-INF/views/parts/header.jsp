@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/assets/owl.carousel.css">
 <link rel="stylesheet" href="./resources/css/owl.carousel.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic"> -->
 <link rel="stylesheet" href="./resources/css/material-design-iconic-font.min.css">
 <link rel="stylesheet" href="./resources/css/chat.css">
 <link rel="stylesheet" href="./resources/styles/custom.css">

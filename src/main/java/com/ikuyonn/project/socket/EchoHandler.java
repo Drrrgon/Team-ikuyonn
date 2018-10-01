@@ -29,20 +29,16 @@ public class EchoHandler extends TextWebSocketHandler {
 		map = session.getAttributes();
 		String userID = (String) map.get("userID");
 		//연결 설정 알림
-				
 		logger.info(session.getId() + " 연결 됨!!");		
 		connectedUsers.add(session);
 		connectedUsersID.add(userID);
 		for(WebSocketSession sess : connectedUsers) {			
 			sess.sendMessage(new TextMessage("#connect:|"+connectedUsersID));						
 		}
-//		session.sendMessage(new TextMessage("#connect:|"+connectedUsersID));
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//		logger.info("{} 로부터 {}받음", session.getId(), message.getPayload());
-		
 		//전체 메시지를 받아옴		
 		for(WebSocketSession sess : connectedUsers) {			
 				sess.sendMessage(new TextMessage(message.getPayload()));						
@@ -51,7 +47,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
-		
 		//HttpSession 세션 값 가져오기
 		Map<String, Object> map;
 		map = session.getAttributes();
@@ -62,7 +57,6 @@ public class EchoHandler extends TextWebSocketHandler {
 			sess.sendMessage(new TextMessage("#disconnect:|"+connectedUsersID));						
 		}
 		logger.info(session.getId() + " 연결 종료됨");
-		
 	}
 	
 	@Override

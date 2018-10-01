@@ -120,6 +120,6 @@
 	</delete>
 	
 	<select id="getNotJoinedProjectID" parameterType="map" resultType="string">
-		select hUserID from nameCard where hUserID NOT IN (select hUserID from nameCard where hUserID in (select hUserID from nameCard where emailcheck = 1 and userID = #{userID} ) and hUserID in (select userID from joinProject where projectSeq = #{projectSeq}))
+		select hUserID from nameCard where hUserID NOT IN (select hUserID from nameCard where hUserID in (select hUserID from nameCard where emailCheck = 1 and userID = #{userID} ) and hUserID in (select userID from joinProject where projectSeq = #{projectSeq}))
 	</select>
 </mapper>

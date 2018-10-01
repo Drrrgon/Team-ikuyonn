@@ -37,11 +37,9 @@ import com.google.protobuf.ByteString;
 import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
 import com.ikuyonn.project.nameCard.vo.NameCard;
 import com.ikuyonn.project.pagenavi.PageNavigator;
-import com.ikuyonn.project.util.Auth;
 
 @Controller
 public class NameCardController {
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Autowired
 	SqlSession session;
 	
@@ -122,7 +120,6 @@ public class NameCardController {
 		result.put("nameCardList", nameCardList);
 		result.put("pageNavigator", pageNavigator);
 		result.put("searchText", searchText);
-		System.out.println("nameCardList.size : "+nameCardList.size()+" searchText : "+searchText);
 		return result;
 	}
 	
@@ -171,7 +168,6 @@ public class NameCardController {
 		if(f.isDirectory() == false) {
 			f.mkdirs();
 		}
-		System.out.println(path);
 		UUID uuid = UUID.randomUUID();
 		String saveFileName = uuid+"_"+uploadFile.getOriginalFilename();
 		
@@ -192,7 +188,6 @@ public class NameCardController {
 		try {
 			
 			String imageFilePath = UPLOADPATH + saveFileName;
-			System.out.println(imageFilePath);
 			List<AnnotateImageRequest> requests = new ArrayList<>();
 		
 			ByteString imgBytes = ByteString.readFrom(new FileInputStream(imageFilePath));
@@ -211,11 +206,7 @@ public class NameCardController {
 			    		System.out.printf("Error: %s\n", res.getError().getMessage());
 			    		return "";
 			    	}
-		
-			    	System.out.println("Text : ");
 			    	String data = res.getTextAnnotationsList().get(0).getDescription();
-			    	System.out.println(data);
-			    	
 			    	return data;
 			    }
 			}

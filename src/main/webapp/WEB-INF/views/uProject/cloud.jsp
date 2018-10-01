@@ -14,24 +14,6 @@
 <link href='./resources/styles/fullcalendar.min.css' rel='stylesheet' />
 <link href='./resources/styles/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link href='./resources/styles/scheduler.min.css' rel='stylesheet' />
-<style>
-#left{
-    width: 49%;
-    margin-left: 1%;
-    display: inline-block;
-    padding: 1%;
-    margin-top: 1%;
-}
-#right{
-    width: 48%;
-    float: right;
-    margin-right: 1%;
-    display: inline-block;
-    padding: 2%;
-    margin-top: 1%;
-}
-
-</style>
 <!-- load first js
 	스타일 시트 추가가 필요하면 위쪽 ↑↑↑↑↑↑ 추가 요망 -->
 <%@ include file="../parts/loadFirst-js.jsp"%>
@@ -263,14 +245,12 @@
 			jQuery.ajaxSettings.traditional = true;
 			var emails = [];
 			var emailCheck = $('input:checkbox[name=nameCardGroup]:checked');
-			console.log('asdf'+emailCheck);
 			if(emailCheck[0] == null){
 				alert('프로젝트 참가자를 선택해 주세요.');
 				return false;
 			};
 			for(var i = 0; i < emailCheck.length; i++){
 				emails.push(emailCheck[i].value);
-				console.log(emails);
 			};
 
 			if(projectName.length == 0){
@@ -453,7 +433,6 @@
 				'userID': userID, 'projectSeq':seq
 			},
 			success: function(result){
-				console.log(result);
 				if(userID == result){
 					flag = 1;
 				}
@@ -618,7 +597,6 @@
 				}
 			});
 			
-		console.log(userArray);
 		var userList;
 		var userListProfile = [];
 		var emailArr= [];
@@ -631,7 +609,7 @@
 				},
 				async: false,
 				success: function(path){
-					userListProfile.push(path);
+					userListProfile.push(path[1]);
 				}
 			});
 			$.ajax({
@@ -661,7 +639,6 @@
 		printHtml += '<tbody id="joinedProjectMemberTbody">';
 		$('#joinedProjectMember').html(printHtml);
 		userNameArr = [];
-		console.log(userArray[0]);
 		printHtml = "";		
 		for (let j = 0; j < userArray.length; j++) {
 			$.ajax({
@@ -675,7 +652,6 @@
 					userNameArr.push(data);
 				}
 			});
-			console.log(userNameArr);
 				printHtml += '<tr>';			
 				printHtml += '<td width="10px">';
 				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
@@ -1001,12 +977,9 @@
 
 		$('#searchBtn').on('click',function(){
 			var emailCheck = $('input:radio[name=options]:checked').val();
-			console.log(emailCheck);
 			var page = $('.paging > .active > a').attr('page');
 			var type = $('.form-control option:selected').val();
-			console.log(type);
 			var searchText = $('#searchText').val();
-			console.log(searchText)
 			$.ajax({
 				url : 'selectNameCardList',
 				type : 'get',
