@@ -23,7 +23,7 @@ select count(*) from email where emailAddress=#{emailAddress}
 </select>
 
 <delete id = "delAddress" parameterType = "Email">
-delete email where userID = #{userID} and emailAddress=#{emailAddress}
+delete from email where userID = #{userID} and emailAddress=#{emailAddress}
 </delete>
 
 <insert id="addInbox" parameterType = "Inbox">

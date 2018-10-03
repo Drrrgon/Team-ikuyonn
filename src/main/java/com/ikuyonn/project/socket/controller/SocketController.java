@@ -38,14 +38,14 @@ public class SocketController {
 	@RequestMapping(value = "/insertMessage", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	public @ResponseBody String insert(HttpSession session, Model model, Message table) {
 		int result = repo.insertContent(table);
-		Message msg = repo.getLastOneProjectContent(table.getProjectName());
+		Message msg = repo.getLastOneProjectContent(table.getProjectSeq());
 		String message = msg.sendMessage();
 		return message;
 	}
 	
 	@RequestMapping(value = "/refreshMessage", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String projectName) {
-		ArrayList<Message> list = repo.getProjectContent(projectName);
+	public @ResponseBody ArrayList<String> refresh(HttpSession session, Model model, String projectSeq) {
+		ArrayList<Message> list = repo.getProjectContent(projectSeq);
 		ArrayList<String> messageList = new ArrayList<String>();
 		for(Message a : list) {
 			messageList.add(a.sendMessage());
@@ -66,9 +66,9 @@ public class SocketController {
 		return messageList;
 	}
 	@RequestMapping(value = "/getUserByProjectName", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<ArrayList<String>> getUserByProjectName(HttpSession session, Model model, String projectName) {
+	public @ResponseBody ArrayList<ArrayList<String>> getUserByProjectName(HttpSession session, Model model, String projectSeq) {
 		//get users
-		ArrayList<Message> list = repo.getUserByProjectName(projectName);
+		ArrayList<Message> list = repo.getUserByProjectName(projectSeq);
 		//get userID
 		ArrayList<String> temp2 = new ArrayList<>();
 		for(Message a : list) {
@@ -84,9 +84,10 @@ public class SocketController {
 	}
 	
 	@RequestMapping(value = "/searchUserProjectName", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<String> searchUserProjectName(HttpSession session, String userID) {
-		ArrayList<String> list = repo.searchUserProjectName(userID);
-		return list;
+	public @ResponseBody ArrayList<HashMap<String, Object>> searchUserProjectName(HttpSession session, String userID) {
+		ArrayList<HashMap<String, Object>> listMap = repo.searchUserProjectName(userID);
+		ArrayList<String> list = new ArrayList<>();
+		return listMap;
 	}
 	
 	@RequestMapping(value = "/setSocket", method = RequestMethod.POST)

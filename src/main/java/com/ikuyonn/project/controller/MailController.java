@@ -129,7 +129,7 @@ public class MailController {
 		final String content = request.getParameter("content") == null ? "" : request.getParameter("content");
 		UUID uuid = UUID.randomUUID();
 		String saveFileName = uuid+"_"+file.getOriginalFilename();
-		File file2 = new File("/var/lib/tomcat8/ikuyonn",saveFileName);
+		File file2 = new File("/var/lib/tomcat8/webapps/ikuyonn/",saveFileName);
 		if(!file2.exists()) {
 			   file2.mkdirs();
 			}

@@ -23,7 +23,7 @@ drop table events ;
 drop table cloudFile ;
 
 
-CREATE TABLE `ikuyonn`.`message` ( `messageSeq` INT NOT NULL AUTO_INCREMENT , `userID` VARCHAR(40) NOT NULL , `userName` VARCHAR(100) NOT NULL , `message` VARCHAR(2000) NOT NULL , `messageDate` DATETIME NOT NULL , `projectName` VARCHAR(100) NOT NULL , PRIMARY KEY (`messageSeq`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci COMMENT = 'message table';
+CREATE TABLE `ikuyonn`.`message` ( `messageSeq` INT NOT NULL AUTO_INCREMENT , `userID` VARCHAR(40) NOT NULL , `userName` VARCHAR(100) NOT NULL , `message` VARCHAR(2000) NOT NULL , `messageDate` DATETIME NOT NULL , `projectSeq` VARCHAR(100) NOT NULL, PRIMARY KEY (`messageSeq`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci COMMENT = 'message table';
 
 CREATE TABLE `ikuyonn`.`userTable` ( `userID` VARCHAR(40) NOT NULL , `userPW` VARCHAR(80) NOT NULL , `userName` VARCHAR(40) NOT NULL , `userBirth` DATE NULL , `userPhone` VARCHAR(24) NOT NULL , `originalFileName` VARCHAR(300) NULL , PRIMARY KEY (`userID`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
@@ -81,8 +81,8 @@ INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,
 INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','김쥐똥','aaa4@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem4.jpg','0');
 INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','김뱀똥','aaa5@naver.com','010-0000-0000','02-0000-0000','02-0000-0000','a회사','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem5.jpg','0');
 --회원
-INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','신용하','ikuyong03@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','1');
-INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','이상운','ikuyong04@gmail.com','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');             
+INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,hUserID,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','신용하','ikuyong03@gmail.com','qwer','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem2.jpg','1');
+INSERT INTO nameCard(ncSeq,userID,ncCheck,ncName,ncEmail,hUserID,ncMobile,ncPhone,ncFax,ncCompany,ncDepartment,ncTitle,ncWebsite,ncAddress,nameCardUrl,emailCheck) VALUES(null,'asdf','1','이상운','ikuyong04@gmail.com','1234','010-0000-0000','02-0000-0000','02-0000-0000','a company','회계팀','대리','www.aaa.com','서울시 00구 00로','./resources/images/nameCard/namecard_sem3.jpg','1');             
 CREATE TABLE `ikuyonn`.`projectEvent` ( `projectSeq` INT NOT NULL , `eventSeq` INT NOT NULL ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
 ALTER TABLE projectEvent ADD CONSTRAINT fk_projectEvent_projectSeq FOREIGN KEY (projectSeq) REFERENCES project(projectSeq)on delete cascade;

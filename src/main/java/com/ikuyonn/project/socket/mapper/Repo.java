@@ -76,16 +76,28 @@ public class Repo {
 		return list;
 	}
 
-	public ArrayList<String> searchUserProjectName(String userID) {
-		ArrayList<String> list = null;
+	public ArrayList<HashMap<String, Object>> searchUserProjectName(String userID) {
+		ArrayList<HashMap<String, Object>> lMap = null;
 		Mapper map = null;
 		try {
 			map = session.getMapper(Mapper.class);
-			list = map.searchUserProjectName(userID);
+			lMap = map.searchUserProjectName(userID);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}		
-		return list;
+		return lMap;
+	}
+
+	public int deleteMessage(String projectSeq) {
+		int re = 0 ;
+		Mapper map = null;
+		try {
+			map = session.getMapper(Mapper.class);
+			re = map.deleteMessage(projectSeq);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return re;
 	}
 
 	

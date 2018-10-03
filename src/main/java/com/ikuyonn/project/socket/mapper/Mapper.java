@@ -15,8 +15,10 @@ public interface Mapper {
 
 	public ArrayList<Message> getUserByProjectName(String projectName);
 
-	public ArrayList<String> searchUserProjectName(String userID);
+	public ArrayList<HashMap<String, Object>> searchUserProjectName(String userID);
 
 	public Message getLastOneProjectContent(String projectName);
+
+	public int deleteMessage(String projectSeq);
 
 }

@@ -18,7 +18,7 @@
 	sock.onclose = onClose;
 
 	function chatInitiation(){
-		currentProject = $(this).attr("data-pjName");		
+		currentProject = $(this).attr("data-pjSeq");		
 		$('#chat_converse').css('display', 'none');
 		$('#chat_body').css('display', 'none');
 		$('#chat_form').css('display', 'none');
@@ -106,7 +106,7 @@
 	  if(message.length == 0){
 	    return false;
 	  }
-	  var dataForm = { "userID": userID , "userName":userName , "message": message, "projectName":currentProject };		
+	  var dataForm = { "userID": userID , "userName":userName , "message": message, "projectSeq":currentProject };		
 		$.ajax({
 			url: "insertMessage",
 			type: "post",
@@ -221,10 +221,9 @@
 	  $.ajax({
 	    url:"refreshMessage"
 	    , type:'post'
-	    , data: {"projectName":currentProject}    
+	    , data: {"projectSeq":currentProject}    
 	    , success: function(list){     
 	      var userID = "${sessionScope.userID}";
-
 	      $("#chat_fullscreen").text("");
 	      for (let index = 0; index < list.length; index++) {
 	        var messages = list[index].split(':#$');
@@ -282,7 +281,7 @@
 	  $.ajax({
 	    url: "getUserByProjectName"
 	    , type: "post"
-	    , data: {"projectName":currentProject}
+	    , data: {"projectSeq":currentProject}
 	    , success: function(list){
 					var totalUsers = list[0];
 					var onlineUsers = list[1];
@@ -350,9 +349,9 @@
 										if( i == 0){
 											printHtml += '<table>';
 											printHtml += '<tr><td class="chatProjectNameHeader">Project Name</td>';
-											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
+											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjSeq="'+proList[i].projectSeq+'">'+ proList[i].projectName+'</span></td>';
 											printHtml += '<td>';
-											printHtml += '<button class="enterChatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<button class="enterChatBtn btn btn-sm btn-accent ml-auto" data-pjSeq="'+proList[i].projectSeq+'">';
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';
@@ -362,9 +361,9 @@
 										else{
 											printHtml = "";
 											printHtml += '<tr><td class="chatProjectNameHeader"></td>';
-											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjName="'+proList[i]+'">'+ proList[i]+'</span></td>';
+											printHtml += '<td class="chatProjectName"><span class="chatProjectButton" data-pjSeq="'+proList[i].projectSeq+'">'+ proList[i].projectName+'</span></td>';
 											printHtml += '<td>';
-											printHtml += '<button class="enterChatBtn btn btn-sm btn-accent ml-auto" data-pjName="'+proList[i]+'">';
+											printHtml += '<button class="enterChatBtn btn btn-sm btn-accent ml-auto" data-pjSeq="'+proList[i].projectSeq+'">';
 											printHtml += '<i class="zmdi zmdi-forward"></i>입장</button>';
 											printHtml += '</td>';
 											printHtml += '</tr>';

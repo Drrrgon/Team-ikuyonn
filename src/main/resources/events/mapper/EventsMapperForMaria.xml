@@ -30,7 +30,7 @@
 	</update>
 	
 	<delete id="deleteEvents" parameterType="Events">
-		delete events where eventSeq = #{eventSeq}
+		delete From events where eventSeq = #{eventSeq}
 	</delete>
 	
 	<select id="projectEventsList" parameterType="Events" resultType="Events">

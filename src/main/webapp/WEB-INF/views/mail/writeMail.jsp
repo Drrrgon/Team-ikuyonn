@@ -317,8 +317,7 @@ dd.hidden {
 		    }
 		    ,complete:function(){
 				var loadingPage = $('.wrap-loading');
-				
-				loadingPage.classList.add( ' display-none' );
+				loadingPage.addClass(' display-none');
 		    }
 		});
 	}

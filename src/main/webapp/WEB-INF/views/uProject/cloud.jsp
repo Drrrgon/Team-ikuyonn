@@ -609,7 +609,7 @@
 				},
 				async: false,
 				success: function(path){
-					userListProfile.push(path[1]);
+					userListProfile.push(path);
 				}
 			});
 			$.ajax({
@@ -641,23 +641,12 @@
 		userNameArr = [];
 		printHtml = "";		
 		for (let j = 0; j < userArray.length; j++) {
-			$.ajax({
-				url: 'getUserNameByID',
-				type: 'post',
-				async: false,
-				data: {
-					'userID':userArray[j] 	
-				},
-				success: function(data){
-					userNameArr.push(data);
-				}
-			});
 				printHtml += '<tr>';			
 				printHtml += '<td width="10px">';
 				printHtml += '<img class="user-avatar rounded-circle mr-2" src="'+userListProfile[j][1]+'"  width="30px" height="30px">';
 				printHtml += '</td>';
 				printHtml += '<td width="160px">';
-				printHtml += '이름 :'+userNameArr[j]+'('+userArray[j]+' E-mail: '+emailArr[j]+')';
+				printHtml += '이름 :'+userListProfile[j][0]+'('+userArray[j]+' E-mail: '+emailArr[j]+')';
 				printHtml += '</td>';
 				printHtml += '<td>';
 				printHtml += '<button class="addMemberProjectBtn btn btn-accent" data-seq="'+pjSeq+'" data-userID="'+userArray[j]+'" data-email="'+emailArr[j]+'"> 추가</button>';
@@ -728,7 +717,6 @@
 		$('.deleteProjectBtn').on('click', deleteProject);
 		$('.joinProjectBtn').on('click', joinProject);
 		$('.secessionProjectBtn').on('click', secessionProject);
-		// $('#openInputFormBtn').on('click', openInputForm);
 	}
 	
 	

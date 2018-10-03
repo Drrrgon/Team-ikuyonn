@@ -27,7 +27,7 @@
 	<select id="getProjectContent" parameterType="string" resultType="message">
 		select userID, userName, message, date_format(messageDate, "%Y-%m-%d %H:%i:%S") messageDate
 		from message
-		where projectName = #{projectName}
+		where projectSeq = #{projectSeq}
 	 	<!-- AND
 				 to_char(messageDate, 'DD') = to_char(sysdate, 'DD') -->
 		order by messageSeq
@@ -37,7 +37,7 @@
 	<select id="getLastOneProjectContent" parameterType="string" resultType="message">
 		select userID, userName, message, date_format(messageDate, "%Y-%m-%d %H:%i:%S") messageDate
 		from message
-		where projectName = #{projectName} 	
+		where projectSeq = #{projectSeq} 	
 		order by messageSeq DESC 
 		limit 1
 		
@@ -49,7 +49,8 @@
 					, #{userName}
 					, #{message}
 					, now()
-					, #{projectName})
+					, #{projectSeq}
+					)
 	</insert>
 	
 	<select id="searchByDate" parameterType="map" resultType="message">
@@ -78,18 +79,21 @@
 		AND 
 			p.projectSeq = jp.projectSeq
 		AND
-			#{value} = p.projectName
+			#{value} = p.projectSeq
 		
 	</select>
 	
 	
 	
-	<select id="searchUserProjectName" parameterType="string" resultType="string">
-		SELECT DISTINCT p.projectName 
+	<select id="searchUserProjectName" parameterType="string" resultType="map">
+		SELECT DISTINCT p.projectName, p.projectSeq 
 			FROM joinProject jp , userTable u , project p
 		WHERE #{VALUE} = jp.userID
 			AND
 		p.projectSeq = jp.projectSeq
 	</select>
-
+	
+	<delete id="deleteMessage" parameterType="string">
+		Delete From message where projectSeq = #{value}
+	</delete>
 </mapper>

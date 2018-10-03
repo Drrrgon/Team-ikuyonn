@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ikuyonn.project.mail.mapper.MailMapper;
 import com.ikuyonn.project.mail.vo.Project;
-import com.ikuyonn.project.mail.vo.email;
 import com.ikuyonn.project.nameCard.mapper.NameCardMapper;
+import com.ikuyonn.project.socket.mapper.Repo;
 import com.ikuyonn.project.socket.vo.User;
 import com.ikuyonn.project.uProject.mapper.ProjectMapper;
 
@@ -23,7 +23,7 @@ public class ProjectController {
 	
 	@Autowired
 	SqlSession session;
-	
+	Repo repo;
 	
 	@RequestMapping(value = "/openProjectInfo", method = RequestMethod.GET)
 	public String getProjectInfo() {		
@@ -74,6 +74,7 @@ public class ProjectController {
 		int res = um.deleteJoinProject(map);
 		int re = um.deleteProject(pjSeq);
 		map.put("userID", null);
+		int re2 = repo.deleteMessage(projectSeq);
 		List<Project> projectList= um.getUserProjectList(map);
 		return projectList;
 	}
