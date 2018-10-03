@@ -18,4 +18,5 @@ public interface NameCardMapper {
 	public ArrayList<NameCard> getAllNC(String userID);
 	public ArrayList<NameCard> getMember(NameCard nc);
 	public ArrayList<String> getMailByhUserID(String userID);
+	public ArrayList<NameCard> selectNameCardList(Map<String, String> search);
 }

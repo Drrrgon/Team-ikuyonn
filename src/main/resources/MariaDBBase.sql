@@ -31,6 +31,7 @@ insert into userTable values('qwer', 'qwer', '신용하',now(), '1', null);
 insert into userTable values('asdf', 'asdf', '이민석',now(), '1', null);
 insert into userTable values('zxcv', 'zxcv', '강수빈',now(), '1', null);
 insert into userTable values('1234', '1234', '이상운',now(), '1', null);
+insert into userTable values('2345', password('2345'), '이상운',now(), '1', null);
 
 
 CREATE TABLE `ikuyonn`.`email` ( `emailAddress` VARCHAR(100) NOT NULL , `emailId` VARCHAR(60) NOT NULL , `emailPassword` VARCHAR(100) NOT NULL , `host` VARCHAR(200) NOT NULL , `smtp` VARCHAR(200) NOT NULL , `userID` VARCHAR(40) NOT NULL , PRIMARY KEY (`emailAddress`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;

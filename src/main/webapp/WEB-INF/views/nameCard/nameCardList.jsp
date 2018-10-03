@@ -433,7 +433,10 @@ function setLeftSideIcon() {
 				'emailCheck' : emailCheck,
 				'type' : type
 			},
-			success : outPut
+			success : function(a){
+				console.log(a);
+				outPut(a);
+			}
 		});
 	});
 	

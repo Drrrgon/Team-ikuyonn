@@ -53,22 +53,22 @@
 			AND emailCheck = #{emailCheck}	
 		</if>
 		<if test="type == 'ncName' and emailCheck == 2">
-			AND ncName LIKE '%' || #{searchText} || '%'
+			AND ncName LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck == 2">
-			AND ncEmail LIKE '%' || #{searchText} || '%'
+			AND ncEmail LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck == 2">
-			AND ncCompany LIKE '%' || #{searchText} || '%'
+			AND ncCompany LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
-			AND emailCheck = #{emailCheck} AND ncName LIKE '%' || #{searchText} || '%'
+			AND emailCheck = #{emailCheck} AND ncName LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
-			AND emailCheck = #{emailCheck} AND ncEmail LIKE '%' || #{searchText} || '%'
+			AND emailCheck = #{emailCheck} AND ncEmail LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
-			AND emailCheck = #{emailCheck} AND ncCompany LIKE '%' || #{searchText} || '%'
+			AND emailCheck = #{emailCheck} AND ncCompany LIKE '%',#{searchText},'%'
 		</if>
 	</select>
 	<select id="selectNameCardList" parameterType="map" resultType="NameCard">
@@ -92,22 +92,22 @@
 			AND	emailCheck = #{emailCheck}	
 		</if>
 		<if test="type == 'ncName' and emailCheck == 2">
-			AND	ncName LIKE '%' || #{searchText} || '%'
+			AND	ncName LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck == 2">
-			AND	ncEmail LIKE '%' || #{searchText} || '%'
+			AND	ncEmail LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck == 2">
-			AND	ncCompany LIKE '%' || #{searchText} || '%'
+			AND	ncCompany LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncName' and emailCheck != null and emailCheck != 2">
-			AND	emailCheck = #{emailCheck} AND ncName LIKE '%' || #{searchText} || '%'
+			AND	emailCheck = #{emailCheck} AND ncName LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncEmail' and emailCheck != null and emailCheck != 2">
-			AND	emailCheck = #{emailCheck} AND ncEmail LIKE '%' || #{searchText} || '%'
+			AND	emailCheck = #{emailCheck} AND ncEmail LIKE '%',#{searchText},'%'
 		</if>
 		<if test="type == 'ncCompany' and emailCheck != null and emailCheck != 2">
-			AND	emailCheck = #{emailCheck} AND ncCompany LIKE '%' || #{searchText} || '%'
+			AND	emailCheck = #{emailCheck} AND ncCompany LIKE '%',#{searchText},'%'
 		</if>
 		ORDER BY ncSeq DESC
 	</select>

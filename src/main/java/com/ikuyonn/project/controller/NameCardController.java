@@ -115,7 +115,9 @@ public class NameCardController {
 		int total = mapper.getTotal(search);
 		PageNavigator pageNavigator = new PageNavigator(COUNTPERPAGE, PAGEPERGROUP, page, total);
 		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(),pageNavigator.getCountPerPage());
-		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, search);
+		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(rowBounds, search); //for oracle*/
+		/*search.put("page", page+"");
+		ArrayList<NameCard> nameCardList = mapper.selectNameCardList(search);*/
 		Map<String, Object> result = new HashMap<>();
 		result.put("nameCardList", nameCardList);
 		result.put("pageNavigator", pageNavigator);
